@@ -1,0 +1,27 @@
+@import "src/App/variables";
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.label {
+  margin: 5px 15px 5px 0;
+  min-width: 120px;
+}
+
+.input {
+  border-radius: 15px;
+  color: $black;
+  padding: 5px 8px;
+  border: 2px solid $blueDark;
+  width: 250px;
+  outline: none;
+}
+
+.input:hover, .input:focus {
+  border-color: $orange;
+}

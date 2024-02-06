@@ -1,0 +1,18 @@
+@import "src/App/variables";
+
+.tooltip {
+  font-size: 14px;
+  font-style: italic;
+  text-align: right;
+  flex: 0 0 auto;
+}
+
+.tabs {
+  margin-top: -18px;
+  flex: 1;
+}
+
+.leftCol {
+  flex: 0 0 444px;
+  width: 444px;
+}

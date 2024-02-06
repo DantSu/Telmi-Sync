@@ -1,0 +1,182 @@
+@import "src/App/variables";
+
+.tableContainer {
+  position: relative;
+  background: $purple2;
+  border-radius: 10px;
+  flex: 1;
+  margin: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  overflow: hidden;
+  border: 3px solid $black60;
+  box-shadow: 0px 0px 10px 0px $white10;
+  transition: border-color 0.3s;
+}
+
+.header {
+  flex: 0 1 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background: $white15;
+  padding: 7px 15px;
+}
+
+.headerTitle {
+  font-size: 14px;
+  color: $white90;
+  font-weight: normal;
+}
+
+.content {
+  position: relative;
+  flex: 1;
+  background: $black10;
+}
+
+.contentScroller {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.cells {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 10px;
+}
+
+.cell {
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  flex: 0 0 185px;
+  width: 185px;
+  padding: 15px;
+  margin: 10px;
+  border: 2px solid $white10;
+  border-radius: 10px;
+  overflow: hidden;
+  background: $white15;
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+.cell:hover {
+  color: $white;
+  background: $blueDark;
+  border-color: $blue;
+}
+
+.cell:before,
+.cell:after {
+  position: absolute;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.cell:before {
+  content: "";
+  bottom: -35px;
+  right: -35px;
+  width: 70px;
+  height: 70px;
+  transform: rotate(45deg);
+  background: $orange;
+}
+
+.cell:after {
+  content: "\f00c";
+  bottom: 6px;
+  right: 6px;
+  font-family: icons;
+  font-size: 20px;
+  font-weight: bold;
+  color: $purple1;
+}
+
+.cellSelected, .cellSelected:hover {
+  border-color: $orange;
+}
+
+.cellSelected:before,
+.cellSelected:after {
+  opacity: 1;
+}
+
+.cellTitle, .cellSubtitle {
+  flex: 0 0 auto;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cellTitle {
+  order: 2;
+  font-size: 14px;
+  margin-bottom: 3px;
+}
+
+.cellSubtitle {
+  order: 3;
+  font-size: 12px;
+}
+
+.imageContainer {
+  order: 1;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 15px;
+  background: $black;
+}
+
+.cellImage {
+  width: 100%;
+  height: auto;
+}
+
+.cellActionBar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: stretch;
+  overflow: hidden;
+  height: 0;
+  background: $blue;
+  transition: height 0.3s, background 0.3s;
+}
+
+.cellActionButton {
+  font-size: 16px;
+  color: $purple1;
+}
+
+.cellSelected .cellActionBar {
+  background: $orange;
+}
+
+.cell:hover .cellActionBar {
+  height: 30px;
+}

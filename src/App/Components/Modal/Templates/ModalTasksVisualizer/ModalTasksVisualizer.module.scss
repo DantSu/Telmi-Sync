@@ -1,0 +1,77 @@
+@import "src/App/variables";
+
+.container {
+}
+
+.taskContainer, .waitingTaskContainer {
+  padding: 15px 10px;
+  width: 480px;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: stretch;
+}
+
+.waitingTaskContainer {
+  border-top: 1px solid $white20;
+  background: $black20;
+}
+
+.taskTextes {
+  padding: 0 15px;
+  flex: 0 0 395px;
+  width: 395px;
+}
+
+.taskProgressDescription {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.taskDescription, .taskProgress {
+  font-size: 14px;
+}
+
+.taskTitle, .taskDescriptionEllipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.taskTitle {
+  padding-bottom: 5px;
+  font-size: 16px;
+  direction: rtl;
+  text-align: left;
+}
+
+.taskIcon {
+  flex: 0 0 65px;
+  width: 65px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: icons;
+  font-weight: bold;
+  font-size: 34px;
+  color: $red;
+}
+
+.taskDescriptionEllipsis {
+  flex: 1;
+}
+
+.taskProgress {
+  white-space: nowrap;
+  flex: 0 0 auto;
+  margin-left: 15px;
+}
+
+.taskProgressBar {
+  margin: 4px 0;
+}
+
+.taskIconImg {
+  width: 40px;
+  height: auto;
+}

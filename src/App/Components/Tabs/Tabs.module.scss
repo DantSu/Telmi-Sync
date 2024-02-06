@@ -1,0 +1,46 @@
+@import "src/App/variables";
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.tabs {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  padding: 0 30px 0 30px;
+}
+
+.tabSelected, .tab {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.tabSelected {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  background: $white15;
+}
+
+.button, .buttonSelected {
+  font-size: 16px;
+}
+
+.buttonSelected {
+  color: $orange;
+}
+
+.content {
+  flex: 1;
+  border-radius: 20px;
+  background: $white15;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  padding: 3px;
+}

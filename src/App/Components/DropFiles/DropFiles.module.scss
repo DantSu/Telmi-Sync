@@ -1,0 +1,30 @@
+@import "src/App/variables";
+
+.containerHidden {
+  display: none;
+}
+
+.container, .text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  position: fixed;
+  z-index: 2000;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: $black60;
+}
+
+.text {
+  pointer-events: none;
+  width: 80%;
+  height: 80%;
+  border: 10px dashed $white30;
+  border-radius: 50px;
+  font-size: 60px;
+}

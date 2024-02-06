@@ -1,0 +1,14 @@
+@import "src/App/variables";
+
+
+.button {
+  -webkit-app-region: no-drag;
+  padding: 8px;
+  font-family: icons;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.button:hover {
+  color: $white;
+}

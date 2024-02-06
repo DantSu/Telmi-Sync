@@ -1,0 +1,60 @@
+@import "src/App/variables";
+
+.container {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: $black60;
+}
+
+.modal {
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+  background: $purple1;
+  border-radius: 20px;
+  display: flex;
+  justify-content: stretch;
+  align-items: stretch;
+}
+
+.modalPadding {
+  padding: 15px;
+}
+
+.modalOverflow {
+  border-radius: 20px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.buttonClose {
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  top: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 20px;
+  margin: -10px -10px 0 0;
+  background-color: $blueDark;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  color: $blue;
+  padding-bottom: 5px;
+  border-bottom: 1px solid $blue;
+}
+
+.modalContent {
+  padding: 15px;
+}
