@@ -6,12 +6,13 @@ import { getFFmpegFilePath } from './FFmpegCommand.js'
 import { unpack } from './7zipCommands.js'
 
 const
-  links = [
-    'https://github.com/ffbinaries/ffbinaries-prebuilt/releases/download/v6.1/ffmpeg-6.1-win-64.zip',
-    'https://github.com/ffbinaries/ffbinaries-prebuilt/releases/download/v6.1/ffmpeg-6.1-linux-64.zip',
-    'https://github.com/ffbinaries/ffbinaries-prebuilt/releases/download/v6.1/ffmpeg-6.1-linux-arm-64.zip',
-    'https://github.com/ffbinaries/ffbinaries-prebuilt/releases/download/v6.1/ffmpeg-6.1-macos-64.zip'
-  ],
+  links = {
+    'win32-x64': 'https://github.com/ffbinaries/ffbinaries-prebuilt/releases/download/v6.1/ffmpeg-6.1-win-64.zip',
+    'linux-x64': 'https://github.com/ffbinaries/ffbinaries-prebuilt/releases/download/v6.1/ffmpeg-6.1-linux-64.zip',
+    'linux-arm64': 'https://github.com/ffbinaries/ffbinaries-prebuilt/releases/download/v6.1/ffmpeg-6.1-linux-arm-64.zip',
+    'darwin-arm64': 'https://www.osxexperts.net/ffmpeg61arm.zip',
+    'darwin-x64': 'https://github.com/ffbinaries/ffbinaries-prebuilt/releases/download/v6.1/ffmpeg-6.1-macos-64.zip',
+  }/*,
   baseUrl = 'https://github.com/ffbinaries/ffbinaries-prebuilt/releases/download/v6.1/ffmpeg-6.1-',
   getOS = () => {
     switch (process.platform) {
@@ -34,19 +35,26 @@ const
       default:
         return null
     }
-  }
+  }*/
 
 function main () {
-  const url = baseUrl + getOS() + '-' + getArch() + '.zip'
+  /*const url = baseUrl + getOS() + '-' + getArch() + '.zip'
 
   if (!links.includes(url)) {
+    process.stderr.write('ffmpeg-os-unsupported')
+    return
+  }*/
+
+  const url = links[process.platform + '-' + process.arch]
+
+  if (url === undefined) {
     process.stderr.write('ffmpeg-os-unsupported')
     return
   }
 
   const ffmpegFilePath = getFFmpegFilePath()
 
-  if(fs.existsSync(ffmpegFilePath)) {
+  if (fs.existsSync(ffmpegFilePath)) {
     process.stdout.write('success')
     return
   }
@@ -64,13 +72,13 @@ function main () {
         getBinPath(),
         (error) => {
 
-            if (error) {
-              process.stderr.write('ffmpeg-zip-invalid')
-              return
-            }
+          if (error) {
+            process.stderr.write('ffmpeg-zip-invalid')
+            return
+          }
 
-            rmFile(zipPath)
-            process.stdout.write('success')
+          rmFile(zipPath)
+          process.stdout.write('success')
         }
       )
     })
