@@ -10,12 +10,11 @@ function Tabs ({className, tabs}) {
 
   useEffect(
     () => {
-      if (!tabs.find((t) => t === currentTab)) {
-        console.log('reset')
+      if (typeof tabs.find((t) => t === currentTab) === 'undefined') {
         setTab(tabs[0] || {})
       }
     },
-    [tabs, currentTab]
+    [tabs, currentTab, setTab]
   )
 
   return <div className={[className, styles.container].join(' ')}>
@@ -23,10 +22,7 @@ function Tabs ({className, tabs}) {
       tabs.map((tab, i) => (<Tab key={'tab-' + i}
                                  button={tab.tab}
                                  selected={currentTab === tab}
-                                 onClick={() => {
-                                   setTab(tab)
-                                   console.log('click')
-                                 }}/>))
+                                 onClick={() => setTab(tab)}/>))
     }</ul>
     <div className={styles.content}>
       {DisplayedComponent && <DisplayedComponent/>}

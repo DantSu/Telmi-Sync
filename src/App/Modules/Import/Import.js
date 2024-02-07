@@ -10,7 +10,7 @@ function Import ({children}) {
     {addModal, rmModal} = useModal(),
     onFilesDropped = useCallback(
       (filesPath) => {
-        ipcRenderer.send('import-files', filesPath)
+        ipcRenderer.send('import', filesPath)
 
         if (!isProcessing) {
           setIsProcessing(true)

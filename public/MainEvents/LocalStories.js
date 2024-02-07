@@ -18,6 +18,7 @@ function mainEventLocalStoriesReader (mainWindow) {
             md.audio = path.join(storiesPath, d, 'title.mp3')
             return md
           })
+          .sort((a, b) => a.title.localeCompare(b.title))
       )
     }
   )
@@ -40,12 +41,19 @@ function mainEventLocalStoriesReader (mainWindow) {
   )
 
   ipcMain.on(
-    'local-story-delete',
-    async (event, storyUuid) => {
-      if (typeof storyUuid === 'string' && storyUuid !== '') {
-        rmDirectory(getStoriesPath(storyUuid))
-        ipcMain.emit('local-stories-get')
+    'local-stories-delete',
+    async (event, storiesUuid) => {
+      if(!Array.isArray(storiesUuid)) {
+        return
       }
+
+      for (const storyUuid of storiesUuid) {
+        if (typeof storyUuid === 'string' && storyUuid !== '') {
+          rmDirectory(getStoriesPath(storyUuid))
+        }
+      }
+
+      ipcMain.emit('local-stories-get')
     }
   )
 }

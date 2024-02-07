@@ -7,13 +7,14 @@ import runProcess from './Processes/RunProcess.js'
 
 function mainEventLocalMusicReader (mainWindow) {
   ipcMain.on(
-    'local-music-get',
+    'local-musics-get',
     async () => {
       const musicPath = getMusicPath()
       mainWindow.webContents.send(
-        'local-music-data',
+        'local-musics-data',
         fs.readdirSync(musicPath)
           .filter((f) => path.extname(f) === '.mp3')
+          .sort()
           .map((f) => {
             const
               name = path.parse(f).name,
@@ -21,7 +22,7 @@ function mainEventLocalMusicReader (mainWindow) {
             return {
               id: name,
               music: path.join(musicPath, f),
-              image: path.join(musicPath, name + '.png'),
+              image: path.join(musicPath, name + '.png') + '?t=' + Math.trunc(Date.now() / 10000),
               track: parseInt(track, 10),
               title,
               album,
@@ -62,17 +63,17 @@ function mainEventLocalMusicReader (mainWindow) {
           fs.renameSync(srcImage, dstPath + '.png')
         }
         if (!music.askNewImage) {
-          ipcMain.emit('local-music-get')
+          ipcMain.emit('local-musics-get')
         } else {
           runProcess(
-            path.join('MusicCover', 'MusicCover.js'),
+            path.join('Music', 'MusicCover.js'),
             [newFileName],
             () => {
-              ipcMain.emit('local-music-get')
+              ipcMain.emit('local-musics-get')
             },
             (message, current, total) => {},
             (error) => {
-              ipcMain.emit('local-music-get')
+              ipcMain.emit('local-musics-get')
             }
           )
         }
@@ -81,11 +82,19 @@ function mainEventLocalMusicReader (mainWindow) {
   )
 
   ipcMain.on(
-    'local-music-delete',
+    'local-musics-delete',
     async (event, id) => {
-      if (typeof id === 'string' && id !== '') {
+      if (!Array.isArray(id)) {
+        return ipcMain.emit('local-musics-get')
+      }
+
+      for (const i of id) {
+        if (typeof i !== 'string' || i === '') {
+          continue
+        }
+
         const
-          musicPath = getMusicPath(id),
+          musicPath = getMusicPath(i),
           music = musicPath + '.mp3',
           image = musicPath + '.png'
 
@@ -95,8 +104,9 @@ function mainEventLocalMusicReader (mainWindow) {
         if (fs.existsSync(image)) {
           fs.rmSync(image)
         }
-        ipcMain.emit('local-music-get')
       }
+
+      ipcMain.emit('local-musics-get')
     }
   )
 }

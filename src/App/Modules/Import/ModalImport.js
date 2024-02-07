@@ -10,7 +10,7 @@ function ModalImport ({files, onClose}) {
     [isClosable, setIsClosable] = useState(false)
 
   useElectronListener(
-    'import-processing-file',
+    'import-task',
     (file, message, current, total) => {
       if (file === '' && message === '' && current === 0 && total === 0) {
         setProcessingFile(null)
@@ -22,17 +22,20 @@ function ModalImport ({files, onClose}) {
   )
 
   useElectronListener(
-    'import-waiting-files',
-    (filesToProcess) => setWaitingFiles(filesToProcess),
+    'import-waiting',
+    (waitingFiles) => setWaitingFiles(waitingFiles),
     [setWaitingFiles]
   )
 
   useElectronListener(
-    'import-error-files',
-    (filesError, filesErrorMessages) => setErrorFiles(filesError.map((v, k) => ({
-      task: v,
-      message: <>Le format semble être incompatible avec Telmi Sync. <strong>(Code erreur : {filesErrorMessages[k]})</strong></>
-    }))),
+    'import-error',
+    (file, error) => setErrorFiles((errors) => ([
+      ...errors,
+      {
+        task: file,
+        message: <>Le format semble être incompatible avec Telmi Sync. <strong>(Code erreur : {error})</strong></>
+      }
+    ])),
     [setErrorFiles]
   )
 

@@ -5,8 +5,8 @@ import LocalMusicContext from './LocalMusicContext.js'
 function LocalMusicProvider ({children}) {
   const [music, setMusic] = useState([])
 
-  useElectronListener('local-music-data', (music) => setMusic(music), [setMusic])
-  useElectronEmitter('local-music-get', [])
+  useElectronListener('local-musics-data', (music) => setMusic(music), [setMusic])
+  useElectronEmitter('local-musics-get', [])
 
   return <LocalMusicContext.Provider value={{music}}>{children}</LocalMusicContext.Provider>
 }

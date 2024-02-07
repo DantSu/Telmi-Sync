@@ -1,35 +1,48 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useModal } from '../../../Components/Modal/ModalHooks.js'
 import { useLocalMusic } from '../../../Components/LocalMusic/LocalMusicHooks.js'
-import ModalDialogConfirm from '../../../Components/Modal/Templates/ModalDialogs/ModalDialogConfirm.js'
 import Table from '../../../Components/Table/Table.js'
 import ModalMusicFormUpdate from './ModalMusicFormUpdate.js'
+import ModalMusicDeleteConfirm from './ModalMusicDeleteConfirm.js'
+import ModalMusicsDeleteConfirm from './ModalMusicsDeleteConfirm.js'
 
 const {ipcRenderer} = window.require('electron')
 
-function MusicLocalContent ({selectedLocalMusic, setSelectedLocalMusic}) {
+function MusicLocalContent ({selectedLocalMusics, setSelectedLocalMusics}) {
   const
     {addModal, rmModal} = useModal(),
-    [isLoadingLocalMusic, setIsLoadingLocalMusic] = useState(false),
-    rawLocalMusic = useLocalMusic(),
+    [isLoadingLocalMusics, setIsLoadingLocalMusics] = useState(false),
+    rawLocalMusics = useLocalMusic(),
 
-    localMusic = useMemo(
-      () => rawLocalMusic.map((s) => ({
+    localMusics = useMemo(
+      () => rawLocalMusics.map((s) => ({
         ...s,
-        subtitle: s.artist + ' - ' + s.album
+        cellTitle: s.track + '. ' + s.title,
+        cellSubtitle: s.artist + ' - ' + s.album
       })),
-      [rawLocalMusic]
+      [rawLocalMusics]
     ),
 
-    onLocalMusicSelect = useCallback(
-      (m) => setSelectedLocalMusic((music) => {
-        if (music.includes(m)) {
-          return music.filter((v) => v !== m)
+    onSelect = useCallback(
+      (music) => setSelectedLocalMusics((musics) => {
+        if (musics.includes(music)) {
+          return musics.filter((v) => v !== music)
         } else {
-          return [...music, m]
+          return [...musics, music]
         }
       }),
-      [setSelectedLocalMusic]
+      [setSelectedLocalMusics]
+    ),
+
+    onSelectAll = useCallback(
+      () => setSelectedLocalMusics((musics) => {
+        if (localMusics.length === musics.length) {
+          return []
+        } else {
+          return [...localMusics]
+        }
+      }),
+      [localMusics, setSelectedLocalMusics]
     ),
 
     onEdit = useCallback(
@@ -38,9 +51,9 @@ function MusicLocalContent ({selectedLocalMusic, setSelectedLocalMusic}) {
           const modal = <ModalMusicFormUpdate key={key}
                                               music={music}
                                               onValidate={(music) => {
-                                            setIsLoadingLocalMusic(true)
-                                            ipcRenderer.send('local-music-update', music)
-                                          }}
+                                                setIsLoadingLocalMusics(true)
+                                                ipcRenderer.send('local-music-update', music)
+                                              }}
                                               onClose={() => rmModal(modal)}/>
           return modal
         })
@@ -51,31 +64,50 @@ function MusicLocalContent ({selectedLocalMusic, setSelectedLocalMusic}) {
     onDelete = useCallback(
       (music) => {
         addModal((key) => {
-          const modal = <ModalDialogConfirm key={key}
-                                            title="Suppression d'histoire"
-                                            message={<>Êtes-vous sûr de vouloir supprimer la
-                                              musique <strong>"{music.title}"</strong> ?</>}
-                                            onConfirm={() => {
-                                              setIsLoadingLocalMusic(true)
-                                              ipcRenderer.send('local-music-delete', music.id)
-                                            }}
-                                            onClose={() => rmModal(modal)}/>
+          const modal = <ModalMusicDeleteConfirm key={key}
+                                                 music={music}
+                                                 onConfirm={() => {
+                                                   ipcRenderer.send('local-musics-delete', [music.id])
+                                                   setIsLoadingLocalMusics(true)
+                                                 }}
+                                                 onClose={() => rmModal(modal)}/>
           return modal
         })
       },
       [addModal, rmModal]
+    ),
+
+    onDeleteSelected = useCallback(
+      () => {
+        addModal((key) => {
+          const modal = <ModalMusicsDeleteConfirm key={key}
+                                                 onConfirm={() => {
+                                                   ipcRenderer.send(
+                                                     'local-musics-delete',
+                                                     selectedLocalMusics.map((music) => music.id)
+                                                   )
+                                                   setIsLoadingLocalMusics(true)
+                                                   setSelectedLocalMusics([])
+                                                 }}
+                                                 onClose={() => rmModal(modal)}/>
+          return modal
+        })
+      },
+      [selectedLocalMusics, setSelectedLocalMusics, addModal, rmModal]
     )
 
-  useEffect(() => {setIsLoadingLocalMusic(false)}, [rawLocalMusic, setIsLoadingLocalMusic])
+  useEffect(() => {setIsLoadingLocalMusics(false)}, [rawLocalMusics, setIsLoadingLocalMusics])
 
-  return <Table titleLeft={'Mes musiques (' + localMusic.length + ')'}
-                titleRight={selectedLocalMusic.length ? selectedLocalMusic.length + ' musique(s) sélectionné(s)' : undefined}
-                data={localMusic}
-                selectedData={selectedLocalMusic}
-                onSelect={onLocalMusicSelect}
+  return <Table titleLeft={'Mes musiques (' + localMusics.length + ')'}
+                titleRight={selectedLocalMusics.length ? selectedLocalMusics.length + ' musique(s) sélectionné(s)' : undefined}
+                data={localMusics}
+                selectedData={selectedLocalMusics}
+                onSelect={onSelect}
+                onSelectAll={onSelectAll}
                 onEdit={onEdit}
                 onDelete={onDelete}
-                isLoading={isLoadingLocalMusic}/>
+                onDeleteSelected={onDeleteSelected}
+                isLoading={isLoadingLocalMusics}/>
 }
 
 export default MusicLocalContent

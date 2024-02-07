@@ -6,12 +6,40 @@ import ModalStoreDownload from './ModalStoreDownload.js'
 
 function StoreContent ({store}) {
   const
-    [storeStories, setStoreStories] = useState([]),
+    [stories, setStories] = useState([]),
+    [storiesSelected, setStoriesSelected] = useState([]),
     {addModal, rmModal} = useModal(),
+
+    onSelect = useCallback(
+      (story) => setStoriesSelected((stories) => {
+        if (stories.includes(story)) {
+          return stories.filter((v) => v !== story)
+        } else {
+          return [...stories, story]
+        }
+      }),
+      [setStoriesSelected]
+    ),
+
+    onDownloadSelected = useCallback(
+      () => {
+        addModal((key) => {
+          const modal = <ModalStoreDownload key={key}
+                                            stories={storiesSelected}
+                                            onClose={() => {
+                                              rmModal(modal)
+                                              setStoriesSelected([])
+                                            }}/>
+          return modal
+        })
+      },
+      [storiesSelected, setStoriesSelected, addModal, rmModal]
+    ),
     onDownload = useCallback(
       (story) => {
         addModal((key) => {
-          const modal = <ModalStoreDownload story={story}
+          const modal = <ModalStoreDownload key={key}
+                                            stories={[story]}
                                             onClose={() => rmModal(modal)}/>
           return modal
         })
@@ -21,14 +49,19 @@ function StoreContent ({store}) {
 
   useElectronListener(
     'store-remote-data',
-    (stories) => {setStoreStories(stories)},
-    [setStoreStories]
+    (stories) => setStories(stories.map((s) => ({...s, cellTitle: s.title}))),
+    [setStories]
   )
   useElectronEmitter('store-remote-get', [store])
 
-  return <Table titleLeft={storeStories.length + ' histoires sur le store'}
-                data={storeStories}
-                onDownload={onDownload}/>
+  return <Table titleLeft={stories.length + ' histoires sur le store'}
+                titleRight={storiesSelected.length ? storiesSelected.length + ' histoire(s) sélectionnée(s)' : undefined}
+                data={stories}
+                selectedData={storiesSelected}
+                onSelect={onSelect}
+                onDownload={onDownload}
+                onDownloadSelected={onDownloadSelected}
+                isLoading={!stories.length}/>
 }
 
 export default StoreContent

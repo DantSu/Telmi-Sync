@@ -45,8 +45,8 @@ function Cell ({data, selected, onSelect, onPlay, onEdit, onDownload, onDelete})
     )
 
   return <li className={[styles.cell, selected ? styles.cellSelected : ''].join(' ')} onClick={onCSelect}>
-    <h5 className={styles.cellTitle} title={data.title}>{data.title}</h5>
-    <p className={styles.cellSubtitle} title={data.subtitle}>{data.subtitle}</p>
+    <h5 className={styles.cellTitle} title={data.cellTitle}>{data.cellTitle}</h5>
+    <p className={styles.cellSubtitle} title={data.cellSubtitle}>{data.cellSubtitle}</p>
     <div className={styles.imageContainer}><img src={data.image} className={styles.cellImage} alt=""/></div>
     {
       (onPlay || onEdit || onDownload || onDelete) &&

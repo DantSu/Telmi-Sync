@@ -19,16 +19,32 @@
   flex: 0 1 auto;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   background: $white15;
   padding: 7px 15px;
 }
 
-.headerTitle {
+.headerTitleLeft,
+.headerTitleRight {
+  flex: 1;
+  padding: 1px 0;
   font-size: 14px;
   color: $white90;
   font-weight: normal;
+}
+
+.headerTitleRight,
+.headerIcons {
+  flex: 0 1 auto;
+}
+.headerIcons {
+  display: flex;
+}
+.headerIcon {
+  padding: 0;
+  margin-left: 10px;
+  font-size: 14px;
 }
 
 .content {

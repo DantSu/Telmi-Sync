@@ -1,35 +1,61 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ModalTaskVisualizer from '../../../Components/Modal/Templates/ModalTasksVisualizer/ModalTasksVisualizer.js'
 import { useElectronEmitter, useElectronListener } from '../../../Components/Electron/Hooks/UseElectronEvent.js'
 
-function ModalStoreDownload ({story, onClose}) {
+function ModalStoreDownload ({stories, onClose}) {
   const
-    [processingFile, setProcessingFile] = useState({task: story.title, message: 'waiting', current: 0, total: 1}),
-    [errorFiles, setErrorFiles] = useState([]),
+    [processingStory, setProcessingStory] = useState(null),
+    [waitingStories, setWaitingStories] = useState(stories.map((s) => s.title)),
+    [errorStories, setErrorStories] = useState([]),
     [isClosable, setIsClosable] = useState(false)
 
   useElectronListener(
     'store-download-task',
-    (file, message, current, total) => {
-      if (message === 'success') {
-        onClose()
-      } else if (message === 'error') {
-        setIsClosable(true)
-        setProcessingFile(null)
-        setErrorFiles([{
-          task: file,
-          message: <>Le format semble être incompatible avec Telmi Sync. <strong>(Code erreur : {message})</strong></>
-        }])
+    (title, message, current, total) => {
+      if (title === '' && message === '' && current === 0 && total === 0) {
+        setProcessingStory(null)
       } else {
-        setProcessingFile({task: file, message, current, total})
+        setProcessingStory({task: title, message, current, total})
       }
     },
-    [setProcessingFile]
+    [setProcessingStory]
   )
-  useElectronEmitter('store-download', [story])
 
-  return <ModalTaskVisualizer errorTasks={errorFiles}
-                              processingTask={processingFile}
+  useElectronListener(
+    'store-download-waiting',
+    (waitingStories) => setWaitingStories(waitingStories.map((s) => s.title)),
+    [setWaitingStories]
+  )
+
+  useElectronListener(
+    'store-download-error',
+    (story, error) => setErrorStories((errors) => ([
+      ...errors,
+      {
+        task: story.title,
+        message: <>Le format semble être incompatible avec Telmi Sync. <strong>(Code erreur : {error})</strong></>
+      }
+    ])),
+    [setErrorStories]
+  )
+
+  useElectronEmitter('store-download', [stories])
+
+  useEffect(() => {
+    if (processingStory === null && !waitingStories.length) {
+      if (!errorStories.length) {
+        onClose()
+      } else {
+        setIsClosable(true)
+      }
+    } else {
+      setIsClosable(false)
+    }
+  }, [processingStory, waitingStories, errorStories, onClose, setIsClosable])
+
+  return <ModalTaskVisualizer errorTasks={errorStories}
+                              processingTask={processingStory}
+                              waitingTasks={waitingStories}
                               isClosable={isClosable}
                               onClose={onClose}/>
 }

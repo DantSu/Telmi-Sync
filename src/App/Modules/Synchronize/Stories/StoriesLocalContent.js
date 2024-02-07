@@ -2,8 +2,9 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useModal } from '../../../Components/Modal/ModalHooks.js'
 import { useLocalStories } from '../../../Components/LocalStories/LocalStoriesHooks.js'
 import Table from '../../../Components/Table/Table.js'
-import ModalDialogConfirm from '../../../Components/Modal/Templates/ModalDialogs/ModalDialogConfirm.js'
 import ModalStoryFormUpdate from './ModalStoryFormUpdate.js'
+import ModalStoryDeleteConfirm from './ModalStoryDeleteConfirm.js'
+import ModalStoriesDeleteConfirm from './ModalStoriesDeleteConfirm.js'
 
 const {ipcRenderer} = window.require('electron')
 
@@ -15,11 +16,12 @@ function StoriesLocalContent ({selectedLocalStories, setSelectedLocalStories}) {
     localStories = useMemo(
       () => rawLocalStories.map((s) => ({
         ...s,
-        subtitle: s.uuid,
+        cellTitle: s.title,
+        cellSubtitle: s.uuid,
       })),
       [rawLocalStories]
     ),
-    onLocalStorySelect = useCallback(
+    onSelect = useCallback(
       (story) => setSelectedLocalStories((stories) => {
         if (stories.includes(story)) {
           return stories.filter((v) => v !== story)
@@ -29,6 +31,16 @@ function StoriesLocalContent ({selectedLocalStories, setSelectedLocalStories}) {
       }),
       [setSelectedLocalStories]
     ),
+    onSelectAll = useCallback(
+      () => setSelectedLocalStories((stories) => {
+        if (stories.length === localStories.length) {
+          return []
+        } else {
+          return [...localStories]
+        }
+      }),
+      [localStories, setSelectedLocalStories]
+    ),
     onPlay = useCallback((story) => (new Audio(story.audio)).play(), []),
     onEdit = useCallback(
       (story) => {
@@ -36,9 +48,9 @@ function StoriesLocalContent ({selectedLocalStories, setSelectedLocalStories}) {
           const modal = <ModalStoryFormUpdate key={key}
                                               story={story}
                                               onValidate={(story) => {
-                                            setIsLoadingLocalStories(true)
-                                            ipcRenderer.send('local-story-update', story.uuid, story.title)
-                                          }}
+                                                setIsLoadingLocalStories(true)
+                                                ipcRenderer.send('local-story-update', story.uuid, story.title)
+                                              }}
                                               onClose={() => rmModal(modal)}/>
           return modal
         })
@@ -48,19 +60,35 @@ function StoriesLocalContent ({selectedLocalStories, setSelectedLocalStories}) {
     onDelete = useCallback(
       (story) => {
         addModal((key) => {
-          const modal = <ModalDialogConfirm key={key}
-                                            title="Suppression d'histoire"
-                                            message={<>Êtes-vous sûr de vouloir supprimer
-                                              l'histoire <strong>"{story.title}"</strong> ?</>}
-                                            onConfirm={() => {
-                                              setIsLoadingLocalStories(true)
-                                              ipcRenderer.send('local-story-delete', story.uuid)
-                                            }}
-                                            onClose={() => rmModal(modal)}/>
+          const modal = <ModalStoryDeleteConfirm key={key}
+                                                 story={story}
+                                                 onConfirm={() => {
+                                                   ipcRenderer.send('local-stories-delete', [story.uuid])
+                                                   setIsLoadingLocalStories(true)
+                                                 }}
+                                                 onClose={() => rmModal(modal)}/>
           return modal
         })
       },
       [addModal, rmModal]
+    ),
+    onDeleteSelected = useCallback(
+      () => {
+        if (!selectedLocalStories.length) {
+          return
+        }
+        addModal((key) => {
+          const modal = <ModalStoriesDeleteConfirm key={key}
+                                                   onConfirm={() => {
+                                                     ipcRenderer.send('local-stories-delete', selectedLocalStories.map((v) => v.uuid))
+                                                     setIsLoadingLocalStories(true)
+                                                     setSelectedLocalStories([])
+                                                   }}
+                                                   onClose={() => rmModal(modal)}/>
+          return modal
+        })
+      },
+      [selectedLocalStories, setSelectedLocalStories, addModal, rmModal]
     )
 
   useEffect(() => {setIsLoadingLocalStories(false)}, [rawLocalStories, setIsLoadingLocalStories])
@@ -69,10 +97,12 @@ function StoriesLocalContent ({selectedLocalStories, setSelectedLocalStories}) {
                 titleRight={selectedLocalStories.length ? selectedLocalStories.length + ' histoire(s) sélectionné(s)' : undefined}
                 data={localStories}
                 selectedData={selectedLocalStories}
-                onSelect={onLocalStorySelect}
+                onSelect={onSelect}
+                onSelectAll={onSelectAll}
                 onPlay={onPlay}
                 onEdit={onEdit}
                 onDelete={onDelete}
+                onDeleteSelected={onDeleteSelected}
                 isLoading={isLoadingLocalStories}/>
 }
 

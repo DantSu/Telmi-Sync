@@ -3,7 +3,13 @@ import * as path from 'path'
 
 const getCoverImage = async (artist, album, dirPath) => {
   try {
-    const albumData = await requestJson('https://musicbrainz.org/ws/2/release/?fmt=json&limit=5&query=%22' + artist + '%22%20AND%20%22' + album + '%22')
+    const
+      requestVars = [...artist.split(/[ -]+/), ...album.split(/[ -]+/)]
+        .filter((v, i, a) => v !== '' && a.indexOf(v) === i)
+        .map((v) => '%22' + v + '%22')
+        .join('%20AND%20'),
+      albumData = await requestJson('https://musicbrainz.org/ws/2/release/?fmt=json&limit=5&query=' + requestVars)
+
     if (!albumData.releases.length) {
       return null
     }

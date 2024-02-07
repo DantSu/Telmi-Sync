@@ -89,37 +89,51 @@ function mainEventStores (mainWindow) {
           .then((data) => {
             mainWindow.webContents.send(
               'store-remote-data',
-              data.map((v) => ({
-                title: '[' + v.age + '+] ' + v.title,
-                image: v.smallThumbUrl,
-                downloadUrl: v.downloadUrl
-              })))
+              data
+                .sort((a, b) => {
+                  if ((a.age - b.age) === 0) {
+                    return a.title.localeCompare(b.title)
+                  } else {
+                    return a.age - b.age
+                  }
+                })
+                .map((v) => ({
+                  title: '[' + v.age + '+] ' + v.title,
+                  image: v.smallThumbUrl,
+                  downloadUrl: v.downloadUrl
+                })))
           })
           .catch((e) => {console.log(e.toString())})
       }
     }
   )
 
-  ipcMain.on(
-    'store-download',
-    async (event, story) => {
-      runProcess(
-        path.join('Store', 'StoreDownload.js'),
-        [story.downloadUrl],
-        () => {
-          mainWindow.webContents.send('store-download-task', story.title, 'success')
-          ipcMain.emit('local-stories-get')
-        },
-        (message, current, total) => {
-          mainWindow.webContents.send('store-download-task', story.title, message, current, total)
-        },
-        (error) => {
-          mainWindow.webContents.send('store-download-task', story.title, 'error', error)
-        }
-      )
+  const runDownload = (stories) => {
+    if(!stories.length) {
+      mainWindow.webContents.send('store-download-task', '', '', 0, 0)
+      return ipcMain.emit('local-stories-get')
     }
-  )
 
+    const story = stories.shift()
+    mainWindow.webContents.send('store-download-task', story.title, 'initialize-process', 0, 1)
+    mainWindow.webContents.send('store-download-waiting', stories)
+
+    runProcess(
+      path.join('Store', 'StoreDownload.js'),
+      [story.downloadUrl],
+      () => {
+        runDownload(stories)
+      },
+      (message, current, total) => {
+        mainWindow.webContents.send('store-download-task', story.title, message, current, total)
+      },
+      (error) => {
+        mainWindow.webContents.send('store-download-error', story, error)
+        runDownload(stories)
+      }
+    )
+  }
+  ipcMain.on('store-download', async (event, stories) => runDownload(stories))
 
 }
 

@@ -6,25 +6,21 @@ import * as path from 'path'
 function mainEventImport (mainWindow) {
   let
     isTaskRunning = false,
-    filesToProcess = [],
-    filesError = [],
-    filesErrorMessages = []
+    filesToProcess = []
 
   const runImport = () => {
     if (!filesToProcess.length) {
       isTaskRunning = false;
-      filesError = []
-      filesErrorMessages = []
-      mainWindow.webContents.send('import-processing-file', '', '', 0, 0)
+      mainWindow.webContents.send('import-task', '', '', 0, 0)
       ipcMain.emit('local-stories-get')
-      ipcMain.emit('local-music-get')
+      ipcMain.emit('local-musics-get')
       return
     }
 
     isTaskRunning = true;
     const file = filesToProcess.shift()
-    mainWindow.webContents.send('import-processing-file', file, 'initialize process', 0, 1)
-    mainWindow.webContents.send('import-waiting-files', filesToProcess)
+    mainWindow.webContents.send('import-task', file, 'initialize-process', 0, 1)
+    mainWindow.webContents.send('import-waiting', filesToProcess)
     runProcess(
       path.join('Import','ImportProcess.js'),
       [file],
@@ -32,23 +28,21 @@ function mainEventImport (mainWindow) {
         runImport()
       },
       (message, current, total) => {
-        mainWindow.webContents.send('import-processing-file', file, message, current, total)
+        mainWindow.webContents.send('import-task', file, message, current, total)
       },
       (error) => {
-        filesError = [...filesError, file]
-        filesErrorMessages = [...filesErrorMessages, error]
-        mainWindow.webContents.send('import-error-files', filesError, filesErrorMessages)
+        mainWindow.webContents.send('import-error', file, error)
         runImport()
       }
     )
   }
 
   ipcMain.on(
-    'import-files',
+    'import',
     (event, filesPath) => {
       filesToProcess = [...filesToProcess, ...filesPath]
       if (isTaskRunning) {
-        mainWindow.webContents.send('import-waiting-files', filesToProcess)
+        mainWindow.webContents.send('import-waiting', filesToProcess)
       } else {
         runImport()
       }

@@ -6,12 +6,12 @@ import styles from '../Synchronize.module.scss'
 
 function MusicContent () {
   const
-    [selectedLocalMusic, setSelectedLocalMusic] = useState([])
+    [selectedLocalMusics, setSelectedLocalMusics] = useState([])
 
   return <>
     <Table className={styles.leftCol} titleLeft="Telmi OS non détecté" data={[]}/>
-    <MusicLocalContent setSelectedLocalMusic={setSelectedLocalMusic}
-                       selectedLocalMusic={selectedLocalMusic}/>
+    <MusicLocalContent setSelectedLocalMusics={setSelectedLocalMusics}
+                       selectedLocalMusics={selectedLocalMusics}/>
   </>
 }
 
