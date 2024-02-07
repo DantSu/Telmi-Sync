@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useModal } from '../../../Components/Modal/ModalHooks.js'
 import { useLocalStories } from '../../../Components/LocalStories/LocalStoriesHooks.js'
+import { useLocale } from '../../../Components/Locale/LocaleHooks.js'
 import Table from '../../../Components/Table/Table.js'
 import ModalStoryFormUpdate from './ModalStoryFormUpdate.js'
 import ModalStoryDeleteConfirm from './ModalStoryDeleteConfirm.js'
@@ -10,6 +11,7 @@ const {ipcRenderer} = window.require('electron')
 
 function StoriesLocalContent ({selectedLocalStories, setSelectedLocalStories}) {
   const
+    {getLocale} = useLocale(),
     {addModal, rmModal} = useModal(),
     rawLocalStories = useLocalStories(),
     [isLoadingLocalStories, setIsLoadingLocalStories] = useState(false),
@@ -93,8 +95,8 @@ function StoriesLocalContent ({selectedLocalStories, setSelectedLocalStories}) {
 
   useEffect(() => {setIsLoadingLocalStories(false)}, [rawLocalStories, setIsLoadingLocalStories])
 
-  return <Table titleLeft={'Mes histoires (' + localStories.length + ')'}
-                titleRight={selectedLocalStories.length ? selectedLocalStories.length + ' histoire(s) sélectionné(s)' : undefined}
+  return <Table titleLeft={getLocale('stories-local', localStories.length)}
+                titleRight={selectedLocalStories.length ? getLocale('stories-selected', selectedLocalStories.length) : undefined}
                 data={localStories}
                 selectedData={selectedLocalStories}
                 onSelect={onSelect}

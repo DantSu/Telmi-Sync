@@ -45,7 +45,7 @@ function main (url) {
     url,
     downloadPath,
     (current, total) => {
-      process.stdout.write('*downloading*' + current + '*' + total + '*')
+      process.stdout.write('*downloading-story*' + current + '*' + total + '*')
     }
   )
     .then((zipPath) => convertZip(zipPath))

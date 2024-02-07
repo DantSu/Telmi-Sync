@@ -1,8 +1,8 @@
 import { useCallback } from 'react'
 import { useModal } from '../../../Components/Modal/ModalHooks.js'
 import ButtonIconTrash from '../../../Components/Buttons/Icons/ButtonIconTrash.js'
-import ModalDialogConfirm from '../../../Components/Modal/Templates/ModalDialogs/ModalDialogConfirm.js'
 import ButtonText from '../../../Components/Buttons/Text/ButtonText.js'
+import ModalStoreDeleteConfirm from './ModalStoreDeleteConfirm.js'
 
 import styles from './Store.module.scss'
 
@@ -14,12 +14,10 @@ function TabStore ({store, ...props}) {
     onDelete = useCallback(
       () => {
         addModal((key) => {
-          const modal = <ModalDialogConfirm key={key}
-                                            title="Suppression de store"
-                                            message={<>Êtes-vous sûr de vouloir supprimer le
-                                              store <strong>"{store.name}"</strong></>}
-                                            onClose={() => rmModal(modal)}
-                                            onConfirm={() => ipcRenderer.send('store-delete', store)}/>
+          const modal = <ModalStoreDeleteConfirm key={key}
+                                                 store={store}
+                                                 onClose={() => rmModal(modal)}
+                                                 onConfirm={() => ipcRenderer.send('store-delete', store)}/>
           return modal
         })
       },

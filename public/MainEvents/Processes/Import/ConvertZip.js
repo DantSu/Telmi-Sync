@@ -50,7 +50,7 @@ const
   }
 
 function convertZip (zipPath) {
-  process.stdout.write('*unzip*0*1*')
+  process.stdout.write('*zip-extract*0*1*')
   list(
     zipPath,
     (error, result) => {
@@ -79,7 +79,7 @@ function convertZip (zipPath) {
             return
           }
 
-          process.stdout.write('*unzip*1*1*')
+          process.stdout.write('*zip-extract*1*1*')
           convertFolder(extractPath, zipFilename)
         }
       )

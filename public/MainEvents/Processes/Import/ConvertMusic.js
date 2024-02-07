@@ -12,7 +12,7 @@ import { musicObjectToName } from '../../Helpers/Music.js'
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 
 function convertMusic (srcPath) {
-  process.stdout.write('*metadata*0*3*')
+  process.stdout.write('*music-extracting-metadata*0*3*')
 
   const
     tmpPath = initTmpPath('music'),
@@ -63,7 +63,7 @@ function convertMusic (srcPath) {
           process.stdout.write('success')
         }
 
-      process.stdout.write('*audio*1*3*')
+      process.stdout.write('*converting-audio*1*3*')
 
       if(fs.existsSync(musicDstPath)) {
         process.stdout.write('success')
@@ -72,7 +72,7 @@ function convertMusic (srcPath) {
 
       convertAudio(srcPath, musicDstPath)
         .then(() => {
-          process.stdout.write('*image album*2*3*')
+          process.stdout.write('*music-searching-cover*2*3*')
           extractPngFromMp3(srcPath, coverPath)
             .then(stepCheckCover)
             .catch(stepCheckCover)

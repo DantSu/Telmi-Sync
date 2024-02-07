@@ -22,7 +22,7 @@ const
       srcImage = srcImages.shift(),
       dstImage = dstImages.shift()
 
-    process.stdout.write('*' + srcImage + '*' + index + '*' + length + '*')
+    process.stdout.write('*converting-images*' + index + '*' + length + '*')
 
     convertStoryImage(srcImage, dstImage)
       .then(() => convertStoryImages(srcImages, dstImages, index + 1, length, onEnd))

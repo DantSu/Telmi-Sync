@@ -20,13 +20,13 @@ function DownloadFFmpeg () {
         setRoute(routeSynchronize)
       } else if (message === 'error') {
         setErrorTasks([{
-          task: 'Téléchargement de FFmpeg',
-          message: '(Erreur: ' + current + ') Impossible de télécharger FFmpeg.'
+          task: 'ffmpeg-download',
+          message: current
         }])
       } else {
         setProcessingTask({
-          task: 'Téléchargement de FFmpeg',
-          message: 'Veuillez patienter...',
+          task: 'ffmpeg-download',
+          message: 'please-wait',
           current,
           total
         })

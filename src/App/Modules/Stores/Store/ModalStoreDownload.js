@@ -33,7 +33,7 @@ function ModalStoreDownload ({stories, onClose}) {
       ...errors,
       {
         task: story.title,
-        message: <>Le format semble être incompatible avec Telmi Sync. <strong>(Code erreur : {error})</strong></>
+        message: error
       }
     ])),
     [setErrorStories]

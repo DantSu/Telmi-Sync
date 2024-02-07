@@ -9,7 +9,7 @@ import { stringSlugify } from '../../Helpers/Strings.js'
 function convertFolderSTUdio (srcPath, storyName) {
   try {
     const countFiles = recursiveCountFiles(srcPath)
-    process.stdout.write('*story.json*1*' + countFiles + '*')
+    process.stdout.write('*story-converting*1*' + countFiles + '*')
 
     const
       findNewName = (currentName, prefix, suffix, objectNames) => {
@@ -138,7 +138,7 @@ function convertFolderSTUdio (srcPath, storyName) {
     )
   } catch (e) {
     process.stderr.write(e.toString())
-    process.stderr.write('studio-format-invalid')
+    process.stderr.write('story-studio-format-invalid')
   }
 }
 

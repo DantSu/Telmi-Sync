@@ -1,11 +1,13 @@
 import { useCallback, useState } from 'react'
 import { useElectronEmitter, useElectronListener } from '../../../Components/Electron/Hooks/UseElectronEvent.js'
-import Table from '../../../Components/Table/Table.js'
 import { useModal } from '../../../Components/Modal/ModalHooks.js'
+import { useLocale } from '../../../Components/Locale/LocaleHooks.js'
+import Table from '../../../Components/Table/Table.js'
 import ModalStoreDownload from './ModalStoreDownload.js'
 
 function StoreContent ({store}) {
   const
+    {getLocale} = useLocale(),
     [stories, setStories] = useState([]),
     [storiesSelected, setStoriesSelected] = useState([]),
     {addModal, rmModal} = useModal(),
@@ -54,8 +56,8 @@ function StoreContent ({store}) {
   )
   useElectronEmitter('store-remote-get', [store])
 
-  return <Table titleLeft={stories.length + ' histoires sur le store'}
-                titleRight={storiesSelected.length ? storiesSelected.length + ' histoire(s) sélectionnée(s)' : undefined}
+  return <Table titleLeft={getLocale('stories-on-store', stories.length)}
+                titleRight={storiesSelected.length ? getLocale('stories-selected', storiesSelected.length) : undefined}
                 data={stories}
                 selectedData={storiesSelected}
                 onSelect={onSelect}

@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import { useLocale } from '../../../Components/Locale/LocaleHooks.js'
 import ModalLayoutPadded from '../../../Components/Modal/ModalLayoutPadded.js'
 import ButtonsContainer from '../../../Components/Buttons/ButtonsContainer.js'
 import ButtonIconTextCheck from '../../../Components/Buttons/IconsTexts/ButtonIconTextCheck.js'
@@ -9,26 +10,27 @@ import Form from '../../../Components/Form/Form.js'
 
 function ModalStoreFormAdd ({onValidate, onClose}) {
   const
+    {getLocale} = useLocale(),
     nameRef = useRef(),
     urlRef = useRef()
 
   return <ModalLayoutPadded isClosable={true}
                             onClose={onClose}>
-    <ModalTitle>Ajouter un store :</ModalTitle>
+    <ModalTitle>{getLocale('store-add')} :</ModalTitle>
     <Form>{
       (validation) => {
         return <>
           <ModalContent>
-            <InputText label="Nom"
+            <InputText label={getLocale('name')}
                        required={true}
                        ref={nameRef}/>
-            <InputText label="URL"
+            <InputText label={getLocale('url')}
                        type="url"
                        required={true}
                        ref={urlRef}/>
           </ModalContent>
           <ButtonsContainer>
-            <ButtonIconTextCheck text="Enregistrer"
+            <ButtonIconTextCheck text={getLocale('save')}
                                  rounded={true}
                                  onClick={() => {
                                    validation(

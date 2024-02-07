@@ -115,7 +115,7 @@ function mainEventStores (mainWindow) {
     }
 
     const story = stories.shift()
-    mainWindow.webContents.send('store-download-task', story.title, 'initialize-process', 0, 1)
+    mainWindow.webContents.send('store-download-task', story.title, 'initialize', 0, 1)
     mainWindow.webContents.send('store-download-waiting', stories)
 
     runProcess(

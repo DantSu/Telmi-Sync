@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useModal } from '../../../Components/Modal/ModalHooks.js'
 import { useLocalMusic } from '../../../Components/LocalMusic/LocalMusicHooks.js'
+import { useLocale } from '../../../Components/Locale/LocaleHooks.js'
 import Table from '../../../Components/Table/Table.js'
 import ModalMusicFormUpdate from './ModalMusicFormUpdate.js'
 import ModalMusicDeleteConfirm from './ModalMusicDeleteConfirm.js'
@@ -10,6 +11,7 @@ const {ipcRenderer} = window.require('electron')
 
 function MusicLocalContent ({selectedLocalMusics, setSelectedLocalMusics}) {
   const
+    {getLocale} = useLocale(),
     {addModal, rmModal} = useModal(),
     [isLoadingLocalMusics, setIsLoadingLocalMusics] = useState(false),
     rawLocalMusics = useLocalMusic(),
@@ -98,8 +100,8 @@ function MusicLocalContent ({selectedLocalMusics, setSelectedLocalMusics}) {
 
   useEffect(() => {setIsLoadingLocalMusics(false)}, [rawLocalMusics, setIsLoadingLocalMusics])
 
-  return <Table titleLeft={'Mes musiques (' + localMusics.length + ')'}
-                titleRight={selectedLocalMusics.length ? selectedLocalMusics.length + ' musique(s) sélectionné(s)' : undefined}
+  return <Table titleLeft={getLocale('musics-local', localMusics.length)}
+                titleRight={selectedLocalMusics.length ? getLocale('musics-selected', selectedLocalMusics.length) : undefined}
                 data={localMusics}
                 selectedData={selectedLocalMusics}
                 onSelect={onSelect}

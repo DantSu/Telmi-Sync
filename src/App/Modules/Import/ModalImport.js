@@ -31,10 +31,7 @@ function ModalImport ({files, onClose}) {
     'import-error',
     (file, error) => setErrorFiles((errors) => ([
       ...errors,
-      {
-        task: file,
-        message: <>Le format semble être incompatible avec Telmi Sync. <strong>(Code erreur : {error})</strong></>
-      }
+      {task: file, message: error}
     ])),
     [setErrorFiles]
   )

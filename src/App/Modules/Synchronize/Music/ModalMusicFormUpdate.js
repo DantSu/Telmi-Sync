@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import { useLocale } from '../../../Components/Locale/LocaleHooks.js'
 import ModalLayoutPadded from '../../../Components/Modal/ModalLayoutPadded.js'
 import ButtonsContainer from '../../../Components/Buttons/ButtonsContainer.js'
 import ButtonIconTextCheck from '../../../Components/Buttons/IconsTexts/ButtonIconTextCheck.js'
@@ -10,6 +11,7 @@ import Form from '../../../Components/Form/Form.js'
 
 function ModalMusicFormUpdate ({music, onValidate, onClose}) {
   const
+    {getLocale} = useLocale(),
     trackRef = useRef(),
     titleRef = useRef(),
     albumRef = useRef(),
@@ -17,12 +19,12 @@ function ModalMusicFormUpdate ({music, onValidate, onClose}) {
 
   return <ModalLayoutPadded isClosable={true}
                             onClose={onClose}>
-    <ModalTitle>Editer la musique :</ModalTitle>
+    <ModalTitle>{getLocale('music-edit')} :</ModalTitle>
     <Form>{
       (validation) => {
         return <>
           <ModalContent>
-            <InputText label="Track"
+            <InputText label={getLocale('track')}
                        type="number"
                        defaultValue={music.track}
                        required={true}
@@ -30,21 +32,21 @@ function ModalMusicFormUpdate ({music, onValidate, onClose}) {
                        min={0}
                        max={99}
                        step={1}/>
-            <InputText label="Titre"
+            <InputText label={getLocale('title')}
                        defaultValue={music.title}
                        required={true}
                        ref={titleRef}/>
-            <InputText label="Album"
+            <InputText label={getLocale('album')}
                        defaultValue={music.album}
                        required={true}
                        ref={albumRef}/>
-            <InputText label="Artist"
+            <InputText label={getLocale('artist')}
                        defaultValue={music.artist}
                        required={true}
                        ref={artistRef}/>
           </ModalContent>
           <ButtonsContainer>
-            <ButtonIconTextImage text={<>Enregistrer et <br/>actualiser l'image</>}
+            <ButtonIconTextImage text={getLocale('music-save-refresh-cover')}
                                  rounded={true}
                                  onClick={() => {
                                    validation(
@@ -62,7 +64,7 @@ function ModalMusicFormUpdate ({music, onValidate, onClose}) {
                                      }
                                    )
                                  }}/>
-            <ButtonIconTextCheck text="Enregistrer"
+            <ButtonIconTextCheck text={getLocale('save')}
                                  rounded={true}
                                  onClick={() => {
                                    validation(

@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import { useLocale } from '../../../Components/Locale/LocaleHooks.js'
 import ModalLayoutPadded from '../../../Components/Modal/ModalLayoutPadded.js'
 import ButtonsContainer from '../../../Components/Buttons/ButtonsContainer.js'
 import ButtonIconTextCheck from '../../../Components/Buttons/IconsTexts/ButtonIconTextCheck.js'
@@ -8,21 +9,23 @@ import ModalContent from '../../../Components/Modal/ModalContent.js'
 import Form from '../../../Components/Form/Form.js'
 
 function ModalStoryFormUpdate ({story, onValidate, onClose}) {
-  const inputRef = useRef()
+  const
+    {getLocale} = useLocale(),
+    inputRef = useRef()
   return <ModalLayoutPadded isClosable={true}
                             onClose={onClose}>
-    <ModalTitle>Editer l'histoire :</ModalTitle>
+    <ModalTitle>{getLocale('story-edit')} :</ModalTitle>
     <Form>{
       (validation) => {
         return <>
           <ModalContent>
-            <InputText label="Titre"
+            <InputText label={getLocale('title')}
                        defaultValue={story.title}
                        required={true}
                        ref={inputRef}/>
           </ModalContent>
           <ButtonsContainer>
-            <ButtonIconTextCheck text="Enregistrer"
+            <ButtonIconTextCheck text={getLocale('save')}
                                  rounded={true}
                                  onClick={() => {
                                    validation(

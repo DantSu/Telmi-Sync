@@ -19,7 +19,7 @@ function mainEventImport (mainWindow) {
 
     isTaskRunning = true;
     const file = filesToProcess.shift()
-    mainWindow.webContents.send('import-task', file, 'initialize-process', 0, 1)
+    mainWindow.webContents.send('import-task', file, 'initialize', 0, 1)
     mainWindow.webContents.send('import-waiting', filesToProcess)
     runProcess(
       path.join('Import','ImportProcess.js'),

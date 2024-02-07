@@ -1,9 +1,13 @@
+import { useLocale } from '../../../Components/Locale/LocaleHooks.js'
 import ModalDialogConfirm from '../../../Components/Modal/Templates/ModalDialogs/ModalDialogConfirm.js'
 
 function ModalMusicsDeleteConfirm (props) {
+
+  const {getLocale} = useLocale()
+
   return <ModalDialogConfirm {...props}
-                             title="Suppression de musiques"
-                             message="Êtes-vous sûr de vouloir supprimer les musiques sélectionnées ?"/>
+                             title={getLocale('musics-delete')}
+                             message={getLocale('musics-delete-confirm')}/>
 }
 
 export default ModalMusicsDeleteConfirm

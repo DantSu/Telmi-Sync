@@ -19,7 +19,7 @@ const
       srcAudio = srcAudios.shift(),
       dstAudio = dstAudios.shift()
 
-    process.stdout.write('*' + path.basename(srcAudio) + '*' + index + '*' + length + '*')
+    process.stdout.write('*converting-audio*' + index + '*' + length + '*')
 
     convertAudio(srcAudio, dstAudio)
       .then(() => convertAudios(srcAudios, dstAudios, index + 1, length, onEnd))

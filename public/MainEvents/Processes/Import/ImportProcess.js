@@ -30,7 +30,7 @@ function main (srcPath) {
         convertMusic(srcPath)
         break
       default:
-        process.stderr.write('file-format-invalid')
+        process.stderr.write('file-ext-not-supported')
     }
   }
 }

@@ -41,14 +41,14 @@ function main () {
   /*const url = baseUrl + getOS() + '-' + getArch() + '.zip'
 
   if (!links.includes(url)) {
-    process.stderr.write('ffmpeg-os-unsupported')
+    process.stderr.write('ffmpeg-os-not-supported')
     return
   }*/
 
   const url = links[process.platform + '-' + process.arch]
 
   if (url === undefined) {
-    process.stderr.write('ffmpeg-os-unsupported')
+    process.stderr.write('os-not-supported')
     return
   }
 
@@ -63,7 +63,7 @@ function main () {
     url,
     getBinPath('ffmpeg.zip'),
     (current, total) => {
-      process.stdout.write('*downloading*' + current + '*' + total + '*')
+      process.stdout.write('*downloading-ffmpeg*' + current + '*' + total + '*')
     }
   )
     .then((zipPath) => {
@@ -73,7 +73,7 @@ function main () {
         (error) => {
 
           if (error) {
-            process.stderr.write('ffmpeg-zip-invalid')
+            process.stderr.write('zip-invalid')
             return
           }
 

@@ -1,0 +1,29 @@
+@import "src/App/variables";
+
+.container {
+  position: relative;
+}
+
+.bubble {
+  position: absolute;
+  z-index: 1;
+  top: 140%;
+  left: 50%;
+  margin-left: -25px;
+  width: 50px;
+  background: $blueDark;
+}
+
+.bubble:before {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  left: 19px;
+  top: -7px;
+  border: 8px solid $blueDark;
+  transform: rotate(45deg);
+}
+
+.button {
+  padding: 5px 15px;
+}

@@ -26,21 +26,21 @@ const
       srcMedia = srcMedias.shift(),
       dstMedia = dstMedias.shift()
 
-    process.stdout.write('*' + srcMedia + '*' + index + '*' + length + '*')
+    process.stdout.write('*story-deciphering-media*' + index + '*' + length + '*')
 
     fs.writeFileSync(dstMedia, decipherXXTEA(fs.readFileSync(srcMedia)))
     decipherMedias(srcMedias, dstMedias, index + 1, length, onEnd)
   }
 
 function convertFolderFS (srcPath, storyName) {
-  process.stdout.write('*li, ni, ri, si*1*100*')
+  process.stdout.write('*story-reading-metadata*1*100*')
 
   const
     ri = decipherXXTEA(fs.readFileSync(path.join(srcPath, 'ri'))).toString('utf8').match(/.{12}/g),
     si = decipherXXTEA(fs.readFileSync(path.join(srcPath, 'si'))).toString('utf8').match(/.{12}/g),
     countFiles = ri.length * 2 + si.length + 1
 
-  process.stdout.write('*li, ni, ri, si*1*' + countFiles + '*')
+  process.stdout.write('*story-reading-metadata*1*' + countFiles + '*')
 
   const
 

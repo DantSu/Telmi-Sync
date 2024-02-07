@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { useModal } from '../Modal/ModalHooks.js'
-import ModalDialogAlert from '../Modal/Templates/ModalDialogs/ModalDialogAlert.js'
+import ModalFormAlert from './ModalFormAlert.js'
 
 function Form ({children}) {
   const
@@ -13,10 +13,9 @@ function Form ({children}) {
         } else {
           addModal(
             (key) => {
-              const modal = <ModalDialogAlert key={key}
-                                              title="Une erreur est survenue !"
-                                              message={checkedValues}
-                                              onClose={() => rmModal(modal)}/>
+              const modal = <ModalFormAlert key={key}
+                                            message={checkedValues.join('<br />')}
+                                            onClose={() => rmModal(modal)}/>
               return modal
             }
           )

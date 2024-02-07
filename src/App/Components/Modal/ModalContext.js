@@ -1,8 +1,8 @@
 import { createContext } from 'react'
 
 const ModalContext = createContext({
-  addModal: modal => {},
-  rmModal: modal => {}
+  addModal: (modal) => {},
+  rmModal: (modal) => {}
 })
 
 
