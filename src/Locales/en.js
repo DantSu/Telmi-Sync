@@ -42,6 +42,7 @@ const en = {
   'story-deciphering-media': 'Decryption of media files',
   'story-reading-metadata': 'Reading the story\'s metadata',
   'story-converting': 'Converting the story',
+  'story-download': 'Downloading the story',
   'story-format-invalid': 'Invalid story format',
   'story-studio-format-invalid': 'Invalid STUdio story format',
   'story-edit': 'Edit the story',

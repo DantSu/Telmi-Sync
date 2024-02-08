@@ -63,7 +63,7 @@ function main () {
     url,
     getBinPath('ffmpeg.zip'),
     (current, total) => {
-      process.stdout.write('*downloading-ffmpeg*' + current + '*' + total + '*')
+      process.stdout.write('*ffmpeg-download*' + current + '*' + total + '*')
     }
   )
     .then((zipPath) => {

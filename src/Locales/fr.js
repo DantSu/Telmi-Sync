@@ -42,6 +42,7 @@ const fr = {
   'story-deciphering-media': 'Décryptage des fichiers médias',
   'story-reading-metadata': 'Lecture des métadonnées de l\'histoire',
   'story-converting': 'Conversion de l\'histoire',
+  'story-download': 'Téléchargement de l\'histoire',
   'story-format-invalid': 'Format d\'histoire invalide',
   'story-studio-format-invalid': 'Format d\'histoire STUdio invalide',
   'story-edit': 'Editer l\'histoire',
