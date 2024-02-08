@@ -5,6 +5,7 @@ import ButtonIconTrash from '../Buttons/Icons/ButtonIconTrash.js'
 import ButtonIconSquareCheck from '../Buttons/Icons/ButtonIconSquareCheck.js'
 import ButtonIconDownload from '../Buttons/Icons/ButtonIconDownload.js'
 import { useLocale } from '../Locale/LocaleHooks.js'
+import ButtonIconPen from '../Buttons/Icons/ButtonIconPen.js'
 
 function Table ({
                   className,
@@ -16,6 +17,7 @@ function Table ({
                   onSelectAll,
                   onPlay,
                   onEdit,
+                  onEditSelected,
                   onDownload,
                   onDownloadSelected,
                   onDelete,
@@ -31,8 +33,14 @@ function Table ({
       <h2 className={styles.headerTitleLeft}>{titleLeft}</h2>
       {titleRight && <p className={styles.headerTitleRight}>{titleRight}</p>}
       {
-        (onSelectAll || onDeleteSelected || onDownloadSelected) &&
+        (onSelectAll || onDeleteSelected || onDownloadSelected || onEditSelected) &&
         <ul className={styles.headerIcons}>
+          {
+            onEditSelected && selectedData.length > 0 &&
+            <li><ButtonIconPen className={styles.headerIcon}
+                                    title={getLocale('edit-selected')}
+                                    onClick={onEditSelected}/></li>
+          }
           {
             onDownloadSelected && selectedData.length > 0 &&
             <li><ButtonIconDownload className={styles.headerIcon}

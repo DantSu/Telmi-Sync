@@ -4,9 +4,10 @@ import * as url from 'url'
 
 import { getProcessParams } from '../Helpers/ProcessParams.js'
 import { getMusicPath, initTmpPath } from '../Helpers/AppPaths.js'
-import { getCoverImage } from '../Helpers/MusicBrainzApi.js'
+import { getMusicBrainzCoverImage } from '../Helpers/MusicBrainzApi.js'
 import { convertMusicImage } from '../Import/Helpers/ImageFile.js'
 import { musicNameToObject } from '../../Helpers/Music.js'
+import { checkCoverExists } from '../Import/Helpers/AudioFile.js'
 
 const
   __dirname = url.fileURLToPath(new URL('.', import.meta.url)),
@@ -28,13 +29,22 @@ function main (musicName) {
     return
   }
 
+  if (fs.existsSync(imagePath)) {
+    fs.rmSync(imagePath)
+  }
+
   const metadata = musicNameToObject(musicName)
 
   if (metadata.artist === 'unknow' || metadata.album === 'unknow') {
     return
   }
   const tmpPath = initTmpPath('music')
-  getCoverImage(metadata.artist, metadata.album, tmpPath)
+
+  if (checkCoverExists(metadata.artist, metadata.album, imagePath)) {
+    return end()
+  }
+
+  getMusicBrainzCoverImage(metadata.artist, metadata.album, tmpPath)
     .then((pathFile) => {
       if (fs.existsSync(imagePath)) {
         fs.rmSync(imagePath)

@@ -3,7 +3,7 @@ const
     if (!Array.isArray(args) || !args.length) {
       return string
     }
-    return string.replace(/{(\d+)}/g, (match, number) => args[number] || match)
+    return string.replace(/{(\d+)}/g, (match, number) => args[number] !== undefined ? args[number] : match)
   }
 
 export { printf }

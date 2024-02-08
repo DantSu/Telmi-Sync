@@ -33,51 +33,91 @@ function mainEventLocalMusicReader (mainWindow) {
     }
   )
 
-  ipcMain.on(
-    'local-music-update',
-    async (event, music) => {
-      if (
-        typeof music === 'object' && music !== null &&
-        typeof music.id === 'string' && music.id !== '' &&
-        typeof music.track === 'number' &&
-        typeof music.title === 'string' && music.title !== '' &&
-        typeof music.album === 'string' && music.album !== '' &&
-        typeof music.artist === 'string' && music.artist !== ''
-      ) {
-        const
-          newFileName = musicObjectToName({
-            artist: music.artist,
-            album: music.album,
-            track: (music.track < 10 ? '0' : '') + music.track,
-            title: music.title
-          }),
-          srcPath = getMusicPath(music.id),
-          dstPath = getMusicPath(newFileName),
-          srcMusic = srcPath + '.mp3',
-          srcImage = srcPath + '.png'
+  const localMusicUpdate = (musics, images = {}) => {
+    if (!musics.length) {
+      ipcMain.emit('local-musics-get')
+      return
+    }
 
-        if (fs.existsSync(srcMusic)) {
-          fs.renameSync(srcMusic, dstPath + '.mp3')
-        }
-        if (fs.existsSync(srcImage)) {
-          fs.renameSync(srcImage, dstPath + '.png')
-        }
-        if (!music.askNewImage) {
-          ipcMain.emit('local-musics-get')
-        } else {
-          runProcess(
-            path.join('Music', 'MusicCover.js'),
-            [newFileName],
-            () => {
-              ipcMain.emit('local-musics-get')
-            },
-            (message, current, total) => {},
-            (error) => {
-              ipcMain.emit('local-musics-get')
-            }
-          )
-        }
+    const music = musics.shift()
+
+    if (
+      typeof music !== 'object' || music === null ||
+      typeof music.id !== 'string' || music.id === '' ||
+      typeof music.track !== 'number' ||
+      typeof music.title !== 'string' || music.title === '' ||
+      typeof music.album !== 'string' || music.album === '' ||
+      typeof music.artist !== 'string' || music.artist === ''
+    ) {
+      return localMusicUpdate(musics, images)
+    }
+
+    const
+      newFileName = musicObjectToName({
+        artist: music.artist,
+        album: music.album,
+        track: (music.track < 10 ? '0' : '') + music.track,
+        title: music.title
+      }),
+      srcPath = getMusicPath(music.id),
+      dstPath = getMusicPath(newFileName),
+      srcMusic = srcPath + '.mp3',
+      srcImage = srcPath + '.png',
+      dstMusic = dstPath + '.mp3',
+      dstImage = dstPath + '.png'
+
+    if (fs.existsSync(srcMusic)) {
+      fs.renameSync(srcMusic, dstMusic)
+    }
+
+    if (!music.askNewImage) {
+
+      if (fs.existsSync(srcImage)) {
+        fs.renameSync(srcImage, dstImage)
       }
+
+      ipcMain.emit('local-musics-get')
+
+    } else {
+
+      if (fs.existsSync(srcImage)) {
+        fs.rmSync(srcImage)
+      }
+
+      const
+        pathCoverKey = music.artist + '_' + music.album,
+        pathCover = images[pathCoverKey]
+
+      if (pathCover !== undefined && fs.existsSync(pathCover)) {
+
+        fs.copyFileSync(pathCover, dstImage)
+        localMusicUpdate(musics, images)
+
+      } else {
+
+        runProcess(
+          path.join('Music', 'MusicCover.js'),
+          [newFileName],
+          () => {
+            localMusicUpdate(musics, {...images, [pathCoverKey]: dstImage})
+          },
+          (message, current, total) => {},
+          (error) => {
+            localMusicUpdate(musics, images)
+          }
+        )
+
+      }
+    }
+  }
+
+  ipcMain.on(
+    'local-musics-update',
+    async (event, musics) => {
+      if (!Array.isArray(musics) && !musics.length) {
+        return
+      }
+      localMusicUpdate(musics)
     }
   )
 

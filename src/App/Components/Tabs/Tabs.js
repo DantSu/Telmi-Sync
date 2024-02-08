@@ -10,10 +10,7 @@ function Tabs ({className, tabs}) {
 
   useEffect(
     () => {
-      if (
-        tabs.length &&
-        typeof tabs.find((t) => t === currentTab) === 'undefined'
-      ) {
+      if (tabs.length && tabs.find((t) => t === currentTab) === undefined) {
         setTab(tabs[0])
       }
     },

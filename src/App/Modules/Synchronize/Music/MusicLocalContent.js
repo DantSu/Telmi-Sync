@@ -6,6 +6,7 @@ import Table from '../../../Components/Table/Table.js'
 import ModalMusicFormUpdate from './ModalMusicFormUpdate.js'
 import ModalMusicDeleteConfirm from './ModalMusicDeleteConfirm.js'
 import ModalMusicsDeleteConfirm from './ModalMusicsDeleteConfirm.js'
+import ModalMusicsFormUpdate from './ModalMusicsFormUpdate.js'
 
 const {ipcRenderer} = window.require('electron')
 
@@ -54,13 +55,30 @@ function MusicLocalContent ({selectedLocalMusics, setSelectedLocalMusics}) {
                                               music={music}
                                               onValidate={(music) => {
                                                 setIsLoadingLocalMusics(true)
-                                                ipcRenderer.send('local-music-update', music)
+                                                ipcRenderer.send('local-musics-update', [music])
                                               }}
                                               onClose={() => rmModal(modal)}/>
           return modal
         })
       },
       [addModal, rmModal]
+    ),
+
+    onEditSelected = useCallback(
+      () => {
+        addModal((key) => {
+          const modal = <ModalMusicsFormUpdate key={key}
+                                               musics={selectedLocalMusics}
+                                               onValidate={(musics) => {
+                                                 ipcRenderer.send('local-musics-update', musics)
+                                                 setIsLoadingLocalMusics(true)
+                                                 setSelectedLocalMusics([])
+                                               }}
+                                               onClose={() => rmModal(modal)}/>
+          return modal
+        })
+      },
+      [selectedLocalMusics, setSelectedLocalMusics, addModal, rmModal]
     ),
 
     onDelete = useCallback(
@@ -83,15 +101,15 @@ function MusicLocalContent ({selectedLocalMusics, setSelectedLocalMusics}) {
       () => {
         addModal((key) => {
           const modal = <ModalMusicsDeleteConfirm key={key}
-                                                 onConfirm={() => {
-                                                   ipcRenderer.send(
-                                                     'local-musics-delete',
-                                                     selectedLocalMusics.map((music) => music.id)
-                                                   )
-                                                   setIsLoadingLocalMusics(true)
-                                                   setSelectedLocalMusics([])
-                                                 }}
-                                                 onClose={() => rmModal(modal)}/>
+                                                  onConfirm={() => {
+                                                    ipcRenderer.send(
+                                                      'local-musics-delete',
+                                                      selectedLocalMusics.map((music) => music.id)
+                                                    )
+                                                    setIsLoadingLocalMusics(true)
+                                                    setSelectedLocalMusics([])
+                                                  }}
+                                                  onClose={() => rmModal(modal)}/>
           return modal
         })
       },
@@ -107,6 +125,7 @@ function MusicLocalContent ({selectedLocalMusics, setSelectedLocalMusics}) {
                 onSelect={onSelect}
                 onSelectAll={onSelectAll}
                 onEdit={onEdit}
+                onEditSelected={onEditSelected}
                 onDelete={onDelete}
                 onDeleteSelected={onDeleteSelected}
                 isLoading={isLoadingLocalMusics}/>

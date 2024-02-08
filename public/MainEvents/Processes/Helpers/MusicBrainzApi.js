@@ -1,7 +1,7 @@
 import { downloadFile, requestJson } from '../../Helpers/Request.js'
 import * as path from 'path'
 
-const getCoverImage = async (artist, album, dirPath) => {
+const getMusicBrainzCoverImage = async (artist, album, dirPath) => {
   try {
     const
       requestVars = [...artist.split(/[ -]+/), ...album.split(/[ -]+/)]
@@ -33,4 +33,4 @@ const getCoverImage = async (artist, album, dirPath) => {
     return null
   }
 }
-export { getCoverImage }
+export { getMusicBrainzCoverImage }

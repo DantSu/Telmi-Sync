@@ -14,6 +14,7 @@ const en = {
   'initialize': 'Initialize',
   'synchronizing': 'Synchronizing',
 
+  'edit-selected': 'Edit the selection',
   'download-selected': 'Download the selection',
   'delete-selected': 'Delete the selection',
   'select-all': 'Select all',
@@ -62,6 +63,7 @@ const en = {
   'music-delete': 'Delete the music track',
   'music-delete-confirm': 'Are you sure you want to delete the music track <strong>"{0}"</strong> ?',
   'musics': 'Music',
+  'musics-edit': 'Edit the music tracks',
   'musics-local': 'My music ({0})',
   'musics-selected': '{0} selected music tracks',
   'musics-delete': 'Delete the selected music tracks',

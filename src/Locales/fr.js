@@ -14,6 +14,7 @@ const fr = {
   'initialize': 'Initialisation',
   'synchronizing': 'Synchronisation',
 
+  'edit-selected': 'Editer la sélection',
   'download-selected': 'Télécharger la sélection',
   'delete-selected': 'Supprimer la sélection',
   'select-all': 'Sélectionner tout',
@@ -62,6 +63,7 @@ const fr = {
   'music-delete': 'Supprimer la musique',
   'music-delete-confirm': 'Êtes-vous sûr de vouloir supprimer la musique <strong>"{0}"</strong> ?',
   'musics': 'Musiques',
+  'musics-edit': 'Editer les musiques',
   'musics-local': 'Mes musiques ({0})',
   'musics-selected': '{0} musique(s) sélectionné(s)',
   'musics-delete': 'Supprimer les musiques',

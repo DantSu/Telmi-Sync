@@ -1,11 +1,11 @@
 import * as path from 'path'
 import { getMusicPath, initTmpPath } from '../Helpers/AppPaths.js'
-import { convertAudio } from './Helpers/AudioFile.js'
+import { checkCoverExists, convertAudio } from './Helpers/AudioFile.js'
 import { extractMetadataFromMp3, extractPngFromMp3 } from '../BinFiles/FFmpegCommand.js'
 import * as fs from 'fs'
 import * as url from 'url'
 import { parseInfFile } from '../Helpers/InfFiles.js'
-import { getCoverImage } from '../Helpers/MusicBrainzApi.js'
+import { getMusicBrainzCoverImage } from '../Helpers/MusicBrainzApi.js'
 import { convertMusicImage } from './Helpers/ImageFile.js'
 import { musicObjectToName } from '../../Helpers/Music.js'
 
@@ -39,28 +39,28 @@ function convertMusic (srcPath) {
         },
 
         stepCheckCover = () => {
-          if (!fs.existsSync(coverPath)) {
-            if (metadata.artist === 'unknow' || metadata.album === 'unknow') {
-              return stepCopyDefaultCover()
-            }
-
-            getCoverImage(metadata.artist, metadata.album, tmpPath)
-              .then((pathFile) => {
-                convertMusicImage(pathFile, coverPath)
-                  .then(() => {
-                    if (!fs.existsSync(coverPath)) {
-                      return stepCopyDefaultCover()
-                    }
-                    process.stdout.write('success')
-                  })
-                  .catch(stepCopyDefaultCover)
-              })
-              .catch(stepCopyDefaultCover)
-
-            return
+          if (fs.existsSync(coverPath)) {
+            return process.stdout.write('success')
           }
 
-          process.stdout.write('success')
+          if (metadata.artist === 'unknow' || metadata.album === 'unknow') {
+            return stepCopyDefaultCover()
+          }
+
+          getMusicBrainzCoverImage(metadata.artist, metadata.album, tmpPath)
+            .then((pathFile) => {
+              convertMusicImage(pathFile, coverPath)
+                .then(() => {
+                  if (!fs.existsSync(coverPath)) {
+                    return stepCopyDefaultCover()
+                  }
+                  process.stdout.write('success')
+                })
+                .catch(stepCopyDefaultCover)
+            })
+            .catch(stepCopyDefaultCover)
+
+
         }
 
       process.stdout.write('*converting-audio*1*3*')
@@ -73,6 +73,11 @@ function convertMusic (srcPath) {
       convertAudio(srcPath, musicDstPath)
         .then(() => {
           process.stdout.write('*music-searching-cover*2*3*')
+
+          if(checkCoverExists(metadata.artist, metadata.album, coverPath)) {
+            return stepCheckCover()
+          }
+
           extractPngFromMp3(srcPath, coverPath)
             .then(stepCheckCover)
             .catch(stepCheckCover)
