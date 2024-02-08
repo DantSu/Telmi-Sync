@@ -38,9 +38,11 @@
 .headerIcons {
   flex: 0 1 auto;
 }
+
 .headerIcons {
   display: flex;
 }
+
 .headerIcon {
   padding: 0;
   margin-left: 10px;
@@ -72,6 +74,27 @@
   overflow-y: auto;
   overflow-x: hidden;
   padding: 10px;
+}
+
+.cellGroup {
+  flex: 0 0 100%;
+  width: 100%;
+  background: $white7;
+  padding: 5px 15px 10px 15px;
+  margin: 10px;
+  border-radius: 15px;
+}
+
+.cellGroupTitle {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  border-bottom: 1px solid $white60;
+}
+.cellGroupButton {
+  font-size: 14px;
 }
 
 .cell {

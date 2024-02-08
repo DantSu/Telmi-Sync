@@ -8,7 +8,7 @@ const getMusicBrainzCoverImage = async (artist, album, dirPath) => {
         .filter((v, i, a) => v !== '' && a.indexOf(v) === i)
         .map((v) => '%22' + v + '%22')
         .join('%20AND%20'),
-      albumData = await requestJson('https://musicbrainz.org/ws/2/release/?fmt=json&limit=5&query=' + requestVars)
+      albumData = await requestJson('https://musicbrainz.org/ws/2/release/?fmt=json&limit=10&query=' + requestVars)
 
     if (!albumData.releases.length) {
       return null

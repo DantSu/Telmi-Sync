@@ -1,11 +1,14 @@
-import styles from './Table.module.scss'
-import Cell from './Cell.js'
+import { useLocale } from '../Locale/LocaleHooks.js'
 import Loader from '../Loader/Loader.js'
 import ButtonIconTrash from '../Buttons/Icons/ButtonIconTrash.js'
 import ButtonIconSquareCheck from '../Buttons/Icons/ButtonIconSquareCheck.js'
 import ButtonIconDownload from '../Buttons/Icons/ButtonIconDownload.js'
-import { useLocale } from '../Locale/LocaleHooks.js'
 import ButtonIconPen from '../Buttons/Icons/ButtonIconPen.js'
+
+import TableCell from './TableCell.js'
+import TableGroup from './TableGroup.js'
+
+import styles from './Table.module.scss'
 
 function Table ({
                   className,
@@ -14,6 +17,7 @@ function Table ({
                   data,
                   selectedData,
                   onSelect,
+                  onSelectGroup,
                   onSelectAll,
                   onPlay,
                   onEdit,
@@ -24,7 +28,6 @@ function Table ({
                   onDeleteSelected,
                   isLoading
                 }) {
-
 
   const {getLocale} = useLocale()
 
@@ -38,8 +41,8 @@ function Table ({
           {
             onEditSelected && selectedData.length > 0 &&
             <li><ButtonIconPen className={styles.headerIcon}
-                                    title={getLocale('edit-selected')}
-                                    onClick={onEditSelected}/></li>
+                               title={getLocale('edit-selected')}
+                               onClick={onEditSelected}/></li>
           }
           {
             onDownloadSelected && selectedData.length > 0 &&
@@ -66,14 +69,28 @@ function Table ({
     <div className={styles.content}>
       <div className={styles.contentScroller}>
         <ul className={styles.cells}>{
-          data.map((v, k) => <Cell key={'cell-' + k}
-                                   data={v}
-                                   selected={Array.isArray(selectedData) && selectedData.includes(v)}
-                                   onSelect={onSelect}
-                                   onPlay={onPlay}
-                                   onEdit={onEdit}
-                                   onDownload={onDownload}
-                                   onDelete={onDelete}/>)
+          data.map((v, k) => {
+            if (v.tableGroup) {
+              return <TableGroup key={'cell-' + k}
+                                 data={v}
+                                 selectedData={selectedData}
+                                 onSelect={onSelect}
+                                 onSelectGroup={onSelectGroup}
+                                 onPlay={onPlay}
+                                 onEdit={onEdit}
+                                 onDownload={onDownload}
+                                 onDelete={onDelete}/>
+            } else {
+              return <TableCell key={'cell-' + k}
+                                data={v}
+                                selected={Array.isArray(selectedData) && selectedData.includes(v)}
+                                onSelect={onSelect}
+                                onPlay={onPlay}
+                                onEdit={onEdit}
+                                onDownload={onDownload}
+                                onDelete={onDelete}/>
+            }
+          })
         }</ul>
       </div>
     </div>

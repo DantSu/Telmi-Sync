@@ -5,7 +5,7 @@ import ButtonIconPen from '../Buttons/Icons/ButtonIconPen.js'
 import ButtonIconPlay from '../Buttons/Icons/ButtonIconPlay.js'
 import ButtonIconDownload from '../Buttons/Icons/ButtonIconDownload.js'
 
-function Cell ({data, selected, onSelect, onPlay, onEdit, onDownload, onDelete}) {
+function TableCell ({data, selected, onSelect, onPlay, onEdit, onDownload, onDelete}) {
   const
     onCSelect = useCallback(
       () => typeof onSelect === 'function' && onSelect(data),
@@ -60,4 +60,4 @@ function Cell ({data, selected, onSelect, onPlay, onEdit, onDownload, onDelete})
   </li>
 }
 
-export default Cell
+export default TableCell

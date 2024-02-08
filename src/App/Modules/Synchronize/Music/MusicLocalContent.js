@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useModal } from '../../../Components/Modal/ModalHooks.js'
 import { useLocalMusic } from '../../../Components/LocalMusic/LocalMusicHooks.js'
 import { useLocale } from '../../../Components/Locale/LocaleHooks.js'
+import { musicClassification } from './MusicClassification.js'
 import Table from '../../../Components/Table/Table.js'
 import ModalMusicFormUpdate from './ModalMusicFormUpdate.js'
 import ModalMusicDeleteConfirm from './ModalMusicDeleteConfirm.js'
@@ -18,11 +19,13 @@ function MusicLocalContent ({selectedLocalMusics, setSelectedLocalMusics}) {
     rawLocalMusics = useLocalMusic(),
 
     localMusics = useMemo(
-      () => rawLocalMusics.map((s) => ({
-        ...s,
-        cellTitle: s.track + '. ' + s.title,
-        cellSubtitle: s.artist + ' - ' + s.album
-      })),
+      () => musicClassification(
+        rawLocalMusics.map((s) => ({
+          ...s,
+          cellTitle: s.track + '. ' + s.title,
+          cellSubtitle: s.artist + ' - ' + s.album
+        }))
+      ),
       [rawLocalMusics]
     ),
 
@@ -33,6 +36,17 @@ function MusicLocalContent ({selectedLocalMusics, setSelectedLocalMusics}) {
         } else {
           return [...musics, music]
         }
+      }),
+      [setSelectedLocalMusics]
+    ),
+
+    onSelectGroup = useCallback(
+      (musicTracks) => setSelectedLocalMusics((musics) => {
+        if(musicTracks.reduce((acc, m) => musics.includes(m) ? acc + 1 : acc, 0) === musicTracks.length) {
+          return musics.filter((m) => !musicTracks.includes(m))
+        }
+
+        return [...musics, ...musicTracks.filter((m) => !musics.includes(m))]
       }),
       [setSelectedLocalMusics]
     ),
@@ -123,6 +137,7 @@ function MusicLocalContent ({selectedLocalMusics, setSelectedLocalMusics}) {
                 data={localMusics}
                 selectedData={selectedLocalMusics}
                 onSelect={onSelect}
+                onSelectGroup={onSelectGroup}
                 onSelectAll={onSelectAll}
                 onEdit={onEdit}
                 onEditSelected={onEditSelected}
