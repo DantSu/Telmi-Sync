@@ -13,7 +13,11 @@ const fr = {
   'save': 'Enregistrer',
   'initialize': 'Initialisation',
   'synchronizing': 'Synchronisation',
+  'edit': 'Editer',
+  'download': 'Télécharger',
+  'delete': 'Supprimer',
 
+  'listen-title': 'Ecouter le titre',
   'edit-selected': 'Editer la sélection',
   'download-selected': 'Télécharger la sélection',
   'delete-selected': 'Supprimer la sélection',

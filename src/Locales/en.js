@@ -13,7 +13,11 @@ const en = {
   'save': 'Save',
   'initialize': 'Initialize',
   'synchronizing': 'Synchronizing',
+  'edit': 'Edit',
+  'download': 'Download',
+  'delete': 'Delete',
 
+  'listen-title': 'Listen the title',
   'edit-selected': 'Edit the selection',
   'download-selected': 'Download the selection',
   'delete-selected': 'Delete the selection',

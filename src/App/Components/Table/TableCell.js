@@ -1,12 +1,16 @@
-import styles from './Table.module.scss'
+import { useLocale } from '../Locale/LocaleHooks.js'
 import { useCallback } from 'react'
+
 import ButtonIconTrash from '../Buttons/Icons/ButtonIconTrash.js'
 import ButtonIconPen from '../Buttons/Icons/ButtonIconPen.js'
 import ButtonIconPlay from '../Buttons/Icons/ButtonIconPlay.js'
 import ButtonIconDownload from '../Buttons/Icons/ButtonIconDownload.js'
 
+import styles from './Table.module.scss'
+
 function TableCell ({data, selected, onSelect, onPlay, onEdit, onDownload, onDelete}) {
   const
+    {getLocale} = useLocale(),
     onCSelect = useCallback(
       () => typeof onSelect === 'function' && onSelect(data),
       [onSelect, data]
@@ -51,10 +55,10 @@ function TableCell ({data, selected, onSelect, onPlay, onEdit, onDownload, onDel
     {
       (onPlay || onEdit || onDownload || onDelete) &&
       <div className={styles.cellActionBar}>
-        {onPlay && <ButtonIconPlay onClick={onCPlay} className={styles.cellActionButton}/>}
-        {onEdit && <ButtonIconPen onClick={onCEdit} className={styles.cellActionButton}/>}
-        {onDownload && <ButtonIconDownload onClick={onCDownload} className={styles.cellActionButton}/>}
-        {onDelete && <ButtonIconTrash onClick={onCDelete} className={styles.cellActionButton}/>}
+        {onPlay && <ButtonIconPlay title={getLocale('listen-title')} onClick={onCPlay} className={styles.cellActionButton}/>}
+        {onEdit && <ButtonIconPen title={getLocale('edit')} onClick={onCEdit} className={styles.cellActionButton}/>}
+        {onDownload && <ButtonIconDownload title={getLocale('download')} onClick={onCDownload} className={styles.cellActionButton}/>}
+        {onDelete && <ButtonIconTrash title={getLocale('delete')} onClick={onCDelete} className={styles.cellActionButton}/>}
       </div>
     }
   </li>
