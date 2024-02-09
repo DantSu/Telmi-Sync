@@ -1,4 +1,6 @@
 import { stringNormalizeFileName } from './Strings.js'
+import * as fs from 'fs'
+import * as path from 'path'
 
 const
   musicObjectToName = (data) => {
@@ -12,6 +14,49 @@ const
       track: data[2],
       title: data[3],
     }
+  },
+  readMusic = (musicPath) => {
+    return fs.readdirSync(musicPath)
+      .filter((f) => path.extname(f) === '.mp3')
+      .sort()
+      .map((f) => {
+        const
+          name = path.parse(f).name,
+          [artist, album, track, title] = name.split('_')
+        return {
+          id: name,
+          music: path.join(musicPath, f),
+          image: path.join(musicPath, name + '.png') + '?t=' + Math.trunc(Date.now() / 10000),
+          track: parseInt(track, 10),
+          title,
+          album,
+          artist
+        }
+      })
+  },
+  deleteMusic = (musicPath, ids) => {
+    if (!Array.isArray(ids)) {
+      return false
+    }
+
+    for (const id of ids) {
+      if (typeof id !== 'string' || id === '') {
+        continue
+      }
+
+      const
+        p = path.join(musicPath, id),
+        music = p + '.mp3',
+        image = p + '.png'
+
+      if (fs.existsSync(music)) {
+        fs.rmSync(music)
+      }
+      if (fs.existsSync(image)) {
+        fs.rmSync(image)
+      }
+    }
+    return true
   }
 
-export { musicObjectToName, musicNameToObject}
+export { musicObjectToName, musicNameToObject, readMusic, deleteMusic }

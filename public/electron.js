@@ -6,6 +6,9 @@ import mainEventDownloadFFmpeg from './MainEvents/DownloadFFmpeg.js'
 import mainEventLocalStoriesReader from './MainEvents/LocalStories.js'
 import mainEventLocalMusicReader from './MainEvents/LocalMusic.js'
 import mainEventStores from './MainEvents/Stores.js'
+import mainEventUsb from './MainEvents/USB.js'
+import mainEventUsbStoriesReader from './MainEvents/USBStories.js'
+import mainEventUsbMusicReader from './MainEvents/USBMusic.js'
 
 function createWindow () {
   const mainWindow = new BrowserWindow({
@@ -33,8 +36,9 @@ function createWindow () {
   mainEventLocalStoriesReader(mainWindow)
   mainEventLocalMusicReader(mainWindow)
   mainEventStores(mainWindow)
-
-  //mainWindow.on('closed', () => {})
+  mainEventUsb(mainWindow)
+  mainEventUsbStoriesReader(mainWindow)
+  mainEventUsbMusicReader(mainWindow)
 
   return mainWindow
 }

@@ -2,34 +2,14 @@ import { ipcMain } from 'electron'
 import * as fs from 'fs'
 import * as path from 'path'
 import { getMusicPath } from './Helpers/AppPaths.js'
-import { musicObjectToName } from './Helpers/Music.js'
+import { deleteMusic, musicObjectToName, readMusic } from './Helpers/Music.js'
 import runProcess from './Processes/RunProcess.js'
 
 function mainEventLocalMusicReader (mainWindow) {
   ipcMain.on(
     'local-musics-get',
     async () => {
-      const musicPath = getMusicPath()
-      mainWindow.webContents.send(
-        'local-musics-data',
-        fs.readdirSync(musicPath)
-          .filter((f) => path.extname(f) === '.mp3')
-          .sort()
-          .map((f) => {
-            const
-              name = path.parse(f).name,
-              [artist, album, track, title] = name.split('_')
-            return {
-              id: name,
-              music: path.join(musicPath, f),
-              image: path.join(musicPath, name + '.png') + '?t=' + Math.trunc(Date.now() / 10000),
-              track: parseInt(track, 10),
-              title,
-              album,
-              artist
-            }
-          })
-      )
+      mainWindow.webContents.send('local-musics-data', readMusic(getMusicPath()))
     }
   )
 
@@ -123,30 +103,10 @@ function mainEventLocalMusicReader (mainWindow) {
 
   ipcMain.on(
     'local-musics-delete',
-    async (event, id) => {
-      if (!Array.isArray(id)) {
-        return ipcMain.emit('local-musics-get')
+    async (event, ids) => {
+      if (deleteMusic(getMusicPath(), ids)) {
+        ipcMain.emit('local-musics-get')
       }
-
-      for (const i of id) {
-        if (typeof i !== 'string' || i === '') {
-          continue
-        }
-
-        const
-          musicPath = getMusicPath(i),
-          music = musicPath + '.mp3',
-          image = musicPath + '.png'
-
-        if (fs.existsSync(music)) {
-          fs.rmSync(music)
-        }
-        if (fs.existsSync(image)) {
-          fs.rmSync(image)
-        }
-      }
-
-      ipcMain.emit('local-musics-get')
     }
   )
 }

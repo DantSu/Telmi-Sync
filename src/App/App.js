@@ -6,15 +6,18 @@ import LocalMusicProvider from './Components/LocalMusic/LocalMusicProvider.js'
 import LocaleProvider from './Components/Locale/LocaleProvider.js'
 
 import './App.scss'
+import UsbProvider from './Components/Usb/UsbProvider.js'
 
 function App () {
   return <LocaleProvider>
     <ModalProvider>
-      <LocalStoriesProvider>
-        <LocalMusicProvider>
-          <RouterProvider defaultRoute={routeDownloadFFmpeg}/>
-        </LocalMusicProvider>
-      </LocalStoriesProvider>
+      <UsbProvider>
+        <LocalStoriesProvider>
+          <LocalMusicProvider>
+            <RouterProvider defaultRoute={routeDownloadFFmpeg}/>
+          </LocalMusicProvider>
+        </LocalStoriesProvider>
+      </UsbProvider>
     </ModalProvider>
   </LocaleProvider>
 }
