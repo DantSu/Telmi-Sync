@@ -26,7 +26,7 @@ const fr = {
   'file-not-found': 'Fichier non trouvé',
   'file-ext-not-supported': 'Type de fichier non supporté',
   'transfer-files': 'Transferer les fichiers',
-  'transferring-files': 'Transfert de fichiers en cours',
+  'transferring-files': 'Transfert des fichiers en cours',
   'no-file': 'Aucun fichier trouvé',
   'drop-files': 'Déposez vos fichiers',
   'drag-drop-medias': 'Pour importer vos histoires ou musiques, glissez/déposez les ici.',
@@ -79,6 +79,7 @@ const fr = {
   'musics-selected': '{0} musique(s) sélectionné(s)',
   'musics-delete': 'Supprimer les musiques',
   'musics-delete-confirm': 'Êtes-vous sûr de vouloir supprimer les musiques sélectionnées ?',
+  'musics-transferring': 'Transfert des musiques',
   'musics-deleting': 'Suppression des musiques',
 
   'stores': 'Stores',

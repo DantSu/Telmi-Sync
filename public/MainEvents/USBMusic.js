@@ -28,33 +28,24 @@ function mainEventUsbMusicReader (mainWindow) {
     }
   )
 
-
-  const startTransfer = (usb, musicPath, musics) => {
-    if (!musics.length) {
-      mainWindow.webContents.send('musics-transfer-task', '', '', 0, 0)
-      return ipcMain.emit('usb-musics-get', {}, usb)
-    }
-
-    const music = musics.shift()
-    mainWindow.webContents.send('musics-transfer-task', music.title, 'initialize', 0, 1)
-    mainWindow.webContents.send('musics-transfer-waiting', musics)
+  ipcMain.on('musics-transfer', async (event, usb, musics) => {
+    const
+      musicPath = getUsbMusicPath(usb.drive),
+      end = () => {
+        mainWindow.webContents.send('musics-transfer-task', '', '', 0, 0)
+        ipcMain.emit('usb-musics-get', event, usb)
+      }
 
     runProcess(
       path.join('Music', 'MusicTransfer.js'),
-      [musicPath, music.id],
-      () => {
-        startTransfer(usb, musicPath, musics)
-      },
+      [musicPath, ...musics.map((m) => m.id)],
+      end,
       (message, current, total) => {
-        mainWindow.webContents.send('musics-transfer-task', music.title, message, current, total)
+        mainWindow.webContents.send('musics-transfer-task', 'musics-transferring', message, current, total)
       },
-      (error) => {
-        mainWindow.webContents.send('musics-transfer-error', music, error)
-        startTransfer(usb, musicPath, musics)
-      }
+      end
     )
-  }
-  ipcMain.on('musics-transfer', async (event, usb, musics) => startTransfer(usb, getUsbMusicPath(usb.drive), musics))
+  })
 }
 
 export default mainEventUsbMusicReader
