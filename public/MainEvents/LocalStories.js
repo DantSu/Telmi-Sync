@@ -32,9 +32,11 @@ function mainEventLocalStoriesReader (mainWindow) {
   ipcMain.on(
     'local-stories-delete',
     async (event, storiesUuid) => {
-      if (deleteStories(getStoriesPath(), storiesUuid)) {
-        ipcMain.emit('local-stories-get')
-      }
+      deleteStories(
+        getStoriesPath(),
+        storiesUuid,
+        () => ipcMain.emit('local-stories-get')
+      )
     }
   )
 }

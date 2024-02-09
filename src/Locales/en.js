@@ -25,7 +25,8 @@ const en = {
   'os-not-supported': 'Operating system not supported',
   'file-not-found': 'File not found',
   'file-ext-not-supported': 'File type not supported',
-  'transferring-files': 'Transferring files',
+  'transfer-files': 'Transfer the files',
+  'transferring-files': 'Transferring the files',
   'no-file': 'No file found',
   'drop-files': 'Drop you file',
   'drag-drop-medias': 'To import your stories or music, drag and drop them here.',
@@ -61,6 +62,7 @@ const en = {
   'stories-delete': 'Delete the stories',
   'stories-delete-confirm': 'Are you sure you want to delete the selected stories ?',
   'stories-transfer': 'Transfer the stories',
+  'stories-deleting': 'Deleting the stories',
 
   'music': 'Music',
   'music-extracting-metadata': 'Extraction of music metadata',
@@ -77,6 +79,7 @@ const en = {
   'musics-selected': '{0} selected music tracks',
   'musics-delete': 'Delete the selected music tracks',
   'musics-delete-confirm': 'Are you sure you want to delete the selected music tracks ?',
+  'musics-deleting': 'Deleting the music tracks',
 
   'stores': 'Stores',
   'store-download-failed': 'Failed to download the story',

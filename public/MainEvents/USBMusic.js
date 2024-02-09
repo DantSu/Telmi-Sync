@@ -18,8 +18,12 @@ function mainEventUsbMusicReader (mainWindow) {
   ipcMain.on(
     'usb-musics-delete',
     async (event, usb, ids) => {
-      if (usb !== null && deleteMusic(getUsbMusicPath(usb.drive), ids)) {
-        ipcMain.emit('usb-musics-get', event, usb)
+      if (usb !== null) {
+        deleteMusic(
+          getUsbMusicPath(usb.drive),
+          ids,
+          () => ipcMain.emit('usb-musics-get', event, usb)
+        )
       }
     }
   )

@@ -18,8 +18,12 @@ function mainEventUsbStoriesReader (mainWindow) {
   ipcMain.on(
     'usb-stories-delete',
     async (event, usb, storiesUuid) => {
-      if (usb !== null && deleteStories(getUsbStoriesPath(usb.drive), storiesUuid)) {
-        ipcMain.emit('usb-stories-get', event, usb)
+      if (usb !== null) {
+        deleteStories(
+          getUsbStoriesPath(usb.drive),
+          storiesUuid,
+          () => ipcMain.emit('usb-stories-get', event, usb)
+        )
       }
     }
   )

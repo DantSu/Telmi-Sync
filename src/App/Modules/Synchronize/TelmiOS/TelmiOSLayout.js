@@ -22,7 +22,7 @@ function TelmiOSLayout ({usb, onTransfer, children}) {
       {
         onTransfer &&
         <ButtonIconAnglesLeft className={styles.buttonTransfer}
-                              title={getLocale('stories-transfer')}
+                              title={getLocale('transfer-files')}
                               onClick={onTransfer}/>
       }
     </>

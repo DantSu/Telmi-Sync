@@ -1,6 +1,7 @@
 import * as fs from 'fs'
 import * as path from 'path'
 import { rmDirectory } from './Files.js'
+import runProcess from '../Processes/RunProcess.js'
 
 const
   readStories = (storiesPath) => {
@@ -14,16 +15,17 @@ const
       .sort((a, b) => a.title.localeCompare(b.title))
   },
 
-  deleteStories = (storiesPath, storiesUuid) => {
+  deleteStories = (storiesPath, storiesUuid, onEnd) => {
     if (!Array.isArray(storiesUuid)) {
       return false
     }
-
-    for (const storyUuid of storiesUuid) {
-      if (typeof storyUuid === 'string' && storyUuid !== '') {
-        rmDirectory(path.join(storiesPath, storyUuid))
-      }
-    }
+    runProcess(
+      path.join('Stories', 'StoriesDelete.js'),
+      [storiesPath, ...storiesUuid],
+      onEnd,
+      (message, current, total) => {},
+      onEnd
+    )
     return true
   }
 

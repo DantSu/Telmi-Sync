@@ -1,6 +1,7 @@
 import { stringNormalizeFileName } from './Strings.js'
 import * as fs from 'fs'
 import * as path from 'path'
+import runProcess from '../Processes/RunProcess.js'
 
 const
   musicObjectToName = (data) => {
@@ -34,28 +35,18 @@ const
         }
       })
   },
-  deleteMusic = (musicPath, ids) => {
+  deleteMusic = (musicPath, ids, onEnd) => {
     if (!Array.isArray(ids)) {
       return false
     }
 
-    for (const id of ids) {
-      if (typeof id !== 'string' || id === '') {
-        continue
-      }
-
-      const
-        p = path.join(musicPath, id),
-        music = p + '.mp3',
-        image = p + '.png'
-
-      if (fs.existsSync(music)) {
-        fs.rmSync(music)
-      }
-      if (fs.existsSync(image)) {
-        fs.rmSync(image)
-      }
-    }
+    runProcess(
+      path.join('Music', 'MusicDelete.js'),
+      [musicPath, ...ids],
+      onEnd,
+      (message, current, total) => {},
+      onEnd
+    )
     return true
   }
 

@@ -104,9 +104,11 @@ function mainEventLocalMusicReader (mainWindow) {
   ipcMain.on(
     'local-musics-delete',
     async (event, ids) => {
-      if (deleteMusic(getMusicPath(), ids)) {
-        ipcMain.emit('local-musics-get')
-      }
+      deleteMusic(
+        getMusicPath(),
+        ids,
+        () => ipcMain.emit('local-musics-get')
+      )
     }
   )
 }

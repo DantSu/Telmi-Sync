@@ -25,6 +25,7 @@ const fr = {
   'os-not-supported': 'Système d\'exploitation non supporté',
   'file-not-found': 'Fichier non trouvé',
   'file-ext-not-supported': 'Type de fichier non supporté',
+  'transfer-files': 'Transferer les fichiers',
   'transferring-files': 'Transfert de fichiers en cours',
   'no-file': 'Aucun fichier trouvé',
   'drop-files': 'Déposez vos fichiers',
@@ -61,6 +62,7 @@ const fr = {
   'stories-delete': 'Supprimer les histoires',
   'stories-delete-confirm': 'Êtes-vous sûr de vouloir supprimer les histoires sélectionnées ?',
   'stories-transfer': 'Transférer les histoires',
+  'stories-deleting': 'Suppression des histoires',
 
   'music': 'Musique',
   'music-extracting-metadata': 'Extraction des méta-données de la musique',
@@ -77,6 +79,7 @@ const fr = {
   'musics-selected': '{0} musique(s) sélectionné(s)',
   'musics-delete': 'Supprimer les musiques',
   'musics-delete-confirm': 'Êtes-vous sûr de vouloir supprimer les musiques sélectionnées ?',
+  'musics-deleting': 'Suppression des musiques',
 
   'stores': 'Stores',
   'store-download-failed': 'Echec du téléchargement de l\'histoire.',
