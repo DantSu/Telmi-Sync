@@ -1,10 +1,12 @@
 import * as fs from 'fs'
 import * as path from 'path'
-import { rmDirectory } from './Files.js'
 import runProcess from '../Processes/RunProcess.js'
 
 const
   readStories = (storiesPath) => {
+    if(!fs.existsSync(storiesPath)) {
+      return []
+    }
     return fs.readdirSync(storiesPath)
       .map((d) => {
         const md = JSON.parse(fs.readFileSync(path.join(storiesPath, d, 'metadata.json')).toString('utf8'))

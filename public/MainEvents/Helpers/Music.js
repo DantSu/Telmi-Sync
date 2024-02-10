@@ -17,6 +17,9 @@ const
     }
   },
   readMusic = (musicPath) => {
+    if(!fs.existsSync(musicPath)) {
+      return []
+    }
     return fs.readdirSync(musicPath)
       .filter((f) => path.extname(f) === '.mp3')
       .sort()
