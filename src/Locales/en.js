@@ -18,6 +18,8 @@ const en = {
   'delete': 'Delete',
 
   'listen-title': 'Listen the title',
+  'display-list': 'Display list',
+  'display-thumbnails': 'Display thumbnails',
   'edit-selected': 'Edit the selection',
   'download-selected': 'Download the selection',
   'delete-selected': 'Delete the selection',

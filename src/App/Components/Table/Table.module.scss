@@ -80,7 +80,7 @@
   flex: 0 0 100%;
   width: 100%;
   background: $white7;
-  padding: 5px 15px 10px 15px;
+  padding: 5px 0 10px 0;
   margin: 10px;
   border-radius: 15px;
 }
@@ -91,6 +91,7 @@
   justify-content: space-between;
   align-items: center;
   font-size: 16px;
+  margin: 0 15px 0 15px;
   border-bottom: 1px solid $white60;
 }
 .cellGroupButton {
@@ -218,4 +219,33 @@
 
 .cell:hover .cellActionBar {
   height: 30px;
+}
+
+
+.groupList {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+.groupListImage {
+  border-radius: 10px;
+  width: 160px;
+  height: auto;
+  margin: 30px;
+}
+.list, .listSelected {
+  cursor: pointer;
+  padding: 4px;
+}
+.listSelected {
+  color: $orange;
+}
+.listSelected:before {
+  display: inline-block;
+  padding-right: 10px;
+  content: "\f00c";
+  font-family: icons;
+  font-weight: bold;
+  color: $orange;
 }

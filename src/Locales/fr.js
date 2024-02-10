@@ -18,6 +18,8 @@ const fr = {
   'delete': 'Supprimer',
 
   'listen-title': 'Ecouter le titre',
+  'display-list': 'Affichage liste',
+  'display-thumbnails': 'Affichage vignettes',
   'edit-selected': 'Editer la sélection',
   'download-selected': 'Télécharger la sélection',
   'delete-selected': 'Supprimer la sélection',
