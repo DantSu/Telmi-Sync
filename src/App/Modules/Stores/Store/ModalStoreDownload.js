@@ -2,6 +2,7 @@ import ModalElectronTaskVisualizer from '../../../Components/Electron/Modal/Moda
 
 function ModalStoreDownload ({stories, onClose}) {
   return <ModalElectronTaskVisualizer taskName="store-download"
+                                      taskCancellable={true}
                                       dataSent={[stories]}
                                       onClose={onClose}/>
 }

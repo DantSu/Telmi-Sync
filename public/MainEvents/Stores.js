@@ -108,8 +108,11 @@ function mainEventStores (mainWindow) {
     }
   )
 
+
+  let taskRunning = null
   const runDownload = (stories) => {
     if(!stories.length) {
+      taskRunning = null
       mainWindow.webContents.send('store-download-task', '', '', 0, 0)
       return ipcMain.emit('local-stories-get')
     }
@@ -118,7 +121,7 @@ function mainEventStores (mainWindow) {
     mainWindow.webContents.send('store-download-task', story.title, 'initialize', 0, 1)
     mainWindow.webContents.send('store-download-waiting', stories)
 
-    runProcess(
+    taskRunning = runProcess(
       path.join('Store', 'StoreDownload.js'),
       [story.downloadUrl],
       () => {},
@@ -132,6 +135,14 @@ function mainEventStores (mainWindow) {
     )
   }
   ipcMain.on('store-download', async (event, stories) => runDownload(stories))
+  ipcMain.on(
+    'store-download-cancel',
+    async () => {
+      if (taskRunning !== null) {
+        taskRunning.process.kill()
+      }
+    }
+  )
 
 }
 

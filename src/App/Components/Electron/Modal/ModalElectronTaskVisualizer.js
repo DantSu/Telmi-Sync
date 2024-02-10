@@ -1,14 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useElectronEmitter, useElectronListener } from '../Hooks/UseElectronEvent.js'
 import ModalTaskVisualizer from '../../Modal/Templates/ModalTasksVisualizer/ModalTasksVisualizer.js'
 
-function ModalElectronTaskVisualizer ({taskName, dataSent, onClose}) {
+const {ipcRenderer} = window.require('electron')
+
+function ModalElectronTaskVisualizer ({taskName, dataSent, onClose, taskCancellable}) {
   const
     [downloadStarted, setDownloadStarted] = useState(false),
     [processingStory, setProcessingStory] = useState(null),
     [waitingStories, setWaitingStories] = useState([]),
     [errorStories, setErrorStories] = useState([]),
-    [isClosable, setIsClosable] = useState(false)
+    [isClosable, setIsClosable] = useState(false),
+    onCancel = useCallback(() => ipcRenderer.send(taskName + '-cancel'), [taskName])
 
   useElectronListener(
     taskName + '-task',
@@ -57,6 +60,7 @@ function ModalElectronTaskVisualizer ({taskName, dataSent, onClose}) {
 
   return <ModalTaskVisualizer errorTasks={errorStories}
                               processingTask={processingStory}
+                              onCancelTask={taskCancellable ? onCancel : undefined}
                               waitingTasks={waitingStories}
                               isClosable={isClosable}
                               onClose={onClose}/>
