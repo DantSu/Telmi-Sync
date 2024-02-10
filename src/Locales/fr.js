@@ -12,7 +12,7 @@ const fr = {
   'artist': 'Artiste',
   'save': 'Enregistrer',
   'initialize': 'Initialisation',
-  'synchronizing': 'Synchronisation',
+  'synchronize': 'Synchroniser',
   'edit': 'Editer',
   'download': 'Télécharger',
   'delete': 'Supprimer',

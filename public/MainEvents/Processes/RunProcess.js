@@ -2,11 +2,13 @@ import { app, utilityProcess } from 'electron'
 import * as url from 'url'
 import * as path from 'path'
 
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
+const
+  __dirname = url.fileURLToPath(new URL('.', import.meta.url)),
+  appPath = app.getAppPath()
 
-function runProcess (jsFile, arrayParams, onSuccess, onProgress, onError) {
+function runProcess (jsFile, arrayParams, onSuccess, onProgress, onError, onFinished) {
+  console.log(__dirname, jsFile)
   const
-    appPath = app.getAppPath(),
     taskProcess = utilityProcess.fork(
       path.join(__dirname, jsFile),
       ['[electron-apppath]' + (path.extname(appPath) !== '' ? path.dirname(appPath) : appPath), ...arrayParams.map(v => '[electron]' + v)],
@@ -30,10 +32,20 @@ function runProcess (jsFile, arrayParams, onSuccess, onProgress, onError) {
   })
 
   taskProcess.stderr.on('data', data => {
-    console.log(data.toString())
+    console.log('RunProcess Error : ', data.toString())
     taskProcess.kill()
     onError(data.toString())
   })
+
+  taskProcess.once('exit', (code) => {
+    console.log('exit', code)
+    onFinished()
+  })
+
+  return {
+    process: taskProcess,
+    params: arrayParams
+  }
 }
 
 export default runProcess

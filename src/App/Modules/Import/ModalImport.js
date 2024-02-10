@@ -1,13 +1,16 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import ModalTaskVisualizer from '../../Components/Modal/Templates/ModalTasksVisualizer/ModalTasksVisualizer.js'
 import { useElectronListener } from '../../Components/Electron/Hooks/UseElectronEvent.js'
 
+const {ipcRenderer} = window.require('electron')
 function ModalImport ({files, onClose}) {
   const
     [processingFile, setProcessingFile] = useState(null),
     [waitingFiles, setWaitingFiles] = useState(files),
     [errorFiles, setErrorFiles] = useState([]),
-    [isClosable, setIsClosable] = useState(false)
+    [isClosable, setIsClosable] = useState(false),
+
+    onCancel = useCallback(() => ipcRenderer.send('import-cancel'), [])
 
   useElectronListener(
     'import-task',
@@ -50,6 +53,7 @@ function ModalImport ({files, onClose}) {
 
   return <ModalTaskVisualizer errorTasks={errorFiles}
                               processingTask={processingFile}
+                              onCancelTask={onCancel}
                               waitingTasks={waitingFiles}
                               isClosable={isClosable}
                               onClose={onClose}/>

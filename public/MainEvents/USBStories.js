@@ -1,6 +1,6 @@
 import { ipcMain } from 'electron'
 import { getUsbStoriesPath } from './Helpers/UsbPath.js'
-import { deleteStories, readStories } from './Helpers/Stories.js'
+import { deleteStories, readStories } from './Helpers/StoriesFiles.js'
 import runProcess from './Processes/RunProcess.js'
 import * as path from 'path'
 
@@ -40,16 +40,14 @@ function mainEventUsbStoriesReader (mainWindow) {
     runProcess(
       path.join('Stories', 'StoryTransfer.js'),
       [storiesPath, story.uuid],
-      () => {
-        startTransfer(usb, storiesPath, stories)
-      },
+      () => {},
       (message, current, total) => {
         mainWindow.webContents.send('stories-transfer-task', story.title, message, current, total)
       },
       (error) => {
         mainWindow.webContents.send('stories-transfer-error', story, error)
-        startTransfer(usb, storiesPath, stories)
-      }
+      },
+      () => startTransfer(usb, storiesPath, stories)
     )
   }
   ipcMain.on('stories-transfer', async (event, usb, stories) => startTransfer(usb, getUsbStoriesPath(usb.drive), stories))

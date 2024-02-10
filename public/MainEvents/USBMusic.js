@@ -1,5 +1,5 @@
 import { ipcMain } from 'electron'
-import { deleteMusic, readMusic } from './Helpers/Music.js'
+import { deleteMusic, readMusic } from './Helpers/MusicFiles.js'
 import { getUsbMusicPath } from './Helpers/UsbPath.js'
 import runProcess from './Processes/RunProcess.js'
 import * as path from 'path'
@@ -31,7 +31,7 @@ function mainEventUsbMusicReader (mainWindow) {
   ipcMain.on('musics-transfer', async (event, usb, musics) => {
     const
       musicPath = getUsbMusicPath(usb.drive),
-      end = () => {
+      onFinished = () => {
         mainWindow.webContents.send('musics-transfer-task', '', '', 0, 0)
         ipcMain.emit('usb-musics-get', event, usb)
       }
@@ -39,11 +39,12 @@ function mainEventUsbMusicReader (mainWindow) {
     runProcess(
       path.join('Music', 'MusicTransfer.js'),
       [musicPath, ...musics.map((m) => m.id)],
-      end,
+      () => {},
       (message, current, total) => {
         mainWindow.webContents.send('musics-transfer-task', 'musics-transferring', message, current, total)
       },
-      end
+      () => {},
+      onFinished
     )
   })
 }

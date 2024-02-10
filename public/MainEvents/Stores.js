@@ -121,16 +121,14 @@ function mainEventStores (mainWindow) {
     runProcess(
       path.join('Store', 'StoreDownload.js'),
       [story.downloadUrl],
-      () => {
-        runDownload(stories)
-      },
+      () => {},
       (message, current, total) => {
         mainWindow.webContents.send('store-download-task', story.title, message, current, total)
       },
       (error) => {
         mainWindow.webContents.send('store-download-error', story, error)
-        runDownload(stories)
-      }
+      },
+      () => runDownload(stories)
     )
   }
   ipcMain.on('store-download', async (event, stories) => runDownload(stories))

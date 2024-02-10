@@ -12,7 +12,7 @@ const en = {
   'artist': 'Artist',
   'save': 'Save',
   'initialize': 'Initialize',
-  'synchronizing': 'Synchronizing',
+  'synchronize': 'Synchronize',
   'edit': 'Edit',
   'download': 'Download',
   'delete': 'Delete',

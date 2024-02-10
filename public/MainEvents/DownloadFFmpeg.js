@@ -17,7 +17,8 @@ function mainEventDownloadFFmpeg (mainWindow) {
         },
         (error) => {
           mainWindow.webContents.send('ffmpeg-download-task', 'error', error)
-        }
+        },
+        () => {}
       )
     }
   )

@@ -2,7 +2,7 @@ import { ipcMain } from 'electron'
 import * as fs from 'fs'
 import * as path from 'path'
 import { getStoriesPath } from './Helpers/AppPaths.js'
-import { deleteStories, readStories } from './Helpers/Stories.js'
+import { deleteStories, readStories } from './Helpers/StoriesFiles.js'
 
 function mainEventLocalStoriesReader (mainWindow) {
   ipcMain.on(

@@ -2,7 +2,8 @@ import { ipcMain } from 'electron'
 import * as fs from 'fs'
 import * as path from 'path'
 import { getMusicPath } from './Helpers/AppPaths.js'
-import { deleteMusic, musicObjectToName, readMusic } from './Helpers/Music.js'
+import { musicObjectToName } from './Helpers/Music.js'
+import { deleteMusic, readMusic } from './Helpers/MusicFiles.js'
 import runProcess from './Processes/RunProcess.js'
 
 function mainEventLocalMusicReader (mainWindow) {
@@ -84,7 +85,8 @@ function mainEventLocalMusicReader (mainWindow) {
           (message, current, total) => {},
           (error) => {
             localMusicUpdate(musics, images)
-          }
+          },
+          () => {}
         )
 
       }

@@ -23,7 +23,7 @@ function TopBar ({currentModule}) {
       <img src={LogoTelmi} className={styles.logo} alt="Telmi logo"/>
       <ul className={[styles.buttons, styles.buttonsNavigation].join(' ')}>
         <TopButtonNavigation buttonComponent={ButtonIconTextArrowLeftRight}
-                             text={getLocale('synchronizing')}
+                             text={getLocale('synchronize')}
                              route={routeSynchronize}
                              currentModule={currentModule}/>
         <TopButtonNavigation buttonComponent={ButtonIconTextStore}

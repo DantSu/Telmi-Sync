@@ -1,14 +1,16 @@
 import { useLocale } from '../../../Locale/LocaleHooks.js'
 import ProgressBar from '../../../ProgressBar/ProgressBar.js'
+import ButtonIconXMark from '../../../Buttons/Icons/ButtonIconXMark.js'
 
 import styles from './ModalTasksVisualizer.module.scss'
 
 import Loader2 from '../../../../Assets/Images/loader-2.svg'
 
-function TaskProcessing ({task, message, current, total}) {
+function TaskProcessing ({task, message, current, total, onCancelTask}) {
   const {getLocale} = useLocale()
 
   return <li className={styles.taskContainer}>
+    {onCancelTask && <ButtonIconXMark onClick={onCancelTask}/>}
     <div className={styles.taskTextes}>
       <h2 className={styles.taskTitle}>{getLocale(task)}</h2>
       <ProgressBar className={styles.taskProgressBar} current={current} total={total}/>
