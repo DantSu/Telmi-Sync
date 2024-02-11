@@ -11,7 +11,7 @@ const
           if (a[1] === undefined) {
             return acc
           }
-          return {...acc, [a[0].trim()]: a[1].trim()}
+          return {...acc, [a[0].trim().toLowerCase()]: a[1].trim()}
         },
         {}
       )
