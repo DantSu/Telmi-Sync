@@ -18,6 +18,7 @@ const en = {
   'delete': 'Delete',
 
   'listen-title': 'Listen the title',
+  'update-available': 'Update available !',
   'display-list': 'Display list',
   'display-thumbnails': 'Display thumbnails',
   'edit-selected': 'Edit the selection',
@@ -34,7 +35,6 @@ const en = {
   'drop-files': 'Drop you file',
   'drag-drop-medias': 'To import your stories or music, drag and drop them here.',
   'error-occurred': 'An error has occurred!',
-  'telmios-parameters': 'TelmiOS parameters',
   'audio-level-startup': 'Audio level at startup',
   'audio-level-max': 'Maximum audio level ',
   'screen-luminosity-startup': 'Screen luminosity at startup',
@@ -51,6 +51,9 @@ const en = {
 
   'ffmpeg-download': 'Downloading FFmpeg',
   'ffmpeg-download-failed': 'Failed to download FFmpeg',
+
+  'telmios-parameters': 'TelmiOS parameters',
+  'telmios-not-found': 'Unable to found TelmiOS',
 
   'converting-images': 'Converting images',
   'converting-audio': 'Converting audio files',

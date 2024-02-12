@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu } from 'electron'
+import { app, BrowserWindow, Menu, shell } from 'electron'
 import isDev from 'electron-is-dev'
 import mainEventWindow from './MainEvents/Window.js'
 import mainEventImport from './MainEvents/Import.js'
@@ -9,6 +9,8 @@ import mainEventStores from './MainEvents/Stores.js'
 import mainEventUsb from './MainEvents/USB.js'
 import mainEventUsbStoriesReader from './MainEvents/USBStories.js'
 import mainEventUsbMusicReader from './MainEvents/USBMusic.js'
+import mainEventUpdate from './MainEvents/Update.js'
+import mainEventLink from './MainEvents/Link.js'
 
 function createWindow () {
   const mainWindow = new BrowserWindow({
@@ -31,6 +33,7 @@ function createWindow () {
   Menu.setApplicationMenu(null)
 
   mainEventWindow(mainWindow)
+  mainEventLink(mainWindow)
   mainEventImport(mainWindow)
   mainEventDownloadFFmpeg(mainWindow)
   mainEventLocalStoriesReader(mainWindow)
@@ -39,6 +42,7 @@ function createWindow () {
   mainEventUsb(mainWindow)
   mainEventUsbStoriesReader(mainWindow)
   mainEventUsbMusicReader(mainWindow)
+  mainEventUpdate(mainWindow)
 
   return mainWindow
 }

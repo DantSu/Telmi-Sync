@@ -18,6 +18,7 @@ const fr = {
   'delete': 'Supprimer',
 
   'listen-title': 'Ecouter le titre',
+  'update-available': 'Mise à jour disponible !',
   'display-list': 'Affichage liste',
   'display-thumbnails': 'Affichage vignettes',
   'edit-selected': 'Editer la sélection',
@@ -34,7 +35,6 @@ const fr = {
   'drop-files': 'Déposez vos fichiers',
   'drag-drop-medias': 'Pour importer vos histoires ou musiques, glissez/déposez les ici.',
   'error-occurred': 'Une erreur est survenue !',
-  'telmios-parameters': 'Paramêtres TelmiOS',
   'audio-level-startup': 'Volume audio au démarrage',
   'audio-level-max': 'Volume audio maximum',
   'screen-luminosity-startup': 'Luminosité de l\'écran au démarrage',
@@ -51,6 +51,9 @@ const fr = {
 
   'ffmpeg-download': 'Téléchargement de FFmpeg',
   'ffmpeg-download-failed': 'Echec du téléchargement de FFmpeg',
+
+  'telmios-parameters': 'Paramêtres TelmiOS',
+  'telmios-not-found': 'Impossible de localiser TelmiOS',
 
   'converting-images': 'Conversion des images',
   'converting-audio': 'Conversion des fichiers audio',

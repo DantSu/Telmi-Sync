@@ -8,6 +8,7 @@ import ButtonIconTextArrowLeftRight from '../../Components/Buttons/IconsTexts/Bu
 import ButtonIconTextStore from '../../Components/Buttons/IconsTexts/ButtonIconTextStore.js'
 import TopButtonNavigation from './TopButtonNavigation.js'
 import ButtonLangChooser from '../../Components/Locale/ButtonLangChooser.js'
+import ButtonUpdate from './ButtonUpdate.js'
 
 import LogoTelmi from '../../Assets/Images/logo-telmi.svg'
 
@@ -33,6 +34,7 @@ function TopBar ({currentModule}) {
       </ul>
     </div>
     <ul className={styles.buttons}>
+      <li><ButtonUpdate/></li>
       <li><ButtonLangChooser/></li>
       <li><ButtonIconWindow onClick={() => ipcRenderer.send('change-size')}/></li>
       <li><ButtonIconXMark onClick={() => ipcRenderer.send('close')}/></li>
