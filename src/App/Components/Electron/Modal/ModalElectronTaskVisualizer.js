@@ -34,10 +34,10 @@ function ModalElectronTaskVisualizer ({taskName, dataSent, onClose, taskCancella
 
   useElectronListener(
     taskName + '-error',
-    (item, error) => setErrorStories((errors) => ([
+    (title, error) => setErrorStories((errors) => ([
       ...errors,
       {
-        task: item.title,
+        task: title,
         message: error
       }
     ])),

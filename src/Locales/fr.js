@@ -22,6 +22,7 @@ const fr = {
   'display-thumbnails': 'Affichage vignettes',
   'edit-selected': 'Editer la sélection',
   'download-selected': 'Télécharger la sélection',
+  'downloading-files': 'Téléchargement des fichiers',
   'delete-selected': 'Supprimer la sélection',
   'select-all': 'Sélectionner tout',
   'os-not-supported': 'Système d\'exploitation non supporté',

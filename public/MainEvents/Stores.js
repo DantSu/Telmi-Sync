@@ -129,7 +129,7 @@ function mainEventStores (mainWindow) {
         mainWindow.webContents.send('store-download-task', story.title, message, current, total)
       },
       (error) => {
-        mainWindow.webContents.send('store-download-error', story, error)
+        mainWindow.webContents.send('store-download-error', story.title, error)
       },
       () => runDownload(stories)
     )

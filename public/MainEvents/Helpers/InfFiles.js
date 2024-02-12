@@ -1,5 +1,6 @@
 import * as fs from 'fs'
 import * as path from 'path'
+import { versionStringToObject } from './Version.js'
 
 const
   parseInfFile = (str) => {
@@ -15,10 +16,6 @@ const
         },
         {}
       )
-  },
-
-  getPathTelmiOsParameters = (drive) => {
-    return path.join(drive, 'Saves/parameters.json')
   },
 
   parseTelmiOSAutorun = (drive) => {
@@ -41,26 +38,17 @@ const
 
     if (label.substring(0, telmi.length) === telmi) {
 
-      const version = label.substring(label.lastIndexOf(v) + v.length).split('.').map((v) => parseInt(v, 10))
+      const version = versionStringToObject(label.substring(label.lastIndexOf(v) + v.length))
 
-      if(version.length === 3 && version[0] >= 1) {
+      if(version !== null && version.major >= 1) {
         return {
           label: telmi,
-          version: {
-            major: version[0],
-            minor: version[1],
-            fix: version[2],
-          },
-          parameters: JSON.parse(fs.readFileSync(getPathTelmiOsParameters(drive)).toString('utf8'))
+          version
         }
       }
     }
 
     return null
-  },
-
-  saveTelmiOSParameters = (usb) => {
-    fs.writeFileSync(getPathTelmiOsParameters(usb.drive), JSON.stringify(usb.telmiOS.parameters))
   }
 
-export { parseInfFile, parseTelmiOSAutorun, saveTelmiOSParameters }
+export { parseInfFile, parseTelmiOSAutorun }

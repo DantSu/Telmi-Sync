@@ -1,6 +1,8 @@
 import { ipcMain } from 'electron'
 import * as drivelist from 'drivelist'
-import { parseTelmiOSAutorun, saveTelmiOSParameters } from './Helpers/InfFiles.js'
+import { parseTelmiOSAutorun } from './Helpers/InfFiles.js'
+import { readTelmiOSParameters, saveTelmiOSParameters } from './Helpers/TelmiOS.js'
+import runProcess from './Processes/RunProcess.js'
 import * as path from 'path'
 
 function mainEventUSB (mainWindow) {
@@ -10,7 +12,7 @@ function mainEventUSB (mainWindow) {
     for (const drive of drives) {
       const telmiOS = parseTelmiOSAutorun(drive)
       if (telmiOS !== null) {
-        mainWindow.webContents.send('usb-data', {drive, telmiOS})
+        mainWindow.webContents.send('usb-data', readTelmiOSParameters({drive, telmiOS}))
         return
       }
     }
@@ -20,9 +22,31 @@ function mainEventUSB (mainWindow) {
 
   setInterval(checkUsb, 5000)
 
+  ipcMain.on('usb-save-parameters', async (event, usb) => saveTelmiOSParameters(usb))
+
   ipcMain.on(
-    'usb-save-parameters',
-    async (event, usb) => saveTelmiOSParameters(usb)
+    'usb-update-telmios',
+    async (event, usb) => {
+      if (usb === undefined || usb === null) {
+        return
+      }
+
+      runProcess(
+        path.join('TelmiOS', 'Update.js'),
+        [usb.drive],
+        () => {},
+        (message, current, total) => {
+          mainWindow.webContents.send('usb-update-telmios-task', 'telmios-update', message, current, total)
+        },
+        (error) => {
+          mainWindow.webContents.send('usb-update-telmios-error', 'telmios-update', error)
+        },
+        () => {
+          mainWindow.webContents.send('usb-update-telmios-task', '', '', 0, 0)
+          checkUsb()
+        }
+      )
+    }
   )
 }
 

@@ -23,6 +23,7 @@ const en = {
   'edit-selected': 'Edit the selection',
   'download-selected': 'Download the selection',
   'delete-selected': 'Delete the selection',
+  'downloading-files': 'Downloading files',
   'select-all': 'Select all',
   'os-not-supported': 'Operating system not supported',
   'file-not-found': 'File not found',

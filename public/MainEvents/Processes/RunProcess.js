@@ -7,7 +7,6 @@ const
   appPath = app.getAppPath()
 
 function runProcess (jsFile, arrayParams, onSuccess, onProgress, onError, onFinished) {
-  console.log(__dirname, jsFile)
   const
     taskProcess = utilityProcess.fork(
       path.join(__dirname, jsFile),

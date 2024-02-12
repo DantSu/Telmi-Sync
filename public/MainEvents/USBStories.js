@@ -45,7 +45,7 @@ function mainEventUsbStoriesReader (mainWindow) {
         mainWindow.webContents.send('stories-transfer-task', story.title, message, current, total)
       },
       (error) => {
-        mainWindow.webContents.send('stories-transfer-error', story, error)
+        mainWindow.webContents.send('stories-transfer-error', story.title, error)
       },
       () => startTransfer(usb, storiesPath, stories)
     )
