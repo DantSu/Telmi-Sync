@@ -1,9 +1,8 @@
 import { useElectronEmitter, useElectronListener } from '../../Components/Electron/Hooks/UseElectronEvent.js'
 import { useState } from 'react'
 import { useLocale } from '../../Components/Locale/LocaleHooks.js'
-
-import styles from './TopBar.module.scss'
-import ExternalLink from '../../Components/Link/ExternalLink.js'
+import ButtonExternalLink from '../../Components/Link/ButtonExternalLink.js'
+import ButtonIconTextCloud from '../../Components/Buttons/IconsTexts/ButtonIconTextCloud.js'
 
 function ButtonUpdate () {
   const
@@ -17,10 +16,9 @@ function ButtonUpdate () {
   )
   useElectronEmitter('check-update', [])
 
-  return urlUpdate === null ? null : <ExternalLink href={urlUpdate}
-                                                   className={styles.buttonUpdate}>{
-    getLocale('update-available')
-  }</ExternalLink>
+  return urlUpdate === null ? null : <ButtonExternalLink href={urlUpdate}>
+    <ButtonIconTextCloud text={getLocale('update-available')} rounded={true}/>
+  </ButtonExternalLink>
 }
 
 export default ButtonUpdate
