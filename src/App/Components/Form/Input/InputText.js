@@ -21,13 +21,13 @@ function InputText ({label, type, id, required, className, ...props}, ref) {
                  if (r.required && r.value === '') {
                    return getLocale('input-required', label)
                  }
-                 if(r.type === 'url' && !/^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&\/=]*)$/i.test(r.value)) {
+                 if(r.type === 'url' && !/^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/i.test(r.value)) {
                    return getLocale('input-url-invalid', label)
                  }
                  return null
                }
                r.getValue = () => {
-                 return r.value
+                 return (r.type === 'number') ? parseInt(r.value, 10) : r.value
                }
                ref.current = r
              }

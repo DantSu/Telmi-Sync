@@ -27,6 +27,7 @@
 .telmiOSInactive {
   background-color: $black20;
 }
+
 .telmiOSInactiveArea {
   flex: 1;
   border-radius: 10px;
@@ -36,10 +37,27 @@
 }
 
 .usbTitle {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
   padding: 5px;
   font-size: 16px;
   text-align: center;
 }
+
+.usbTitleText {
+  flex: 1;
+}
+
+.usbTitleIcons {
+  flex: 0 1 auto;
+}
+
+.usbTitleIcon {
+  padding: 2px 10px;
+}
+
 .usbTable {
   margin: 2px;
 }
@@ -51,15 +69,16 @@
   left: 488px;
   margin-top: -10px;
   margin-left: -4px;
-  border-radius: 30px;
+  border-radius: 50%;
   padding: 7px;
   border: 3px solid $orange;
   font-size: 40px;
   background: $orange;
-  color:$purple1;
-  box-shadow: 0px 7px 0px 0px rgba(0,0,0,0.2);
+  color: $purple1;
+  box-shadow: 0px 7px 0px 0px rgba(0, 0, 0, 0.2);
   transition: color 0.3s, border-color 0.3s;
 }
+
 .buttonTransfer:hover {
   color: $white;
   border-color: $white;

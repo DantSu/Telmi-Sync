@@ -48,7 +48,7 @@ const
               let fileProgress = 0
               res.on('data', (d) => {
                 fileProgress += d.length
-                onProgress(fileProgress, fileLength)
+                onProgress(Math.round(fileProgress / (fileLength || fileProgress) * 100), 100)
               })
 
               res.pipe(file)

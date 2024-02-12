@@ -1,5 +1,7 @@
+import { ipcMain } from 'electron'
 import * as drivelist from 'drivelist'
-import { parseTelmiOSAutorun } from './Helpers/InfFiles.js'
+import { parseTelmiOSAutorun, saveTelmiOSParameters } from './Helpers/InfFiles.js'
+import * as path from 'path'
 
 function mainEventUSB (mainWindow) {
   const checkUsb = async () => {
@@ -17,6 +19,11 @@ function mainEventUSB (mainWindow) {
   }
 
   setInterval(checkUsb, 5000)
+
+  ipcMain.on(
+    'usb-save-parameters',
+    async (event, usb) => saveTelmiOSParameters(usb)
+  )
 }
 
 export default mainEventUSB

@@ -1,6 +1,7 @@
 @import "src/App/variables";
 
 .container {
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -24,4 +25,39 @@
 
 .input:hover, .input:focus {
   border-color: $orange;
+}
+
+
+.inputRange {
+  z-index: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  width: 250px;
+}
+
+.inputRange::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 2px;
+  background: $white30;
+}
+
+.inputRange::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: -8px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: $orange;
+  color: $orange;
+  cursor: pointer;
+}
+
+.inputRangeValue {
+  position: absolute;
+  z-index: 0;
+  font-size: 12px;
+  bottom: 0;
+  right: 0;
 }

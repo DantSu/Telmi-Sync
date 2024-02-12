@@ -17,8 +17,12 @@ const
       )
   },
 
-  parseTelmiOSAutorun = (dir) => {
-    const pathAutorun = path.join(dir, 'autorun.inf')
+  getPathTelmiOsParameters = (drive) => {
+    return path.join(drive, 'Saves/parameters.json')
+  },
+
+  parseTelmiOSAutorun = (drive) => {
+    const pathAutorun = path.join(drive, 'autorun.inf')
 
     if (!fs.existsSync(pathAutorun)) {
       return null
@@ -46,12 +50,17 @@ const
             major: version[0],
             minor: version[1],
             fix: version[2],
-          }
+          },
+          parameters: JSON.parse(fs.readFileSync(getPathTelmiOsParameters(drive)).toString('utf8'))
         }
       }
     }
 
     return null
+  },
+
+  saveTelmiOSParameters = (usb) => {
+    fs.writeFileSync(getPathTelmiOsParameters(usb.drive), JSON.stringify(usb.telmiOS.parameters))
   }
 
-export { parseInfFile, parseTelmiOSAutorun }
+export { parseInfFile, parseTelmiOSAutorun, saveTelmiOSParameters }
