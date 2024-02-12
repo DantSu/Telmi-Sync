@@ -89,6 +89,7 @@ const en = {
   'musics-selected': '{0} selected music tracks',
   'musics-delete': 'Delete the selected music tracks',
   'musics-delete-confirm': 'Are you sure you want to delete the selected music tracks ?',
+  'musics-transferring': 'Transferring music tracks',
   'musics-deleting': 'Deleting the music tracks',
 
   'stores': 'Stores',
