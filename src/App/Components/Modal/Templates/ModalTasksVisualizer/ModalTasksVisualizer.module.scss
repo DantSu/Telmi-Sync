@@ -16,9 +16,14 @@
   background: $black20;
 }
 
-.taskTextes {
+.taskTextes, .taskTextesCancellable {
   padding: 0 15px;
-  flex: 0 1 100%;
+  flex: 0 0 395px;
+  width: 395px;
+}
+.taskTextesCancellable {
+  flex: 0 0 364px;
+  width: 364px;
 }
 
 .taskProgressDescription {

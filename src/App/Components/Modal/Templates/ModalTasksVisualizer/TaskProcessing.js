@@ -11,7 +11,7 @@ function TaskProcessing ({task, message, current, total, onCancelTask}) {
 
   return <li className={styles.taskContainer}>
     {onCancelTask && <ButtonIconXMark onClick={onCancelTask}/>}
-    <div className={styles.taskTextes}>
+    <div className={onCancelTask ? styles.taskTextesCancellable : styles.taskTextes}>
       <h2 className={styles.taskTitle}>{getLocale(task)}</h2>
       <ProgressBar className={styles.taskProgressBar} current={current} total={total}/>
       <p className={styles.taskProgressDescription}>

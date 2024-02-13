@@ -13,7 +13,7 @@ const
     }
     return {
       action: actionNodeKey,
-      defaultIndex: transitionSelectedOptionIndex
+      index: transitionSelectedOptionIndex
     }
   },
   decipherMedias = (srcMedias, dstMedias, index, length, onEnd) => {
@@ -60,7 +60,8 @@ function convertFolderFS (srcPath, storyName) {
     renameImage = (name) => findNewName(name, '.png', imagesNewNames),
     renameAudio = (name) => findNewName(name, '.mp3', audiosNewNames),
 
-    uuid = stringSlugify(path.basename(srcPath)),
+    tmpUuid = stringSlugify(path.basename(srcPath)),
+    uuid = tmpUuid.length > 48 ? tmpUuid.substring(0, 48) : tmpUuid,
     title = storyName || uuid,
     dstPath = getStoriesPath(uuid),
     srcImagesPath = path.join(srcPath, 'rf'),
@@ -116,19 +117,19 @@ function convertFolderFS (srcPath, storyName) {
     stages[stageNodeKey] = {
       image: renameImage(ri[imageAssetIndexInRI]),
       audio: renameAudio(si[soundAssetIndexInSI]),
-      okButton: varsToTransitionNode(
+      ok: varsToTransitionNode(
         okTransitionActionNodeIndexInLI,
         okTransitionNumberOfOptions,
         okTransitionSelectedOptionIndex,
         okActionNodeKey
       ),
-      homeButton: varsToTransitionNode(
+      home: varsToTransitionNode(
         homeTransitionActionNodeIndexInLI,
         homeTransitionNumberOfOptions,
         homeTransitionSelectedOptionIndex,
         homeActionNodeKey
       ),
-      controlSettings: {
+      control: {
         wheel,
         ok,
         home,
@@ -142,7 +143,7 @@ function convertFolderFS (srcPath, storyName) {
 
   const
     firstStageNode = stages['s0'],
-    nodes = {startAction: firstStageNode.okButton, stages, actions},
+    nodes = {startAction: firstStageNode.ok, stages, actions},
     metadata = {title, uuid, image: 'title.png'}
 
   delete stages['s0']

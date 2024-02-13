@@ -27,7 +27,7 @@ function InputText ({label, type, id, required, className, ...props}, ref) {
                  return null
                }
                r.getValue = () => {
-                 return (r.type === 'number') ? parseInt(r.value, 10) : r.value
+                 return (r.type === 'number') ? parseFloat(r.value) : r.value
                }
                ref.current = r
              }

@@ -54,7 +54,7 @@ function ModalMusicFormUpdate ({music, onValidate, onClose}) {
                                      (values) => {
                                        onValidate({
                                          ...music,
-                                         track: parseInt(values[0], 10),
+                                         track: Math.round(values[0]),
                                          title: values[1],
                                          album: values[2],
                                          artist: values[3],

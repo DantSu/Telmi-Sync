@@ -15,7 +15,7 @@ function InputRange ({label, type, id, unit, defaultValue, className, ...props},
             return null
           }
           r.getValue = () => {
-            return parseInt(r.value, 10)
+            return parseFloat(r.value)
           }
           ref.current = r
         }

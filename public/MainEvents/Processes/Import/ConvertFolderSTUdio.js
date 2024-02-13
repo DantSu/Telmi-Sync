@@ -37,7 +37,7 @@ function convertFolderSTUdio (srcPath, storyName) {
         }
         return {
           action: renameAction(transition.actionNode),
-          defaultIndex: transition.optionIndex
+          index: transition.optionIndex
         }
       },
 
@@ -62,9 +62,9 @@ function convertFolderSTUdio (srcPath, storyName) {
             [renameStage(node.uuid)]: {
               image: renameImage(node.image),
               audio: renameAudio(node.audio),
-              okButton: reformatTransition(node.okTransition),
-              homeButton: reformatTransition(node.homeTransition),
-              controlSettings: node.controlSettings,
+              ok: reformatTransition(node.okTransition),
+              home: reformatTransition(node.homeTransition),
+              control: node.controlSettings,
             }
           }),
           {}

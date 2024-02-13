@@ -25,29 +25,29 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
       (validation) => {
         return <>
           <ModalContent>
-            <InputRange label={getLocale('audio-level-startup')}
-                        defaultValue={parameters.audioLevelStartup * 100}
+            <InputRange label={getLocale('audio-volume-startup')}
+                        defaultValue={parameters.audioVolumeStartup * 100}
                         min={0}
                         max={100}
                         step={1}
                         unit="%"
                         ref={inputRef0}/>
-            <InputRange label={getLocale('audio-level-max')}
-                        defaultValue={parameters.audioLevelMax * 100}
+            <InputRange label={getLocale('audio-volume-max')}
+                        defaultValue={parameters.audioVolumeMax * 100}
                         min={0}
                         max={100}
                         step={1}
                         unit="%"
                         ref={inputRef1}/>
-            <InputRange label={getLocale('screen-luminosity-startup')}
-                        defaultValue={parameters.screenLuminosityStartup * 100}
+            <InputRange label={getLocale('screen-brightness-startup')}
+                        defaultValue={parameters.screenBrightnessStartup * 100}
                         min={0}
                         max={100}
                         step={1}
                         unit="%"
                         ref={inputRef2}/>
-            <InputRange label={getLocale('screen-luminosity-max')}
-                        defaultValue={parameters.screenLuminosityMax * 100}
+            <InputRange label={getLocale('screen-brightness-max')}
+                        defaultValue={parameters.screenBrightnessMax * 100}
                         min={0}
                         max={100}
                         step={1}
@@ -69,12 +69,12 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
                         unit="minutes"
                         required={true}
                         ref={inputRef5}/>
-            <InputRange label={getLocale('mp3player-inactivity-tracks')}
-                        defaultValue={parameters.mp3PlayerInactivityTracks}
-                        min={1}
-                        max={15}
-                        step={1}
-                        unit={getLocale('musics')}
+            <InputRange label={getLocale('music-inactivity-time')}
+                        defaultValue={parameters.musicInactivityTime / 3600}
+                        min={0.1}
+                        max={3}
+                        step={0.1}
+                        unit={getLocale('hours')}
                         required={true}
                         ref={inputRef6}/>
           </ModalContent>
@@ -95,13 +95,13 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
                                      (values) => {
                                        onValidate({
                                          ...parameters,
-                                         audioLevelStartup: values[0] / 100,
-                                         audioLevelMax: values[1] / 100,
-                                         screenLuminosityStartup: values[2] / 100,
-                                         screenLuminosityMax: values[3] / 100,
+                                         audioVolumeStartup: values[0] / 100,
+                                         audioVolumeMax: values[1] / 100,
+                                         screenBrightnessStartup: values[2] / 100,
+                                         screenBrightnessMax: values[3] / 100,
                                          screenOnInactivityTime: values[4] * 60,
                                          screenOffInactivityTime: values[5] * 60,
-                                         mp3PlayerInactivityTracks: values[6]
+                                         musicInactivityTime: values[6] * 3600
                                        })
                                        onClose()
                                      }

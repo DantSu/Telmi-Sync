@@ -3,7 +3,7 @@ import * as fs from 'fs'
 
 const
   getPathTelmiOsParameters = (drive) => {
-    return path.join(drive, 'Saves/parameters.json')
+    return path.join(drive, 'Saves/.parameters')
   },
 
   readTelmiOSParameters = (usb) => {
