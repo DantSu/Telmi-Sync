@@ -10,7 +10,7 @@ const
   },
   convertAudioToMp3 = (srcFile, dstMp3) => {
     return new Promise((resolve, reject) => {
-      const stream = spawn(getFFmpegFilePath(), ['-i', srcFile, '-vn', '-ar', '44100', '-ac', '2', '-b:a', '192k', dstMp3])
+      const stream = spawn(getFFmpegFilePath(), ['-i', srcFile, '-map_metadata', '-1', '-map_chapters', '-1', '-vn', '-ar', '44100', '-ac', '2', '-b:a', '192k', dstMp3])
       stream.on('close', code => {
         if (code === 0) {
           resolve()

@@ -125,8 +125,8 @@ function convertFolderSTUdio (srcPath, storyName) {
           const
             imageFileName = renameImage(firstStageNode.image),
             audioFileName = renameAudio(firstStageNode.audio)
-          fs.renameSync(path.join(dstImagesPath, imageFileName), path.join(dstPath, metadata.image))
-          fs.renameSync(path.join(dstAudiosPath, audioFileName), path.join(dstPath, 'title.mp3'))
+          fs.copyFileSync(path.join(dstImagesPath, imageFileName), path.join(dstPath, metadata.image))
+          fs.copyFileSync(path.join(dstAudiosPath, audioFileName), path.join(dstPath, 'title.mp3'))
           if (fs.existsSync(srcPathThumbnail)) {
             metadata.image = 'cover.png'
             fs.copyFileSync(srcPathThumbnail, path.join(dstPath, metadata.image))
