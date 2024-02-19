@@ -7,7 +7,7 @@ function mainEventUpdate (mainWindow) {
     'check-update',
     async () => {
       const json = await requestJson('https://api.github.com/repos/DantSu/Telmi-Sync/releases', {})
-      if (!json.length || !isNewerVersion(app.getVersion(), json[0].tab_name)) {
+      if (!json.length || !isNewerVersion(app.getVersion(), json[0].tag_name)) {
         return
       }
       mainWindow.webContents.send('check-update-data', json[0].html_url)
