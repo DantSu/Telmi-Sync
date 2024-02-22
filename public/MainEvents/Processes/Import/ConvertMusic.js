@@ -70,7 +70,7 @@ function convertMusic (srcPath) {
         return
       }
 
-      convertAudio(srcPath, musicDstPath)
+      convertAudio(srcPath, musicDstPath, true)
         .then(() => {
           process.stdout.write('*music-searching-cover*2*3*')
 

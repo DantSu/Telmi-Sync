@@ -133,7 +133,8 @@ function convertFolderSTUdio (srcPath, storyName) {
           }
           fs.writeFileSync(path.join(dstPath, 'metadata.json'), JSON.stringify(metadata))
           process.stdout.write('success')
-        }
+        },
+        false
       )
     )
   } catch (e) {
