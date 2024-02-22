@@ -57,8 +57,7 @@ function mainEventLocalMusicReader (mainWindow) {
         fs.renameSync(srcImage, dstImage)
       }
 
-      ipcMain.emit('local-musics-get')
-
+      localMusicUpdate(musics, images)
     } else {
 
       if (fs.existsSync(srcImage)) {

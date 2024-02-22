@@ -56,12 +56,14 @@ function ModalMusicsFormUpdate ({musics, onValidate, onClose}) {
                                    validation(
                                      [albumRef, artistRef],
                                      (values) => {
-                                       musics.map((music) => ({
-                                         ...music,
-                                         album: values[0],
-                                         artist: values[1],
-                                         askNewImage: false
-                                       }))
+                                       onValidate(
+                                         musics.map((music) => ({
+                                           ...music,
+                                           album: values[0],
+                                           artist: values[1],
+                                           askNewImage: false
+                                         }))
+                                       )
                                        onClose()
                                      }
                                    )
