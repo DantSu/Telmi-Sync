@@ -5,6 +5,8 @@ const fr = {
   'confirm': 'Confirmer',
   'close': 'Fermer',
   'name': 'Nom',
+  'age': 'Age',
+  'category': 'Catégorie',
   'url': 'URL',
   'track': 'Track',
   'title': 'Titre',
@@ -55,6 +57,7 @@ const fr = {
 
   'telmios-parameters': 'Paramêtres TelmiOS',
   'telmios-not-found': 'Impossible de localiser TelmiOS',
+  'telmios-update': 'Mise à jour de TelmiOS',
 
   'converting-images': 'Conversion des images',
   'converting-audio': 'Conversion des fichiers audio',
@@ -74,6 +77,7 @@ const fr = {
   'stories-local': 'Mes histoires ({0})',
   'stories-on-store': '{0} histoires sur le store',
   'stories-selected': '{0} histoire(s) sélectionnée(s)',
+  'stories-edit': 'Edites les histoires',
   'stories-delete': 'Supprimer les histoires',
   'stories-delete-confirm': 'Êtes-vous sûr de vouloir supprimer les histoires sélectionnées ?',
   'stories-transfer': 'Transférer les histoires',

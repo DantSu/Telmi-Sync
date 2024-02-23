@@ -2,15 +2,12 @@ import * as fs from 'fs'
 import * as path from 'path'
 
 import { getProcessParams } from '../Helpers/ProcessParams.js'
-import { getStoriesPath } from '../Helpers/AppPaths.js'
 import { createPathDirectories, isDirectory, rmDirectory } from '../../Helpers/Files.js'
 
-function main (dstStoriesPath, storyUuid) {
+function main (dstStoriesPath, srcStoryPath) {
   process.stdout.write('*initialize*0*1*')
 
-  const
-    srcStoryPath = getStoriesPath(storyUuid),
-    dstStoryPath = path.join(dstStoriesPath, storyUuid)
+  const dstStoryPath = path.join(dstStoriesPath, path.basename(srcStoryPath))
 
   if (!fs.existsSync(srcStoryPath)) {
     process.stderr.write('story-not-found')

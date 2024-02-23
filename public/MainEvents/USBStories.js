@@ -17,17 +17,16 @@ function mainEventUsbStoriesReader (mainWindow) {
 
   ipcMain.on(
     'usb-stories-delete',
-    async (event, usb, storiesUuid) => {
+    async (event, usb, stories) => {
       if (usb !== null) {
         deleteStories(
-          getUsbStoriesPath(usb.drive),
-          storiesUuid,
+          stories.map((s) => s.path),
           () => ipcMain.emit('usb-stories-get', event, usb)
         )
       }
     }
   )
-  const startTransfer = (usb, storiesPath, stories) => {
+  const startTransfer = (usb, dstPath, stories) => {
     if (!stories.length) {
       mainWindow.webContents.send('stories-transfer-task', '', '', 0, 0)
       return ipcMain.emit('usb-stories-get', {}, usb)
@@ -39,7 +38,7 @@ function mainEventUsbStoriesReader (mainWindow) {
 
     runProcess(
       path.join('Stories', 'StoryTransfer.js'),
-      [storiesPath, story.uuid],
+      [dstPath, story.path],
       () => {},
       (message, current, total) => {
         mainWindow.webContents.send('stories-transfer-task', story.title, message, current, total)
@@ -47,7 +46,7 @@ function mainEventUsbStoriesReader (mainWindow) {
       (error) => {
         mainWindow.webContents.send('stories-transfer-error', story.title, error)
       },
-      () => startTransfer(usb, storiesPath, stories)
+      () => startTransfer(usb, dstPath, stories)
     )
   }
   ipcMain.on('stories-transfer', async (event, usb, stories) => startTransfer(usb, getUsbStoriesPath(usb.drive), stories))

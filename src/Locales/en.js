@@ -5,6 +5,8 @@ const en = {
   'confirm': 'Confirm',
   'close': 'Close',
   'name': 'Name',
+  'age': 'Age',
+  'category': 'Category',
   'url': 'URL',
   'track': 'Track',
   'title': 'Title',
@@ -55,6 +57,7 @@ const en = {
 
   'telmios-parameters': 'TelmiOS parameters',
   'telmios-not-found': 'Unable to found TelmiOS',
+  'telmios-update': 'Updating TelmiOS',
 
   'converting-images': 'Converting images',
   'converting-audio': 'Converting audio files',
@@ -74,6 +77,7 @@ const en = {
   'stories-local': 'My stories ({0})',
   'stories-on-store': '{0} stories on the store',
   'stories-selected': '{0} selected stories',
+  'stories-edit': 'Edit the stories',
   'stories-delete': 'Delete the stories',
   'stories-delete-confirm': 'Are you sure you want to delete the selected stories ?',
   'stories-transfer': 'Transfer the stories',

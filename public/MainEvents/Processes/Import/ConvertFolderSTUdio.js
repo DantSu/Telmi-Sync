@@ -4,7 +4,7 @@ import { createPathDirectories, isDirectory, recursiveCountFiles, rmDirectory } 
 import { getStoriesPath } from '../Helpers/AppPaths.js'
 import { convertStoryImages, isImageFile } from './Helpers/ImageFile.js'
 import { convertAudios, isAudioFile } from './Helpers/AudioFile.js'
-import { stringSlugify } from '../../Helpers/Strings.js'
+import { generateDirNameStory } from '../Helpers/Stories.js'
 
 function convertFolderSTUdio (srcPath, storyName) {
   try {
@@ -50,7 +50,7 @@ function convertFolderSTUdio (srcPath, storyName) {
 
       title = typeof studioData.title === 'string' ? studioData.title : (storyName || path.basename(srcPath)),
 
-      dstPath = getStoriesPath(stringSlugify(firstStageNode.uuid)),
+      dstPath = getStoriesPath(generateDirNameStory(title, firstStageNode.uuid)),
       dstImagesPath = path.join(dstPath, 'images'),
       dstAudiosPath = path.join(dstPath, 'audios'),
 

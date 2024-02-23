@@ -9,16 +9,21 @@ function StoriesLocalContent ({setSelectedStories, selectedStories}) {
   const
     localStories = useLocalStories(),
     onEdit = useCallback(
-      (story) => ipcRenderer.send('local-story-update', story.uuid, story.title),
+      (story) => ipcRenderer.send('local-stories-update', [story]),
+      []
+    ),
+    onEditSelected = useCallback(
+      (stories) => ipcRenderer.send('local-stories-update', stories),
       []
     ),
     onDelete = useCallback(
-      (storiesUuid) => ipcRenderer.send('local-stories-delete', storiesUuid),
+      (stories) => ipcRenderer.send('local-stories-delete', stories),
       []
     )
 
   return <StoriesTable stories={localStories}
                        onEdit={onEdit}
+                       onEditSelected={onEditSelected}
                        onDelete={onDelete}
                        setSelectedStories={setSelectedStories}
                        selectedStories={selectedStories}/>

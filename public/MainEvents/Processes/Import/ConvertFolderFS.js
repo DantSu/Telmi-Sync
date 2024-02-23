@@ -5,6 +5,7 @@ import { createPathDirectories, rmDirectory } from '../../Helpers/Files.js'
 import { getStoriesPath, initTmpPath } from '../Helpers/AppPaths.js'
 import { convertStoryImages } from './Helpers/ImageFile.js'
 import { stringSlugify } from '../../Helpers/Strings.js'
+import { generateDirNameStory } from '../Helpers/Stories.js'
 
 const
   varsToTransitionNode = (transitionActionNodeIndexInLI, transitionNumberOfOptions, transitionSelectedOptionIndex, actionNodeKey) => {
@@ -61,9 +62,9 @@ function convertFolderFS (srcPath, storyName) {
     renameAudio = (name) => findNewName(name, '.mp3', audiosNewNames),
 
     tmpUuid = stringSlugify(path.basename(srcPath)),
-    uuid = tmpUuid.length > 48 ? tmpUuid.substring(0, 48) : tmpUuid,
+    uuid = tmpUuid.length > 36 ? tmpUuid.substring(0, 36) : tmpUuid,
     title = storyName || uuid,
-    dstPath = getStoriesPath(uuid),
+    dstPath = getStoriesPath(generateDirNameStory(title, uuid)),
     srcImagesPath = path.join(srcPath, 'rf'),
     srcAudiosPath = path.join(srcPath, 'sf'),
     dstImagesPath = path.join(dstPath, 'images'),

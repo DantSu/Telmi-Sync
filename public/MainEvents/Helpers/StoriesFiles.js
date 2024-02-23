@@ -29,8 +29,9 @@ const
           }
 
           const md = JSON.parse(fs.readFileSync(mdPath).toString('utf8'))
-          md.image = path.join(storiesPath, d, md.image)
-          md.audio = path.join(storiesPath, d, 'title.mp3')
+          md.path = path.join(storiesPath, d)
+          md.image = path.join(md.path, md.image)
+          md.audio = path.join(md.path, 'title.mp3')
           return [...acc, md]
         },
         []
@@ -38,13 +39,13 @@ const
       .sort((a, b) => a.title.localeCompare(b.title))
   },
 
-  deleteStories = (storiesPath, storiesUuid, onFinished) => {
-    if (!Array.isArray(storiesUuid)) {
+  deleteStories = (storiesPath, onFinished) => {
+    if (!Array.isArray(storiesPath)) {
       return false
     }
     runProcess(
       path.join('Stories', 'StoriesDelete.js'),
-      [storiesPath, ...storiesUuid],
+      storiesPath,
       () => {},
       () => {},
       () => {},

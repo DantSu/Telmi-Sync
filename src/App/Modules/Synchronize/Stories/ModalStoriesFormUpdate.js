@@ -8,34 +8,29 @@ import ModalTitle from '../../../Components/Modal/ModalTitle.js'
 import ModalContent from '../../../Components/Modal/ModalContent.js'
 import Form from '../../../Components/Form/Form.js'
 
-function ModalStoryFormUpdate ({story, onValidate, onClose}) {
+function ModalStoryFormUpdate ({stories, onValidate, onClose}) {
   const
     {getLocale} = useLocale(),
-    inputTitleRef = useRef(),
     inputAgeRef = useRef(),
     inputCategoryRef = useRef()
 
   return <ModalLayoutPadded isClosable={true}
                             onClose={onClose}>
-    <ModalTitle>{getLocale('story-edit')} :</ModalTitle>
+    <ModalTitle>{getLocale('stories-edit')} :</ModalTitle>
     <Form>{
       (validation) => {
         return <>
           <ModalContent>
-            <InputText label={getLocale('title')}
-                       defaultValue={story.title}
-                       required={true}
-                       ref={inputTitleRef}/>
             <InputText label={getLocale('age')}
                        type="number"
                        step="1"
                        min="0"
                        max="99"
-                       defaultValue={story.age || 0}
+                       defaultValue={stories[0].age || 0}
                        required={false}
                        ref={inputAgeRef}/>
             <InputText label={getLocale('category')}
-                       defaultValue={story.category || ''}
+                       defaultValue={stories[0].category || ''}
                        required={false}
                        ref={inputCategoryRef}/>
           </ModalContent>
@@ -45,17 +40,17 @@ function ModalStoryFormUpdate ({story, onValidate, onClose}) {
                                  onClick={() => {
                                    validation(
                                      [
-                                       inputTitleRef,
                                        inputAgeRef,
                                        inputCategoryRef
                                      ],
                                      (values) => {
-                                       onValidate({
-                                         ...story,
-                                         title: values[0],
-                                         age: values[1],
-                                         category: values[2]
-                                       })
+                                       onValidate(stories.map(
+                                         (story) => ({
+                                           ...story,
+                                           age: values[0],
+                                           category: values[1]
+                                         })
+                                       ))
                                        onClose()
                                      }
                                    )

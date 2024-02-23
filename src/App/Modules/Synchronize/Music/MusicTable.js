@@ -70,14 +70,15 @@ function MusicTable ({className, musics, selectedMusics, setSelectedMusics, onEd
           const modal = <ModalMusicFormUpdate key={key}
                                               music={music}
                                               onValidate={(music) => {
-                                                setIsLoadingMusics(true)
                                                 onEdit(music)
+                                                setIsLoadingMusics(true)
+                                                 setSelectedMusics([])
                                               }}
                                               onClose={() => rmModal(modal)}/>
           return modal
         })
       },
-      [onEdit, addModal, rmModal]
+      [onEdit, setSelectedMusics, addModal, rmModal]
     ),
 
     onCallbackEditSelected = useCallback(
@@ -105,12 +106,13 @@ function MusicTable ({className, musics, selectedMusics, setSelectedMusics, onEd
                                                  onConfirm={() => {
                                                    onDelete([music.id])
                                                    setIsLoadingMusics(true)
+                                                   setSelectedMusics([])
                                                  }}
                                                  onClose={() => rmModal(modal)}/>
           return modal
         })
       },
-      [onDelete, addModal, rmModal]
+      [onDelete, setSelectedMusics, addModal, rmModal]
     ),
 
     onCallbackDeleteSelected = useCallback(
