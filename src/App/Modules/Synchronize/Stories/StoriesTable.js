@@ -18,9 +18,9 @@ function StoriesTable ({stories, className, onEdit, onEditSelected, onDelete, se
       () => {
         const flatStories = stories.map((s) => ({
           ...s,
-          cellTitle: s.title,
+          cellTitle: s.age + '+] ' + s.title,
           cellSubtitle: s.uuid,
-        }))
+        })).sort((a, b) => a.cellTitle.localeCompare(b.cellTitle))
         return {
           flatTableStories: flatStories,
           tableStories: storiesClassification(flatStories)

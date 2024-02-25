@@ -29,6 +29,7 @@ const
           }
 
           const md = JSON.parse(fs.readFileSync(mdPath).toString('utf8'))
+
           md.path = path.join(storiesPath, d)
           md.image = path.join(md.path, md.image)
           md.audio = path.join(md.path, 'title.mp3')
@@ -36,7 +37,6 @@ const
         },
         []
       )
-      .sort((a, b) => a.title.localeCompare(b.title))
   },
 
   deleteStories = (storiesPath, onFinished) => {

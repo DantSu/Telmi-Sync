@@ -5,7 +5,7 @@ import { createPathDirectories, rmDirectory } from '../../Helpers/Files.js'
 import { getStoriesPath, initTmpPath } from '../Helpers/AppPaths.js'
 import { convertStoryImages } from './Helpers/ImageFile.js'
 import { stringSlugify } from '../../Helpers/Strings.js'
-import { generateDirNameStory } from '../Helpers/Stories.js'
+import { findAgeInStoryName, generateDirNameStory } from '../Helpers/Stories.js'
 
 const
   varsToTransitionNode = (transitionActionNodeIndexInLI, transitionNumberOfOptions, transitionSelectedOptionIndex, actionNodeKey) => {
@@ -63,7 +63,7 @@ function convertFolderFS (srcPath, storyName) {
 
     tmpUuid = stringSlugify(path.basename(srcPath)),
     uuid = tmpUuid.length > 36 ? tmpUuid.substring(0, 36) : tmpUuid,
-    title = storyName || uuid,
+    {age, title} = findAgeInStoryName(storyName || path.basename(srcPath)),
     dstPath = getStoriesPath(generateDirNameStory(title, uuid)),
     srcImagesPath = path.join(srcPath, 'rf'),
     srcAudiosPath = path.join(srcPath, 'sf'),
@@ -145,7 +145,10 @@ function convertFolderFS (srcPath, storyName) {
   const
     firstStageNode = stages['s0'],
     nodes = {startAction: firstStageNode.ok, stages, actions},
-    metadata = {title, uuid, image: 'title.png'}
+    metadata = Object.assign(
+      {title, uuid, image: 'title.png'},
+      age !== undefined ? {age} : null
+    )
 
   delete stages['s0']
 

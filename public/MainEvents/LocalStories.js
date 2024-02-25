@@ -34,7 +34,7 @@ function mainEventLocalStoriesReader (mainWindow) {
                 image: md.image,
               },
               story.category ? {category: story.category} : null,
-              story.age ? {age: story.age} : null,
+              story.age !== undefined ? {age: story.age} : null,
             )
           )
         )

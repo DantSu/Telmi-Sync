@@ -64,7 +64,7 @@ function TableGroup ({data, selectedData, onSelect, onSelectGroup, onPlay, onEdi
         </ul> :
         <div className={styles.groupList}>
           <img className={styles.groupListImage} src={data.tableChildren[0].image} alt=""/>
-          <ul>
+          <ul className={styles.listContainer}>
             {
               data.tableChildren.map((v, k) => <TableList key={'cell-' + k}
                                                           data={v}

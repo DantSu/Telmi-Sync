@@ -230,13 +230,19 @@
 }
 .groupListImage {
   border-radius: 10px;
+  flex: 0 1 160px;
   width: 160px;
   height: auto;
   margin: 30px;
 }
+.listContainer {
+  flex: 0 1 100%;
+  overflow: hidden;
+}
 .list, .listSelected {
   cursor: pointer;
   padding: 4px;
+  overflow-wrap: break-word;
 }
 .listSelected {
   color: $orange;

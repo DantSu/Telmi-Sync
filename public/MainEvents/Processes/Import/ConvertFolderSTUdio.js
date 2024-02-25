@@ -4,7 +4,7 @@ import { createPathDirectories, isDirectory, recursiveCountFiles, rmDirectory } 
 import { getStoriesPath } from '../Helpers/AppPaths.js'
 import { convertStoryImages, isImageFile } from './Helpers/ImageFile.js'
 import { convertAudios, isAudioFile } from './Helpers/AudioFile.js'
-import { generateDirNameStory } from '../Helpers/Stories.js'
+import { findAgeInStoryName, generateDirNameStory } from '../Helpers/Stories.js'
 
 function convertFolderSTUdio (srcPath, storyName) {
   try {
@@ -48,7 +48,10 @@ function convertFolderSTUdio (srcPath, storyName) {
       stageNodes = [...studioData.stageNodes],
       firstStageNode = stageNodes.shift(),
 
-      title = typeof studioData.title === 'string' ? studioData.title : (storyName || path.basename(srcPath)),
+      {
+        title,
+        age
+      } = findAgeInStoryName(typeof studioData.title === 'string' ? studioData.title : (storyName || path.basename(srcPath))),
 
       dstPath = getStoriesPath(generateDirNameStory(title, firstStageNode.uuid)),
       dstImagesPath = path.join(dstPath, 'images'),
@@ -77,11 +80,14 @@ function convertFolderSTUdio (srcPath, storyName) {
           {}
         )
       },
-      metadata = {
-        title,
-        uuid: firstStageNode.uuid,
-        image: 'title.png'
-      }
+      metadata = Object.assign(
+        {
+          title,
+          uuid: firstStageNode.uuid,
+          image: 'title.png'
+        },
+        age !== undefined ? {age} : null
+      )
 
     rmDirectory(dstPath)
 
