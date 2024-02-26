@@ -9,6 +9,7 @@ const
       return []
     }
     return fs.readdirSync(storiesPath)
+      .sort()
       .reduce(
         (acc, d) => {
           const

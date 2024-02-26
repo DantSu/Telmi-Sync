@@ -39,7 +39,7 @@ function mainEventLocalStoriesReader (mainWindow) {
           )
         )
         const newStoryPath = getStoriesPath(generateDirNameStory(story.title, story.uuid, story.age, story.category))
-        if(story.path !== newStoryPath) {
+        if (story.path !== newStoryPath) {
           fs.renameSync(story.path, newStoryPath)
         }
       }

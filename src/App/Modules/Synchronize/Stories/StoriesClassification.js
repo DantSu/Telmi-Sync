@@ -26,16 +26,7 @@ const storiesClassification = (stories) => {
       }
     },
     []
-  ).sort((a, b) => {
-    if (Array.isArray(a.tableChildren) && !Array.isArray(b.tableChildren)) {
-      return -1
-    } else if (!Array.isArray(a.tableChildren) && Array.isArray(b.tableChildren)) {
-      return 1
-    } else if (Array.isArray(a.tableChildren) && Array.isArray(b.tableChildren)) {
-      return a.tableGroup.localeCompare(b.tableGroup)
-    }
-    return a.cellTitle.localeCompare(b.cellTitle)
-  })
+  )
 }
 
 export { storiesClassification }

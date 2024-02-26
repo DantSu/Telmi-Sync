@@ -20,7 +20,7 @@ function StoriesTable ({stories, className, onEdit, onEditSelected, onDelete, se
           ...s,
           cellTitle: (s.age !== undefined ? s.age + '+] ' : '') + s.title,
           cellSubtitle: s.uuid,
-        })).sort((a, b) => a.cellTitle.localeCompare(b.cellTitle))
+        }))
         return {
           flatTableStories: flatStories,
           tableStories: storiesClassification(flatStories)
