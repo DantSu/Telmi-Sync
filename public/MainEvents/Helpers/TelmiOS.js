@@ -6,13 +6,13 @@ const
     return path.join(drive, 'Saves/.parameters')
   },
 
-  readTelmiOSParameters = (usb) => {
-    usb.telmiOS.parameters = JSON.parse(fs.readFileSync(getPathTelmiOsParameters(usb.drive)).toString('utf8'))
-    return usb
+  readTelmiOSParameters = (telmiDevice) => {
+    telmiDevice.telmiOS.parameters = JSON.parse(fs.readFileSync(getPathTelmiOsParameters(telmiDevice.drive)).toString('utf8'))
+    return telmiDevice
   },
 
-  saveTelmiOSParameters = (usb) => {
-    fs.writeFileSync(getPathTelmiOsParameters(usb.drive), JSON.stringify(usb.telmiOS.parameters))
+  saveTelmiOSParameters = (telmiDevice) => {
+    fs.writeFileSync(getPathTelmiOsParameters(telmiDevice.drive), JSON.stringify(telmiDevice.telmiOS.parameters))
   }
 
 export { readTelmiOSParameters, saveTelmiOSParameters }

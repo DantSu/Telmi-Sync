@@ -6,18 +6,18 @@ import LocalMusicProvider from './Components/LocalMusic/LocalMusicProvider.js'
 import LocaleProvider from './Components/Locale/LocaleProvider.js'
 
 import './App.scss'
-import UsbProvider from './Components/Usb/UsbProvider.js'
+import TelmiOSProvider from './Components/TelmiOS/TelmiOSProvider.js'
 
 function App () {
   return <LocaleProvider>
     <ModalProvider>
-      <UsbProvider>
+      <TelmiOSProvider>
         <LocalStoriesProvider>
           <LocalMusicProvider>
             <RouterProvider defaultRoute={routeDownloadFFmpeg}/>
           </LocalMusicProvider>
         </LocalStoriesProvider>
-      </UsbProvider>
+      </TelmiOSProvider>
     </ModalProvider>
   </LocaleProvider>
 }

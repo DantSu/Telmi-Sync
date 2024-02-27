@@ -1,12 +1,12 @@
 import { useState } from 'react'
-import StoriesUsbContent from './StoriesUsbContent.js'
+import StoriesTelmiOSContent from './StoriesTelmiOSContent.js'
 import StoriesLocalContent from './StoriesLocalContent.js'
 function StoriesContent () {
   const [selectedLocalStories, setSelectedLocalStories] = useState([])
 
   return <>
-    <StoriesUsbContent setSelectedLocalStories={setSelectedLocalStories}
-                       selectedLocalStories={selectedLocalStories}/>
+    <StoriesTelmiOSContent setSelectedLocalStories={setSelectedLocalStories}
+                           selectedLocalStories={selectedLocalStories}/>
     <StoriesLocalContent setSelectedStories={setSelectedLocalStories}
                          selectedStories={selectedLocalStories}/>
   </>

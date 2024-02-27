@@ -48,7 +48,7 @@ function TableCell ({data, selected, onSelect, onPlay, onEdit, onDownload, onDel
       [onDelete, data]
     )
 
-  return <li className={[styles.cell, selected ? styles.cellSelected : ''].join(' ')} onClick={onCSelect}>
+  return <li className={[styles.cell, selected ? styles.cellSelected : '', data.cellDisabled ? styles.cellDisabled : ''].join(' ')} onClick={onCSelect}>
     <h5 className={styles.cellTitle} title={data.cellTitle}>{data.cellTitle}</h5>
     <p className={styles.cellSubtitle} title={data.cellSubtitle}>{data.cellSubtitle}</p>
     <div className={styles.imageContainer}><img src={data.image} className={styles.cellImage} alt=""/></div>

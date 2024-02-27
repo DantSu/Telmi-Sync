@@ -6,9 +6,9 @@ import mainEventDownloadFFmpeg from './MainEvents/DownloadFFmpeg.js'
 import mainEventLocalStoriesReader from './MainEvents/LocalStories.js'
 import mainEventLocalMusicReader from './MainEvents/LocalMusic.js'
 import mainEventStores from './MainEvents/Stores.js'
-import mainEventUsb from './MainEvents/USB.js'
-import mainEventUsbStoriesReader from './MainEvents/USBStories.js'
-import mainEventUsbMusicReader from './MainEvents/USBMusic.js'
+import mainEventTelmiOS from './MainEvents/TelmiOS.js'
+import mainEventTelmiOSStoriesReader from './MainEvents/TelmiOSStories.js'
+import mainEventTelmiOSMusicReader from './MainEvents/TelmiOSMusic.js'
 import mainEventUpdate from './MainEvents/Update.js'
 import mainEventLink from './MainEvents/Link.js'
 
@@ -39,9 +39,9 @@ function createWindow () {
   mainEventLocalStoriesReader(mainWindow)
   mainEventLocalMusicReader(mainWindow)
   mainEventStores(mainWindow)
-  mainEventUsb(mainWindow)
-  mainEventUsbStoriesReader(mainWindow)
-  mainEventUsbMusicReader(mainWindow)
+  mainEventTelmiOS(mainWindow)
+  mainEventTelmiOSStoriesReader(mainWindow)
+  mainEventTelmiOSMusicReader(mainWindow)
   mainEventUpdate(mainWindow)
 
   return mainWindow

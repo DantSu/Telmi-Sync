@@ -7,7 +7,7 @@ function TableList ({data, selected, onSelect}) {
       () => typeof onSelect === 'function' && onSelect(data),
       [onSelect, data]
     )
-  return <li className={selected ? styles.listSelected : styles.list}
+  return <li className={[styles.list, selected ? styles.listSelected : '', data.cellDisabled ? styles.cellDisabled : ''].join(' ')}
              onClick={onCSelect}>
     {data.cellTitle}
   </li>

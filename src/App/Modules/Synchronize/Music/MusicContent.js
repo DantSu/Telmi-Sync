@@ -1,13 +1,13 @@
 import { useState } from 'react'
-import MusicUsbContent from './MusicUsbContent.js'
+import MusicTelmiOSContent from './MusicTelmiOSContent.js'
 import MusicLocalContent from './MusicLocalContent.js'
 
 function MusicContent () {
   const [selectedLocalMusics, setSelectedLocalMusics] = useState([])
 
   return <>
-    <MusicUsbContent setSelectedLocalMusics={setSelectedLocalMusics}
-                     selectedLocalMusics={selectedLocalMusics} />
+    <MusicTelmiOSContent setSelectedLocalMusics={setSelectedLocalMusics}
+                         selectedLocalMusics={selectedLocalMusics} />
     <MusicLocalContent setSelectedMusics={setSelectedLocalMusics}
                        selectedMusics={selectedLocalMusics}/>
   </>

@@ -10,13 +10,9 @@ import ButtonIconEject from '../../../Components/Buttons/Icons/ButtonIconEject.j
 
 const
   {ipcRenderer} = window.require('electron'),
-  bytesToGigabytes = (byteCount) => {
-    return (byteCount / 1073741824).toFixed(1)
-  }
+  bytesToGigabytes = (byteCount) => (byteCount / 1073741824).toFixed(1)
 
-
-
-function TelmiOSDetected ({usb, onTransfer, children}) {
+function TelmiOSDetected ({telmiOS, onTransfer, children}) {
   const
     {getLocale} = useLocale(),
     {addModal, rmModal} = useModal(),
@@ -25,30 +21,32 @@ function TelmiOSDetected ({usb, onTransfer, children}) {
         addModal(
           (key) => {
             const modal = <ModalTelmiOSParamsForm key={key}
-                                                  parameters={usb.telmiOS.parameters}
+                                                  parameters={telmiOS.telmiOS.parameters}
                                                   onValidate={(params) => {
-                                                    usb.telmiOS.parameters = params
-                                                    ipcRenderer.send('usb-save-parameters', usb)
+                                                    telmiOS.telmiOS.parameters = params
+                                                    ipcRenderer.send('telmios-save-parameters', telmiOS)
                                                   }}
                                                   onClose={() => rmModal(modal)}/>
             return modal
           }
         )
       },
-      [usb, addModal, rmModal]
+      [telmiOS, addModal, rmModal]
     ),
-    onTelmiOSEject = useCallback(
-      () => ipcRenderer.send('usb-eject-telmios', usb),
-      [usb]
-    )
+    onTelmiOSEject = useCallback(() => ipcRenderer.send('telmios-eject-telmios', telmiOS), [telmiOS])
 
   return <>
     <div className={styles.telmiOS}>
       <h2 className={styles.usbTitle}>
         <span
           className={styles.usbTitleText}>
-          {usb.telmiOS.label + ' v' + usb.telmiOS.version.major + '.' + usb.telmiOS.version.minor + '.' + usb.telmiOS.version.fix}
-          <span className={styles.usbTitleFreeSpace}>({getLocale('avail')} : {bytesToGigabytes(usb.diskusage.available)}Go / {bytesToGigabytes(usb.diskusage.total)}Go)</span>
+          {telmiOS.telmiOS.label + ' v' + telmiOS.telmiOS.version.major + '.' + telmiOS.telmiOS.version.minor + '.' + telmiOS.telmiOS.version.fix}
+          {
+            telmiOS.diskusage !== null &&
+            <span className={styles.usbTitleFreeSpace}>
+              ({getLocale('avail')} : {bytesToGigabytes(telmiOS.diskusage.available)}Go / {bytesToGigabytes(telmiOS.diskusage.total)}Go)
+            </span>
+          }
         </span>
         <span className={styles.usbTitleIcons}>
             <ButtonIconGear className={styles.usbTitleIcon}

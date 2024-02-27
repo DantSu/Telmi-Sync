@@ -1,7 +1,6 @@
 import { useCallback, useState } from 'react'
-import { useUsb } from '../../../Components/Usb/UsbHooks.js'
+import { useTelmiOS } from '../../../Components/TelmiOS/TelmiOSHooks.js'
 import { useModal } from '../../../Components/Modal/ModalHooks.js'
-import { useElectronEmitter, useElectronListener } from '../../../Components/Electron/Hooks/UseElectronEvent.js'
 
 import TelmiOSLayout from '../TelmiOS/TelmiOSLayout.js'
 import MusicTable from './MusicTable.js'
@@ -11,22 +10,21 @@ import styles from '../Synchronize.module.scss'
 
 const {ipcRenderer} = window.require('electron')
 
-function MusicUsbContent ({selectedLocalMusics, setSelectedLocalMusics}) {
+function MusicTelmiOSContent ({selectedLocalMusics, setSelectedLocalMusics}) {
   const
     {addModal, rmModal} = useModal(),
-    usb = useUsb(),
-    [musics, setMusics] = useState([]),
+    telmiOS = useTelmiOS(),
     [selectedUsbMusics, setSelectedUsbMusics] = useState([]),
     onDelete = useCallback(
-      (musicsIds) => ipcRenderer.send('usb-musics-delete', usb, musicsIds),
-      [usb]
+      (musicsIds) => ipcRenderer.send('telmios-musics-delete', telmiOS, musicsIds),
+      [telmiOS]
     ),
     onTransfer = useCallback(
       () => {
         addModal((key) => {
           const modal = <ModalMusicTransfer key={key}
                                             musics={selectedLocalMusics}
-                                            usb={usb}
+                                            usb={telmiOS}
                                             onClose={() => {
                                               rmModal(modal)
                                               setSelectedLocalMusics([])
@@ -34,20 +32,17 @@ function MusicUsbContent ({selectedLocalMusics, setSelectedLocalMusics}) {
           return modal
         })
       },
-      [usb, selectedLocalMusics, setSelectedLocalMusics, addModal, rmModal]
+      [telmiOS, selectedLocalMusics, setSelectedLocalMusics, addModal, rmModal]
     )
 
-  useElectronListener('usb-musics-data', (usbMusics) => setMusics(usbMusics), [setMusics])
-  useElectronEmitter('usb-musics-get', [usb])
-
-  return <TelmiOSLayout usb={usb}
+  return <TelmiOSLayout telmiOS={telmiOS}
                         onTransfer={selectedLocalMusics.length ? onTransfer : undefined}>
     <MusicTable className={styles.usbTable}
-                musics={musics}
+                musics={telmiOS.music}
                 onDelete={onDelete}
                 selectedMusics={selectedUsbMusics}
                 setSelectedMusics={setSelectedUsbMusics}/>
   </TelmiOSLayout>
 }
 
-export default MusicUsbContent
+export default MusicTelmiOSContent

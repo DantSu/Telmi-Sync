@@ -1,35 +1,39 @@
 import { ipcMain } from 'electron'
-import { getUsbStoriesPath } from './Helpers/UsbPath.js'
+import { getTelmiOSStoriesPath } from './Helpers/TelmiOSPath.js'
 import { deleteStories, readStories } from './Helpers/StoriesFiles.js'
 import runProcess from './Processes/RunProcess.js'
 import * as path from 'path'
 
-function mainEventUsbStoriesReader (mainWindow) {
+function mainEventTelmiOSStoriesReader (mainWindow) {
   ipcMain.on(
-    'usb-stories-get',
-    async (event, usb) => {
+    'telmios-stories-get',
+    async (event, telmiDevice) => {
       mainWindow.webContents.send(
-        'usb-stories-data',
-        usb !== null ? readStories(getUsbStoriesPath(usb.drive)) : []
+        'telmios-stories-data',
+        telmiDevice !== null ? readStories(getTelmiOSStoriesPath(telmiDevice.drive)) : []
       )
     }
   )
 
   ipcMain.on(
-    'usb-stories-delete',
-    async (event, usb, stories) => {
-      if (usb !== null) {
+    'telmios-stories-delete',
+    async (event, telmiDevice, stories) => {
+      if (telmiDevice !== null) {
         deleteStories(
           stories.map((s) => s.path),
-          () => ipcMain.emit('usb-stories-get', event, usb)
+          () => {
+            ipcMain.emit('telmios-stories-get', event, telmiDevice)
+            ipcMain.emit('telmios-diskusage', event, telmiDevice)
+          }
         )
       }
     }
   )
-  const startTransfer = (usb, dstPath, stories) => {
+  const startTransfer = (telmiDevice, dstPath, stories) => {
     if (!stories.length) {
       mainWindow.webContents.send('stories-transfer-task', '', '', 0, 0)
-      return ipcMain.emit('usb-stories-get', {}, usb)
+      ipcMain.emit('telmios-stories-get', {}, telmiDevice)
+      return ipcMain.emit('telmios-diskusage', {}, telmiDevice)
     }
 
     const story = stories.shift()
@@ -46,10 +50,10 @@ function mainEventUsbStoriesReader (mainWindow) {
       (error) => {
         mainWindow.webContents.send('stories-transfer-error', story.title, error)
       },
-      () => startTransfer(usb, dstPath, stories)
+      () => startTransfer(telmiDevice, dstPath, stories)
     )
   }
-  ipcMain.on('stories-transfer', async (event, usb, stories) => startTransfer(usb, getUsbStoriesPath(usb.drive), stories))
+  ipcMain.on('stories-transfer', async (event, telmiDevice, stories) => startTransfer(telmiDevice, getTelmiOSStoriesPath(telmiDevice.drive), stories))
 }
 
-export default mainEventUsbStoriesReader
+export default mainEventTelmiOSStoriesReader

@@ -1,11 +1,11 @@
 import TelmiOSNotDetected from './TelmiOSNotDetected.js'
 import TelmiOSDetected from './TelmiOSDetected.js'
 
-function TelmiOSLayout ({usb, onTransfer, children}) {
-  if (usb === null) {
+function TelmiOSLayout ({telmiOS, onTransfer, children}) {
+  if (!telmiOS.drive) {
     return <TelmiOSNotDetected />
   } else {
-    return <TelmiOSDetected usb={usb} onTransfer={onTransfer}>{children}</TelmiOSDetected>
+    return <TelmiOSDetected telmiOS={telmiOS} onTransfer={onTransfer}>{children}</TelmiOSDetected>
   }
 }
 
