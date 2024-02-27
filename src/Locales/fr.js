@@ -19,6 +19,7 @@ const fr = {
   'edit': 'Editer',
   'download': 'Télécharger',
   'delete': 'Supprimer',
+  'avail': 'Dispo.',
 
   'listen-title': 'Ecouter le titre',
   'update-available': 'Mise à jour disponible !',
@@ -58,6 +59,7 @@ const fr = {
   'telmios-parameters': 'Paramêtres TelmiOS',
   'telmios-not-found': 'Impossible de localiser TelmiOS',
   'telmios-update': 'Mise à jour de TelmiOS',
+  'telmios-eject': 'Ejecter TelmiOS',
 
   'converting-images': 'Conversion des images',
   'converting-audio': 'Conversion des fichiers audio',

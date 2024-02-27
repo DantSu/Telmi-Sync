@@ -1,5 +1,6 @@
 import { ipcMain } from 'electron'
 import * as drivelist from 'drivelist'
+import * as diskusage from 'diskusage'
 import { parseTelmiOSAutorun } from './Helpers/InfFiles.js'
 import { readTelmiOSParameters, saveTelmiOSParameters } from './Helpers/TelmiOS.js'
 import runProcess from './Processes/RunProcess.js'
@@ -12,7 +13,7 @@ function mainEventUSB (mainWindow) {
     for (const drive of drives) {
       const telmiOS = parseTelmiOSAutorun(drive)
       if (telmiOS !== null) {
-        mainWindow.webContents.send('usb-data', readTelmiOSParameters({drive, telmiOS}))
+        mainWindow.webContents.send('usb-data', readTelmiOSParameters({drive, diskusage: diskusage.checkSync(drive), telmiOS}))
         return
       }
     }
@@ -21,6 +22,7 @@ function mainEventUSB (mainWindow) {
   }
 
   setInterval(checkUsb, 5000)
+  setTimeout(checkUsb, 500)
 
   ipcMain.on('usb-save-parameters', async (event, usb) => saveTelmiOSParameters(usb))
 
@@ -45,6 +47,24 @@ function mainEventUSB (mainWindow) {
           mainWindow.webContents.send('usb-update-telmios-task', '', '', 0, 0)
           checkUsb()
         }
+      )
+    }
+  )
+
+  ipcMain.on(
+    'usb-eject-telmios',
+    async (event, usb) => {
+      if (usb === undefined || usb === null) {
+        return
+      }
+
+      runProcess(
+        path.join('TelmiOS', 'Eject.js'),
+        [usb.drive],
+        () => {},
+        () => {},
+        () => {},
+        () => checkUsb()
       )
     }
   )

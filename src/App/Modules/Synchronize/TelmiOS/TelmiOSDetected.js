@@ -6,8 +6,15 @@ import ButtonIconGear from '../../../Components/Buttons/Icons/ButtonIconGear.js'
 import ModalTelmiOSParamsForm from './ModalTelmiOSParamsForm.js'
 
 import styles from '../Synchronize.module.scss'
+import ButtonIconEject from '../../../Components/Buttons/Icons/ButtonIconEject.js'
 
-const {ipcRenderer} = window.require('electron')
+const
+  {ipcRenderer} = window.require('electron'),
+  bytesToGigabytes = (byteCount) => {
+    return (byteCount / 1073741824).toFixed(1)
+  }
+
+
 
 function TelmiOSDetected ({usb, onTransfer, children}) {
   const
@@ -29,17 +36,27 @@ function TelmiOSDetected ({usb, onTransfer, children}) {
         )
       },
       [usb, addModal, rmModal]
+    ),
+    onTelmiOSEject = useCallback(
+      () => ipcRenderer.send('usb-eject-telmios', usb),
+      [usb]
     )
 
   return <>
     <div className={styles.telmiOS}>
       <h2 className={styles.usbTitle}>
         <span
-          className={styles.usbTitleText}>{usb.telmiOS.label + ' v' + usb.telmiOS.version.major + '.' + usb.telmiOS.version.minor + '.' + usb.telmiOS.version.fix}</span>
+          className={styles.usbTitleText}>
+          {usb.telmiOS.label + ' v' + usb.telmiOS.version.major + '.' + usb.telmiOS.version.minor + '.' + usb.telmiOS.version.fix}
+          <span className={styles.usbTitleFreeSpace}>({getLocale('avail')} : {bytesToGigabytes(usb.diskusage.available)}Go / {bytesToGigabytes(usb.diskusage.total)}Go)</span>
+        </span>
         <span className={styles.usbTitleIcons}>
             <ButtonIconGear className={styles.usbTitleIcon}
                             title={getLocale('telmios-parameters')}
                             onClick={onTelmiOSParams}/>
+            <ButtonIconEject className={styles.usbTitleIcon}
+                             title={getLocale('telmios-eject')}
+                             onClick={onTelmiOSEject}/>
           </span>
       </h2>
       {children}
