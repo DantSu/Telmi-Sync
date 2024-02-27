@@ -27,6 +27,8 @@ function main (srcPath) {
       case '.aac':
       case '.ogg':
       case '.wav':
+      case '.mp4a':
+      case '.wma':
         convertMusic(srcPath)
         break
       default:
