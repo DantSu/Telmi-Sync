@@ -14,7 +14,7 @@ function StoriesTelmiOSContent ({selectedLocalStories, setSelectedLocalStories})
   const
     {addModal, rmModal} = useModal(),
     telmiOS = useTelmiOS(),
-    [selectedUsbStories, setSelectedUsbStories] = useState([]),
+    [selectedTelmiOSStories, setSelectedTelmiOSStories] = useState([]),
     onDelete = useCallback(
       (stories) => ipcRenderer.send('telmios-stories-delete', telmiOS, stories),
       [telmiOS]
@@ -24,7 +24,7 @@ function StoriesTelmiOSContent ({selectedLocalStories, setSelectedLocalStories})
         addModal((key) => {
           const modal = <ModalStoriesTransfer key={key}
                                               stories={selectedLocalStories}
-                                              usb={telmiOS}
+                                              telmiOS={telmiOS}
                                               onClose={() => {
                                                 rmModal(modal)
                                                 setSelectedLocalStories([])
@@ -37,11 +37,11 @@ function StoriesTelmiOSContent ({selectedLocalStories, setSelectedLocalStories})
 
   return <TelmiOSLayout telmiOS={telmiOS}
                         onTransfer={selectedLocalStories.length ? onTransfer : undefined}>
-    <StoriesTable className={styles.usbTable}
+    <StoriesTable className={styles.telmiOSTable}
                   stories={telmiOS.stories}
                   onDelete={onDelete}
-                  setSelectedStories={setSelectedUsbStories}
-                  selectedStories={selectedUsbStories}/>
+                  setSelectedStories={setSelectedTelmiOSStories}
+                  selectedStories={selectedTelmiOSStories}/>
   </TelmiOSLayout>
 }
 

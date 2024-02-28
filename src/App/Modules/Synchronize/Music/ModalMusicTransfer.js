@@ -1,8 +1,8 @@
 import ModalElectronTaskVisualizer from '../../../Components/Electron/Modal/ModalElectronTaskVisualizer.js'
 
-function ModalMusicTransfer ({musics, usb, onClose}) {
+function ModalMusicTransfer ({musics, telmiOS, onClose}) {
   return <ModalElectronTaskVisualizer taskName="musics-transfer"
-                                      dataSent={[usb, musics]}
+                                      dataSent={[telmiOS, musics]}
                                       onClose={onClose}/>
 }
 

@@ -20,6 +20,7 @@ const fr = {
   'download': 'Télécharger',
   'delete': 'Supprimer',
   'avail': 'Dispo.',
+  'ejecting': 'Ejection en cours',
 
   'listen-title': 'Ecouter le titre',
   'update-available': 'Mise à jour disponible !',

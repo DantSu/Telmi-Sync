@@ -6,7 +6,7 @@ function TelmiOSNotDetected () {
   const
     {getLocale} = useLocale()
     return <div className={styles.telmiOSInactive}>
-      <h2 className={styles.usbTitle}>{getLocale('telmi-not-detected')}</h2>
+      <h2 className={styles.telmiOSTitle}>{getLocale('telmi-not-detected')}</h2>
       <div className={styles.telmiOSInactiveArea}/>
     </div>
 }

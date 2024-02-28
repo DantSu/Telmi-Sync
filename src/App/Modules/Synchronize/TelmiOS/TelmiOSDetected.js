@@ -3,10 +3,11 @@ import { useLocale } from '../../../Components/Locale/LocaleHooks.js'
 import { useModal } from '../../../Components/Modal/ModalHooks.js'
 import ButtonIconAnglesLeft from '../../../Components/Buttons/Icons/ButtonIconAnglesLeft.js'
 import ButtonIconGear from '../../../Components/Buttons/Icons/ButtonIconGear.js'
+import ButtonIconEject from '../../../Components/Buttons/Icons/ButtonIconEject.js'
 import ModalTelmiOSParamsForm from './ModalTelmiOSParamsForm.js'
 
 import styles from '../Synchronize.module.scss'
-import ButtonIconEject from '../../../Components/Buttons/Icons/ButtonIconEject.js'
+import ModalTelmiOSEject from './ModalTelmiOSEject.js'
 
 const
   {ipcRenderer} = window.require('electron'),
@@ -33,26 +34,38 @@ function TelmiOSDetected ({telmiOS, onTransfer, children}) {
       },
       [telmiOS, addModal, rmModal]
     ),
-    onTelmiOSEject = useCallback(() => ipcRenderer.send('telmios-eject-telmios', telmiOS), [telmiOS])
+    onTelmiOSEject = useCallback(
+      () => {
+        addModal(
+          (key) => {
+            const modal = <ModalTelmiOSEject key={key}
+                                             telmiOS={telmiOS}
+                                             onClose={() => rmModal(modal)}/>
+            return modal
+          }
+        )
+      },
+      [telmiOS, addModal, rmModal]
+    )
 
   return <>
     <div className={styles.telmiOS}>
-      <h2 className={styles.usbTitle}>
+      <h2 className={styles.telmiOSTitle}>
         <span
-          className={styles.usbTitleText}>
+          className={styles.telmiOSTitleText}>
           {telmiOS.telmiOS.label + ' v' + telmiOS.telmiOS.version.major + '.' + telmiOS.telmiOS.version.minor + '.' + telmiOS.telmiOS.version.fix}
           {
             telmiOS.diskusage !== null &&
-            <span className={styles.usbTitleFreeSpace}>
+            <span className={styles.telmiOSTitleFreeSpace}>
               ({getLocale('avail')} : {bytesToGigabytes(telmiOS.diskusage.available)}Go / {bytesToGigabytes(telmiOS.diskusage.total)}Go)
             </span>
           }
         </span>
-        <span className={styles.usbTitleIcons}>
-            <ButtonIconGear className={styles.usbTitleIcon}
+        <span className={styles.telmiOSTitleIcons}>
+            <ButtonIconGear className={styles.telmiOSTitleIcon}
                             title={getLocale('telmios-parameters')}
                             onClick={onTelmiOSParams}/>
-            <ButtonIconEject className={styles.usbTitleIcon}
+            <ButtonIconEject className={styles.telmiOSTitleIcon}
                              title={getLocale('telmios-eject')}
                              onClick={onTelmiOSEject}/>
           </span>

@@ -4,10 +4,10 @@ import TelmiOSContext from './TelmiOSContext.js'
 import { useModal } from '../Modal/ModalHooks.js'
 import ModalElectronTaskVisualizer from '../Electron/Modal/ModalElectronTaskVisualizer.js'
 
-const telmiOSToString = (usb) => {
-  return usb === null ?
+const telmiOSToString = (telmiOS) => {
+  return telmiOS === null ?
     '' :
-    usb.drive + '_' + usb.telmiOS.label + '-v' + usb.telmiOS.version.major + '.' + usb.telmiOS.version.minor + '.' + usb.telmiOS.version.fix
+    telmiOS.drive + '_' + telmiOS.telmiOS.label + '-v' + telmiOS.telmiOS.version.major + '.' + telmiOS.telmiOS.version.minor + '.' + telmiOS.telmiOS.version.fix
 }
 
 function TelmiOSProvider ({children}) {

@@ -1,7 +1,7 @@
 {
   "name": "telmi-sync",
   "description": "Desktop application for synchronize stories with Telmi OS.",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "author": {
     "name": "Franck ALARY",
     "url": "http://dantsu.com/"

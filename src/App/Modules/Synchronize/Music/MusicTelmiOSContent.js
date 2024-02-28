@@ -14,7 +14,7 @@ function MusicTelmiOSContent ({selectedLocalMusics, setSelectedLocalMusics}) {
   const
     {addModal, rmModal} = useModal(),
     telmiOS = useTelmiOS(),
-    [selectedUsbMusics, setSelectedUsbMusics] = useState([]),
+    [selectedTelmiOSMusics, setSelectedTelmiOSMusics] = useState([]),
     onDelete = useCallback(
       (musicsIds) => ipcRenderer.send('telmios-musics-delete', telmiOS, musicsIds),
       [telmiOS]
@@ -24,7 +24,7 @@ function MusicTelmiOSContent ({selectedLocalMusics, setSelectedLocalMusics}) {
         addModal((key) => {
           const modal = <ModalMusicTransfer key={key}
                                             musics={selectedLocalMusics}
-                                            usb={telmiOS}
+                                            telmiOS={telmiOS}
                                             onClose={() => {
                                               rmModal(modal)
                                               setSelectedLocalMusics([])
@@ -37,11 +37,11 @@ function MusicTelmiOSContent ({selectedLocalMusics, setSelectedLocalMusics}) {
 
   return <TelmiOSLayout telmiOS={telmiOS}
                         onTransfer={selectedLocalMusics.length ? onTransfer : undefined}>
-    <MusicTable className={styles.usbTable}
+    <MusicTable className={styles.telmiOSTable}
                 musics={telmiOS.music}
                 onDelete={onDelete}
-                selectedMusics={selectedUsbMusics}
-                setSelectedMusics={setSelectedUsbMusics}/>
+                selectedMusics={selectedTelmiOSMusics}
+                setSelectedMusics={setSelectedTelmiOSMusics}/>
   </TelmiOSLayout>
 }
 

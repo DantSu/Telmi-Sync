@@ -36,7 +36,7 @@
   background: $black20 url("../../Assets/Images/scratches.svg") repeat center center / 100px 100px;
 }
 
-.usbTitle {
+.telmiOSTitle {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -46,25 +46,25 @@
   text-align: center;
 }
 
-.usbTitleText {
+.telmiOSTitleText {
   flex: 1;
 }
-.usbTitleFreeSpace {
+.telmiOSTitleFreeSpace {
   display: inline-block;
   padding-left: 10px;
   font-size: 14px;
 }
 
-.usbTitleIcons {
+.telmiOSTitleIcons {
   flex: 0 1 auto;
   padding: 0 5px;
 }
 
-.usbTitleIcon {
+.telmiOSTitleIcon {
   padding: 2px 5px;
 }
 
-.usbTable {
+.telmiOSTable {
   margin: 2px;
 }
 

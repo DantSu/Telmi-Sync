@@ -20,6 +20,7 @@ const en = {
   'download': 'Download',
   'delete': 'Delete',
   'avail': 'Avail.',
+  'ejecting': 'Ejecting',
 
   'listen-title': 'Listen the title',
   'update-available': 'Update available !',

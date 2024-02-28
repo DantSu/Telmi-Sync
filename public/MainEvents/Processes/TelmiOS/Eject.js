@@ -2,8 +2,9 @@ import { getProcessParams } from '../Helpers/ProcessParams.js'
 import { ejectDrive } from '../BinFiles/EjectCommand.js'
 
 async function main (drive) {
-  process.stdout.write('*unmount*0*1*')
+  process.stdout.write('*ejecting*0*1*')
   await ejectDrive(drive)
+  process.stdout.write('*ejecting*1*1*')
   process.stdout.write('success')
 }
 

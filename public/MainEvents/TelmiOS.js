@@ -7,7 +7,7 @@ import runProcess from './Processes/RunProcess.js'
 import * as path from 'path'
 
 function mainEventTelmiOS (mainWindow) {
-  const checkUsb = async () => {
+  const checkUsbDevices = async () => {
     const drives = (await drivelist.list()).reduce((acc, d) => [...acc, ...d.mountpoints.map((p) => p.path)], [])
 
     for (const drive of drives) {
@@ -21,8 +21,8 @@ function mainEventTelmiOS (mainWindow) {
     mainWindow.webContents.send('telmios-data', null)
   }
 
-  setInterval(checkUsb, 5000)
-  setTimeout(checkUsb, 500)
+  setInterval(checkUsbDevices, 5000)
+  setTimeout(checkUsbDevices, 500)
 
   ipcMain.on(
     'telmios-diskusage',
@@ -50,14 +50,14 @@ function mainEventTelmiOS (mainWindow) {
         },
         () => {
           mainWindow.webContents.send('telmios-update-task', '', '', 0, 0)
-          checkUsb()
+          checkUsbDevices()
         }
       )
     }
   )
 
   ipcMain.on(
-    'telmios-eject-telmios',
+    'telmios-eject',
     async (event, telmiDevice) => {
       if (telmiDevice === undefined || telmiDevice === null) {
         return
@@ -66,9 +66,16 @@ function mainEventTelmiOS (mainWindow) {
         path.join('TelmiOS', 'Eject.js'),
         [telmiDevice.drive],
         () => {},
-        () => {},
-        () => {},
-        () => checkUsb()
+        (message, current, total) => {
+          mainWindow.webContents.send('telmios-eject-task', 'telmios-eject', message, current, total)
+        },
+        (error) => {
+          mainWindow.webContents.send('telmios-eject-error', 'telmios-eject', error)
+        },
+        () => {
+          mainWindow.webContents.send('telmios-eject-task', '', '', 0, 0)
+          checkUsbDevices()
+        }
       )
     }
   )
