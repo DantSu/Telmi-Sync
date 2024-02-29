@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
-umount -l "$1"
-mountPart=$(df "$1" | tail -1 | awk '{ print $1 }')
+readonly pathDevice=$1
+readonly mountPart=$(df "$pathDevice" | tail -1 | awk '{ print $1 }')
+umount -l "$pathDevice"
 udisksctl power-off -b "$mountPart" --no-user-interaction
