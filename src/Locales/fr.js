@@ -57,10 +57,10 @@ const fr = {
   'ffmpeg-download': 'Téléchargement de FFmpeg',
   'ffmpeg-download-failed': 'Echec du téléchargement de FFmpeg',
 
-  'telmios-parameters': 'Paramêtres TelmiOS',
-  'telmios-not-found': 'Impossible de localiser TelmiOS',
-  'telmios-update': 'Mise à jour de TelmiOS',
-  'telmios-eject': 'Ejecter TelmiOS',
+  'telmios-parameters': 'Paramêtres Telmi OS',
+  'telmios-not-found': 'Impossible de localiser Telmi OS',
+  'telmios-update': 'Mise à jour de Telmi OS',
+  'telmios-eject': 'Ejecter Telmi OS',
 
   'converting-images': 'Conversion des images',
   'converting-audio': 'Conversion des fichiers audio',
