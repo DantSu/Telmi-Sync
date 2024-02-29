@@ -6,6 +6,7 @@ import { getStoriesPath, initTmpPath } from '../Helpers/AppPaths.js'
 import { convertStoryImages } from './Helpers/ImageFile.js'
 import { stringSlugify } from '../../Helpers/Strings.js'
 import { findAgeInStoryName, generateDirNameStory } from '../Helpers/Stories.js'
+import { convertAudios } from './Helpers/AudioFile.js'
 
 const
   varsToTransitionNode = (transitionActionNodeIndexInLI, transitionNumberOfOptions, transitionSelectedOptionIndex, actionNodeKey) => {
@@ -39,7 +40,7 @@ function convertFolderFS (srcPath, storyName) {
   const
     ri = decipherXXTEA(fs.readFileSync(path.join(srcPath, 'ri'))).toString('utf8').match(/.{12}/g),
     si = decipherXXTEA(fs.readFileSync(path.join(srcPath, 'si'))).toString('utf8').match(/.{12}/g),
-    countFiles = ri.length * 2 + si.length + 1
+    countFiles = ri.length * 2 + si.length * 2 + 1
 
   process.stdout.write('*story-reading-metadata*1*' + countFiles + '*')
 
@@ -60,11 +61,14 @@ function convertFolderFS (srcPath, storyName) {
 
     renameImage = (name) => findNewName(name, '.png', imagesNewNames),
     renameAudio = (name) => findNewName(name, '.mp3', audiosNewNames),
+    renameToTmp = (prefix, name) => prefix + '_' + name.replace('\\', '_'),
+    renameToTmpImage = (name) => renameToTmp('IMG', name),
+    renameToTmpAudio = (name) => renameToTmp('AUD', name),
 
     tmpUuid = stringSlugify(path.basename(srcPath)),
     uuid = tmpUuid.length > 36 ? tmpUuid.substring(0, 36) : tmpUuid,
     {age, title} = findAgeInStoryName(storyName || path.basename(srcPath)),
-    dstPath = getStoriesPath(generateDirNameStory(title, uuid)),
+    dstPath = getStoriesPath(generateDirNameStory(title, uuid, age)),
     srcImagesPath = path.join(srcPath, 'rf'),
     srcAudiosPath = path.join(srcPath, 'sf'),
     dstImagesPath = path.join(dstPath, 'images'),
@@ -159,7 +163,7 @@ function convertFolderFS (srcPath, storyName) {
   fs.writeFileSync(path.join(dstPath, 'metadata.json'), JSON.stringify(metadata))
 
   const
-    tmpImagesPath = initTmpPath('story'),
+    tmpPath = initTmpPath('story'),
 
     toSrcPathsArray = (arr, srcPath) => {
       return arr.map((v) => {
@@ -172,7 +176,8 @@ function convertFolderFS (srcPath, storyName) {
         return path.join(dstPath, renameFunction(v))
       })
     },
-    tmpImagesPathsArray = toDstPathsArray(ri, tmpImagesPath, renameImage)
+    tmpImagesPathsArray = toDstPathsArray(ri, tmpPath, renameToTmpImage),
+    tmpMusicsPathsArray = toDstPathsArray(si, tmpPath, renameToTmpAudio)
 
   decipherMedias(
     toSrcPathsArray(ri, srcImagesPath),
@@ -186,14 +191,21 @@ function convertFolderFS (srcPath, storyName) {
       countFiles,
       (index) => decipherMedias(
         toSrcPathsArray(si, srcAudiosPath),
-        toDstPathsArray(si, dstAudiosPath, renameAudio),
+        [...tmpMusicsPathsArray],
         index,
         countFiles,
-        () => {
-          fs.copyFileSync(path.join(dstImagesPath, firstStageNode.image), path.join(dstPath, metadata.image))
-          fs.copyFileSync(path.join(dstAudiosPath, firstStageNode.audio), path.join(dstPath, 'title.mp3'))
-          process.stdout.write('success')
-        }
+        (index) => convertAudios(
+          tmpMusicsPathsArray,
+          toDstPathsArray(si, dstAudiosPath, renameAudio),
+          index,
+          countFiles,
+          () => {
+            fs.copyFileSync(path.join(dstImagesPath, firstStageNode.image), path.join(dstPath, metadata.image))
+            fs.copyFileSync(path.join(dstAudiosPath, firstStageNode.audio), path.join(dstPath, 'title.mp3'))
+            process.stdout.write('success')
+          },
+          false
+        )
       )
     )
   )

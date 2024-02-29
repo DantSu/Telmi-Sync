@@ -48,12 +48,11 @@ function convertFolderSTUdio (srcPath, storyName) {
       stageNodes = [...studioData.stageNodes],
       firstStageNode = stageNodes.shift(),
 
-      {
-        title,
-        age
-      } = findAgeInStoryName(typeof studioData.title === 'string' ? studioData.title : (storyName || path.basename(srcPath))),
+      {title, age} = findAgeInStoryName(
+        typeof studioData.title === 'string' ? studioData.title : (storyName || path.basename(srcPath))
+      ),
 
-      dstPath = getStoriesPath(generateDirNameStory(title, firstStageNode.uuid)),
+      dstPath = getStoriesPath(generateDirNameStory(title, firstStageNode.uuid, age)),
       dstImagesPath = path.join(dstPath, 'images'),
       dstAudiosPath = path.join(dstPath, 'audios'),
 
