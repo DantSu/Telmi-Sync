@@ -6,4 +6,4 @@ This application is for synchronized stories and music with Telmi OS.
 
 You can install Telmi Sync on Windows 10+ (x64), MacOS (x64, arm64), Linux (x64).
 
-[Learn more about TelmiOS](https://github.com/DantSu/Telmi-story-teller)
+[Learn more about Telmi OS](https://github.com/DantSu/Telmi-story-teller)
