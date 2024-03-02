@@ -4,6 +4,7 @@ import ButtonIconTrash from '../Buttons/Icons/ButtonIconTrash.js'
 import ButtonIconSquareCheck from '../Buttons/Icons/ButtonIconSquareCheck.js'
 import ButtonIconDownload from '../Buttons/Icons/ButtonIconDownload.js'
 import ButtonIconPen from '../Buttons/Icons/ButtonIconPen.js'
+import ButtonIconWave from '../Buttons/Icons/ButtonIconWave.js'
 
 import TableCell from './TableCell.js'
 import TableGroup from './TableGroup.js'
@@ -22,6 +23,8 @@ function Table ({
                   onPlay,
                   onEdit,
                   onEditSelected,
+  onOptimizeAudio,
+  onOptimizeAudioSelected,
                   onDownload,
                   onDownloadSelected,
                   onDelete,
@@ -36,8 +39,14 @@ function Table ({
       <h2 className={styles.headerTitleLeft}>{titleLeft}</h2>
       {titleRight && <p className={styles.headerTitleRight}>{titleRight}</p>}
       {
-        (onSelectAll || onDeleteSelected || onDownloadSelected || onEditSelected) &&
+        (onSelectAll || onDeleteSelected || onDownloadSelected || onEditSelected || onOptimizeAudioSelected) &&
         <ul className={styles.headerIcons}>
+          {
+            onOptimizeAudioSelected && selectedData.length > 0 &&
+            <li><ButtonIconWave className={styles.headerIcon}
+                               title={getLocale('telmios-optimize-audio')}
+                               onClick={onOptimizeAudioSelected}/></li>
+          }
           {
             onEditSelected && selectedData.length > 0 &&
             <li><ButtonIconPen className={styles.headerIcon}
@@ -77,6 +86,7 @@ function Table ({
                                  onSelect={onSelect}
                                  onSelectGroup={onSelectGroup}
                                  onPlay={onPlay}
+                                 onOptimizeAudio={onOptimizeAudio}
                                  onEdit={onEdit}
                                  onDownload={onDownload}
                                  onDelete={onDelete}/>
@@ -86,6 +96,7 @@ function Table ({
                                 selected={Array.isArray(selectedData) && selectedData.includes(v)}
                                 onSelect={onSelect}
                                 onPlay={onPlay}
+                                onOptimizeAudio={onOptimizeAudio}
                                 onEdit={onEdit}
                                 onDownload={onDownload}
                                 onDelete={onDelete}/>

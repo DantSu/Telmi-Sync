@@ -8,7 +8,7 @@ import ModalStoriesDeleteConfirm from './ModalStoriesDeleteConfirm.js'
 import ModalStoriesFormUpdate from './ModalStoriesFormUpdate.js'
 import { storiesClassification } from './StoriesClassification.js'
 
-function StoriesTable ({stories, className, onEdit, onEditSelected, onDelete, selectedStories, setSelectedStories}) {
+function StoriesTable ({stories, className, onEdit, onEditSelected, onDelete, onOptimizeAudio, onOptimizeAudioSelected, selectedStories, setSelectedStories}) {
   const
     {getLocale} = useLocale(),
     {addModal, rmModal} = useModal(),
@@ -79,13 +79,13 @@ function StoriesTable ({stories, className, onEdit, onEditSelected, onDelete, se
       () => {
         addModal((key) => {
           const modal = <ModalStoriesFormUpdate key={key}
-                                              stories={selectedStories}
-                                              onValidate={(stories) => {
-                                                onEditSelected(stories)
-                                                setIsLoadingStories(true)
-                                                setSelectedStories([])
-                                              }}
-                                              onClose={() => rmModal(modal)}/>
+                                                stories={selectedStories}
+                                                onValidate={(stories) => {
+                                                  onEditSelected(stories)
+                                                  setIsLoadingStories(true)
+                                                  setSelectedStories([])
+                                                }}
+                                                onClose={() => rmModal(modal)}/>
           return modal
         })
       },
@@ -138,6 +138,8 @@ function StoriesTable ({stories, className, onEdit, onEditSelected, onDelete, se
                 onSelectGroup={onSelectGroup}
                 onSelectAll={onSelectAll}
                 onPlay={onPlay}
+                onOptimizeAudio={onOptimizeAudio}
+                onOptimizeAudioSelected={onOptimizeAudioSelected}
                 onEdit={onEdit !== undefined ? callbackOnEdit : undefined}
                 onEditSelected={onEditSelected !== undefined ? callbackOnEditSelected : undefined}
                 onDelete={callbackOnDelete}

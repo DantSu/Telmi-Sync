@@ -61,6 +61,7 @@ const en = {
   'telmios-not-found': 'Unable to found Telmi OS',
   'telmios-update': 'Updating Telmi OS',
   'telmios-eject': 'Eject Telmi OS',
+  'telmios-optimize-audio': 'Optimize audio files for Telmi OS',
 
   'converting-images': 'Converting images',
   'converting-audio': 'Converting audio files',

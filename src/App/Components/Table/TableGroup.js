@@ -12,7 +12,7 @@ const isSelected = (selectedData, value) => {
   return Array.isArray(selectedData) && selectedData.includes(value)
 }
 
-function TableGroup ({data, selectedData, onSelect, onSelectGroup, onPlay, onEdit, onDownload, onDelete}) {
+function TableGroup ({data, selectedData, onSelect, onSelectGroup, onPlay, onEdit, onOptimizeAudio, onDownload, onDelete}) {
   const
     {getLocale} = useLocale(),
     [displayCells, setDisplayCells] = useState(false),
@@ -56,6 +56,7 @@ function TableGroup ({data, selectedData, onSelect, onSelectGroup, onPlay, onEdi
                                 selected={isSelected(selectedData, v)}
                                 onSelect={onSelect}
                                 onPlay={onPlay}
+                                onOptimizeAudio={onOptimizeAudio}
                                 onEdit={onEdit}
                                 onDownload={onDownload}
                                 onDelete={onDelete}/>

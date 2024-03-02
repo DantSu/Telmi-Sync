@@ -4,6 +4,7 @@ import * as path from 'path'
 import { getStoriesPath } from './Helpers/AppPaths.js'
 import { deleteStories, readStories } from './Helpers/StoriesFiles.js'
 import { generateDirNameStory } from './Processes/Helpers/Stories.js'
+import runProcess from './Processes/RunProcess.js'
 
 function mainEventLocalStoriesReader (mainWindow) {
   ipcMain.on(
@@ -46,6 +47,31 @@ function mainEventLocalStoriesReader (mainWindow) {
       ipcMain.emit('local-stories-get')
     }
   )
+
+  const runOptimizeAudio = (stories) => {
+    if(!stories.length) {
+      mainWindow.webContents.send('stories-optimize-audio-task', '', '', 0, 0)
+      return ipcMain.emit('local-stories-get')
+    }
+
+    const story = stories.shift()
+    mainWindow.webContents.send('stories-optimize-audio-task', story.title, 'initialize', 0, 1)
+    mainWindow.webContents.send('stories-optimize-audio-waiting', stories)
+
+    runProcess(
+      path.join('Stories', 'StoriesOptimizeAudio.js'),
+      [story.path],
+      () => {},
+      (message, current, total) => {
+        mainWindow.webContents.send('stories-optimize-audio-task', story.title, message, current, total)
+      },
+      (error) => {
+        mainWindow.webContents.send('stories-optimize-audio-error', story.title, error)
+      },
+      () => runOptimizeAudio(stories)
+    )
+  }
+  ipcMain.on('stories-optimize-audio', async (event, stories) => runOptimizeAudio(stories))
 
   ipcMain.on(
     'local-stories-delete',

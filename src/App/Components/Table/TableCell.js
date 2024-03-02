@@ -2,13 +2,14 @@ import { useLocale } from '../Locale/LocaleHooks.js'
 import { useCallback } from 'react'
 
 import ButtonIconTrash from '../Buttons/Icons/ButtonIconTrash.js'
+import ButtonIconWave from '../Buttons/Icons/ButtonIconWave.js'
 import ButtonIconPen from '../Buttons/Icons/ButtonIconPen.js'
 import ButtonIconPlay from '../Buttons/Icons/ButtonIconPlay.js'
 import ButtonIconDownload from '../Buttons/Icons/ButtonIconDownload.js'
 
 import styles from './Table.module.scss'
 
-function TableCell ({data, selected, onSelect, onPlay, onEdit, onDownload, onDelete}) {
+function TableCell ({data, selected, onSelect, onPlay, onOptimizeAudio, onEdit, onDownload, onDelete}) {
   const
     {getLocale} = useLocale(),
     onCSelect = useCallback(
@@ -22,6 +23,14 @@ function TableCell ({data, selected, onSelect, onPlay, onEdit, onDownload, onDel
         typeof onPlay === 'function' && onPlay(data)
       },
       [onPlay, data]
+    ),
+    onCOptimizeAudio = useCallback(
+      (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        typeof onOptimizeAudio === 'function' && onOptimizeAudio(data)
+      },
+      [onOptimizeAudio, data]
     ),
     onCEdit = useCallback(
       (e) => {
@@ -56,6 +65,7 @@ function TableCell ({data, selected, onSelect, onPlay, onEdit, onDownload, onDel
       (onPlay || onEdit || onDownload || onDelete) &&
       <div className={styles.cellActionBar}>
         {onPlay && <ButtonIconPlay title={getLocale('listen-title')} onClick={onCPlay} className={styles.cellActionButton}/>}
+        {onOptimizeAudio && <ButtonIconWave title={getLocale('telmios-optimize-audio')} onClick={onCOptimizeAudio} className={styles.cellActionButton}/>}
         {onEdit && <ButtonIconPen title={getLocale('edit')} onClick={onCEdit} className={styles.cellActionButton}/>}
         {onDownload && <ButtonIconDownload title={getLocale('download')} onClick={onCDownload} className={styles.cellActionButton}/>}
         {onDelete && <ButtonIconTrash title={getLocale('delete')} onClick={onCDelete} className={styles.cellActionButton}/>}
