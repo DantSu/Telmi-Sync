@@ -2,7 +2,7 @@ import { stringNormalizeFileName, stringSlugify } from '../../Helpers/Strings.js
 
 const
   generateDirNameStory = (title, uuid, age, category) => {
-    return stringNormalizeFileName(category || '').substring(0, 32) + '_' + ((age || '') + '').substring(0, 32) + '_' + stringNormalizeFileName(title).substring(0, 32) + '_' + stringSlugify(uuid).substring(0, 36)
+    return stringNormalizeFileName(category || '').substring(0, 32) + '_' + (age === undefined ? '' : age + '').substring(0, 2) + '_' + stringNormalizeFileName(title).substring(0, 32) + '_' + stringSlugify(uuid).substring(0, 36)
   },
   findAgeInStoryName = (title) => {
     const a = title.match(/^([0-9]{1,2})\+](.*)/)
