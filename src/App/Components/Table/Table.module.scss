@@ -94,6 +94,7 @@
   margin: 0 15px 0 15px;
   border-bottom: 1px solid $white60;
 }
+
 .cellGroupButton {
   font-size: 14px;
 }
@@ -232,6 +233,7 @@
   align-items: center;
   justify-content: flex-start;
 }
+
 .groupListImage {
   border-radius: 10px;
   flex: 0 1 160px;
@@ -239,18 +241,27 @@
   height: auto;
   margin: 30px;
 }
+
 .listContainer {
   flex: 0 1 100%;
   overflow: hidden;
 }
+
 .list {
   cursor: pointer;
   padding: 4px;
   overflow-wrap: break-word;
+  transition: color 0.3s;
 }
-.listSelected {
+
+.list:hover {
+  color: $white;
+}
+
+.listSelected, .listSelected:hover {
   color: $orange;
 }
+
 .listSelected:before {
   display: inline-block;
   padding-right: 10px;
