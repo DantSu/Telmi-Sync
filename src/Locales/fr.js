@@ -1,4 +1,5 @@
 const fr = {
+  'new': 'Nouveau',
   'informations': 'Informations',
   'waiting': 'En attente',
   'please-wait': 'Veuillez patienter',
@@ -28,6 +29,7 @@ const fr = {
   'created-at': 'Créé le',
   'updated-at': 'Mise à jour le',
   'update-recent': 'Mise à jour récente',
+  'sort-name-or-update': 'Trier par Nom / Dernière mise à jour',
 
   'listen-title': 'Ecouter le titre',
   'update-available': 'Mise à jour disponible !',

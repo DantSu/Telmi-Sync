@@ -1,16 +1,29 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useElectronEmitter, useElectronListener } from '../../../Components/Electron/Hooks/UseElectronEvent.js'
 import { useModal } from '../../../Components/Modal/ModalHooks.js'
 import { useLocale } from '../../../Components/Locale/LocaleHooks.js'
 import Table from '../../../Components/Table/Table.js'
 import ModalStoreDownload from './ModalStoreDownload.js'
 import ModalStoreStoryInfo from './ModalStoreStoryInfo.js'
+import TableHeaderIcon from '../../../Components/Table/TableHeaderIcon.js'
+import ButtonIconSort from '../../../Components/Buttons/Icons/ButtonIconSort.js'
+
+const
+  sortByName = (stories) => stories.sort((a, b) => {
+    if ((a.age - b.age) === 0) {
+      return a.title.localeCompare(b.title)
+    } else {
+      return a.age - b.age
+    }
+  }),
+  sortByUpdatedAt = (stories) => stories.sort((a, b) => Date.parse(b.updated_at) - Date.parse(a.updated_at))
 
 function StoreContent ({store}) {
   const
     {getLocale} = useLocale(),
     [stories, setStories] = useState([]),
     [storiesSelected, setStoriesSelected] = useState([]),
+    [isSortedByName, setSortedByName] = useState(true),
     {addModal, rmModal} = useModal(),
 
     onInfo = useCallback(
@@ -60,6 +73,15 @@ function StoreContent ({store}) {
         })
       },
       [addModal, rmModal]
+    ),
+    additionalHeaderButtons = useMemo(
+      () => <TableHeaderIcon componentIcon={ButtonIconSort}
+                             title="sort-name-or-update"
+                             onClick={() => {
+                               setStories((stories) => [...(isSortedByName ? sortByUpdatedAt(stories) : sortByName(stories))])
+                               setSortedByName((sort) => !sort)
+                             }}/>,
+      [isSortedByName, setStories, setSortedByName]
     )
 
   useElectronListener(
@@ -67,22 +89,24 @@ function StoreContent ({store}) {
     (stories) => {
       const now = Date.now()
       setStories(
-        stories.map(
-          (s) => {
-            const
-              isUpdated = now - Date.parse(s.updated_at) < 1296000000,
-              isPerfect = s.awards.includes('PARFAIT')
-            return {
-              ...s,
-              isUpdated,
-              isPerfect,
-              cellTitle: s.age + '+] ' + s.title,
-              cellSubtitle: s.description,
-              cellLabelIcon: isUpdated ? '\uf274' : (isPerfect ? '\uf559' : undefined),
-              cellLabelIconText: isUpdated ? getLocale('update-recent') : (isPerfect ? getLocale('award-perfect') : undefined)
+        sortByName(stories)
+          .map(
+            (s) => {
+              const
+                isNew = now - Date.parse(s.created_at) < 1296000000,
+                isUpdated = now - Date.parse(s.updated_at) < 1296000000,
+                isPerfect = s.awards.includes('PARFAIT')
+              return {
+                ...s,
+                isUpdated,
+                isPerfect,
+                cellTitle: s.age + '+] ' + s.title,
+                cellSubtitle: s.description,
+                cellLabelIcon: isNew ? '\uf005' : (isUpdated ? '\uf274' : (isPerfect ? '\uf559' : undefined)),
+                cellLabelIconText: getLocale(isNew ? 'new' : (isUpdated ? 'update-recent' : (isPerfect ? 'award-perfect' : '')))
+              }
             }
-          }
-        )
+          )
       )
     },
     [setStories]
@@ -97,6 +121,7 @@ function StoreContent ({store}) {
                 onSelect={onSelect}
                 onDownload={onDownload}
                 onDownloadSelected={onDownloadSelected}
+                additionalHeaderButtons={additionalHeaderButtons}
                 isLoading={!stories.length}/>
 }
 

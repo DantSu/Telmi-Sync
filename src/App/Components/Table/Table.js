@@ -1,13 +1,14 @@
-import { useLocale } from '../Locale/LocaleHooks.js'
 import Loader from '../Loader/Loader.js'
+
+import TableHeaderIcon from './TableHeaderIcon.js'
+import TableCell from './TableCell.js'
+import TableGroup from './TableGroup.js'
+
 import ButtonIconTrash from '../Buttons/Icons/ButtonIconTrash.js'
 import ButtonIconSquareCheck from '../Buttons/Icons/ButtonIconSquareCheck.js'
 import ButtonIconDownload from '../Buttons/Icons/ButtonIconDownload.js'
 import ButtonIconPen from '../Buttons/Icons/ButtonIconPen.js'
 import ButtonIconWave from '../Buttons/Icons/ButtonIconWave.js'
-
-import TableCell from './TableCell.js'
-import TableGroup from './TableGroup.js'
 
 import styles from './Table.module.scss'
 
@@ -30,10 +31,9 @@ function Table ({
                   onDownloadSelected,
                   onDelete,
                   onDeleteSelected,
+                  additionalHeaderButtons,
                   isLoading
                 }) {
-
-  const {getLocale} = useLocale()
 
   return <div className={[styles.tableContainer, className].join(' ')}>
     <div className={styles.header}>
@@ -44,34 +44,35 @@ function Table ({
         <ul className={styles.headerIcons}>
           {
             onOptimizeAudioSelected && selectedData.length > 0 &&
-            <li><ButtonIconWave className={styles.headerIcon}
-                               title={getLocale('telmios-optimize-audio')}
-                               onClick={onOptimizeAudioSelected}/></li>
+            <TableHeaderIcon componentIcon={ButtonIconWave}
+                             title="telmios-optimize-audio"
+                             onClick={onOptimizeAudioSelected}/>
           }
           {
             onEditSelected && selectedData.length > 0 &&
-            <li><ButtonIconPen className={styles.headerIcon}
-                               title={getLocale('edit-selected')}
-                               onClick={onEditSelected}/></li>
+            <TableHeaderIcon componentIcon={ButtonIconPen}
+                             title="edit-selected"
+                             onClick={onEditSelected}/>
           }
           {
             onDownloadSelected && selectedData.length > 0 &&
-            <li><ButtonIconDownload className={styles.headerIcon}
-                                    title={getLocale('download-selected')}
-                                    onClick={onDownloadSelected}/></li>
+            <TableHeaderIcon componentIcon={ButtonIconDownload}
+                                    title="download-selected"
+                                    onClick={onDownloadSelected}/>
           }
           {
             onDeleteSelected && selectedData.length > 0 &&
-            <li><ButtonIconTrash className={styles.headerIcon}
-                                 title={getLocale('delete-selected')}
-                                 onClick={onDeleteSelected}/></li>
+            <TableHeaderIcon componentIcon={ButtonIconTrash}
+                             title="delete-selected"
+                             onClick={onDeleteSelected}/>
           }
           {
             onSelectAll &&
-            <li><ButtonIconSquareCheck className={styles.headerIcon}
-                                       title={getLocale('select-all')}
-                                       onClick={onSelectAll}/></li>
+            <TableHeaderIcon componentIcon={ButtonIconSquareCheck}
+                             title="select-all"
+                             onClick={onSelectAll}/>
           }
+          {additionalHeaderButtons || null}
         </ul>
       }
 

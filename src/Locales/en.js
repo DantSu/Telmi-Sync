@@ -1,4 +1,5 @@
 const en = {
+  'new': 'New',
   'informations': 'Informations',
   'waiting': 'Waiting',
   'please-wait': 'Please wait',
@@ -28,6 +29,7 @@ const en = {
   'created-at': 'Created at',
   'updated-at': 'Updated at',
   'update-recent': 'Recent update',
+  'sort-name-or-update': 'Sort by Name / Last update',
 
   'listen-title': 'Listen the title',
   'update-available': 'Update available !',

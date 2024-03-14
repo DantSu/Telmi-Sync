@@ -86,7 +86,7 @@ function mainEventStores (mainWindow) {
       if (typeof v.thumbs === 'object' && v.thumbs !== null) {
         return v.thumbs.medium
       }
-      if(typeof v.smallThumbUrl === 'string') {
+      if (typeof v.smallThumbUrl === 'string') {
         return v.smallThumbUrl
       }
       return null
@@ -100,24 +100,16 @@ function mainEventStores (mainWindow) {
           .then((data) => {
             mainWindow.webContents.send(
               'store-remote-data',
-              data
-                .sort((a, b) => {
-                  if ((a.age - b.age) === 0) {
-                    return a.title.localeCompare(b.title)
-                  } else {
-                    return a.age - b.age
-                  }
-                })
-                .map((v) => ({
-                  title: v.title,
-                  age: v.age,
-                  description: v.description,
-                  image: findThumb(v),
-                  download: v.download || v.downloadUrl,
-                  awards: v.awards || [],
-                  created_at: v.created_at || '1970-01-01T00:00:00.000Z',
-                  updated_at: v.updated_at || '1970-01-01T00:00:00.000Z'
-                }))
+              data.map((v) => ({
+                title: v.title,
+                age: v.age,
+                description: v.description,
+                image: findThumb(v),
+                download: v.download || v.downloadUrl,
+                awards: v.awards || [],
+                created_at: v.created_at || '1970-01-01T00:00:00.000Z',
+                updated_at: v.updated_at || '1970-01-01T00:00:00.000Z'
+              }))
             )
           })
           .catch((e) => {console.log(e.toString())})
@@ -125,10 +117,9 @@ function mainEventStores (mainWindow) {
     }
   )
 
-
   let taskRunning = null
   const runDownload = (stories) => {
-    if(!stories.length) {
+    if (!stories.length) {
       taskRunning = null
       mainWindow.webContents.send('store-download-task', '', '', 0, 0)
       return ipcMain.emit('local-stories-get')
