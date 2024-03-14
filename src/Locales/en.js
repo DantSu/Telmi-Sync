@@ -1,4 +1,5 @@
 const en = {
+  'informations': 'Informations',
   'waiting': 'Waiting',
   'please-wait': 'Please wait',
   'cancel': 'Cancel',
@@ -10,6 +11,7 @@ const en = {
   'url': 'URL',
   'track': 'Track',
   'title': 'Title',
+  'description': 'Description',
   'album': 'Album',
   'artist': 'Artist',
   'hours': 'Hours',
@@ -21,6 +23,11 @@ const en = {
   'delete': 'Delete',
   'avail': 'Avail.',
   'ejecting': 'Ejecting',
+  'awards': 'Awards',
+  'award-perfect': 'Award : PERFECT',
+  'created-at': 'Created at',
+  'updated-at': 'Updated at',
+  'update-recent': 'Recent update',
 
   'listen-title': 'Listen the title',
   'update-available': 'Update available !',

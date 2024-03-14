@@ -10,3 +10,44 @@
   padding-right: 15px;
 }
 
+.infoTitle {
+  max-width: 680px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.infoContainer {
+  max-width: 680px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.infoLabel,
+.infoContent,
+.infoLabelFullWidth,
+.infoContentFullWidth {
+  padding: 5px;
+  flex: 0 1 20%;
+}
+
+.infoLabel,
+.infoLabelFullWidth {
+  font-weight: bold;
+}
+
+.infoContent {
+  flex: 0 1 30%;
+}
+
+.infoLabelFullWidth,
+.infoContentFullWidth {
+  flex: 0 1 100%;
+}
+
+.infoLabelFullWidth {
+  padding-top: 20px;
+}

@@ -21,10 +21,11 @@ function Table ({
                   onSelectGroup,
                   onSelectAll,
                   onPlay,
+                  onInfo,
                   onEdit,
                   onEditSelected,
-  onOptimizeAudio,
-  onOptimizeAudioSelected,
+                  onOptimizeAudio,
+                  onOptimizeAudioSelected,
                   onDownload,
                   onDownloadSelected,
                   onDelete,
@@ -88,6 +89,7 @@ function Table ({
                                  onPlay={onPlay}
                                  onOptimizeAudio={onOptimizeAudio}
                                  onEdit={onEdit}
+                                 onInfo={onInfo}
                                  onDownload={onDownload}
                                  onDelete={onDelete}/>
             } else {
@@ -98,6 +100,7 @@ function Table ({
                                 onPlay={onPlay}
                                 onOptimizeAudio={onOptimizeAudio}
                                 onEdit={onEdit}
+                                onInfo={onInfo}
                                 onDownload={onDownload}
                                 onDelete={onDelete}/>
             }

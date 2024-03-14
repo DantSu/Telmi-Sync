@@ -19,7 +19,6 @@ function StoriesTable ({stories, className, onEdit, onEditSelected, onDelete, on
         const flatStories = stories.map((s) => ({
           ...s,
           cellTitle: (s.age !== undefined ? s.age + '+] ' : '') + s.title,
-          cellSubtitle: s.uuid,
         }))
         return {
           flatTableStories: flatStories,

@@ -107,7 +107,7 @@
   align-items: stretch;
   flex: 0 0 185px;
   width: 185px;
-  padding: 15px;
+  padding: 15px 15px 12px 15px;
   margin: 10px;
   border: 2px solid $white10;
   border-radius: 10px;
@@ -164,24 +164,34 @@
 
 .cellTitle, .cellSubtitle {
   flex: 0 0 auto;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .cellTitle {
   order: 2;
   font-size: 14px;
-  margin-bottom: 3px;
+  height: 41px;
 }
 
 .cellSubtitle {
   order: 3;
   font-size: 12px;
+  height: 35px;
+}
+
+.cellEllipsis {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
 }
 
 .imageContainer {
+  position: relative;
   order: 1;
   flex: 1;
   display: flex;
@@ -189,7 +199,7 @@
   align-items: center;
   border-radius: 10px;
   overflow: hidden;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   background: $black;
 }
 
@@ -198,7 +208,31 @@
   height: auto;
 }
 
+.cellImageLabel,
+.cellImageLabel:before {
+  z-index: 1;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding: 5px;
+  color: $white;
+  font-family: icons;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.cellImageLabel:before {
+  z-index: -1;
+  margin: 0 -35px -35px 0;
+  content: "";
+  transform: rotate(45deg);
+  background: $blueDark;
+  width: 60px;
+  height: 60px;
+}
+
 .cellActionBar {
+  z-index: 2;
   position: absolute;
   left: 0;
   right: 0;

@@ -23,7 +23,7 @@ function mainEventStores (mainWindow) {
           JSON.stringify({
             stores: [{
               name: 'Raconte-moi une histoire',
-              url: 'https://gist.githubusercontent.com/UnofficialStories/32702fb104aebfe650d4ef8d440092c1/raw/luniicreations.json'
+              url: 'https://gist.githubusercontent.com/DantSu/3aea4c1fe15070bcf394a40b89aec33e/raw/stories.json'
             }]
           })
         )
@@ -81,6 +81,17 @@ function mainEventStores (mainWindow) {
     }
   )
 
+  const
+    findThumb = (v) => {
+      if (typeof v.thumbs === 'object' && v.thumbs !== null) {
+        return v.thumbs.medium
+      }
+      if(typeof v.smallThumbUrl === 'string') {
+        return v.smallThumbUrl
+      }
+      return null
+    }
+
   ipcMain.on(
     'store-remote-get',
     async (event, store) => {
@@ -98,10 +109,16 @@ function mainEventStores (mainWindow) {
                   }
                 })
                 .map((v) => ({
-                  title: '[' + v.age + '+] ' + v.title,
-                  image: v.smallThumbUrl,
-                  downloadUrl: v.downloadUrl
-                })))
+                  title: v.title,
+                  age: v.age,
+                  description: v.description,
+                  image: findThumb(v),
+                  download: v.download || v.downloadUrl,
+                  awards: v.awards || [],
+                  created_at: v.created_at || '1970-01-01T00:00:00.000Z',
+                  updated_at: v.updated_at || '1970-01-01T00:00:00.000Z'
+                }))
+            )
           })
           .catch((e) => {console.log(e.toString())})
       }
@@ -123,7 +140,7 @@ function mainEventStores (mainWindow) {
 
     taskRunning = runProcess(
       path.join('Store', 'StoreDownload.js'),
-      [story.downloadUrl],
+      [story.download],
       () => {},
       (message, current, total) => {
         mainWindow.webContents.send('store-download-task', story.title, message, current, total)

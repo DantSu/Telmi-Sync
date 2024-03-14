@@ -1,7 +1,7 @@
 
 import styles from './Modal.module.scss'
-function ModalTitle({children}) {
-  return <h2 className={styles.title}>{children}</h2>
+function ModalTitle({className, children}) {
+  return <h2 className={[className, styles.title].join(' ')}>{children}</h2>
 }
 
 export default ModalTitle

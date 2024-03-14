@@ -1,4 +1,5 @@
 const fr = {
+  'informations': 'Informations',
   'waiting': 'En attente',
   'please-wait': 'Veuillez patienter',
   'cancel': 'Annuler',
@@ -10,6 +11,7 @@ const fr = {
   'url': 'URL',
   'track': 'Track',
   'title': 'Titre',
+  'description': 'Description',
   'album': 'Album',
   'artist': 'Artiste',
   'hours': 'Heures',
@@ -21,6 +23,11 @@ const fr = {
   'delete': 'Supprimer',
   'avail': 'Dispo.',
   'ejecting': 'Ejection en cours',
+  'awards': 'Awards',
+  'award-perfect': 'Award : PARFAIT',
+  'created-at': 'Créé le',
+  'updated-at': 'Mise à jour le',
+  'update-recent': 'Mise à jour récente',
 
   'listen-title': 'Ecouter le titre',
   'update-available': 'Mise à jour disponible !',
