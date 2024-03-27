@@ -71,7 +71,7 @@ function TableCell ({data, selected, onSelect, onPlay, onInfo, onOptimizeAudio, 
     {data.cellSubtitle && <p className={styles.cellSubtitle} title={data.cellSubtitle}><span className={styles.cellEllipsis}>{data.cellSubtitle}</span></p>}
     <div className={styles.imageContainer}>
       <img src={data.image} className={styles.cellImage} alt=""/>
-      <div className={styles.cellImageBackground} style={{backgroundImage:'url("' + data.image + '")'}}/>
+      <div className={styles.cellImageBackground} style={{backgroundImage:'url("' + data.image.replaceAll('\\', '\\\\') + '")'}}/>
       {data.cellLabelIcon && <p className={styles.cellImageLabel} title={data.cellLabelIconText}>{data.cellLabelIcon}</p>}
     </div>
     {
