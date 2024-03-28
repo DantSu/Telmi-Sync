@@ -4,7 +4,7 @@ import { createPathDirectories, isDirectory, recursiveCountFiles, rmDirectory } 
 import { getStoriesPath } from '../Helpers/AppPaths.js'
 import { convertStoryImages, isImageFile } from './Helpers/ImageFile.js'
 import { convertAudios, isAudioFile } from './Helpers/AudioFile.js'
-import { findAgeInStoryName, generateDirNameStory } from '../Helpers/Stories.js'
+import { findAgeInStoryName, generateDirNameStory } from '../../Helpers/Stories.js'
 
 function convertFolderSTUdio (srcPath, storyName) {
   try {

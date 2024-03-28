@@ -19,7 +19,7 @@ const musicClassification = (musics) => {
     )
   ).reduce(
     (acc, category) => {
-      if (category.tableChildren.length < 3) {
+      if (category.tableChildren.length < 2) {
         return [...acc, ...category.tableChildren]
       } else {
         return [...acc, category]

@@ -7,7 +7,7 @@ const storiesClassification = (stories) => {
           return {
             ...acc,
             [key]: {
-              tableGroup: story.category || story.uuid,
+              tableGroup: key,
               tableChildren: [story]
             }
           }

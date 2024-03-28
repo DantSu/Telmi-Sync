@@ -1,7 +1,8 @@
 import * as fs from 'fs'
 import * as path from 'path'
 import runProcess from '../Processes/RunProcess.js'
-import { rmDirectory } from './Files.js'
+import {rmDirectory} from './Files.js'
+import {generateDirNameStory} from "./Stories.js";
 
 const
   readStories = (storiesPath) => {
@@ -9,7 +10,6 @@ const
       return []
     }
     return fs.readdirSync(storiesPath)
-      .sort()
       .reduce(
         (acc, d) => {
           const
@@ -29,8 +29,17 @@ const
             return acc
           }
 
-          const md = JSON.parse(fs.readFileSync(mdPath).toString('utf8'))
+          const
+            md = JSON.parse(fs.readFileSync(mdPath).toString('utf8')),
+            storyDirName = generateDirNameStory(md.title, md.uuid, md.age, md.category)
 
+          if (storyDirName !== d) {
+            console.log('Changement !', d, storyDirName)
+            fs.renameSync(storyPath, path.join(storiesPath, storyDirName))
+            d = storyDirName
+          }
+
+          md.directory = d
           md.path = path.join(storiesPath, d)
           md.image = path.join(md.path, md.image)
           md.audio = path.join(md.path, 'title.mp3')
@@ -38,6 +47,7 @@ const
         },
         []
       )
+      .sort((md1, md2) => md1.directory > md2.directory ? 1 : (md1.directory < md2.directory ? -1 : 0))
   },
 
   deleteStories = (storiesPath, onFinished) => {
@@ -55,4 +65,4 @@ const
     return true
   }
 
-export { readStories, deleteStories }
+export {readStories, deleteStories}

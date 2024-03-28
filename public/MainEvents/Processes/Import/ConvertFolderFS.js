@@ -5,7 +5,7 @@ import { createPathDirectories, rmDirectory } from '../../Helpers/Files.js'
 import { getStoriesPath, initTmpPath } from '../Helpers/AppPaths.js'
 import { convertStoryImages } from './Helpers/ImageFile.js'
 import { stringSlugify } from '../../Helpers/Strings.js'
-import { findAgeInStoryName, generateDirNameStory } from '../Helpers/Stories.js'
+import { findAgeInStoryName, generateDirNameStory } from '../../Helpers/Stories.js'
 import { convertAudios } from './Helpers/AudioFile.js'
 
 const
