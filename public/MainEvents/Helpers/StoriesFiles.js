@@ -34,7 +34,6 @@ const
             storyDirName = generateDirNameStory(md.title, md.uuid, md.age, md.category)
 
           if (storyDirName !== d) {
-            console.log('Changement !', d, storyDirName)
             fs.renameSync(storyPath, path.join(storiesPath, storyDirName))
             d = storyDirName
           }
