@@ -1,4 +1,5 @@
-import { request } from 'https'
+import {request as requestHttps} from 'https'
+import {request as requestHttp} from 'http'
 import * as fs from 'fs'
 
 const
@@ -7,7 +8,7 @@ const
     'Accept-Language': 'en-US,en;q=0.5',
     'Connection': 'keep-alive',
     'language': 'fr',
-    'User-Agent': 'TelmiSync/0.1.1 ( https://github.com/DantSu/Telmi-Sync )',
+    'User-Agent': 'TelmiSync/0.1.3 ( https://github.com/DantSu/Telmi-Sync )',
   },
 
   htmlTag = '<!DOCTYPE html>',
@@ -19,14 +20,16 @@ const
 
     try {
       const
+        isHttps = url.substring(0, 6) === 'https:',
+        request = isHttps ? requestHttps : requestHttp,
         bytesEnd = bytesStart !== undefined ? (bytesStart + 268435456) : undefined,
         file = fs.createWriteStream(filePath, {flags: 'a'}),
         req = request(
           url,
           {
             method: 'GET',
-            protocol: 'https:',
-            port: 443,
+            protocol: isHttps ? 'https:' : 'http:',
+            port: isHttps ? 443 : 80,
             rejectUnauthorized: false,
             headers: Object.assign(
               {...defaultHeader},
@@ -97,31 +100,38 @@ const
         fs.rmSync(filePath)
       }
 
-      const req = request(
-        url,
-        {method: 'HEAD'},
-        (res) => {
-          if (res.statusCode < 200 || res.statusCode >= 400) {
-            return reject(new Error('statusCode=' + res.statusCode))
-          }
-
-          if (res.statusCode >= 300 && res.statusCode < 400) {
-            if (typeof res.headers['location'] === 'string' && res.headers['location'] !== url) {
-              return downloadFile(res.headers['location'], filePath, onProgress)
-                .then((filePath) => resolve(filePath))
-                .catch((e) => reject(e))
-            } else {
+      const
+        isHttps = url.substring(0, 6) === 'https:',
+        request = isHttps ? requestHttps : requestHttp,
+        req = request(
+          url,
+          {
+            method: 'HEAD',
+            protocol: isHttps ? 'https:' : 'http:',
+            port: isHttps ? 443 : 80,
+          },
+          (res) => {
+            if (res.statusCode < 200 || res.statusCode >= 400) {
               return reject(new Error('statusCode=' + res.statusCode))
             }
-          }
 
-          if(res.headers['accept-ranges'] === 'bytes' && res.headers['content-length'] !== undefined) {
-            downloadRangeFile(url, filePath, resolve, reject, onProgress, 0, res.headers['content-length'])
-          } else {
-            downloadRangeFile(url, filePath, resolve, reject, onProgress)
+            if (res.statusCode >= 300 && res.statusCode < 400) {
+              if (typeof res.headers['location'] === 'string' && res.headers['location'] !== url) {
+                return downloadFile(res.headers['location'], filePath, onProgress)
+                  .then((filePath) => resolve(filePath))
+                  .catch((e) => reject(e))
+              } else {
+                return reject(new Error('statusCode=' + res.statusCode))
+              }
+            }
+
+            if (res.headers['accept-ranges'] === 'bytes' && res.headers['content-length'] !== undefined) {
+              downloadRangeFile(url, filePath, resolve, reject, onProgress, 0, res.headers['content-length'])
+            } else {
+              downloadRangeFile(url, filePath, resolve, reject, onProgress)
+            }
           }
-        }
-      )
+        )
       req.on('error', e => {
         reject(e)
       })
@@ -131,46 +141,49 @@ const
 
   requestData = (url, header) => {
     return new Promise((resolve, reject) => {
-      const req = request(
-        url,
-        {
-          method: 'GET',
-          protocol: 'https:',
-          port: 443,
-          rejectUnauthorized: false,
-          headers: {
-            ...defaultHeader,
-            ...header
-          }
-        },
-        res => {
-          if (res.statusCode < 200 || res.statusCode >= 400) {
-            return reject(new Error('statusCode=' + res.statusCode))
-          }
-
-          if (res.statusCode >= 300 && res.statusCode < 400) {
-            if (typeof res.headers['location'] === 'string' && res.headers['location'] !== url) {
-              return requestData(res.headers['location'], header)
-                .then((buffer) => resolve(buffer))
-                .catch((e) => reject(e))
-            } else {
+      const
+        isHttps = url.substring(0, 6) === 'https:',
+        request = isHttps ? requestHttps : requestHttp,
+        req = request(
+          url,
+          {
+            method: 'GET',
+            protocol: isHttps ? 'https:' : 'http:',
+            port: isHttps ? 443 : 80,
+            rejectUnauthorized: false,
+            headers: {
+              ...defaultHeader,
+              ...header
+            }
+          },
+          res => {
+            if (res.statusCode < 200 || res.statusCode >= 400) {
               return reject(new Error('statusCode=' + res.statusCode))
             }
-          }
 
-          let data = []
-          res.on('data', (d) => {
-            data.push(d)
-          })
-          res.on('end', () => {
-            try {
-              resolve(Buffer.concat(data))
-            } catch (e) {
-              reject(e)
+            if (res.statusCode >= 300 && res.statusCode < 400) {
+              if (typeof res.headers['location'] === 'string' && res.headers['location'] !== url) {
+                return requestData(res.headers['location'], header)
+                  .then((buffer) => resolve(buffer))
+                  .catch((e) => reject(e))
+              } else {
+                return reject(new Error('statusCode=' + res.statusCode))
+              }
             }
-          })
-        }
-      )
+
+            let data = []
+            res.on('data', (d) => {
+              data.push(d)
+            })
+            res.on('end', () => {
+              try {
+                resolve(Buffer.concat(data))
+              } catch (e) {
+                reject(e)
+              }
+            })
+          }
+        )
       req.on('error', e => {
         reject(e)
       })
@@ -183,10 +196,10 @@ const
       {
         ...header,
         'Accept': 'application/json',
-        'Access-Control-Max-Age': '1728000',
+        'Access-Control-Max-Age': '1800',
       }
     )
       .then(data => JSON.parse(data.toString('utf-8')))
   }
 
-export { requestData, requestJson, downloadFile }
+export {requestData, requestJson, downloadFile}
