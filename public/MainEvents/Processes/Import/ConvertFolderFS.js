@@ -10,7 +10,7 @@ import { convertAudios } from './Helpers/AudioFile.js'
 
 const
   varsToTransitionNode = (transitionActionNodeIndexInLI, transitionNumberOfOptions, transitionSelectedOptionIndex, actionNodeKey) => {
-    if (transitionActionNodeIndexInLI === -1 || transitionNumberOfOptions === -1 || transitionSelectedOptionIndex === -1) {
+    if (transitionActionNodeIndexInLI === -1 || transitionNumberOfOptions === -1) {
       return null
     }
     return {
