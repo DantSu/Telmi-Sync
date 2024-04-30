@@ -45,6 +45,12 @@ body, button, input, select, option {
   font-size: 16px;
   color: $white70;
 }
+input, select, option,
+input:hover, select:hover, option:hover,
+input:focus, select:focus, option:focus {
+  outline: 0;
+  border: 0;
+}
 button {
   cursor: pointer;
   background: none;

@@ -86,9 +86,9 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
                         unit={getLocale('hours')}
                         required={true}
                         ref={inputRef6}/>
-            <InputCheckbox label={getLocale('story-display-nine')}
-                        id="story-display-nine"
-                        defaultValue={parameters.storyDisplayNine}
+            <InputCheckbox label={getLocale('story-display-tiles')}
+                        id="story-display-tiles"
+                        defaultValue={parameters.storyDisplayTiles}
                         ref={inputRef7}/>
           </ModalContent>
           <ButtonsContainer>
@@ -116,7 +116,7 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
                                          screenOnInactivityTime: values[4] * 60,
                                          screenOffInactivityTime: values[5] * 60,
                                          musicInactivityTime: values[6] * 3600,
-                                         storyDisplayNine: values[7]
+                                         storyDisplayTiles: values[7]
                                        })
                                        onClose()
                                      }
