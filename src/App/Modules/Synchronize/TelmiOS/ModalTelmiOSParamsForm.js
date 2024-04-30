@@ -4,6 +4,7 @@ import ModalLayoutPadded from '../../../Components/Modal/ModalLayoutPadded.js'
 import ButtonsContainer from '../../../Components/Buttons/ButtonsContainer.js'
 import ButtonIconTextCheck from '../../../Components/Buttons/IconsTexts/ButtonIconTextCheck.js'
 import InputRange from '../../../Components/Form/Input/InputRange.js'
+import InputCheckbox from "../../../Components/Form/Input/InputSwitch.js";
 import ModalTitle from '../../../Components/Modal/ModalTitle.js'
 import ModalContent from '../../../Components/Modal/ModalContent.js'
 import Form from '../../../Components/Form/Form.js'
@@ -17,7 +18,8 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
     inputRef3 = useRef(),
     inputRef4 = useRef(),
     inputRef5 = useRef(),
-    inputRef6 = useRef()
+    inputRef6 = useRef(),
+    inputRef7 = useRef()
   return <ModalLayoutPadded isClosable={true}
                             onClose={onClose}>
     <ModalTitle>{getLocale('telmios-parameters')} :</ModalTitle>
@@ -26,6 +28,7 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
         return <>
           <ModalContent>
             <InputRange label={getLocale('audio-volume-startup')}
+                        id="audio-volume-startup"
                         defaultValue={parameters.audioVolumeStartup * 100}
                         min={0}
                         max={100}
@@ -33,6 +36,7 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
                         unit="%"
                         ref={inputRef0}/>
             <InputRange label={getLocale('audio-volume-max')}
+                        id="audio-volume-max"
                         defaultValue={parameters.audioVolumeMax * 100}
                         min={0}
                         max={100}
@@ -40,6 +44,7 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
                         unit="%"
                         ref={inputRef1}/>
             <InputRange label={getLocale('screen-brightness-startup')}
+                        id="screen-brightness-startup"
                         defaultValue={parameters.screenBrightnessStartup * 100}
                         min={0}
                         max={100}
@@ -47,6 +52,7 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
                         unit="%"
                         ref={inputRef2}/>
             <InputRange label={getLocale('screen-brightness-max')}
+                        id="screen-brightness-max"
                         defaultValue={parameters.screenBrightnessMax * 100}
                         min={0}
                         max={100}
@@ -54,6 +60,7 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
                         unit="%"
                         ref={inputRef3}/>
             <InputRange label={getLocale('screen-on-inactivity-time')}
+                        id="screen-on-inactivity-time"
                         defaultValue={parameters.screenOnInactivityTime / 60}
                         min={1}
                         max={10}
@@ -62,6 +69,7 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
                         required={true}
                         ref={inputRef4}/>
             <InputRange label={getLocale('screen-off-inactivity-time')}
+                        id="screen-off-inactivity-time"
                         defaultValue={parameters.screenOffInactivityTime / 60}
                         min={1}
                         max={10}
@@ -70,6 +78,7 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
                         required={true}
                         ref={inputRef5}/>
             <InputRange label={getLocale('music-inactivity-time')}
+                        id="music-inactivity-time"
                         defaultValue={parameters.musicInactivityTime / 3600}
                         min={0.1}
                         max={3}
@@ -77,6 +86,10 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
                         unit={getLocale('hours')}
                         required={true}
                         ref={inputRef6}/>
+            <InputCheckbox label={getLocale('story-display-nine')}
+                        id="story-display-nine"
+                        defaultValue={parameters.storyDisplayNine}
+                        ref={inputRef7}/>
           </ModalContent>
           <ButtonsContainer>
             <ButtonIconTextCheck text={getLocale('save')}
@@ -90,7 +103,8 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
                                        inputRef3,
                                        inputRef4,
                                        inputRef5,
-                                       inputRef6
+                                       inputRef6,
+                                       inputRef7
                                      ],
                                      (values) => {
                                        onValidate({
@@ -101,7 +115,8 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
                                          screenBrightnessMax: values[3] / 100,
                                          screenOnInactivityTime: values[4] * 60,
                                          screenOffInactivityTime: values[5] * 60,
-                                         musicInactivityTime: values[6] * 3600
+                                         musicInactivityTime: values[6] * 3600,
+                                         storyDisplayNine: values[7]
                                        })
                                        onClose()
                                      }

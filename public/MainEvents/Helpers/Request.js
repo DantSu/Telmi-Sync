@@ -39,7 +39,7 @@ const
           (res) => {
             if (res.statusCode < 200 || res.statusCode >= 400) {
               file.close()
-              return reject(new Error('statusCode=' + res.statusCode))
+              return reject(new Error('statusCode=' + res.statusCode + ' : ' + url))
             }
 
             if (res.statusCode >= 300 && res.statusCode < 400) {
@@ -50,7 +50,7 @@ const
                   .catch((e) => reject(e))
               } else {
                 file.close()
-                return reject(new Error('statusCode=' + res.statusCode))
+                return reject(new Error('statusCode=' + res.statusCode + ' : ' + url))
               }
             }
 
@@ -112,7 +112,7 @@ const
           },
           (res) => {
             if (res.statusCode < 200 || res.statusCode >= 400) {
-              return reject(new Error('statusCode=' + res.statusCode))
+              return reject(new Error('statusCode=' + res.statusCode + ' : ' + url))
             }
 
             if (res.statusCode >= 300 && res.statusCode < 400) {
@@ -121,7 +121,7 @@ const
                   .then((filePath) => resolve(filePath))
                   .catch((e) => reject(e))
               } else {
-                return reject(new Error('statusCode=' + res.statusCode))
+                return reject(new Error('statusCode=' + res.statusCode + ' : ' + url))
               }
             }
 
@@ -158,7 +158,7 @@ const
           },
           res => {
             if (res.statusCode < 200 || res.statusCode >= 400) {
-              return reject(new Error('statusCode=' + res.statusCode))
+              return reject(new Error('statusCode=' + res.statusCode + ' : ' + url))
             }
 
             if (res.statusCode >= 300 && res.statusCode < 400) {
@@ -167,7 +167,7 @@ const
                   .then((buffer) => resolve(buffer))
                   .catch((e) => reject(e))
               } else {
-                return reject(new Error('statusCode=' + res.statusCode))
+                return reject(new Error('statusCode=' + res.statusCode + ' : ' + url))
               }
             }
 
