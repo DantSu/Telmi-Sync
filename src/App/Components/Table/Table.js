@@ -1,5 +1,6 @@
 import Loader from '../Loader/Loader.js'
 
+import {isCellSelected} from './TableHelpers.js';
 import TableHeaderIcon from './TableHeaderIcon.js'
 import TableCell from './TableCell.js'
 import TableGroup from './TableGroup.js'
@@ -96,7 +97,7 @@ function Table ({
             } else {
               return <TableCell key={'cell-' + k}
                                 data={v}
-                                selected={Array.isArray(selectedData) && selectedData.includes(v)}
+                                selected={isCellSelected(selectedData, v)}
                                 onSelect={onSelect}
                                 onPlay={onPlay}
                                 onOptimizeAudio={onOptimizeAudio}

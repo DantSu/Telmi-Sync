@@ -1,8 +1,9 @@
-const storiesClassification = (stories) => {
+const
+  storiesClassification = (stories) => {
   return Object.values(
     stories.reduce(
       (acc, story) => {
-        const key = story.category || story.uuid
+        const key = story.category || story.uuid || story.title
         if (acc[key] === undefined) {
           return {
             ...acc,

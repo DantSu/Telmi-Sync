@@ -1,12 +1,22 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useModal } from '../../../Components/Modal/ModalHooks.js'
 import { useLocale } from '../../../Components/Locale/LocaleHooks.js'
+import {isCellSelected} from '../../../Components/Table/TableHelpers.js';
+import { storiesClassification } from './StoriesClassification.js'
 import Table from '../../../Components/Table/Table.js'
 import ModalStoryFormUpdate from './ModalStoryFormUpdate.js'
 import ModalStoryDeleteConfirm from './ModalStoryDeleteConfirm.js'
 import ModalStoriesDeleteConfirm from './ModalStoriesDeleteConfirm.js'
 import ModalStoriesFormUpdate from './ModalStoriesFormUpdate.js'
-import { storiesClassification } from './StoriesClassification.js'
+
+const
+  storiesIds = {},
+  storyGetId = (str) => {
+    if (storiesIds[str] === undefined) {
+      storiesIds[str] = Object.values(storiesIds).length
+    }
+    return storiesIds[str]
+  }
 
 function StoriesTable ({stories, className, onEdit, onEditSelected, onDelete, onOptimizeAudio, onOptimizeAudioSelected, selectedStories, setSelectedStories}) {
   const
@@ -18,6 +28,7 @@ function StoriesTable ({stories, className, onEdit, onEditSelected, onDelete, on
       () => {
         const flatStories = stories.map((s) => ({
           ...s,
+          cellId: storyGetId(s.uuid || s.title),
           cellTitle: (s.age !== undefined ? s.age + '+] ' : '') + s.title,
         }))
         return {
@@ -30,8 +41,8 @@ function StoriesTable ({stories, className, onEdit, onEditSelected, onDelete, on
 
     onSelect = useCallback(
       (story) => setSelectedStories((stories) => {
-        if (stories.includes(story)) {
-          return stories.filter((v) => v !== story)
+        if (isCellSelected(stories, story)) {
+          return stories.filter((v) => v.cellId !== story.cellId)
         } else {
           return [...stories, story]
         }
@@ -40,10 +51,10 @@ function StoriesTable ({stories, className, onEdit, onEditSelected, onDelete, on
     ),
     onSelectGroup = useCallback(
       (stories) => setSelectedStories((currentStories) => {
-        if (stories.reduce((acc, s) => currentStories.includes(s) ? acc + 1 : acc, 0) === stories.length) {
-          return currentStories.filter((s) => !stories.includes(s))
+        if (stories.reduce((acc, story) => isCellSelected(currentStories, story) ? acc + 1 : acc, 0) === stories.length) {
+          return currentStories.filter((story) => !isCellSelected(stories, story))
         }
-        return [...currentStories, ...stories.filter((s) => !currentStories.includes(s))]
+        return [...currentStories, ...stories.filter((story) => !isCellSelected(currentStories, story))]
       }),
       [setSelectedStories]
     ),

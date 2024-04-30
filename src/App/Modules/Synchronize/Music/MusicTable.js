@@ -2,11 +2,21 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useModal } from '../../../Components/Modal/ModalHooks.js'
 import { useLocale } from '../../../Components/Locale/LocaleHooks.js'
 import { musicClassification } from './MusicClassification.js'
+import {isCellSelected} from '../../../Components/Table/TableHelpers.js';
 import Table from '../../../Components/Table/Table.js'
 import ModalMusicFormUpdate from './ModalMusicFormUpdate.js'
 import ModalMusicDeleteConfirm from './ModalMusicDeleteConfirm.js'
 import ModalMusicsDeleteConfirm from './ModalMusicsDeleteConfirm.js'
 import ModalMusicsFormUpdate from './ModalMusicsFormUpdate.js'
+
+const
+  musicIds = {},
+  musicGetId = (str) => {
+    if (musicIds[str] === undefined) {
+      musicIds[str] = Object.values(musicIds).length
+    }
+    return musicIds[str]
+  }
 
 function MusicTable ({className, musics, selectedMusics, setSelectedMusics, onEdit, onEditSelected, onDelete}) {
   const
@@ -17,10 +27,11 @@ function MusicTable ({className, musics, selectedMusics, setSelectedMusics, onEd
     {flatTableMusics, tableMusics} = useMemo(
       () => {
         const flatMusics = musics.map(
-          (s) => ({
-            ...s,
-            cellTitle: s.track + '. ' + s.title,
-            cellSubtitle: s.artist + ' - ' + s.album
+          (m) => ({
+            ...m,
+            cellId: musicGetId(m.artist + '_' + m.album + '_' + m.track + '_' + m.title),
+            cellTitle: m.track + '. ' + m.title,
+            cellSubtitle: m.artist + ' - ' + m.album
           })
         )
         return {
@@ -33,8 +44,8 @@ function MusicTable ({className, musics, selectedMusics, setSelectedMusics, onEd
 
     onSelect = useCallback(
       (music) => setSelectedMusics((musics) => {
-        if (musics.includes(music)) {
-          return musics.filter((v) => v !== music)
+        if (isCellSelected(musics, music)) {
+          return musics.filter((v) => v.cellId !== music.cellId)
         } else {
           return [...musics, music]
         }
@@ -44,11 +55,10 @@ function MusicTable ({className, musics, selectedMusics, setSelectedMusics, onEd
 
     onSelectGroup = useCallback(
       (musicTracks) => setSelectedMusics((musics) => {
-        if (musicTracks.reduce((acc, m) => musics.includes(m) ? acc + 1 : acc, 0) === musicTracks.length) {
-          return musics.filter((m) => !musicTracks.includes(m))
+        if (musicTracks.reduce((acc, music) => isCellSelected(musics, music) ? acc + 1 : acc, 0) === musicTracks.length) {
+          return musics.filter((music) => !isCellSelected(musicTracks, music))
         }
-
-        return [...musics, ...musicTracks.filter((m) => !musics.includes(m))]
+        return [...musics, ...musicTracks.filter((music) => !isCellSelected(musics, music))]
       }),
       [setSelectedMusics]
     ),

@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from 'react'
 import { useElectronEmitter, useElectronListener } from '../../../Components/Electron/Hooks/UseElectronEvent.js'
 import { useModal } from '../../../Components/Modal/ModalHooks.js'
 import { useLocale } from '../../../Components/Locale/LocaleHooks.js'
+import {isCellSelected} from '../../../Components/Table/TableHelpers.js';
 import Table from '../../../Components/Table/Table.js'
 import ModalStoreDownload from './ModalStoreDownload.js'
 import ModalStoreStoryInfo from './ModalStoreStoryInfo.js'
@@ -9,6 +10,13 @@ import TableHeaderIcon from '../../../Components/Table/TableHeaderIcon.js'
 import ButtonIconSort from '../../../Components/Buttons/Icons/ButtonIconSort.js'
 
 const
+  storeStoriesIds = {},
+  storeStoryGetId = (str) => {
+    if (storeStoriesIds[str] === undefined) {
+      storeStoriesIds[str] = Object.values(storeStoriesIds).length
+    }
+    return storeStoriesIds[str]
+  },
   sortByName = (stories) => stories.sort((a, b) => {
     if ((a.age - b.age) === 0) {
       return a.title.localeCompare(b.title)
@@ -40,7 +48,7 @@ function StoreContent ({store}) {
 
     onSelect = useCallback(
       (story) => setStoriesSelected((stories) => {
-        if (stories.includes(story)) {
+        if (isCellSelected(stories, story)) {
           return stories.filter((v) => v !== story)
         } else {
           return [...stories, story]
@@ -93,6 +101,7 @@ function StoreContent ({store}) {
           .map(
             (s) => {
               const
+                title = s.age + '+] ' + s.title,
                 isNew = now - Date.parse(s.created_at) < 1296000000,
                 isUpdated = now - Date.parse(s.updated_at) < 1296000000,
                 isPerfect = s.awards.includes('PARFAIT')
@@ -100,7 +109,8 @@ function StoreContent ({store}) {
                 ...s,
                 isUpdated,
                 isPerfect,
-                cellTitle: s.age + '+] ' + s.title,
+                cellId: storeStoryGetId(title),
+                cellTitle: title,
                 cellSubtitle: s.description,
                 cellLabelIcon: isNew ? '\uf005' : (isUpdated ? '\uf274' : (isPerfect ? '\uf559' : undefined)),
                 cellLabelIconText: getLocale(isNew ? 'new' : (isUpdated ? 'update-recent' : (isPerfect ? 'award-perfect' : '')))
