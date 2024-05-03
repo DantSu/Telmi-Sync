@@ -51,12 +51,12 @@ function Table({
           setDataFiltered(data)
           return
         }
-        const regSearch = new RegExp('.*(' + searchInput.current.value.split(' ').join(').*(') + ').*', 'gi')
+        const regSearch = '.*(' + searchInput.current.value.split(' ').join(').*(') + ').*'
         setDataFiltered(
           data.reduce(
             (acc, d) => {
               if (d.tableGroup !== undefined) {
-                const children = d.tableChildren.filter((d) => regSearch.test(d.cellTitle))
+                const children = d.tableChildren.filter((d) => new RegExp(regSearch, 'gi').test(d.cellTitle))
                 if (children.length) {
                   return [
                     ...acc,
@@ -67,7 +67,7 @@ function Table({
                   ]
                 }
               } else {
-                if (regSearch.test(d.cellTitle)) {
+                if (new RegExp(regSearch, 'gi').test(d.cellTitle)) {
                   return [...acc, d]
                 }
               }
