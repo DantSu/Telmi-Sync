@@ -53,7 +53,7 @@ function MusicTable ({className, musics, selectedMusics, setSelectedMusics, onEd
       [setSelectedMusics]
     ),
 
-    onSelectGroup = useCallback(
+    onSelectAll = useCallback(
       (musicTracks) => setSelectedMusics((musics) => {
         if (musicTracks.reduce((acc, music) => isCellSelected(musics, music) ? acc + 1 : acc, 0) === musicTracks.length) {
           return musics.filter((music) => !isCellSelected(musicTracks, music))
@@ -61,17 +61,6 @@ function MusicTable ({className, musics, selectedMusics, setSelectedMusics, onEd
         return [...musics, ...musicTracks.filter((music) => !isCellSelected(musics, music))]
       }),
       [setSelectedMusics]
-    ),
-
-    onSelectAll = useCallback(
-      () => setSelectedMusics((musics) => {
-        if (flatTableMusics.length === musics.length) {
-          return []
-        } else {
-          return [...flatTableMusics]
-        }
-      }),
-      [flatTableMusics, setSelectedMusics]
     ),
 
     onCallbackEdit = useCallback(
@@ -149,7 +138,6 @@ function MusicTable ({className, musics, selectedMusics, setSelectedMusics, onEd
                 data={tableMusics}
                 selectedData={selectedMusics}
                 onSelect={onSelect}
-                onSelectGroup={onSelectGroup}
                 onSelectAll={onSelectAll}
                 onEdit={onEdit !== undefined ? onCallbackEdit : undefined}
                 onEditSelected={onEditSelected !== undefined ? onCallbackEditSelected : undefined}

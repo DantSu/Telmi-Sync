@@ -49,7 +49,7 @@ function StoriesTable ({stories, className, onEdit, onEditSelected, onDelete, on
       }),
       [setSelectedStories]
     ),
-    onSelectGroup = useCallback(
+    onSelectAll = useCallback(
       (stories) => setSelectedStories((currentStories) => {
         if (stories.reduce((acc, story) => isCellSelected(currentStories, story) ? acc + 1 : acc, 0) === stories.length) {
           return currentStories.filter((story) => !isCellSelected(stories, story))
@@ -57,16 +57,6 @@ function StoriesTable ({stories, className, onEdit, onEditSelected, onDelete, on
         return [...currentStories, ...stories.filter((story) => !isCellSelected(currentStories, story))]
       }),
       [setSelectedStories]
-    ),
-    onSelectAll = useCallback(
-      () => setSelectedStories((stories) => {
-        if (stories.length === flatTableStories.length) {
-          return []
-        } else {
-          return [...flatTableStories]
-        }
-      }),
-      [flatTableStories, setSelectedStories]
     ),
     onPlay = useCallback((story) => (new Audio(story.audio)).play(), []),
     callbackOnEdit = useCallback(
@@ -145,7 +135,6 @@ function StoriesTable ({stories, className, onEdit, onEditSelected, onDelete, on
                 data={tableStories}
                 selectedData={selectedStories}
                 onSelect={onSelect}
-                onSelectGroup={onSelectGroup}
                 onSelectAll={onSelectAll}
                 onPlay={onPlay}
                 onOptimizeAudio={onOptimizeAudio}

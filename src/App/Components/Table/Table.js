@@ -22,7 +22,6 @@ function Table({
                  data,
                  selectedData,
                  onSelect,
-                 onSelectGroup,
                  onSelectAll,
                  onPlay,
                  onInfo,
@@ -78,6 +77,15 @@ function Table({
         )
       },
       [searchInput, data, setDataFiltered]
+    ),
+    onSelectAllCallback = useCallback(
+      () => typeof onSelectAll === 'function' && onSelectAll(
+        dataFiltered.reduce(
+          (acc, d) => d.tableGroup !== undefined ? [...acc, ...d.tableChildren] : [...acc, d],
+          []
+        )
+      ),
+      [onSelectAll, dataFiltered]
     )
 
   useEffect(() => onSearch(), [onSearch]);
@@ -117,7 +125,7 @@ function Table({
             onSelectAll &&
             <TableHeaderIcon componentIcon={ButtonIconSquareCheck}
                              title="select-all"
-                             onClick={onSelectAll}/>
+                             onClick={onSelectAllCallback}/>
           }
           {additionalHeaderButtons || null}
         </ul>
@@ -139,7 +147,7 @@ function Table({
                                  data={v}
                                  selectedData={selectedData}
                                  onSelect={onSelect}
-                                 onSelectGroup={onSelectGroup}
+                                 onSelectAll={onSelectAll}
                                  onPlay={onPlay}
                                  onOptimizeAudio={onOptimizeAudio}
                                  onEdit={onEdit}

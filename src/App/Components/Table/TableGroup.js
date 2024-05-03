@@ -9,7 +9,7 @@ import TableList from './TableList.js'
 
 import styles from './Table.module.scss'
 
-function TableGroup ({data, selectedData, onSelect, onSelectGroup, onPlay, onInfo, onEdit, onOptimizeAudio, onDownload, onDelete}) {
+function TableGroup ({data, selectedData, onSelect, onSelectAll, onPlay, onInfo, onEdit, onOptimizeAudio, onDownload, onDelete}) {
   const
     {getLocale} = useLocale(),
     [displayCells, setDisplayCells] = useState(false),
@@ -18,8 +18,8 @@ function TableGroup ({data, selectedData, onSelect, onSelectGroup, onPlay, onInf
       [setDisplayCells]
     ),
     onCSelectGroup = useCallback(
-      () => typeof onSelectGroup === 'function' && onSelectGroup(data.tableChildren),
-      [onSelectGroup, data]
+      () => typeof onSelectAll === 'function' && onSelectAll(data.tableChildren),
+      [onSelectAll, data]
     )
 
   return <li className={styles.cellGroup}>
@@ -36,7 +36,7 @@ function TableGroup ({data, selectedData, onSelect, onSelectGroup, onPlay, onInf
                             onClick={onCDisplayCells}/>
         }
         {
-          onSelectGroup &&
+          onSelectAll &&
           <ButtonIconSquareCheck className={styles.cellGroupButton}
                                  title={getLocale('select-all')}
                                  onClick={onCSelectGroup}/>
