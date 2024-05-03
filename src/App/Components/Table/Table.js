@@ -86,11 +86,6 @@ function Table({
     <div className={styles.header}>
       <h2 className={styles.headerTitleLeft}>{titleLeft}</h2>
       {titleRight && <p className={styles.headerTitleRight}>{titleRight}</p>}
-      <input type="text"
-             placeholder={getLocale('search') + '...'}
-             ref={searchInput}
-             className={styles.headerSearchInput}
-             onKeyUp={onSearch}/>
       {
         (onSelectAll || onDeleteSelected || onDownloadSelected || onEditSelected || onOptimizeAudioSelected) &&
         <ul className={styles.headerIcons}>
@@ -127,6 +122,12 @@ function Table({
           {additionalHeaderButtons || null}
         </ul>
       }
+
+      <input type="text"
+             placeholder={getLocale('search') + '...'}
+             ref={searchInput}
+             className={styles.headerSearchInput}
+             onKeyUp={onSearch}/>
 
     </div>
     <div className={styles.content}>
