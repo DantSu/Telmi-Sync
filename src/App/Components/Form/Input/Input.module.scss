@@ -20,11 +20,11 @@
   padding: 5px 8px;
   border: 2px solid $blueDark;
   width: 250px;
-  outline: none;
+  transition: border-color 0.3s;
 }
 
 .input:hover, .input:focus {
-  border-color: $orange;
+  border: 2px solid $orange;
 }
 
 

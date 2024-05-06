@@ -48,7 +48,7 @@ body, button, input, select, option {
 input, select, option,
 input:hover, select:hover, option:hover,
 input:focus, select:focus, option:focus {
-  outline: 0;
+  outline: none;
   border: 0;
 }
 button {
