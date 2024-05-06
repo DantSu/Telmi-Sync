@@ -108,7 +108,8 @@ function mainEventStores (mainWindow) {
                 download: v.download || v.downloadUrl,
                 awards: v.awards || [],
                 created_at: v.created_at || '1970-01-01T00:00:00.000Z',
-                updated_at: v.updated_at || '1970-01-01T00:00:00.000Z'
+                updated_at: v.updated_at || '1970-01-01T00:00:00.000Z',
+                uuid: v.uuid || ''
               }))
             )
           })

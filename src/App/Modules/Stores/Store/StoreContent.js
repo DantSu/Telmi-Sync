@@ -3,6 +3,7 @@ import { useElectronEmitter, useElectronListener } from '../../../Components/Ele
 import { useModal } from '../../../Components/Modal/ModalHooks.js'
 import { useLocale } from '../../../Components/Locale/LocaleHooks.js'
 import {isCellSelected} from '../../../Components/Table/TableHelpers.js';
+import {useLocalStories} from '../../../Components/LocalStories/LocalStoriesHooks.js'
 import Table from '../../../Components/Table/Table.js'
 import ModalStoreDownload from './ModalStoreDownload.js'
 import ModalStoreStoryInfo from './ModalStoreStoryInfo.js'
@@ -29,6 +30,7 @@ const
 function StoreContent ({store}) {
   const
     {getLocale} = useLocale(),
+    localStories = useLocalStories(),
     [stories, setStories] = useState([]),
     [storiesSelected, setStoriesSelected] = useState([]),
     [isSortedByName, setSortedByName] = useState(true),
@@ -95,7 +97,9 @@ function StoreContent ({store}) {
   useElectronListener(
     'store-remote-data',
     (stories) => {
-      const now = Date.now()
+      const
+        now = Date.now(),
+        lStories = localStories.map((s) => s.uuid)
       setStories(
         sortByName(stories)
           .map(
@@ -113,13 +117,14 @@ function StoreContent ({store}) {
                 cellTitle: title,
                 cellSubtitle: s.description,
                 cellLabelIcon: isNew ? '\uf005' : (isUpdated ? '\uf274' : (isPerfect ? '\uf559' : undefined)),
-                cellLabelIconText: getLocale(isNew ? 'new' : (isUpdated ? 'update-recent' : (isPerfect ? 'award-perfect' : '')))
+                cellLabelIconText: getLocale(isNew ? 'new' : (isUpdated ? 'update-recent' : (isPerfect ? 'award-perfect' : ''))),
+                cellDisabled: s.uuid !== '' && lStories.includes(s.uuid)
               }
             }
           )
       )
     },
-    [setStories]
+    [setStories, localStories]
   )
   useElectronEmitter('store-remote-get', [store])
 
