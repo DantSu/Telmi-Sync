@@ -1,11 +1,14 @@
-import { routeSynchronize } from '../../Modules/Synchronize/Routes.js'
-import { routeStores } from '../../Modules/Stores/Routes.js'
-import { useLocale } from '../../Components/Locale/LocaleHooks.js'
+import {useLocale} from '../../Components/Locale/LocaleHooks.js'
+
+import {routeSynchronize} from '../../Modules/Synchronize/Routes.js'
+import {routeStores} from '../../Modules/Stores/Routes.js'
+import {routeStudio} from '../../Modules/Studio/Routes.js'
 
 import ButtonIconXMark from '../../Components/Buttons/Icons/ButtonIconXMark.js'
 import ButtonIconWindow from '../../Components/Buttons/Icons/ButtonIconWindow.js'
 import ButtonIconTextArrowLeftRight from '../../Components/Buttons/IconsTexts/ButtonIconTextArrowLeftRight.js'
 import ButtonIconTextStore from '../../Components/Buttons/IconsTexts/ButtonIconTextStore.js'
+import ButtonIconTextMicrophone from '../../Components/Buttons/IconsTexts/ButtonIconTextMicrophone.js'
 import TopButtonNavigation from './TopButtonNavigation.js'
 import ButtonLangChooser from '../../Components/Locale/ButtonLangChooser.js'
 import ButtonUpdate from './ButtonUpdate.js'
@@ -16,7 +19,7 @@ import styles from './TopBar.module.scss'
 
 const {ipcRenderer} = window.require('electron')
 
-function TopBar ({currentModule}) {
+function TopBar({currentModule}) {
   const {getLocale} = useLocale()
 
   return <div className={styles.container}>
@@ -30,6 +33,10 @@ function TopBar ({currentModule}) {
         <TopButtonNavigation buttonComponent={ButtonIconTextStore}
                              text={getLocale('stores')}
                              route={routeStores}
+                             currentModule={currentModule}/>
+        <TopButtonNavigation buttonComponent={ButtonIconTextMicrophone}
+                             text={getLocale('studio')}
+                             route={routeStudio}
                              currentModule={currentModule}/>
       </ul>
     </div>

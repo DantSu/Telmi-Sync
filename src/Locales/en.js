@@ -123,6 +123,8 @@ const en = {
   'store-delete-confirm': 'Are you sure you want to delete the store <strong>"{0}"</strong> ?',
 
   'telmi-not-detected': 'Telmi OS not detected',
+
+  'studio': 'Studio',
 }
 
 export default en

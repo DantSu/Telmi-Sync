@@ -123,6 +123,8 @@ const fr = {
   'store-delete-confirm': 'Êtes-vous sûr de vouloir supprimer le store <strong>"{0}"</strong> ?',
 
   'telmi-not-detected': 'Telmi OS non détecté',
+
+  'studio': 'Studio',
 }
 
 export default fr
