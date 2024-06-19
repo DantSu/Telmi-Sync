@@ -9,7 +9,7 @@ function InputSwitch ({label, type, id, defaultValue, className, ...props}, ref)
     classNames = useMemo(() => [styles.inputSwitch, className].join(' '), [className]),
     callBackRef = useCallback(
       (r) => {
-        if (r !== null) {
+        if (r !== null && ref !== null) {
           r.checkValue = () => {
             return null
           }

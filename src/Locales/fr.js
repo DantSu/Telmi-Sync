@@ -12,6 +12,7 @@ const fr = {
   'url': 'URL',
   'track': 'Track',
   'title': 'Titre',
+  'notes': 'Notes',
   'description': 'Description',
   'album': 'Album',
   'artist': 'Artiste',
@@ -77,6 +78,7 @@ const fr = {
   'converting-audio': 'Conversion des fichiers audio',
 
   'story': 'Histoire',
+  'story-close': 'Fermer l\'histoire',
   'story-deciphering-media': 'Décryptage des fichiers médias',
   'story-reading-metadata': 'Lecture des métadonnées de l\'histoire',
   'story-converting': 'Conversion de l\'histoire',
@@ -125,6 +127,8 @@ const fr = {
   'telmi-not-detected': 'Telmi OS non détecté',
 
   'studio': 'Studio',
+  'studio-story-save': 'Enregistrer l\'histoire ?',
+  'studio-story-save-confirm': 'Cette histoire a été modifier. Voulez-vous enregister vos modifications ?',
 }
 
 export default fr

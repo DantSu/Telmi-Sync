@@ -10,7 +10,7 @@ function InputRange ({label, type, id, unit, defaultValue, className, ...props},
     classNames = useMemo(() => [styles.inputRange, className].join(' '), [className]),
     callBackRef = useCallback(
       (r) => {
-        if (r !== null) {
+        if (r !== null && ref !== null) {
           r.checkValue = () => {
             return null
           }

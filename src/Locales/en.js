@@ -12,6 +12,7 @@ const en = {
   'url': 'URL',
   'track': 'Track',
   'title': 'Title',
+  'notes': 'Notes',
   'description': 'Description',
   'album': 'Album',
   'artist': 'Artist',
@@ -77,6 +78,7 @@ const en = {
   'converting-audio': 'Converting audio files',
 
   'story': 'Story',
+  'story-close': 'Close the story',
   'story-deciphering-media': 'Decryption of media files',
   'story-reading-metadata': 'Reading the story\'s metadata',
   'story-converting': 'Converting the story',
@@ -125,6 +127,8 @@ const en = {
   'telmi-not-detected': 'Telmi OS not detected',
 
   'studio': 'Studio',
+  'studio-story-save': 'Save the story ?',
+  'studio-story-save-confirm': 'This story has been updated. Would you like to save your changes ?',
 }
 
 export default en

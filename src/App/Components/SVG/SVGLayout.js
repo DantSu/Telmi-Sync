@@ -1,18 +1,17 @@
-import {useLayoutEffect, useRef} from 'react'
+import {useCallback} from 'react'
 
 function SVGLayout({children}) {
-  const svgRef = useRef(null)
-
-  useLayoutEffect(
-    () => {
-      const bbox = svgRef.current.getBBox()
-      svgRef.current.setAttribute("width", bbox.x + bbox.width + 100)
-      svgRef.current.setAttribute("height", bbox.y + bbox.height + 100)
+  const callback = useCallback(
+    (el) => {
+      if (el !== null) {
+        const bbox = el.getBBox()
+        el.setAttribute("width", bbox.x + bbox.width + 100)
+        el.setAttribute("height", bbox.y + bbox.height + 100)
+      }
     },
-    [children]
+    []
   )
-
-  return <svg ref={svgRef}>{children}</svg>
+  return <svg ref={callback}>{children}</svg>
 }
 
 export default SVGLayout

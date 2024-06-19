@@ -1,6 +1,6 @@
 import StudioStoriesTable from './Stories/StoriesTable.js'
 import {useState} from 'react'
-import StudioStoryEditor from './Editor/StoryEditor.js'
+import StudioStoryEditor from './Editor/StudioStoryEditor.js'
 
 function StudioContainer() {
   const [story, setStory] = useState(null)

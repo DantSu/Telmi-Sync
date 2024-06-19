@@ -1,8 +1,7 @@
-function SVGLine({fromX, fromY, toX, toY}) {
-  return <path d={'M' + fromX + ',' + fromY + ' C' + fromX + ',' + (fromY + 200) + ' ' + toX + ',' + (toY - 200) + ' ' + toX + ',' + toY + ''}
-               stroke="#FFFFFF55"
-               strokeWidth="3"
-               fill="none"/>
+function SVGLine({id, fromX, fromY, toX, toY, bezierCoefStart, bezierCoefEnd, className}) {
+  return <path d={'M' + fromX + ',' + fromY + ' C' + fromX + ',' + (fromY + bezierCoefStart) + ' ' + toX + ',' + (toY - bezierCoefEnd) + ' ' + toX + ',' + toY + ''}
+               id={id}
+               className={className}/>
 }
 
 export default SVGLine

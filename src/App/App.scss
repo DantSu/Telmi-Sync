@@ -9,22 +9,27 @@
   box-sizing: border-box;
   -webkit-user-select: none;
 }
+
 *::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
+  height: 8px;
 }
+
 *::-webkit-scrollbar-corner {
-    background: $black30;
+  background: $black30;
 }
+
 *::-webkit-scrollbar-thumb {
-    background-color: $blueDark;
-    border-radius: 4px;
-    border: 2px solid $black30;
-    background-clip: content-box;
-    min-width: 4px;
-    min-height: 4px;
+  background-color: $blueDark;
+  border-radius: 4px;
+  border: 2px solid $black30;
+  background-clip: content-box;
+  min-width: 4px;
+  min-height: 4px;
 }
+
 *::-webkit-scrollbar-track {
-    background-color: $black30;
+  background-color: $black30;
 }
 
 img {
@@ -40,17 +45,19 @@ body {
   background: radial-gradient(circle, $purple1 0%, $purple2 100%);
 }
 
-body, button, input, select, option {
+body, button, input, textarea, select, option {
   font-family: exo;
   font-size: 16px;
   color: $white70;
 }
-input, select, option,
-input:hover, select:hover, option:hover,
-input:focus, select:focus, option:focus {
+
+input, textarea, select, option,
+input:hover, textarea:hover, select:hover, option:hover,
+input:focus, textarea:focus, select:focus, option:focus {
   outline: none;
   border: 0;
 }
+
 button {
   cursor: pointer;
   background: none;

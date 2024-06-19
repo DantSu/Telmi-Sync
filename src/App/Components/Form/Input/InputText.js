@@ -9,7 +9,7 @@ function InputText({label, type, id, required, className, ...props}, ref) {
     {getLocale} = useLocale(),
     refCallback = useCallback(
       (r) => {
-        if (r !== null) {
+        if (r !== null && ref !== null) {
           r.checkValue = () => {
             if (r.required && r.value === '') {
               return getLocale('input-required', label)
