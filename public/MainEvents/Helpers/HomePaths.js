@@ -7,7 +7,8 @@ function homePaths (homePath) {
     STORES_PATH = path.join(homePath, '.telmi', 'stores'),
     STORIES_PATH = path.join(homePath, '.telmi', 'stories'),
     MUSIC_PATH = path.join(homePath, '.telmi', 'music'),
-    BIN_PATH = path.join(homePath, '.telmi', 'bin')
+    BIN_PATH = path.join(homePath, '.telmi', 'bin'),
+    PARAMETERS_PATH = path.join(homePath, '.telmi', 'parameters')
 
   return {
     initAppPaths: () => {
@@ -38,6 +39,11 @@ function homePaths (homePath) {
     getStoresPath: (filePath) => {
       createPathDirectories(STORES_PATH)
       return filePath === undefined ? STORES_PATH : path.join(STORES_PATH, filePath)
+    },
+
+    getParametersPath: (filePath) => {
+      createPathDirectories(PARAMETERS_PATH)
+      return filePath === undefined ? PARAMETERS_PATH : path.join(PARAMETERS_PATH, filePath)
     }
   }
 }

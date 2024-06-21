@@ -23,7 +23,7 @@ function Table({
                  selectedData,
                  onSelect,
                  onSelectAll,
-                 onPlay,
+                 getAudioPath,
                  onInfo,
                  onEdit,
                  onEditSelected,
@@ -148,7 +148,7 @@ function Table({
                                  selectedData={selectedData}
                                  onSelect={onSelect}
                                  onSelectAll={onSelectAll}
-                                 onPlay={onPlay}
+                                 getAudioPath={getAudioPath}
                                  onOptimizeAudio={onOptimizeAudio}
                                  onEdit={onEdit}
                                  onInfo={onInfo}
@@ -159,7 +159,7 @@ function Table({
                                 data={v}
                                 selected={isCellSelected(selectedData, v)}
                                 onSelect={onSelect}
-                                onPlay={onPlay}
+                                getAudioPath={getAudioPath}
                                 onOptimizeAudio={onOptimizeAudio}
                                 onEdit={onEdit}
                                 onInfo={onInfo}

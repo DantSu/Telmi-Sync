@@ -8,6 +8,7 @@ const
   getStoriesPath = appPaths.getStoriesPath,
   getMusicPath = appPaths.getMusicPath,
   getBinPath = appPaths.getBinPath,
-  getStoresPath = appPaths.getStoresPath
+  getStoresPath = appPaths.getStoresPath,
+  getParametersPath = appPaths.getParametersPath
 
-export { initAppPaths, initTmpPath, getStoriesPath, getMusicPath, getBinPath, getStoresPath }
+export { initAppPaths, initTmpPath, getStoriesPath, getMusicPath, getBinPath, getStoresPath, getParametersPath }

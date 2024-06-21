@@ -6,6 +6,7 @@ import {useStudioStory, useStudioStoryUpdater} from '../Providers/StudioStoryHoo
 import InputText from '../../../../Components/Form/Input/InputText.js'
 import InputTextarea from '../../../../Components/Form/Input/InputTextarea.js'
 import InputImage from '../../../../Components/Form/Input/InputImage.js'
+import InputAudio from '../../../../Components/Form/Input/InputAudio.js'
 
 function StudioStageForm() {
   const
@@ -31,8 +32,15 @@ function StudioStageForm() {
       [stage, updateStory]
     ),
     onImageChange = useCallback(
-      (e) => updateStory((s) => {
-        s.nodes.stages[stage].newImage = e.target.files[0].path
+      (path) => updateStory((s) => {
+        s.nodes.stages[stage].newImage = path
+        return {...s}
+      }),
+      [stage, updateStory]
+    ),
+    onAudioChange = useCallback(
+      (path) => updateStory((s) => {
+        s.nodes.stages[stage].newAudio = path
         return {...s}
       }),
       [stage, updateStory]
@@ -47,10 +55,14 @@ function StudioStageForm() {
                    key={stage + '-notes'}
                    defaultValue={note.notes}
                    onBlur={onNotesBlur}/>
-    <InputImage label={getLocale('image')}
+    <InputImage label={getLocale('picture')}
                 key={stage + '-image'}
                 onChange={onImageChange}
-                image={nodes.stages[stage].image ? metadata.path + '/images/' + nodes.stages[stage].image : undefined}/>
+                image={stageNode.image ? metadata.path + '/images/' + stageNode.image : undefined}/>
+    <InputAudio label={getLocale('audio')}
+                key={stage + '-audio'}
+                onChange={onAudioChange}
+                audio={stageNode.audio ? metadata.path + '/audios/' + stageNode.audio : undefined}/>
   </>
 }
 

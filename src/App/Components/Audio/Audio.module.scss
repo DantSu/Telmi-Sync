@@ -1,0 +1,30 @@
+@import "src/App/variables";
+
+@keyframes activeEffect {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+}
+
+.active, .active:hover {
+  position: relative;
+  z-index: 0;
+}
+
+.active:after {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  border-radius: inherit;
+  background-color: inherit;
+  animation: 1.5s ease-out 0s infinite running activeEffect;
+}

@@ -4,6 +4,8 @@ import { useLocale } from '../../Components/Locale/LocaleHooks.js'
 import ButtonExternalLink from '../../Components/Link/ButtonExternalLink.js'
 import ButtonIconTextCloud from '../../Components/Buttons/IconsTexts/ButtonIconTextCloud.js'
 
+import styles from './TopBar.module.scss'
+
 function ButtonUpdate () {
   const
     [urlUpdate, setUrlUpdate] = useState(null),
@@ -17,7 +19,9 @@ function ButtonUpdate () {
   useElectronEmitter('check-update', [])
 
   return urlUpdate === null ? null : <ButtonExternalLink href={urlUpdate}>
-    <ButtonIconTextCloud text={getLocale('update-available')} rounded={true}/>
+    <ButtonIconTextCloud text={getLocale('update-available')}
+                         className={styles.buttonUpdate}
+                         rounded={true}/>
   </ButtonExternalLink>
 }
 

@@ -9,9 +9,10 @@ const
   getMusicPath = appPaths.getMusicPath,
   getBinPath = appPaths.getBinPath,
   getStoresPath = appPaths.getStoresPath,
+  getParametersPath = appPaths.getParametersPath,
   getElectronAppPath = () => {
     const tag = '[electron-apppath]'
     return process.argv.find((v) => v.substring(0, tag.length) === tag).substring(tag.length)
   }
 
-export { initAppPaths, initTmpPath, getStoriesPath, getMusicPath, getBinPath, getStoresPath, getElectronAppPath }
+export { initAppPaths, initTmpPath, getStoriesPath, getMusicPath, getBinPath, getStoresPath, getElectronAppPath, getParametersPath }

@@ -51,8 +51,7 @@ function TelmiOSDetected ({telmiOS, onTransfer, children}) {
   return <>
     <div className={styles.telmiOS}>
       <h2 className={styles.telmiOSTitle}>
-        <span
-          className={styles.telmiOSTitleText}>
+        <span className={styles.telmiOSTitleText}>
           {telmiOS.telmiOS.label + ' v' + telmiOS.telmiOS.version.major + '.' + telmiOS.telmiOS.version.minor + '.' + telmiOS.telmiOS.version.fix}
           {
             telmiOS.diskusage !== null &&

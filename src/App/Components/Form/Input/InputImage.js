@@ -14,7 +14,7 @@ function InputImage({label, id, required, className, onChange, image, ...props},
           e.target.value = null
         } else {
           setImagePath(e.target.files[0].path)
-          typeof onChange === 'function' && onChange(e)
+          typeof onChange === 'function' && onChange(e.target.files[0].path)
         }
       },
       [onChange]

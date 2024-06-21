@@ -42,6 +42,8 @@ function MusicTable ({className, musics, selectedMusics, setSelectedMusics, onEd
       [musics]
     ),
 
+    getAudioPath = useCallback((music) => music.music, []),
+
     onSelect = useCallback(
       (music) => setSelectedMusics((musics) => {
         if (isCellSelected(musics, music)) {
@@ -137,6 +139,7 @@ function MusicTable ({className, musics, selectedMusics, setSelectedMusics, onEd
                 titleRight={selectedMusics.length ? getLocale('musics-selected', selectedMusics.length) : undefined}
                 data={tableMusics}
                 selectedData={selectedMusics}
+                getAudioPath={getAudioPath}
                 onSelect={onSelect}
                 onSelectAll={onSelectAll}
                 onEdit={onEdit !== undefined ? onCallbackEdit : undefined}

@@ -16,6 +16,7 @@ const en = {
   'description': 'Description',
   'album': 'Album',
   'artist': 'Artist',
+  'picture': 'Picture',
   'hours': 'Hours',
   'search': 'Search',
   'save': 'Save',
@@ -32,7 +33,9 @@ const en = {
   'updated-at': 'Updated at',
   'update-recent': 'Recent update',
   'sort-name-or-update': 'Sort by Name / Last update',
-
+  'maximize-window': 'Maximize app',
+  'close-app': 'Close Telmi Sync',
+  'listen': 'Listen',
   'listen-title': 'Listen the title',
   'update-available': 'Update available !',
   'display-list': 'Display list',
@@ -73,6 +76,9 @@ const en = {
   'telmios-update': 'Updating Telmi OS',
   'telmios-eject': 'Eject Telmi OS',
   'telmios-optimize-audio': 'Optimize audio files for Telmi OS',
+  'telmios-not-detected': 'Telmi OS not detected',
+
+  'telmi-sync-parameters': 'Telmi Sync parameters',
 
   'converting-images': 'Converting images',
   'converting-audio': 'Converting audio files',
@@ -123,8 +129,6 @@ const en = {
   'store-add': 'Add a store',
   'store-delete': 'Delete the store',
   'store-delete-confirm': 'Are you sure you want to delete the store <strong>"{0}"</strong> ?',
-
-  'telmi-not-detected': 'Telmi OS not detected',
 
   'studio': 'Studio',
   'studio-story-save': 'Save the story ?',

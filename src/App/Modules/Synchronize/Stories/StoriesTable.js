@@ -58,7 +58,7 @@ function StoriesTable ({stories, className, onEdit, onEditSelected, onDelete, on
       }),
       [setSelectedStories]
     ),
-    onPlay = useCallback((story) => (new Audio(story.audio)).play(), []),
+    getAudioPath = useCallback((story) => story.audio, []),
     callbackOnEdit = useCallback(
       (story) => {
         addModal((key) => {
@@ -136,7 +136,7 @@ function StoriesTable ({stories, className, onEdit, onEditSelected, onDelete, on
                 selectedData={selectedStories}
                 onSelect={onSelect}
                 onSelectAll={onSelectAll}
-                onPlay={onPlay}
+                getAudioPath={getAudioPath}
                 onOptimizeAudio={onOptimizeAudio}
                 onOptimizeAudioSelected={onOptimizeAudioSelected}
                 onEdit={onEdit !== undefined ? callbackOnEdit : undefined}

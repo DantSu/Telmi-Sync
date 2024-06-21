@@ -54,10 +54,15 @@
 }
 
 .button {
+  margin: 0;
   font-size: 18px;
   height: 100%;
 }
 
 .buttonSelected {
   color: $orange;
+}
+
+.buttonUpdate {
+  margin: 0;
 }

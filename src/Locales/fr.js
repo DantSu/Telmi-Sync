@@ -13,6 +13,7 @@ const fr = {
   'track': 'Track',
   'title': 'Titre',
   'notes': 'Notes',
+  'picture': 'Image',
   'description': 'Description',
   'album': 'Album',
   'artist': 'Artiste',
@@ -32,7 +33,9 @@ const fr = {
   'updated-at': 'Mise à jour le',
   'update-recent': 'Mise à jour récente',
   'sort-name-or-update': 'Trier par Nom / Dernière mise à jour',
-
+  'maximize-window': 'Agrandir l\'application',
+  'close-app': 'Fermer Telmi Sync',
+  'listen': 'Ecouter',
   'listen-title': 'Ecouter le titre',
   'update-available': 'Mise à jour disponible !',
   'display-list': 'Affichage liste',
@@ -53,6 +56,8 @@ const fr = {
   'error-occurred': 'Une erreur est survenue !',
   'audio-volume-startup': 'Volume audio au démarrage',
   'audio-volume-max': 'Volume audio maximum',
+  'audio-microphone-select': 'Périphérique d\'enregistrement audio',
+  'audio-piper-voice': 'Voix utilisée pour le text to speech',
   'screen-brightness-startup': 'Luminosité de l\'écran au démarrage',
   'screen-brightness-max': 'Luminosité de l\'écran maximum',
   'screen-on-inactivity-time': 'Temps d\'inactivité avant extinction (Ecran allumé)',
@@ -73,6 +78,9 @@ const fr = {
   'telmios-update': 'Mise à jour de Telmi OS',
   'telmios-eject': 'Ejecter Telmi OS',
   'telmios-optimize-audio': 'Optimiser les fichier audio pour Telmi OS',
+  'telmios-not-detected': 'Telmi OS non détecté',
+
+  'telmi-sync-params': 'Paramêtres Telmi Sync',
 
   'converting-images': 'Conversion des images',
   'converting-audio': 'Conversion des fichiers audio',
@@ -123,8 +131,6 @@ const fr = {
   'store-add': 'Ajouter un store',
   'store-delete': 'Supprimer le store',
   'store-delete-confirm': 'Êtes-vous sûr de vouloir supprimer le store <strong>"{0}"</strong> ?',
-
-  'telmi-not-detected': 'Telmi OS non détecté',
 
   'studio': 'Studio',
   'studio-story-save': 'Enregistrer l\'histoire ?',

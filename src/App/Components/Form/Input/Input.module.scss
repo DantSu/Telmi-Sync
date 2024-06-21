@@ -19,8 +19,9 @@
   flex: 0 1 auto;
 }
 
-.input, .textarea {
+.input, .textarea, .select {
   flex: 0 0 250px;
+  width: 250px;
   border-radius: 15px;
   color: $black;
   padding: 5px 8px;
@@ -30,18 +31,31 @@
 
 .textarea {
   flex: 0 0 140px;
+  width: auto;
+  height: 140px;
 }
 
 .input:hover, .input:focus,
+.select:hover, .select:focus,
 .textarea:hover, .textarea:focus {
   border: 2px solid $orange;
 }
 
+.option {
+  color: $black;
+  width: 250px;
+}
+
+.option:active,
+.option:focus,
+.option:hover,
+.option:checked {
+  color: $white;
+  background: $blueDark;
+}
 
 .inputRange {
   z-index: 1;
-  -webkit-appearance: none;
-  appearance: none;
   background: transparent;
   width: 250px;
 }
@@ -113,10 +127,9 @@
   transform: translateX(20px);
 }
 
-.inputImageContainer {
+.inputImageContainer,
+.inputAudioFile {
   position: relative;
-  flex: 0 0 200px;
-  height: 200px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -125,7 +138,8 @@
   overflow: hidden;
 }
 
-.inputImageContainer:before {
+.inputImageContainer:before,
+.inputAudioFile:before {
   position: absolute;
   left: 0;
   right: 0;
@@ -142,7 +156,24 @@
   color: $white60;
 }
 
-.inputImage {
+.inputAudioFile:before {
+  content: "\f001";
+  font-size: 24px;
+  padding: 5px 0;
+}
+
+.inputImageContainer {
+  flex: 0 0 200px;
+  height: 200px;
+}
+
+.inputAudioFile {
+  flex: 1;
+  margin: 5px;
+}
+
+.inputImage,
+.inputAudio {
   z-index: 3;
   position: absolute;
   left: 0;
@@ -150,10 +181,26 @@
   top: 0;
   bottom: 0;
   opacity: 0;
+  cursor: pointer;
 }
 
 .inputImageImg {
   z-index: 2;
   height: 100%;
   width: auto;
+}
+
+.inputAudioContainer {
+  display: flex;
+  align-items: stretch;
+}
+
+.inputAudioButton {
+  flex: 1;
+  border-radius: 15px;
+  margin: 5px;
+  padding: 15px 0;
+  font-size: 24px;
+  color: $white;
+  background: $white30;
 }

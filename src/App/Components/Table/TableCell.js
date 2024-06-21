@@ -9,21 +9,14 @@ import ButtonIconDownload from '../Buttons/Icons/ButtonIconDownload.js'
 import ButtonIconInfo from '../Buttons/Icons/ButtonIconInfo.js'
 
 import styles from './Table.module.scss'
+import AudioPlayer from '../Audio/AudioPlayer.js'
 
-function TableCell ({data, selected, onSelect, onPlay, onInfo, onOptimizeAudio, onEdit, onDownload, onDelete}) {
+function TableCell ({data, selected, onSelect, getAudioPath, onInfo, onOptimizeAudio, onEdit, onDownload, onDelete}) {
   const
     {getLocale} = useLocale(),
     onCSelect = useCallback(
       () => typeof onSelect === 'function' && onSelect(data),
       [onSelect, data]
-    ),
-    onCPlay = useCallback(
-      (e) => {
-        e.preventDefault()
-        e.stopPropagation()
-        typeof onPlay === 'function' && onPlay(data)
-      },
-      [onPlay, data]
     ),
     onCInfo = useCallback(
       (e) => {
@@ -75,9 +68,9 @@ function TableCell ({data, selected, onSelect, onPlay, onInfo, onOptimizeAudio, 
       {data.cellLabelIcon && <p className={styles.cellImageLabel} title={data.cellLabelIconText}>{data.cellLabelIcon}</p>}
     </div>
     {
-      (onPlay || onEdit || onDownload || onDelete) &&
+      (getAudioPath || onEdit || onDownload || onDelete) &&
       <div className={styles.cellActionBar}>
-        {onPlay && <ButtonIconPlay title={getLocale('listen-title')} onClick={onCPlay} className={styles.cellActionButton}/>}
+        {getAudioPath && <AudioPlayer title={getLocale('listen')} audioPath={getAudioPath(data)} className={styles.cellActionButton}/>}
         {onInfo && <ButtonIconInfo title={getLocale('informations')} onClick={onCInfo} className={styles.cellActionButton}/>}
         {onOptimizeAudio && <ButtonIconWave title={getLocale('telmios-optimize-audio')} onClick={onCOptimizeAudio} className={styles.cellActionButton}/>}
         {onEdit && <ButtonIconPen title={getLocale('edit')} onClick={onCEdit} className={styles.cellActionButton}/>}
