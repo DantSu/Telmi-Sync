@@ -13,10 +13,12 @@ const fr = {
   'track': 'Track',
   'title': 'Titre',
   'notes': 'Notes',
-  'picture': 'Image',
+  'text': 'Texte',
+  'record': 'Enregistrer',
   'description': 'Description',
   'album': 'Album',
   'artist': 'Artiste',
+  'picture': 'Image',
   'hours': 'Heures',
   'search': 'Rechercher',
   'save': 'Enregistrer',
@@ -97,7 +99,7 @@ const fr = {
   'story-delete': 'Supprimer l\'histoire',
   'story-delete-confirm': 'Êtes-vous sûr de vouloir supprimer l\'histoire <strong>"{0}"</strong> ?',
   'story-not-found': 'Histoire non trouvée',
-  'story-display-tiles' : 'Affichage de la mosaïque 9 histoires par défaut',
+  'story-display-tiles': 'Affichage de la mosaïque 9 histoires par défaut',
   'stories': 'Histoires',
   'stories-local': 'Mes histoires ({0})',
   'stories-on-store': '{0} histoires sur le store',
@@ -135,6 +137,14 @@ const fr = {
   'studio': 'Studio',
   'studio-story-save': 'Enregistrer l\'histoire ?',
   'studio-story-save-confirm': 'Cette histoire a été modifier. Voulez-vous enregister vos modifications ?',
+
+  'studio-stage-control-ok': 'Aller à la scène suivante en appuyant sur le bouton A',
+  'studio-stage-autoplay': 'Lire automatiquement la scène suivante à la fin de la piste audio',
+
+  'text-to-speech': 'TTS : Conversion du texte en audio',
+  'tts-converting': 'Texte vers audio',
+  'tts-empty-text': 'TTS : Texte vide',
+  'tts-empty-text-details': 'Le texte envoyé au TTS est vide. Veuillez écrire une phrase.'
 }
 
 export default fr

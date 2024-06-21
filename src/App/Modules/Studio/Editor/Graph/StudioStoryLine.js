@@ -1,6 +1,6 @@
 import SVGLine from '../../../../Components/SVG/SVGLine.js'
 
-import styles from '../StudioStoryEditor.module.scss'
+import styles from './StudioGraph.module.scss'
 
 function StudioStoryNodeAction({fromX, fromY, toX, toY, bezierCoefStart = 35, bezierCoefEnd = 35, arrows}) {
   const id = 'line-' + (fromX + 'x' + fromY + 'x' + toX + 'x' + toY).replace('.', '_')

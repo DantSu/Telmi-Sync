@@ -7,7 +7,7 @@ import AudioTTS from '../../Audio/AudioTTS.js'
 
 import styles from './Input.module.scss'
 
-function InputAudio({label, id, required, className, onChange, audio, ...props}, ref) {
+function InputAudio({label, id, textTTS, required, className, onChange, audio, ...props}, ref) {
   const
     {getLocale} = useLocale(),
     [audioPath, setAudioPath] = useState(audio),
@@ -17,11 +17,6 @@ function InputAudio({label, id, required, className, onChange, audio, ...props},
         typeof onChange === 'function' && onChange(path)
       },
       [onChange]
-    ),
-    onTTSEnded = useCallback(
-      () => {
-      },
-      []
     ),
     onChangeCallback = useCallback(
       (e) => {
@@ -64,8 +59,9 @@ function InputAudio({label, id, required, className, onChange, audio, ...props},
                    title={getLocale('record')}
                    onRecordEnded={onRecordEnded}/>
       <AudioTTS className={styles.inputAudioButton}
+                text={textTTS}
                 title={getLocale('text-to-speech')}
-                onTTSEnded={onTTSEnded}/>
+                onTTSEnded={onRecordEnded}/>
       <div className={styles.inputAudioFile}>
         <input {...props}
                type="file"

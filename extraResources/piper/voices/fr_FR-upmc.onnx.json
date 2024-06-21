@@ -7,7 +7,7 @@
     "voice": "fr"
   },
   "inference": {
-    "noise_scale": 0.667,
+    "noise_scale": 0.5,
     "length_scale": 1,
     "noise_w": 0.8
   },

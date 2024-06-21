@@ -1,27 +1,35 @@
-import { ipcMain } from 'electron'
+import {ipcMain} from 'electron'
 import * as path from 'path'
+import fs from 'fs'
+import {initTmpPath} from './Helpers/AppPaths.js'
 import runProcess from './Processes/RunProcess.js'
 
-function mainEventDownloadFFmpeg (mainWindow) {
+function mainEventPiperTTS(mainWindow) {
   ipcMain.on(
     'piper-convert',
-    async (text) => {
+    async (event, text) => {
+      const
+        jsonPath = path.join(initTmpPath('json'), 'piper.json'),
+        wavePath = path.join(initTmpPath('audios'), Date.now() + '.wav')
+      fs.writeFileSync(jsonPath, JSON.stringify({"text": text, "output_file": wavePath}))
       runProcess(
         path.join('PiperTTS', 'PiperTTS.js'),
-        [text],
+        [jsonPath],
         () => {
-          mainWindow.webContents.send('piper-convert-task', 'success')
+          mainWindow.webContents.send('piper-convert-task', '', '', 0, 0)
+          mainWindow.webContents.send('piper-convert-succeed', wavePath)
         },
         (message, current, total) => {
-          mainWindow.webContents.send('piper-convert-task', message, current, total)
+          mainWindow.webContents.send('piper-convert-task', 'tts-converting', message, current, total)
         },
         (error) => {
           mainWindow.webContents.send('piper-convert-task', 'error', error)
         },
-        () => {}
+        () => {
+        }
       )
     }
   )
 }
 
-export default mainEventDownloadFFmpeg
+export default mainEventPiperTTS

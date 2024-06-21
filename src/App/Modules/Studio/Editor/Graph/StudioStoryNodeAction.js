@@ -1,7 +1,7 @@
 import {SVG_ANCHOR_CENTER, SVG_ANCHOR_MIDDLE} from '../../../../Components/SVG/SVGConstants.js'
 import SVGHtml from '../../../../Components/SVG/SVGHtml.js'
 
-import styles from '../StudioStoryEditor.module.scss'
+import styles from './StudioGraph.module.scss'
 
 function StudioStoryNodeAction({x, y}) {
   return <SVGHtml x={x}

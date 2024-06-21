@@ -3,7 +3,7 @@ import {useCallback, useEffect, useRef, useState} from 'react'
 import StudioStoryEditorGraph from './StudioStoryEditorGraph.js'
 
 
-import styles from '../StudioStoryEditor.module.scss'
+import styles from './StudioGraph.module.scss'
 
 function StudioStoryEditorGraphContainer() {
   const

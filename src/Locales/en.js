@@ -13,6 +13,8 @@ const en = {
   'track': 'Track',
   'title': 'Title',
   'notes': 'Notes',
+  'text': 'Text',
+  'record': 'Record',
   'description': 'Description',
   'album': 'Album',
   'artist': 'Artist',
@@ -56,6 +58,8 @@ const en = {
   'error-occurred': 'An error has occurred!',
   'audio-volume-startup': 'Audio volume at startup',
   'audio-volume-max': 'Maximum audio volume ',
+  'audio-microphone-select': 'Audio recording device',
+  'audio-piper-voice': 'Text to speech voice',
   'screen-brightness-startup': 'Screen brightness at startup',
   'screen-brightness-max': 'Maximum screen brightness',
   'screen-on-inactivity-time': 'Inactivity time before shutdown (Screen on)',
@@ -95,7 +99,7 @@ const en = {
   'story-delete': 'Delete the story',
   'story-delete-confirm': 'Are you sure you want to delete the story <strong>"{0}"</strong> ?',
   'story-not-found': 'Story not found',
-  'story-display-tiles' : 'Display nine story tiles by default',
+  'story-display-tiles': 'Display nine story tiles by default',
   'stories': 'Stories',
   'stories-local': 'My stories ({0})',
   'stories-on-store': '{0} stories on the store',
@@ -133,6 +137,14 @@ const en = {
   'studio': 'Studio',
   'studio-story-save': 'Save the story ?',
   'studio-story-save-confirm': 'This story has been updated. Would you like to save your changes ?',
+
+  'studio-stage-control-ok': 'Go to the next scene by pressing the A button',
+  'studio-stage-autoplay': 'Auto play the next scene at the end of the audio track',
+
+  'text-to-speech': 'TTS : Converting text to speech',
+  'tts-converting': 'Text to speech',
+  'tts-empty-text': 'TTS : Empty text',
+  'tts-empty-text-details': 'The text send to TTS is empty. Please write a sentence.'
 }
 
 export default en

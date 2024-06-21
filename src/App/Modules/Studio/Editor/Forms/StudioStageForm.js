@@ -7,6 +7,8 @@ import InputText from '../../../../Components/Form/Input/InputText.js'
 import InputTextarea from '../../../../Components/Form/Input/InputTextarea.js'
 import InputImage from '../../../../Components/Form/Input/InputImage.js'
 import InputAudio from '../../../../Components/Form/Input/InputAudio.js'
+import StudioActionForm from './StudioActionForm.js'
+import InputSwitch from '../../../../Components/Form/Input/InputSwitch.js'
 
 function StudioStageForm() {
   const
@@ -44,25 +46,55 @@ function StudioStageForm() {
         return {...s}
       }),
       [stage, updateStory]
+    ),
+    onControlOkChange = useCallback(
+      (e) => updateStory((s) => {
+        s.nodes.stages[stage].control.ok = e.target.checked
+        return {...s}
+      }),
+      [stage, updateStory]
+    ),
+    onControlAutoplayChange = useCallback(
+      (e) => updateStory((s) => {
+        s.nodes.stages[stage].control.autoplay = e.target.checked
+        return {...s}
+      }),
+      [stage, updateStory]
     )
 
   return <>
     <InputText label={getLocale('title')}
+               id={stage + '-title'}
                key={stage + '-title'}
                defaultValue={note.title}
                onBlur={onTitleBlur}/>
-    <InputTextarea label={getLocale('notes')}
-                   key={stage + '-notes'}
+    <InputTextarea label={getLocale('text')}
+                   key={stage + '-text'}
+                   id={stage + '-text'}
                    defaultValue={note.notes}
                    onBlur={onNotesBlur}/>
+    <InputAudio label={getLocale('story')}
+                key={stage + '-audio'}
+                id={stage + '-audio'}
+                textTTS={notes[stage].notes}
+                onChange={onAudioChange}
+                audio={stageNode.newAudio ? stageNode.newAudio : (stageNode.audio ? metadata.path + '/audios/' + stageNode.audio : undefined)}/>
+    <InputSwitch label={getLocale('studio-stage-control-ok')}
+                 key={stage + '-control-ok'}
+                 id={stage + '-control-ok'}
+                 defaultValue={stageNode.control.ok}
+                onChange={onControlOkChange}/>
+    <InputSwitch label={getLocale('studio-stage-autoplay')}
+                 key={stage + '-control-autoplay'}
+                 id={stage + '-control-autoplay'}
+                 defaultValue={stageNode.control.autoplay}
+                onChange={onControlAutoplayChange}/>
     <InputImage label={getLocale('picture')}
                 key={stage + '-image'}
+                id={stage + '-image'}
                 onChange={onImageChange}
-                image={stageNode.image ? metadata.path + '/images/' + stageNode.image : undefined}/>
-    <InputAudio label={getLocale('audio')}
-                key={stage + '-audio'}
-                onChange={onAudioChange}
-                audio={stageNode.audio ? metadata.path + '/audios/' + stageNode.audio : undefined}/>
+                image={stageNode.newImage ? stageNode.newImage : (stageNode.image ? metadata.path + '/images/' + stageNode.image : undefined)}/>
+    <StudioActionForm stage={stage}/>
   </>
 }
 

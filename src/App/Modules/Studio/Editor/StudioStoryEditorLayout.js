@@ -7,10 +7,10 @@ import StudioStoryEditorGraphContainer from './Graph/StudioStoryEditorGraphConta
 import ButtonIconXMark from '../../../Components/Buttons/Icons/ButtonIconXMark.js'
 import ButtonIconFloppyDisk from '../../../Components/Buttons/Icons/ButtonIconFloppyDisk.js'
 import ModalStudioStorySaveConfirm from './ModalStudioStorySaveConfirm.js'
+import StudioForms from './Forms/StudioForms.js'
 import Loader from '../../../Components/Loader/Loader.js'
 
 import styles from './StudioStoryEditor.module.scss'
-import StudioForms from './Forms/StudioForms.js'
 
 
 function StudioStoryEditorLayout({closeEditor}) {

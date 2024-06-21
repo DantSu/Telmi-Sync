@@ -1,8 +1,9 @@
 import {useStudioStage} from '../Providers/StudioStageHooks.js'
-import styles from '../StudioStoryEditor.module.scss'
+
 import StudioStartStageForm from './StudioStartStageForm.js'
 import StudioStageForm from './StudioStageForm.js'
 
+import styles from './StudioForm.module.scss'
 
 function StudioForms() {
   const {stage} = useStudioStage()

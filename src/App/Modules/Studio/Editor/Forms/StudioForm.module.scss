@@ -1,0 +1,11 @@
+@import "/src/App/variables";
+
+.paramsContainer {
+  flex: 0 0 30%;
+  background: $purple1;
+  overflow: auto;
+}
+
+.paramsForms {
+  padding: 30px;
+}
