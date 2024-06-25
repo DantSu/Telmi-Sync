@@ -4,6 +4,7 @@
   position: relative;
   flex: 1;
 }
+
 .graph {
   position: absolute;
   left: 0;
@@ -15,17 +16,54 @@
 }
 
 .nodeStage, .nodeStageSelected {
+  position: relative;
   cursor: pointer;
   background: $blueDark;
   border: 1px solid $blue;
   border-radius: 5px;
-  width: 100%;
-  height: 100%;
+  margin: 0px 7px;
+  width: 66px;
+  height: 66px;
 }
 
 .nodeStageSelected {
   background: $orange;
   border: 1px solid $orange;
+}
+
+.nodeStageAutoplay:before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -9px;
+  border: 10px solid transparent;
+  border-top-color: $blue;
+}
+
+.nodeStageSelected.nodeStageAutoplay:before {
+  border-top-color: $orange;
+}
+
+.nodeStageOkButton:after {
+  position: absolute;
+  z-index: 1;
+  right: 3px;
+  top: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  content: "A";
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 15px;
+  text-align: center;
+  color: $purple1;
+  background: $blue;
+  border: 1px solid $purple1;
+}
+.nodeStageSelected.nodeStageOkButton:after {
+  background: $orange;
 }
 
 .nodeStageImg, .nodeStageImg img {

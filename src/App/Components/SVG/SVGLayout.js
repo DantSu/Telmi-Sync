@@ -9,7 +9,7 @@ function SVGLayout({children}) {
         el.setAttribute("height", bbox.y + bbox.height + 100)
       }
     },
-    []
+    [children]
   )
   return <svg ref={callback}>{children}</svg>
 }

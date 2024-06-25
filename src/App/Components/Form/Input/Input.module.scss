@@ -1,6 +1,6 @@
 @import "src/App/variables";
 
-.container {
+.container, .containerVertical {
   position: relative;
   display: flex;
   flex-direction: row;
@@ -20,7 +20,7 @@
 }
 
 .input, .textarea, .select {
-  flex: 0 0 250px;
+  flex: 0 0 auto;
   width: 250px;
   border-radius: 15px;
   color: $black;
@@ -30,8 +30,6 @@
 }
 
 .textarea {
-  flex: 0 0 140px;
-  width: auto;
   height: 140px;
 }
 
@@ -43,7 +41,6 @@
 
 .option {
   color: $black;
-  width: 250px;
 }
 
 .option:active,
@@ -57,6 +54,7 @@
 .inputRange {
   z-index: 1;
   background: transparent;
+  flex: 0 0 auto;
   width: 250px;
 }
 
@@ -85,6 +83,15 @@
   bottom: 0;
   right: 0;
 }
+
+
+.containerVertical .input,
+.containerVertical .textarea,
+.containerVertical .select,
+.containerVertical .inputRange {
+  width: 100%;
+}
+
 
 .inputSwitch {
   flex: 0 0 auto;
@@ -136,6 +143,7 @@
   align-items: center;
   border: 3px dashed $white60;
   border-radius: 15px;
+  margin-top: 5px;
   overflow: hidden;
 }
 

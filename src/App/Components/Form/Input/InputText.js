@@ -4,7 +4,7 @@ import InputLayout from './InputLayout.js'
 
 import styles from './Input.module.scss'
 
-function InputText({label, type, id, required, className, ...props}, ref) {
+function InputText({label, type, id, required, className, vertical, ...props}, ref) {
   const
     {getLocale} = useLocale(),
     refCallback = useCallback(
@@ -28,7 +28,7 @@ function InputText({label, type, id, required, className, ...props}, ref) {
       [ref, label, getLocale]
     )
 
-  return <InputLayout label={label} id={id} required={required}>
+  return <InputLayout label={label} id={id} required={required} vertical={vertical}>
     <input {...props}
            type={type || 'text'}
            className={[styles.input, className].join(' ')}

@@ -9,7 +9,7 @@ import StudioStoryStartStage from './StudioStoryStartStage.js'
 
 const
   nodeWidth = 80,
-  nodeHeight = 70,
+  nodeHeight = 80,
   margin = 30,
 
   getNodesSizesRecursive = (nodes, aKey, stageParent, lvl, stagesSize, actionsSize) => {
@@ -84,7 +84,6 @@ const
     return {stagesSize, actionsSize}
   },
   getNodes = (nodes) => {
-  console.log('getNodes')
     const
       aKey = nodes.startAction.action,
       {stagesSize, actionsSize} = getNodesSizes(nodes, aKey),
@@ -135,9 +134,12 @@ const
       if (stageFrom !== null) {
         const actionNotExists = actionsPos[actionFrom] === undefined
         if (actionNotExists) {
+          const
+            actionParentToStage = stageFrom === 'startStage' || stagesSize[stageId].stageParent === stageFrom,
+            actionWidth = actionParentToStage ? stagesSize[stageId].width : nodeWidth
 
           actionsPos[actionFrom] = {
-            x: actionsSize[actionFrom].posX + stagesSize[stageId].width / 2 + margin,
+            x: actionsSize[actionFrom].posX + actionWidth / 2 + margin,
             y: (actionsSize[actionFrom].lvl + 0.5) * nodeHeight + margin
           }
 
@@ -154,14 +156,17 @@ const
                              fromX={actionsPos[actionFrom].x}
                              fromY={actionsPos[actionFrom].y}
                              toX={stagesPos[stageId].x}
-                             toY={stagesPos[stageId].y - 32}/>
+                             toY={stagesPos[stageId].y}
+                             arrows={actionParentToStage ? 0 : 2}
+                             bezierCoefStart={actionParentToStage ? 35 : 60}
+                             bezierCoefEnd={actionParentToStage ? 40 : 90}/>
           ]
         }
         components.lines = [
           ...components.lines,
           <StudioStoryLine key={'line-stage-' + stageFrom + '-to-action-' + actionFrom}
                            fromX={stagesPos[stageFrom].x}
-                           fromY={stagesPos[stageFrom].y + 32}
+                           fromY={stagesPos[stageFrom].y + nodeHeight / 2 - (nodeHeight - 66)}
                            toX={actionsPos[actionFrom].x}
                            toY={actionsPos[actionFrom].y}
                            arrows={actionNotExists ? 0 : 2}

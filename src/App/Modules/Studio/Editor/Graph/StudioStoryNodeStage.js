@@ -3,14 +3,22 @@ import SVGHtml from '../../../../Components/SVG/SVGHtml.js'
 
 import styles from './StudioGraph.module.scss'
 
-function StudioStoryNodeStage({image, title, x, y, isSelected, onClick}) {
+function StudioStoryNodeStage({image, title, x, y, isSelected, onClick, onMouseDown, onDragStart, isAutoplay, isOkButton}) {
   return <SVGHtml x={x}
                   y={y}
-                  width={66}
-                  height={66}
+                  width={80}
+                  height={80}
                   anchorX={SVG_ANCHOR_CENTER}
                   anchorY={SVG_ANCHOR_MIDDLE}>
-    <div className={isSelected ? styles.nodeStageSelected : styles.nodeStage} onClick={onClick}>
+    <div className={[
+      isSelected ? styles.nodeStageSelected : styles.nodeStage,
+      isAutoplay ? styles.nodeStageAutoplay : undefined,
+      isOkButton ? styles.nodeStageOkButton : undefined,
+    ].join(' ')}
+         onClick={onClick}
+         onMouseDown={onMouseDown}
+         draggable={true}
+         onDragStart={onDragStart}>
       <div className={styles.nodeStageImg}>
         {image && <img src={image} alt=""/>}
       </div>

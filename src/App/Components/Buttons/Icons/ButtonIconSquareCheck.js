@@ -1,7 +1,7 @@
 import ButtonIconGeneric from './ButtonIconGeneric.js'
 
-function ButtonIconTrash(props) {
+function ButtonIconSquareCheck(props) {
   return <ButtonIconGeneric {...props} icon={'\uf14a'}/>
 }
 
-export default ButtonIconTrash
+export default ButtonIconSquareCheck

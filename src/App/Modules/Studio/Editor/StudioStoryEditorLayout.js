@@ -73,7 +73,7 @@ function StudioStoryEditorLayout({closeEditor}) {
         {!loading ?
           <li>
             <ButtonIconFloppyDisk
-              className={[styles.topBarButton, !isStoryUpdated ? styles.topBarButtonDisabled : undefined].join(' ')}
+              className={[styles.topBarButton, !isStoryUpdated ? styles.topBarButtonDisabled : ''].join(' ')}
               title={getLocale('save')}
               onClick={onSave}/>
           </li> : null}

@@ -3,7 +3,7 @@ import InputLayout from './InputLayout.js'
 
 import styles from './Input.module.scss'
 
-function InputRange ({label, type, id, unit, defaultValue, className, ...props}, ref) {
+function InputRange ({label, type, id, unit, defaultValue, className, vertical, ...props}, ref) {
 
   const
     [value, setValue] = useState(defaultValue),
@@ -27,7 +27,7 @@ function InputRange ({label, type, id, unit, defaultValue, className, ...props},
       [setValue]
     )
 
-  return <InputLayout label={label} id={id}>
+  return <InputLayout label={label} id={id} vertical={vertical}>
     <input {...props}
            type="range"
            className={classNames}

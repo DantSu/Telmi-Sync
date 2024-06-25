@@ -72,7 +72,8 @@ function StudioStageForm() {
                    key={stage + '-text'}
                    id={stage + '-text'}
                    defaultValue={note.notes}
-                   onBlur={onNotesBlur}/>
+                   onBlur={onNotesBlur}
+                   vertical={true}/>
     <InputAudio label={getLocale('story')}
                 key={stage + '-audio'}
                 id={stage + '-audio'}

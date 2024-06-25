@@ -65,6 +65,14 @@ const fr = {
   'screen-on-inactivity-time': 'Temps d\'inactivité avant extinction (Ecran allumé)',
   'screen-off-inactivity-time': 'Temps d\'inactivité avant extinction (Ecran éteint)',
   'music-inactivity-time': 'Temps d\'inactivité avant extinction (Ecoute de musique)',
+  'what-next': 'Quelle est la suite ?',
+
+  'action-continue-to': 'Continuer vers :',
+  'action-scene-existing': 'Scène existante',
+  'action-scene-new': 'Nouvelle scène',
+  'action-drop-scene': 'Glissez et déposez une scène ici',
+  'action-default': 'Choix par défaut',
+  'action-delete': 'Supprimer ce lien',
 
   'input-required': 'Le champ <strong>"{0}"</strong> est obligatoire.',
   'input-url-invalid': 'Le champ <strong>"{0}"</strong> doit être une URL valide.',

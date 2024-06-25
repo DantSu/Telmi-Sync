@@ -1,22 +1,32 @@
 import {useLocale} from '../../../../Components/Locale/LocaleHooks.js'
-import {useStudioStory, useStudioStoryUpdater} from '../Providers/StudioStoryHooks.js'
+import {useStudioStory} from '../Providers/StudioStoryHooks.js'
+import StudioActionItemForm from './StudioActionItemForm.js'
+import StudioActionFormExisting from './StudioActionFormExisting.js'
+import StudioActionFormNew from './StudioActionFormNew.js'
 
 import styles from './StudioForm.module.scss'
+
 
 function StudioActionForm({stage}) {
   const
     {getLocale} = useLocale(),
-    {metadata, nodes, notes} = useStudioStory(),
-    {updateStory} = useStudioStoryUpdater(),
-    note = notes[stage],
-    stageNode = nodes.stages[stage]
-
+    {nodes} = useStudioStory(),
+    stageNode = nodes.stages[stage],
+    actionNode = stageNode.ok === null ? [] : nodes.actions[stageNode.ok.action]
 
   return <div className={styles.actionContainer}>
     <h2 className={styles.actionTitle}>{getLocale('what-next')}</h2>
-    <ul>
-      <li></li>
-    </ul>
+    <ul className={styles.actionListContainer}>{
+      actionNode.map((v, k) => <StudioActionItemForm action={v}
+                                                     actionPosition={k}
+                                                     parentStage={stageNode}
+                                                     key={'action-item-' + k}/>)
+    }</ul>
+    <h3 className={styles.actionNewItemTitle}>{getLocale('action-continue-to')}</h3>
+    <div className={styles.actionNewItemForm}>
+      <StudioActionFormExisting stageNode={stageNode}/>
+      <StudioActionFormNew stageNode={stageNode}/>
+    </div>
   </div>
 }
 

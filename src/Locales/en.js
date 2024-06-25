@@ -65,6 +65,14 @@ const en = {
   'screen-on-inactivity-time': 'Inactivity time before shutdown (Screen on)',
   'screen-off-inactivity-time': 'Inactivity time before shutdown (Screen off)',
   'music-inactivity-time': 'Inactivity time before shutdown (Listening music)',
+  'what-next': 'What\'s next ?',
+
+  'action-continue-to': 'Continue to :',
+  'action-scene-existing': 'Existing scene',
+  'action-scene-new': 'New scene',
+  'action-drop-scene': 'Drag and drop a scene here',
+  'action-default': 'Default choice',
+  'action-delete': 'Delete link',
 
   'input-required': 'The field <strong>"{0}"</strong> is required.',
   'input-url-invalid': 'The field <strong>"{0}"</strong> must be a valid URL.',

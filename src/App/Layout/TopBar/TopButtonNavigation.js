@@ -8,9 +8,9 @@ function TopButtonNavigation ({buttonComponent, text, route, currentModule}) {
     isSelected = route.module === currentModule,
     Button = buttonComponent
 
-  return <li className={[styles.buttonContainer, isSelected ? styles.buttonContainerSelected : undefined].join(' ')}>
+  return <li className={[styles.buttonContainer, isSelected ? styles.buttonContainerSelected : ''].join(' ')}>
     <Button text={text}
-            className={[styles.button, isSelected ? styles.buttonSelected : undefined].join(' ')}
+            className={[styles.button, isSelected ? styles.buttonSelected : ''].join(' ')}
             onClick={() => setRoute(route)}/>
   </li>
 }

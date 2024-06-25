@@ -4,7 +4,7 @@ import InputLayout from './InputLayout.js'
 
 import styles from './Input.module.scss'
 
-function InputSelect({label, type, id, required, className, options, ...props}, ref) {
+function InputSelect({label, id, required, className, options, vertical, ...props}, ref) {
   const
     {getLocale} = useLocale(),
     refCallback = useCallback(
@@ -29,7 +29,7 @@ function InputSelect({label, type, id, required, className, options, ...props}, 
     return null
   }
 
-  return <InputLayout label={label} id={id} required={required}>
+  return <InputLayout label={label} id={id} required={required} vertical={vertical}>
     <select {...props}
            className={[styles.select, className].join(' ')}
            required={required}

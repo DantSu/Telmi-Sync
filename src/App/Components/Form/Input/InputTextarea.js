@@ -4,7 +4,7 @@ import InputLayout from './InputLayout.js'
 
 import styles from './Input.module.scss'
 
-function InputTextarea({label, id, required, className, ...props}, ref) {
+function InputTextarea({label, id, required, className, vertical, ...props}, ref) {
   const
     {getLocale} = useLocale(),
     refCallback = useCallback(
@@ -22,10 +22,7 @@ function InputTextarea({label, id, required, className, ...props}, ref) {
       [ref, label, getLocale]
     )
 
-  return <InputLayout label={label}
-                      id={id}
-                      required={required}
-                      className={styles.containerVertical}>
+  return <InputLayout label={label} id={id} required={required} vertical={vertical}>
     <textarea {...props}
               className={[styles.textarea, className].join(' ')}
               required={required}
