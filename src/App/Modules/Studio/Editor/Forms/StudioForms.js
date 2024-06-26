@@ -1,20 +1,31 @@
-import {useStudioStage} from '../Providers/StudioStageHooks.js'
+import {useStudioForm} from '../Providers/StudioStageHooks.js'
 
 import StudioStartStageForm from './StudioStartStageForm.js'
 import StudioStageForm from './StudioStageForm.js'
 
 import styles from './StudioForm.module.scss'
 
-function StudioForms() {
-  const {stage} = useStudioStage()
+const
+  StudioFormSelector = ({form}) => {
+    if(form === 'form-inventory') {
+      return null
+    }
+    if(form === 'startStage') {
+      return <StudioStartStageForm/>
+    }
+    return <StudioStageForm/>
+  }
 
-  if (stage === null) {
+function StudioForms() {
+  const {form} = useStudioForm()
+
+  if (form === null) {
     return null
   }
 
   return <div className={styles.paramsContainer}>
     <div className={styles.paramsForms}>
-      {stage === 'startStage' ? <StudioStartStageForm/> : <StudioStageForm/>}
+      <StudioFormSelector form={form} />
     </div>
   </div>
 }

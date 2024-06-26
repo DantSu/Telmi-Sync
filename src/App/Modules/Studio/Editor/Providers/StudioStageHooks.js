@@ -1,6 +1,6 @@
 import { useContext } from 'react'
-import StudioStageContext from './StudioStageContext.js'
+import StudioFormContext from './StudioStageContext.js'
 
-const useStudioStage = () => useContext(StudioStageContext)
+const useStudioForm = () => useContext(StudioFormContext)
 
-export { useStudioStage }
+export { useStudioForm }

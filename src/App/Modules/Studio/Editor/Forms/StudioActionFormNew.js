@@ -28,9 +28,11 @@ function StudioActionFormNew({stageNode}) {
       (validation) => {
         return <>
           <InputText id={'action-new-stage'}
+                     key={'action-new-stage-' + stageNode.ok?.action}
                      vertical={true}
                      ref={nameRef}/>
           <ButtonIconTextPlus text={getLocale('action-scene-new')}
+                              className={styles.actionNewItemButton}
                               rounded={true}
                               onClick={() => validation([nameRef], onValidate)}/>
         </>

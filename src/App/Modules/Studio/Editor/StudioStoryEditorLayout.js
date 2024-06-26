@@ -6,20 +6,25 @@ import {useStudioStory, useStudioStoryUpdater} from './Providers/StudioStoryHook
 import StudioStoryEditorGraphContainer from './Graph/StudioStoryEditorGraphContainer.js'
 import ButtonIconXMark from '../../../Components/Buttons/Icons/ButtonIconXMark.js'
 import ButtonIconFloppyDisk from '../../../Components/Buttons/Icons/ButtonIconFloppyDisk.js'
+import ButtonIconWand from '../../../Components/Buttons/Icons/ButtonIconWand.js'
 import ModalStudioStorySaveConfirm from './ModalStudioStorySaveConfirm.js'
 import StudioForms from './Forms/StudioForms.js'
 import Loader from '../../../Components/Loader/Loader.js'
 
 import styles from './StudioStoryEditor.module.scss'
+import {useStudioForm} from './Providers/StudioStageHooks.js'
+import ButtonIconPlay from '../../../Components/Buttons/Icons/ButtonIconPlay.js'
 
 
 function StudioStoryEditorLayout({closeEditor}) {
   const
     {getLocale} = useLocale(),
     {addModal, rmModal} = useModal(),
+    {setForm} = useStudioForm(),
     story = useStudioStory(),
     {updateStory, clearStoryUpdated, isStoryUpdated} = useStudioStoryUpdater(),
     loading = story === null,
+    onEditItems = useCallback(() => setForm('form-inventory'), [setForm]),
     onSave = useCallback(
       () => {
         if (!isStoryUpdated) {
@@ -70,13 +75,26 @@ function StudioStoryEditorLayout({closeEditor}) {
              className={styles.titleInput}
              onBlur={onTitleBlur}/>
       <ul className={styles.topBarButtons}>
-        {!loading ?
+        {!loading ? <>
+          <li>
+            <ButtonIconWand
+              className={styles.topBarButton}
+              title={getLocale('inventory')}
+              onClick={onEditItems}/>
+          </li>
+          <li>
+            <ButtonIconPlay
+              className={styles.topBarButton}
+              title={getLocale('story-play')}
+              onClick={onEditItems}/>
+          </li>
           <li>
             <ButtonIconFloppyDisk
               className={[styles.topBarButton, !isStoryUpdated ? styles.topBarButtonDisabled : ''].join(' ')}
               title={getLocale('save')}
               onClick={onSave}/>
-          </li> : null}
+          </li>
+        </> : null}
         <li>
           <ButtonIconXMark className={styles.topBarButton}
                            title={getLocale('story-close')}

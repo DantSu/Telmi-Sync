@@ -23,10 +23,14 @@ function ModalMusicsFormUpdate ({musics, onValidate, onClose}) {
         return <>
           <ModalContent>
             <InputText label={getLocale('album')}
+                       key="music-album"
+                       id="music-album"
                        defaultValue={musics[0].album}
                        required={true}
                        ref={albumRef}/>
             <InputText label={getLocale('artist')}
+                       key="music-artist"
+                       id="music-artist"
                        defaultValue={musics[0].artist}
                        required={true}
                        ref={artistRef}/>

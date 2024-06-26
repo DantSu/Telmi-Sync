@@ -199,7 +199,7 @@ function StudioStoryEditorGraph() {
   const
     {nodes} = useStudioStory(),
     {lines, stages, actions} = useMemo(() => getNodes(nodes), [nodes])
-  return <SVGLayout>
+  return <SVGLayout observer={nodes}>
     {lines}
     {stages}
     {actions}

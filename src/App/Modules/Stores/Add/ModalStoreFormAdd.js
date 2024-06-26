@@ -22,9 +22,13 @@ function ModalStoreFormAdd ({onValidate, onClose}) {
         return <>
           <ModalContent>
             <InputText label={getLocale('name')}
+                       key="store-name"
+                       id="store-name"
                        required={true}
                        ref={nameRef}/>
             <InputText label={getLocale('url')}
+                       key="store-url"
+                       id="store-url"
                        type="url"
                        required={true}
                        ref={urlRef}/>

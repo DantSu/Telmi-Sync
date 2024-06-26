@@ -1,9 +1,12 @@
-import { useState } from 'react'
-import StudioStageContext from './StudioStageContext.js'
+import {useMemo, useState} from 'react'
+import StudioFormContext from './StudioStageContext.js'
 
 function StudioStageProvider ({children}) {
-  const [stage, setStage] = useState(null)
-  return <StudioStageContext.Provider value={{stage, setStage}}>{children}</StudioStageContext.Provider>
+  const 
+    [form, setForm] = useState(null),
+    value = useMemo(() => ({form, setForm}), [form])
+
+  return <StudioFormContext.Provider value={value}>{children}</StudioFormContext.Provider>
 }
 
 export default StudioStageProvider

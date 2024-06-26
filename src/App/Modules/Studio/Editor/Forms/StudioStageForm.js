@@ -1,6 +1,6 @@
-import {useCallback} from 'react'
+import {useCallback, useRef} from 'react'
 import {useLocale} from '../../../../Components/Locale/LocaleHooks.js'
-import {useStudioStage} from '../Providers/StudioStageHooks.js'
+import {useStudioForm} from '../Providers/StudioStageHooks.js'
 import {useStudioStory, useStudioStoryUpdater} from '../Providers/StudioStoryHooks.js'
 
 import InputText from '../../../../Components/Form/Input/InputText.js'
@@ -13,7 +13,7 @@ import InputSwitch from '../../../../Components/Form/Input/InputSwitch.js'
 function StudioStageForm() {
   const
     {getLocale} = useLocale(),
-    {stage} = useStudioStage(),
+    {form: stage} = useStudioForm(),
     {metadata, nodes, notes} = useStudioStory(),
     {updateStory} = useStudioStoryUpdater(),
     note = notes[stage],
@@ -47,9 +47,15 @@ function StudioStageForm() {
       }),
       [stage, updateStory]
     ),
+    refOk = useRef(null),
+    refAutoplay = useRef(null),
     onControlOkChange = useCallback(
       (e) => updateStory((s) => {
         s.nodes.stages[stage].control.ok = e.target.checked
+        if (!e.target.checked) {
+          s.nodes.stages[stage].control.autoplay = true
+          refAutoplay.current.checked = true
+        }
         return {...s}
       }),
       [stage, updateStory]
@@ -57,6 +63,10 @@ function StudioStageForm() {
     onControlAutoplayChange = useCallback(
       (e) => updateStory((s) => {
         s.nodes.stages[stage].control.autoplay = e.target.checked
+        if (!e.target.checked) {
+          s.nodes.stages[stage].control.ok = true
+          refOk.current.checked = true
+        }
         return {...s}
       }),
       [stage, updateStory]
@@ -84,18 +94,20 @@ function StudioStageForm() {
                  key={stage + '-control-ok'}
                  id={stage + '-control-ok'}
                  defaultValue={stageNode.control.ok}
-                onChange={onControlOkChange}/>
+                 ref={refOk}
+                 onChange={onControlOkChange}/>
     <InputSwitch label={getLocale('studio-stage-autoplay')}
                  key={stage + '-control-autoplay'}
                  id={stage + '-control-autoplay'}
+                 ref={refAutoplay}
                  defaultValue={stageNode.control.autoplay}
-                onChange={onControlAutoplayChange}/>
-    <InputImage label={getLocale('picture')}
+                 onChange={onControlAutoplayChange}/>
+    <InputImage label={getLocale('picture') + ' (640 * 480 pixels)'}
                 key={stage + '-image'}
                 id={stage + '-image'}
                 onChange={onImageChange}
                 image={stageNode.newImage ? stageNode.newImage : (stageNode.image ? metadata.path + '/images/' + stageNode.image : undefined)}/>
-    <StudioActionForm stage={stage}/>
+    <StudioActionForm stageNode={stageNode}/>
   </>
 }
 

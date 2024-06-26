@@ -28,6 +28,7 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
         return <>
           <ModalContent>
             <InputRange label={getLocale('audio-volume-startup')}
+                        key="audio-volume-startup"
                         id="audio-volume-startup"
                         defaultValue={parameters.audioVolumeStartup * 100}
                         min={0}
@@ -36,6 +37,7 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
                         unit="%"
                         ref={inputRef0}/>
             <InputRange label={getLocale('audio-volume-max')}
+                        key="audio-volume-max"
                         id="audio-volume-max"
                         defaultValue={parameters.audioVolumeMax * 100}
                         min={0}
@@ -44,6 +46,7 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
                         unit="%"
                         ref={inputRef1}/>
             <InputRange label={getLocale('screen-brightness-startup')}
+                        key="screen-brightness-startup"
                         id="screen-brightness-startup"
                         defaultValue={parameters.screenBrightnessStartup * 100}
                         min={0}
@@ -52,6 +55,7 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
                         unit="%"
                         ref={inputRef2}/>
             <InputRange label={getLocale('screen-brightness-max')}
+                        key="screen-brightness-max"
                         id="screen-brightness-max"
                         defaultValue={parameters.screenBrightnessMax * 100}
                         min={0}
@@ -60,6 +64,7 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
                         unit="%"
                         ref={inputRef3}/>
             <InputRange label={getLocale('screen-on-inactivity-time')}
+                        key="screen-on-inactivity-time"
                         id="screen-on-inactivity-time"
                         defaultValue={parameters.screenOnInactivityTime / 60}
                         min={1}
@@ -69,6 +74,7 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
                         required={true}
                         ref={inputRef4}/>
             <InputRange label={getLocale('screen-off-inactivity-time')}
+                        key="screen-off-inactivity-time"
                         id="screen-off-inactivity-time"
                         defaultValue={parameters.screenOffInactivityTime / 60}
                         min={1}
@@ -78,6 +84,7 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
                         required={true}
                         ref={inputRef5}/>
             <InputRange label={getLocale('music-inactivity-time')}
+                        key="music-inactivity-time"
                         id="music-inactivity-time"
                         defaultValue={parameters.musicInactivityTime / 3600}
                         min={0.1}
@@ -87,6 +94,7 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
                         required={true}
                         ref={inputRef6}/>
             <InputCheckbox label={getLocale('story-display-tiles')}
+                        key="story-display-tiles"
                         id="story-display-tiles"
                         defaultValue={parameters.storyDisplayTiles}
                         ref={inputRef7}/>

@@ -7,11 +7,10 @@ import StudioActionFormNew from './StudioActionFormNew.js'
 import styles from './StudioForm.module.scss'
 
 
-function StudioActionForm({stage}) {
+function StudioActionForm({stageNode}) {
   const
     {getLocale} = useLocale(),
     {nodes} = useStudioStory(),
-    stageNode = nodes.stages[stage],
     actionNode = stageNode.ok === null ? [] : nodes.actions[stageNode.ok.action]
 
   return <div className={styles.actionContainer}>

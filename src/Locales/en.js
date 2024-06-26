@@ -23,6 +23,7 @@ const en = {
   'search': 'Search',
   'save': 'Save',
   'initialize': 'Initialize',
+  'inventory': 'Inventory',
   'synchronize': 'Synchronize',
   'edit': 'Edit',
   'download': 'Download',
@@ -66,6 +67,9 @@ const en = {
   'screen-off-inactivity-time': 'Inactivity time before shutdown (Screen off)',
   'music-inactivity-time': 'Inactivity time before shutdown (Listening music)',
   'what-next': 'What\'s next ?',
+  'audio-title': 'Audio title',
+  'picture-cover': 'Picture cover',
+  'picture-title': 'Picture title',
 
   'action-continue-to': 'Continue to :',
   'action-scene-existing': 'Existing scene',
@@ -96,6 +100,7 @@ const en = {
   'converting-audio': 'Converting audio files',
 
   'story': 'Story',
+  'story-play': 'Play the story',
   'story-close': 'Close the story',
   'story-deciphering-media': 'Decryption of media files',
   'story-reading-metadata': 'Reading the story\'s metadata',

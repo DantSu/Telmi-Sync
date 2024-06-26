@@ -1,9 +1,9 @@
 import { createContext } from 'react'
 
-const StudioStageContext = createContext({
-  stage: null,
-  setStage: () => {}
+const StudioFormContext = createContext({
+  form: null,
+  setForm: () => {}
 })
 
 
-export default StudioStageContext
+export default StudioFormContext

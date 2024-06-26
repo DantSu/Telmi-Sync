@@ -23,10 +23,14 @@ function ModalStoryFormUpdate ({story, onValidate, onClose}) {
         return <>
           <ModalContent>
             <InputText label={getLocale('title')}
+                       key="story-title"
+                       id="story-title"
                        defaultValue={story.title}
                        required={true}
                        ref={inputTitleRef}/>
             <InputText label={getLocale('age')}
+                       key="story-age"
+                       id="story-age"
                        type="number"
                        step="1"
                        min="0"
@@ -35,6 +39,8 @@ function ModalStoryFormUpdate ({story, onValidate, onClose}) {
                        required={false}
                        ref={inputAgeRef}/>
             <InputText label={getLocale('category')}
+                       key="story-category"
+                       id="story-category"
                        defaultValue={story.category || ''}
                        required={false}
                        ref={inputCategoryRef}/>

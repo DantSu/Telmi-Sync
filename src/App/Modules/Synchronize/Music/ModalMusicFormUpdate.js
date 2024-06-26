@@ -1,5 +1,5 @@
-import { useRef } from 'react'
-import { useLocale } from '../../../Components/Locale/LocaleHooks.js'
+import {useRef} from 'react'
+import {useLocale} from '../../../Components/Locale/LocaleHooks.js'
 import ModalLayoutPadded from '../../../Components/Modal/ModalLayoutPadded.js'
 import ButtonsContainer from '../../../Components/Buttons/ButtonsContainer.js'
 import ButtonIconTextCheck from '../../../Components/Buttons/IconsTexts/ButtonIconTextCheck.js'
@@ -9,7 +9,7 @@ import ModalTitle from '../../../Components/Modal/ModalTitle.js'
 import ModalContent from '../../../Components/Modal/ModalContent.js'
 import Form from '../../../Components/Form/Form.js'
 
-function ModalMusicFormUpdate ({music, onValidate, onClose}) {
+function ModalMusicFormUpdate({music, onValidate, onClose}) {
   const
     {getLocale} = useLocale(),
     trackRef = useRef(),
@@ -25,6 +25,8 @@ function ModalMusicFormUpdate ({music, onValidate, onClose}) {
         return <>
           <ModalContent>
             <InputText label={getLocale('track')}
+                       key="music-track"
+                       id="music-track"
                        type="number"
                        defaultValue={music.track}
                        required={true}
@@ -33,14 +35,20 @@ function ModalMusicFormUpdate ({music, onValidate, onClose}) {
                        max={99}
                        step={1}/>
             <InputText label={getLocale('title')}
+                       id="music-title"
+                       key="music-title"
                        defaultValue={music.title}
                        required={true}
                        ref={titleRef}/>
             <InputText label={getLocale('album')}
+                       id="music-album"
+                       key="music-album"
                        defaultValue={music.album}
                        required={true}
                        ref={albumRef}/>
             <InputText label={getLocale('artist')}
+                       id="music-artist"
+                       key="music-artist"
                        defaultValue={music.artist}
                        required={true}
                        ref={artistRef}/>

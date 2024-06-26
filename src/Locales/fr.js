@@ -23,6 +23,7 @@ const fr = {
   'search': 'Rechercher',
   'save': 'Enregistrer',
   'initialize': 'Initialisation',
+  'inventory': 'Inventaire',
   'synchronize': 'Synchroniser',
   'edit': 'Editer',
   'download': 'Télécharger',
@@ -66,6 +67,9 @@ const fr = {
   'screen-off-inactivity-time': 'Temps d\'inactivité avant extinction (Ecran éteint)',
   'music-inactivity-time': 'Temps d\'inactivité avant extinction (Ecoute de musique)',
   'what-next': 'Quelle est la suite ?',
+  'audio-title': 'Titre audio',
+  'picture-cover': 'Image de couverture',
+  'picture-title': 'Image titre',
 
   'action-continue-to': 'Continuer vers :',
   'action-scene-existing': 'Scène existante',
@@ -73,7 +77,6 @@ const fr = {
   'action-drop-scene': 'Glissez et déposez une scène ici',
   'action-default': 'Choix par défaut',
   'action-delete': 'Supprimer ce lien',
-
   'input-required': 'Le champ <strong>"{0}"</strong> est obligatoire.',
   'input-url-invalid': 'Le champ <strong>"{0}"</strong> doit être une URL valide.',
 
@@ -96,6 +99,7 @@ const fr = {
   'converting-audio': 'Conversion des fichiers audio',
 
   'story': 'Histoire',
+  'story-play': 'Lire l\'histoire',
   'story-close': 'Fermer l\'histoire',
   'story-deciphering-media': 'Décryptage des fichiers médias',
   'story-reading-metadata': 'Lecture des métadonnées de l\'histoire',

@@ -12,7 +12,7 @@ const
       'control': {
         'ok': false,
         'home': true,
-        'autoplay': false
+        'autoplay': true
       }
     }
     return 's' + i

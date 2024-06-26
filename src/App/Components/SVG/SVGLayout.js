@@ -1,6 +1,6 @@
 import {useCallback} from 'react'
 
-function SVGLayout({children}) {
+function SVGLayout({observer, children}) {
   const callback = useCallback(
     (el) => {
       if (el !== null) {
@@ -9,7 +9,7 @@ function SVGLayout({children}) {
         el.setAttribute("height", bbox.y + bbox.height + 100)
       }
     },
-    [children]
+    [observer]
   )
   return <svg ref={callback}>{children}</svg>
 }
