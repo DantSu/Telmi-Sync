@@ -1,14 +1,15 @@
 import {useStudioForm} from '../Providers/StudioStageHooks.js'
 
-import StudioStartStageForm from './StudioStartStageForm.js'
-import StudioStageForm from './StudioStageForm.js'
+import StudioStartStageForm from './Stage/StudioStartStageForm.js'
+import StudioStageForm from './Stage/StudioStageForm.js'
 
 import styles from './StudioForm.module.scss'
+import StudioInventoryForm from './Inventory/StudioInventoryForm.js'
 
 const
   StudioFormSelector = ({form}) => {
     if(form === 'form-inventory') {
-      return null
+      return <StudioInventoryForm/>
     }
     if(form === 'startStage') {
       return <StudioStartStageForm/>

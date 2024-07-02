@@ -1,14 +1,14 @@
 import {useCallback, useRef} from 'react'
-import {useLocale} from '../../../../Components/Locale/LocaleHooks.js'
-import {useStudioForm} from '../Providers/StudioStageHooks.js'
-import {useStudioStory, useStudioStoryUpdater} from '../Providers/StudioStoryHooks.js'
+import {useLocale} from '../../../../../Components/Locale/LocaleHooks.js'
+import {useStudioForm} from '../../Providers/StudioStageHooks.js'
+import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
 
-import InputText from '../../../../Components/Form/Input/InputText.js'
-import InputTextarea from '../../../../Components/Form/Input/InputTextarea.js'
-import InputImage from '../../../../Components/Form/Input/InputImage.js'
-import InputAudio from '../../../../Components/Form/Input/InputAudio.js'
+import InputText from '../../../../../Components/Form/Input/InputText.js'
+import InputTextarea from '../../../../../Components/Form/Input/InputTextarea.js'
+import InputImage from '../../../../../Components/Form/Input/InputImage.js'
+import InputAudio from '../../../../../Components/Form/Input/InputAudio.js'
 import StudioActionForm from './StudioActionForm.js'
-import InputSwitch from '../../../../Components/Form/Input/InputSwitch.js'
+import InputSwitch from '../../../../../Components/Form/Input/InputSwitch.js'
 
 function StudioStageForm() {
   const
@@ -102,11 +102,15 @@ function StudioStageForm() {
                  ref={refAutoplay}
                  defaultValue={stageNode.control.autoplay}
                  onChange={onControlAutoplayChange}/>
-    <InputImage label={getLocale('picture') + ' (640 * 480 pixels)'}
+    <InputImage label={getLocale('picture')}
+                width={640}
+                height={480}
+                displayScale={0.4}
+                vertical={true}
                 key={stage + '-image'}
                 id={stage + '-image'}
                 onChange={onImageChange}
-                image={stageNode.newImage ? stageNode.newImage : (stageNode.image ? metadata.path + '/images/' + stageNode.image : undefined)}/>
+                defaultValue={stageNode.newImage ? stageNode.newImage : (stageNode.image ? metadata.path + '/images/' + stageNode.image : undefined)}/>
     <StudioActionForm stageNode={stageNode}/>
   </>
 }

@@ -1,10 +1,10 @@
 import {useCallback, useMemo} from 'react'
-import {useLocale} from '../../../../Components/Locale/LocaleHooks.js'
-import {useStudioStory, useStudioStoryUpdater} from '../Providers/StudioStoryHooks.js'
-import InputText from '../../../../Components/Form/Input/InputText.js'
-import InputTextarea from '../../../../Components/Form/Input/InputTextarea.js'
-import InputAudio from '../../../../Components/Form/Input/InputAudio.js'
-import InputImage from '../../../../Components/Form/Input/InputImage.js'
+import {useLocale} from '../../../../../Components/Locale/LocaleHooks.js'
+import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
+import InputText from '../../../../../Components/Form/Input/InputText.js'
+import InputTextarea from '../../../../../Components/Form/Input/InputTextarea.js'
+import InputAudio from '../../../../../Components/Form/Input/InputAudio.js'
+import InputImage from '../../../../../Components/Form/Input/InputImage.js'
 import StudioActionForm from './StudioActionForm.js'
 
 
@@ -113,16 +113,24 @@ function StudioStartStageForm() {
                 textTTS={metadata.title}
                 onChange={onAudioChange}
                 audio={metadata.newAudioTitle ? metadata.newAudioTitle : metadata.audioTitle}/>
-    <InputImage label={getLocale('picture-cover') + ' ( 512 * 512 pixels )'}
+    <InputImage label={getLocale('picture-cover')}
+                width={512}
+                height={512}
+                displayScale={0.4}
+                vertical={true}
                 key={'startStage-img-cover'}
                 id={'startStage-img-cover'}
                 onChange={onImageCoverChange}
-                image={metadata.newImageCover ? metadata.newImageCover : metadata.imageCover}/>
-    <InputImage label={getLocale('picture-title') + ' ( 640 * 480 pixels )'}
+                defaultValue={metadata.newImageCover ? metadata.newImageCover : metadata.imageCover}/>
+    <InputImage label={getLocale('picture-title')}
+                width={640}
+                height={480}
+                displayScale={0.4}
+                vertical={true}
                 key={'startStage-img-title'}
                 id={'startStage-img-title'}
                 onChange={onImageTitleChange}
-                image={metadata.newImageTitle ? metadata.newImageTitle : metadata.imageTitle}/>
+                defaultValue={metadata.newImageTitle ? metadata.newImageTitle : metadata.imageTitle}/>
     <StudioActionForm stageNode={startStageNode}/>
   </>
 }

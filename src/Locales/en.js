@@ -1,6 +1,7 @@
 const en = {
   'new': 'New',
-  'informations': 'Informations',
+  'add': 'Add',
+  'infos': 'Infos',
   'waiting': 'Waiting',
   'please-wait': 'Please wait',
   'cancel': 'Cancel',
@@ -23,7 +24,6 @@ const en = {
   'search': 'Search',
   'save': 'Save',
   'initialize': 'Initialize',
-  'inventory': 'Inventory',
   'synchronize': 'Synchronize',
   'edit': 'Edit',
   'download': 'Download',
@@ -70,6 +70,9 @@ const en = {
   'audio-title': 'Audio title',
   'picture-cover': 'Picture cover',
   'picture-title': 'Picture title',
+  'initial-number': 'Initial number',
+  'max-number': 'Maximum number',
+  'show-item-counter-as-bar': 'Show item counter as bar',
 
   'action-continue-to': 'Continue to :',
   'action-scene-existing': 'Existing scene',
@@ -157,7 +160,10 @@ const en = {
   'text-to-speech': 'TTS : Converting text to speech',
   'tts-converting': 'Text to speech',
   'tts-empty-text': 'TTS : Empty text',
-  'tts-empty-text-details': 'The text send to TTS is empty. Please write a sentence.'
+  'tts-empty-text-details': 'The text send to TTS is empty. Please write a sentence.',
+
+  'inventory': 'Inventory',
+  'inventory-add-new': 'Add new item to inventory'
 }
 
 export default en

@@ -4,12 +4,11 @@ import { useCallback } from 'react'
 import ButtonIconTrash from '../Buttons/Icons/ButtonIconTrash.js'
 import ButtonIconWave from '../Buttons/Icons/ButtonIconWave.js'
 import ButtonIconPen from '../Buttons/Icons/ButtonIconPen.js'
-import ButtonIconPlay from '../Buttons/Icons/ButtonIconPlay.js'
 import ButtonIconDownload from '../Buttons/Icons/ButtonIconDownload.js'
 import ButtonIconInfo from '../Buttons/Icons/ButtonIconInfo.js'
+import AudioPlayer from '../Audio/AudioPlayer.js'
 
 import styles from './Table.module.scss'
-import AudioPlayer from '../Audio/AudioPlayer.js'
 
 function TableCell ({data, selected, onSelect, getAudioPath, onInfo, onOptimizeAudio, onEdit, onDownload, onDelete}) {
   const
@@ -71,7 +70,7 @@ function TableCell ({data, selected, onSelect, getAudioPath, onInfo, onOptimizeA
       (getAudioPath || onEdit || onDownload || onDelete) &&
       <div className={styles.cellActionBar}>
         {getAudioPath && <AudioPlayer title={getLocale('listen')} audioPath={getAudioPath(data)} className={styles.cellActionButton}/>}
-        {onInfo && <ButtonIconInfo title={getLocale('informations')} onClick={onCInfo} className={styles.cellActionButton}/>}
+        {onInfo && <ButtonIconInfo title={getLocale('infos')} onClick={onCInfo} className={styles.cellActionButton}/>}
         {onOptimizeAudio && <ButtonIconWave title={getLocale('telmios-optimize-audio')} onClick={onCOptimizeAudio} className={styles.cellActionButton}/>}
         {onEdit && <ButtonIconPen title={getLocale('edit')} onClick={onCEdit} className={styles.cellActionButton}/>}
         {onDownload && <ButtonIconDownload title={getLocale('download')} onClick={onCDownload} className={styles.cellActionButton}/>}

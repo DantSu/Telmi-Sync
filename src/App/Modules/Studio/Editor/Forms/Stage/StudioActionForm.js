@@ -1,11 +1,11 @@
-import {useLocale} from '../../../../Components/Locale/LocaleHooks.js'
-import {useStudioStory} from '../Providers/StudioStoryHooks.js'
+import {useLocale} from '../../../../../Components/Locale/LocaleHooks.js'
+import {useStudioStory} from '../../Providers/StudioStoryHooks.js'
 import StudioActionItemForm from './StudioActionItemForm.js'
 import StudioActionFormExisting from './StudioActionFormExisting.js'
 import StudioActionFormNew from './StudioActionFormNew.js'
 
-import styles from './StudioForm.module.scss'
 
+import styles from './StudioStageForm.module.scss'
 
 function StudioActionForm({stageNode}) {
   const

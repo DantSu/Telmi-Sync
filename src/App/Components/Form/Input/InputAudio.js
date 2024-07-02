@@ -33,15 +33,21 @@ function InputAudio({label, id, textTTS, required, className, onChange, audio, .
       (r) => {
         if (r !== null && ref !== null) {
           r.checkValue = () => {
-            if (r.required && r.value === '') {
+            if (r.required && (typeof audioPath !== 'string' || audioPath === '')) {
               return getLocale('input-required', label)
+            }
+            return null
+          }
+          r.getValue = () => {
+            if (r.files.length && r.files[0].type.indexOf('audio/') === 0) {
+              return r.files[0].path
             }
             return null
           }
           ref.current = r
         }
       },
-      [ref, label, getLocale]
+      [ref, label, getLocale, audioPath]
     )
 
 

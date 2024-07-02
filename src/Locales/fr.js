@@ -1,6 +1,7 @@
 const fr = {
   'new': 'Nouveau',
-  'informations': 'Informations',
+  'add': 'Ajouter',
+  'infos': 'Informations',
   'waiting': 'En attente',
   'please-wait': 'Veuillez patienter',
   'cancel': 'Annuler',
@@ -23,7 +24,6 @@ const fr = {
   'search': 'Rechercher',
   'save': 'Enregistrer',
   'initialize': 'Initialisation',
-  'inventory': 'Inventaire',
   'synchronize': 'Synchroniser',
   'edit': 'Editer',
   'download': 'Télécharger',
@@ -70,6 +70,9 @@ const fr = {
   'audio-title': 'Titre audio',
   'picture-cover': 'Image de couverture',
   'picture-title': 'Image titre',
+  'initial-number': 'Nombre initial',
+  'max-number': 'Nombre maximum',
+  'show-item-counter-as-bar': 'Afficher le compteur d\'objet en jauge',
 
   'action-continue-to': 'Continuer vers :',
   'action-scene-existing': 'Scène existante',
@@ -77,6 +80,7 @@ const fr = {
   'action-drop-scene': 'Glissez et déposez une scène ici',
   'action-default': 'Choix par défaut',
   'action-delete': 'Supprimer ce lien',
+
   'input-required': 'Le champ <strong>"{0}"</strong> est obligatoire.',
   'input-url-invalid': 'Le champ <strong>"{0}"</strong> doit être une URL valide.',
 
@@ -156,7 +160,10 @@ const fr = {
   'text-to-speech': 'TTS : Conversion du texte en audio',
   'tts-converting': 'Texte vers audio',
   'tts-empty-text': 'TTS : Texte vide',
-  'tts-empty-text-details': 'Le texte envoyé au TTS est vide. Veuillez écrire une phrase.'
+  'tts-empty-text-details': 'Le texte envoyé au TTS est vide. Veuillez écrire une phrase.',
+
+  'inventory': 'Inventaire',
+  'inventory-add-new': 'Ajouter un objet à l\'inventaire'
 }
 
 export default fr

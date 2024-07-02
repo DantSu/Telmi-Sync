@@ -1,12 +1,12 @@
 import {useRef} from 'react'
-import {useLocale} from '../../../../Components/Locale/LocaleHooks.js'
-import {useStudioStoryUpdater} from '../Providers/StudioStoryHooks.js'
-import {addNote, addStage, addStageOption} from './StudioNodesHelpers.js'
-import InputText from '../../../../Components/Form/Input/InputText.js'
-import Form from '../../../../Components/Form/Form.js'
-import ButtonIconTextPlus from '../../../../Components/Buttons/IconsTexts/ButtonIconTextPlus.js'
+import {useLocale} from '../../../../../Components/Locale/LocaleHooks.js'
+import {useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
+import {addNote, addStage, addStageOption} from '../StudioNodesHelpers.js'
+import InputText from '../../../../../Components/Form/Input/InputText.js'
+import Form from '../../../../../Components/Form/Form.js'
+import ButtonIconTextPlus from '../../../../../Components/Buttons/IconsTexts/ButtonIconTextPlus.js'
 
-import styles from './StudioForm.module.scss'
+import styles from './StudioStageForm.module.scss'
 
 function StudioActionFormNew({stageNode}) {
   const
@@ -31,7 +31,7 @@ function StudioActionFormNew({stageNode}) {
                      key={'action-new-stage-' + stageNode.ok?.action}
                      vertical={true}
                      ref={nameRef}/>
-          <ButtonIconTextPlus text={getLocale('action-scene-new')}
+          <ButtonIconTextPlus text={getLocale('add')}
                               className={styles.actionNewItemButton}
                               rounded={true}
                               onClick={() => validation([nameRef], onValidate)}/>

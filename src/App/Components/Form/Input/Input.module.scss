@@ -21,12 +21,16 @@
 
 .input, .textarea, .select {
   flex: 0 0 auto;
-  width: 250px;
+  width: 220px;
   border-radius: 15px;
   color: $black;
   padding: 5px 8px;
   border: 2px solid $blueDark;
   transition: border-color 0.3s;
+}
+
+.input[type="number"] {
+  width: 80px;
 }
 
 .textarea {
@@ -172,8 +176,10 @@
 }
 
 .inputImageContainer {
-  flex: 0 0 200px;
-  height: 200px;
+  flex: 0 0 auto;
+}
+.inputImageContainerVertical {
+  margin: 0 auto;
 }
 
 .inputAudioFile {
@@ -196,7 +202,7 @@
 .inputImageImg {
   z-index: 2;
   height: 100%;
-  width: auto;
+  width: 100%;
 }
 
 .inputAudioContainer {

@@ -5,14 +5,14 @@ const
       ++i
     }
     nodes.stages['s' + i] = {
-      'image': null,
-      'audio': null,
-      'ok': null,
-      'home': null,
-      'control': {
-        'ok': false,
-        'home': true,
-        'autoplay': true
+      image: null,
+      audio: null,
+      ok: null,
+      home: null,
+      control: {
+        ok: false,
+        home: true,
+        autoplay: true
       }
     }
     return 's' + i
@@ -32,9 +32,39 @@ const
     nodes.actions[stageNodeFrom.ok.action].push({stage: StageIdTo})
     return {...nodes}
   },
+  addInventoryItem = (nodes) => {
+    let i = nodes.inventory.length
+    const findId = (v) => v.id === ('i' + i)
+    while (nodes.inventory.findIndex(findId) !== -1) {
+      ++i
+    }
+    nodes.inventory.push({
+      id: 'i' + i,
+      name: '',
+      initialNumber: 0,
+      maxNumber: 1,
+      counterAsBar: false,
+      image: null,
+    })
+    return nodes.inventory.length - 1
+  },
+  nodesMoveObject = (nodes, objectsArray, objectFromKey, objectTo) => {
+    if (objectsArray[objectFromKey] === objectTo) {
+      return nodes
+    }
+    const
+      objectFrom = objectsArray.splice(objectFromKey, 1),
+      objectToKey = objectsArray.findIndex((v) => v === objectTo)
+    objectsArray.splice(
+      objectToKey + (objectToKey >= objectFromKey ? 1 : 0),
+      0,
+      ...objectFrom
+    )
+    return {...nodes}
+  },
   addNote = (notes, stageId, title) => {
     notes[stageId] = {title: title || stageId, text: ''}
     return {...notes}
   }
 
-export {addStage, addAction, addStageOption, addNote}
+export {addStage, addAction, addStageOption, addInventoryItem, nodesMoveObject, addNote}
