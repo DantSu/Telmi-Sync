@@ -1,6 +1,7 @@
 import {useCallback} from 'react'
 import {useLocale} from '../../../../../Components/Locale/LocaleHooks.js'
 import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
+import {useStudioForm} from '../../Providers/StudioStageHooks.js'
 import {nodesMoveObject} from '../StudioNodesHelpers.js'
 import {useDragAndDropMove} from '../../../../../Components/Form/DragAndDrop/DragAndDropMoveHook.js'
 import ButtonIconSquareCheck from '../../../../../Components/Buttons/Icons/ButtonIconSquareCheck.js'
@@ -9,11 +10,13 @@ import ButtonIconTrash from '../../../../../Components/Buttons/Icons/ButtonIconT
 
 import styles from './StudioStageForm.module.scss'
 
-function StudioActionItemForm({action, actionPosition, parentStage}) {
+function StudioActionItemForm({action, actionPosition}) {
   const
     {getLocale} = useLocale(),
-    {notes} = useStudioStory(),
+    {notes, nodes} = useStudioStory(),
+    {form: stage} = useStudioForm(),
     {updateStory} = useStudioStoryUpdater(),
+    parentStage = nodes.stages[stage],
     note = notes[action.stage],
 
     onDropCallback = useCallback(

@@ -1,6 +1,7 @@
 const fr = {
   'new': 'Nouveau',
   'add': 'Ajouter',
+  'add-remove': 'Ajouter/Soustraire',
   'infos': 'Informations',
   'waiting': 'En attente',
   'please-wait': 'Veuillez patienter',
@@ -163,7 +164,10 @@ const fr = {
   'tts-empty-text-details': 'Le texte envoyé au TTS est vide. Veuillez écrire une phrase.',
 
   'inventory': 'Inventaire',
-  'inventory-add-new': 'Ajouter un objet à l\'inventaire'
+  'inventory-add-new': 'Ajouter un objet à l\'inventaire',
+  'inventory-update': 'Mise à jour de l\'inventaire',
+  'inventory-update-add': 'Ajouter/retirer des objets',
+  'inventory-of-item': 'à l\'objet',
 }
 
 export default fr

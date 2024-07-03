@@ -9,6 +9,7 @@ import InputImage from '../../../../../Components/Form/Input/InputImage.js'
 import InputAudio from '../../../../../Components/Form/Input/InputAudio.js'
 import StudioActionForm from './StudioActionForm.js'
 import InputSwitch from '../../../../../Components/Form/Input/InputSwitch.js'
+import StudioStageInventoryForm from './StudioStageInventoryForm.js'
 
 function StudioStageForm() {
   const
@@ -111,7 +112,12 @@ function StudioStageForm() {
                 id={stage + '-image'}
                 onChange={onImageChange}
                 defaultValue={stageNode.newImage ? stageNode.newImage : (stageNode.image ? metadata.path + '/images/' + stageNode.image : undefined)}/>
-    <StudioActionForm stageNode={stageNode}/>
+
+    {
+      Array.isArray(nodes.inventory) && nodes.inventory.length > 0 && <StudioStageInventoryForm/>
+    }
+
+    <StudioActionForm/>
   </>
 }
 

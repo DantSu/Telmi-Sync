@@ -2,7 +2,7 @@ import { createContext } from 'react'
 
 const StudioFormContext = createContext({
   form: null,
-  setForm: () => {}
+  setForm: (formName) => {}
 })
 
 

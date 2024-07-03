@@ -1,12 +1,13 @@
 import {useCallback, useState} from 'react'
 import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
+import {useDragAndDropMove} from '../../../../../Components/Form/DragAndDrop/DragAndDropMoveHook.js'
+import {nodesMoveObject} from '../StudioNodesHelpers.js'
+
 import ButtonIconPen from '../../../../../Components/Buttons/Icons/ButtonIconPen.js'
 import ButtonIconTrash from '../../../../../Components/Buttons/Icons/ButtonIconTrash.js'
 import StudioInventoryItemForm from './StudioInventoryItemForm.js'
 
 import styles from './StudioInventoryForm.module.scss'
-import {useDragAndDropMove} from '../../../../../Components/Form/DragAndDrop/DragAndDropMoveHook.js'
-import {nodesMoveObject} from '../StudioNodesHelpers.js'
 
 function StudioInventoryItem({itemKey}) {
   const
@@ -26,6 +27,7 @@ function StudioInventoryItem({itemKey}) {
       },
       [item, updateStory]
     ),
+
     {
       onDragStart,
       onDragOver,
@@ -39,6 +41,9 @@ function StudioInventoryItem({itemKey}) {
       () => {
         updateStory((s) => {
           s.nodes.inventory.splice(itemKey, 1)
+          if(!s.nodes.inventory.length) {
+            delete s.nodes.inventory
+          }
           return {...s, nodes: {...s.nodes}}
         })
       },
@@ -71,7 +76,8 @@ function StudioInventoryItem({itemKey}) {
       displayForm &&
       <div className={styles.itemForm}>
         <StudioInventoryItemForm itemKey={itemKey} onValidate={onEdit}/>
-      </div>}
+      </div>
+    }
   </li>
 }
 

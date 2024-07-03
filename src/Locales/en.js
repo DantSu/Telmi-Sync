@@ -1,6 +1,7 @@
 const en = {
   'new': 'New',
   'add': 'Add',
+  'add-remove': 'Add/Remove',
   'infos': 'Infos',
   'waiting': 'Waiting',
   'please-wait': 'Please wait',
@@ -163,7 +164,10 @@ const en = {
   'tts-empty-text-details': 'The text send to TTS is empty. Please write a sentence.',
 
   'inventory': 'Inventory',
-  'inventory-add-new': 'Add new item to inventory'
+  'inventory-add-new': 'Add new item to inventory',
+  'inventory-update': 'Inventory updates',
+  'inventory-update-add': 'Add/remove item',
+  'inventory-of-item': 'of item',
 }
 
 export default en
