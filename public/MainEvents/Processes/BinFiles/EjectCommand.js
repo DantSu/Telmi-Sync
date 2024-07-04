@@ -1,5 +1,5 @@
 import { spawn } from 'child_process'
-import { getElectronAppPath } from '../Helpers/AppPaths.js'
+import {getExtraResourcesPath} from '../Helpers/AppPaths.js'
 import * as path from 'path'
 
 const
@@ -8,7 +8,7 @@ const
   },
 
   getEjectFilePath = () => {
-    return path.join(getElectronAppPath(), 'extraResources', 'eject', process.platform, getEjectFileName())
+    return path.join(getExtraResourcesPath(), 'eject', process.platform, getEjectFileName())
   },
 
   pathEject = getEjectFilePath(),

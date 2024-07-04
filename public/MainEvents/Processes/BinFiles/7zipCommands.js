@@ -1,5 +1,5 @@
 import { spawn } from 'child_process'
-import { getElectronAppPath } from '../Helpers/AppPaths.js'
+import {getExtraResourcesPath} from '../Helpers/AppPaths.js'
 import * as path from 'path'
 
 const
@@ -8,7 +8,7 @@ const
   },
 
   get7zipFilePath = () => {
-    return path.join(getElectronAppPath(), 'extraResources', '7zip', process.platform, process.arch, get7zipFileName())
+    return path.join(getExtraResourcesPath(), '7zip', process.platform, process.arch, get7zipFileName())
   },
 
   path7za = get7zipFilePath(),

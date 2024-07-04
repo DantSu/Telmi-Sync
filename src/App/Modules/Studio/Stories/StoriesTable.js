@@ -18,12 +18,14 @@ function StudioStoriesTable({setStory}) {
       },
       [localStories]
     ),
-    onEdit = useCallback((story) => setStory(story), [setStory])
+    onEdit = useCallback((story) => setStory(story), [setStory]),
+    onAdd = useCallback(() => setStory({}), [setStory])
 
   return <AppContainer>
     <Table titleLeft={getLocale('stories-local', tableStories.length)}
            data={tableStories}
            onEdit={onEdit}
+           onAdd={onAdd}
            isLoading={!tableStories.length}/>
   </AppContainer>
 }

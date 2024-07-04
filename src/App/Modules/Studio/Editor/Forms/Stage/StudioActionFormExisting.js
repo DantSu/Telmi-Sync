@@ -1,18 +1,14 @@
 import {useCallback} from 'react'
 import {useLocale} from '../../../../../Components/Locale/LocaleHooks.js'
 import {addStageOption} from '../StudioNodesHelpers.js'
-import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
-import {useStudioForm} from '../../Providers/StudioStageHooks.js'
+import {useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
 
 import styles from './StudioStageForm.module.scss'
 
-function StudioActionFormExisting() {
+function StudioActionFormExisting({stageNode}) {
   const
     {getLocale} = useLocale(),
-    {nodes} = useStudioStory(),
-    {form: stage} = useStudioForm(),
     {updateStory} = useStudioStoryUpdater(),
-    stageNode = nodes.stages[stage],
     onDragEnter = useCallback((e) => e.target.classList.add(styles.actionLinkDragOver), []),
     onDragLeave = useCallback((e) => e.target.classList.remove(styles.actionLinkDragOver), []),
     onDragOver = useCallback(

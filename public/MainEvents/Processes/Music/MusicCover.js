@@ -3,15 +3,13 @@ import * as path from 'path'
 import * as url from 'url'
 
 import { getProcessParams } from '../Helpers/ProcessParams.js'
-import { getMusicPath, initTmpPath } from '../Helpers/AppPaths.js'
+import {getExtraResourcesPath, getMusicPath, initTmpPath} from '../Helpers/AppPaths.js'
 import { getMusicBrainzCoverImage } from '../Helpers/MusicBrainzApi.js'
 import { convertMusicImage } from '../Import/Helpers/ImageFile.js'
 import { musicNameToObject } from '../../Helpers/Music.js'
 import { checkCoverExists } from '../Import/Helpers/AudioFile.js'
 
-const
-  __dirname = url.fileURLToPath(new URL('.', import.meta.url)),
-  end = () => process.stdout.write('success')
+const end = () => process.stdout.write('success')
 
 function main (musicName) {
   const
@@ -20,7 +18,7 @@ function main (musicName) {
     imagePath = filePath + '.png',
 
     stepCopyDefaultCover = () => {
-      fs.copyFileSync(path.join(__dirname, '..', 'Assets', 'Images', 'unknow-album.png'), imagePath)
+      fs.copyFileSync(path.join(getExtraResourcesPath(), 'assets', 'images', 'unknow-album.png'), imagePath)
       process.stdout.write('success')
     }
 

@@ -12,6 +12,7 @@ import ButtonIconSquareCheck from '../Buttons/Icons/ButtonIconSquareCheck.js'
 import ButtonIconDownload from '../Buttons/Icons/ButtonIconDownload.js'
 import ButtonIconPen from '../Buttons/Icons/ButtonIconPen.js'
 import ButtonIconWave from '../Buttons/Icons/ButtonIconWave.js'
+import ButtonIconPlus from '../Buttons/Icons/ButtonIconPlus.js'
 
 import styles from './Table.module.scss'
 
@@ -25,6 +26,7 @@ function Table({
                  onSelectAll,
                  getAudioPath,
                  onInfo,
+                 onAdd,
                  onEdit,
                  onEditSelected,
                  onOptimizeAudio,
@@ -88,15 +90,21 @@ function Table({
       [onSelectAll, dataFiltered]
     )
 
-  useEffect(() => onSearch(), [onSearch]);
+  useEffect(() => onSearch(), [onSearch])
 
   return <div className={[styles.tableContainer, className].join(' ')}>
     <div className={styles.header}>
       <h2 className={styles.headerTitleLeft}>{titleLeft}</h2>
       {titleRight && <p className={styles.headerTitleRight}>{titleRight}</p>}
       {
-        (onSelectAll || onDeleteSelected || onDownloadSelected || onEditSelected || onOptimizeAudioSelected) &&
+        (onAdd || onSelectAll || onDeleteSelected || onDownloadSelected || onEditSelected || onOptimizeAudioSelected) &&
         <ul className={styles.headerIcons}>
+          {
+            onAdd &&
+            <TableHeaderIcon componentIcon={ButtonIconPlus}
+                             title="story-create"
+                             onClick={onAdd}/>
+          }
           {
             onOptimizeAudioSelected && selectedData.length > 0 &&
             <TableHeaderIcon componentIcon={ButtonIconWave}

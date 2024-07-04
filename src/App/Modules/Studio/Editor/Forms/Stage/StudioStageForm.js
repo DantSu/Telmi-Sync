@@ -114,7 +114,7 @@ function StudioStageForm() {
                 defaultValue={stageNode.newImage ? stageNode.newImage : (stageNode.image ? metadata.path + '/images/' + stageNode.image : undefined)}/>
 
     {Array.isArray(nodes.inventory) && <StudioStageInventoryForm/>}
-    <StudioActionForm/>
+    <StudioActionForm stageNode={stageNode}/>
   </>
 }
 

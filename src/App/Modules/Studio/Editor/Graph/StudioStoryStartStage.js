@@ -12,12 +12,12 @@ function StudioStoryStartStage({x, y}) {
     {form: stage, setForm} = useStudioForm(),
     onClick = useCallback(() => setForm((s) => s === stageId ? null : stageId), [setForm])
 
-  return <StudioStoryNodeStage image={metadata.imageTitle}
+  return <StudioStoryNodeStage image={metadata.newImageTitle || metadata.imageTitle}
                                title={metadata.title}
                                onClick={onClick}
                                isSelected={stage === stageId}
                                x={x}
-                               y={y}/>
+                               y={y} />
 }
 
 export default StudioStoryStartStage

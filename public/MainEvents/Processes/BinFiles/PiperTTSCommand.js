@@ -1,5 +1,5 @@
 import {exec} from 'child_process'
-import {getElectronAppPath} from '../Helpers/AppPaths.js'
+import {getElectronAppPath, getExtraResourcesPath} from '../Helpers/AppPaths.js'
 import * as path from 'path'
 
 const
@@ -12,11 +12,11 @@ const
   },
 
   getPiperTTSFilePath = () => {
-    return path.join(getElectronAppPath(), 'extraResources', 'piper', process.platform, getPiperTTSFileName())
+    return path.join(getExtraResourcesPath(), 'piper', process.platform, getPiperTTSFileName())
   },
 
   getPiperTTSVoicePath = (name) => {
-    return path.join(getElectronAppPath(), 'extraResources', 'piper', 'voices', name + '.onnx')
+    return path.join(getExtraResourcesPath(), 'piper', 'voices', name + '.onnx')
   },
 
   piperTTS = (pathJson, voiceName, voiceSpeaker) => {

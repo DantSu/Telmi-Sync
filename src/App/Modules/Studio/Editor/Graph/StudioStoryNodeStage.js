@@ -17,7 +17,7 @@ function StudioStoryNodeStage({image, title, x, y, isSelected, onClick, onMouseD
     ].join(' ')}
          onClick={onClick}
          onMouseDown={onMouseDown}
-         draggable={true}
+         draggable={typeof onDragStart === 'function'}
          onDragStart={onDragStart}>
       <div className={styles.nodeStageImg}>
         {image && <img src={image} alt=""/>}

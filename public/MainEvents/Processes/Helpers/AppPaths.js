@@ -1,4 +1,5 @@
 import * as os from 'os'
+import * as path from 'path'
 import homePaths from '../../Helpers/HomePaths.js'
 
 const
@@ -13,6 +14,7 @@ const
   getElectronAppPath = () => {
     const tag = '[electron-apppath]'
     return process.argv.find((v) => v.substring(0, tag.length) === tag).substring(tag.length)
-  }
+  },
+  getExtraResourcesPath = () => path.join(getElectronAppPath(), 'extraResources')
 
-export { initAppPaths, initTmpPath, getStoriesPath, getMusicPath, getBinPath, getStoresPath, getElectronAppPath, getParametersPath }
+export { initAppPaths, initTmpPath, getStoriesPath, getMusicPath, getBinPath, getStoresPath, getElectronAppPath, getParametersPath, getExtraResourcesPath }

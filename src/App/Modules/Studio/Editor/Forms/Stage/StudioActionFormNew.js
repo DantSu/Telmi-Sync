@@ -9,13 +9,12 @@ import ButtonIconTextPlus from '../../../../../Components/Buttons/IconsTexts/But
 
 import styles from './StudioStageForm.module.scss'
 
-function StudioActionFormNew() {
+function StudioActionFormNew({stageNode}) {
   const
     {getLocale} = useLocale(),
     {nodes} = useStudioStory(),
     {form: stage} = useStudioForm(),
     {updateStory} = useStudioStoryUpdater(),
-    stageNode = nodes.stages[stage],
     countActions = stageNode.ok !== null && nodes.actions[stageNode.ok.action] !== undefined ? nodes.actions[stageNode.ok.action].length : 0,
 
     nameRef = useRef(null),

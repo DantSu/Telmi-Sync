@@ -1,15 +1,13 @@
 import * as path from 'path'
-import { getMusicPath, initTmpPath } from '../Helpers/AppPaths.js'
-import { checkCoverExists, convertAudio } from './Helpers/AudioFile.js'
-import { extractMetadataFromMp3, extractPngFromMp3 } from '../BinFiles/FFmpegCommand.js'
 import * as fs from 'fs'
 import * as url from 'url'
+import {getExtraResourcesPath, getMusicPath, initTmpPath} from '../Helpers/AppPaths.js'
+import { checkCoverExists, convertAudio } from './Helpers/AudioFile.js'
+import { extractMetadataFromMp3, extractPngFromMp3 } from '../BinFiles/FFmpegCommand.js'
 import { parseInfFile } from '../../Helpers/InfFiles.js'
 import { getMusicBrainzCoverImage } from '../Helpers/MusicBrainzApi.js'
 import { convertMusicImage } from './Helpers/ImageFile.js'
 import { musicObjectToName } from '../../Helpers/Music.js'
-
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 
 function convertMusic (srcPath) {
   process.stdout.write('*music-extracting-metadata*0*3*')
@@ -34,7 +32,7 @@ function convertMusic (srcPath) {
         musicDstPath = path.join(musicPath, musicFileName),
 
         stepCopyDefaultCover = () => {
-          fs.copyFileSync(path.join(__dirname, '..', 'Assets', 'Images', 'unknow-album.png'), coverPath)
+          fs.copyFileSync(path.join(getExtraResourcesPath(), 'assets', 'images', 'unknow-album.png'), coverPath)
           process.stdout.write('success')
         },
 

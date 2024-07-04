@@ -77,7 +77,7 @@ const
 
     stagesSize.startStage = {
       lvl: 0,
-      width: getNodesSizesRecursive(nodes, aKey, null, 1, stagesSize, actionsSize),
+      width: getNodesSizesRecursive(nodes, aKey, null, 1, stagesSize, actionsSize) || nodeWidth,
       posX: 0
     }
 

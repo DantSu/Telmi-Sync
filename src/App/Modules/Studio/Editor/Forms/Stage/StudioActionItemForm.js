@@ -1,33 +1,30 @@
 import {useCallback} from 'react'
 import {useLocale} from '../../../../../Components/Locale/LocaleHooks.js'
 import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
-import {useStudioForm} from '../../Providers/StudioStageHooks.js'
 import {nodesMoveObject} from '../StudioNodesHelpers.js'
 import {useDragAndDropMove} from '../../../../../Components/Form/DragAndDrop/DragAndDropMoveHook.js'
 import ButtonIconSquareCheck from '../../../../../Components/Buttons/Icons/ButtonIconSquareCheck.js'
 import ButtonIconTrash from '../../../../../Components/Buttons/Icons/ButtonIconTrash.js'
+import StudioActionConditions from './StudioActionConditions.js'
 
 
 import styles from './StudioStageForm.module.scss'
-import StudioActionConditions from './StudioActionConditions.js'
 
-function StudioActionItemForm({action, actionPosition}) {
+function StudioActionItemForm({stageNode, action, actionPosition}) {
   const
     {getLocale} = useLocale(),
     {notes, nodes} = useStudioStory(),
-    {form: stage} = useStudioForm(),
     {updateStory} = useStudioStoryUpdater(),
-    parentStage = nodes.stages[stage],
     note = notes[action.stage],
 
     onDropCallback = useCallback(
       (dragItemKey) => {
         updateStory((s) => {
-          const nodes = nodesMoveObject(s.nodes, s.nodes.actions[parentStage.ok.action], dragItemKey, action)
+          const nodes = nodesMoveObject(s.nodes, s.nodes.actions[stageNode.ok.action], dragItemKey, action)
           return nodes !== s.nodes ? {...s, nodes} : s
         })
       },
-      [action, parentStage.ok.action, updateStory]
+      [action, stageNode.ok.action, updateStory]
     ),
     {
       onDragStart,
@@ -40,17 +37,17 @@ function StudioActionItemForm({action, actionPosition}) {
 
     onDefault = useCallback(
       () => {
-        parentStage.ok.index = actionPosition
+        stageNode.ok.index = actionPosition
         updateStory((s) => ({...s}))
       },
-      [actionPosition, parentStage, updateStory]
+      [actionPosition, stageNode, updateStory]
     ),
     onDelete = useCallback(
       () => updateStory((s) => {
-        s.nodes.actions[parentStage.ok.action].splice(actionPosition, 1)
+        s.nodes.actions[stageNode.ok.action].splice(actionPosition, 1)
         return {...s, nodes: {...s.nodes}}
       }),
-      [actionPosition, parentStage.ok.action, updateStory]
+      [actionPosition, stageNode.ok.action, updateStory]
     )
 
   return <li draggable={true}
@@ -61,7 +58,7 @@ function StudioActionItemForm({action, actionPosition}) {
              onDrop={onDrop}
              className={[
                styles.actionItem,
-               parentStage.ok.index === actionPosition ? styles.actionItemDefaultChoice : ''
+               stageNode.ok.index === actionPosition ? styles.actionItemDefaultChoice : ''
              ].join(' ')}>
     <div className={styles.actionItemTitle}>
       <span className={styles.actionItemText}>{note.title}</span>

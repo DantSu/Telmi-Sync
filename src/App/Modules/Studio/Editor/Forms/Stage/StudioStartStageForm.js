@@ -16,8 +16,8 @@ function StudioStartStageForm() {
 
     startStageNode = useMemo(
       () => ({
-        'image': metadata.newImageTitle || null,
-        'audio': metadata.audioTitle || null,
+        'image': metadata.newImageTitle ||  metadata.imageTitle || null,
+        'audio': metadata.newAudioTitle || metadata.audioTitle || null,
         'ok': nodes.startAction,
         'home': null,
         'control': {
@@ -131,6 +131,7 @@ function StudioStartStageForm() {
                 id={'startStage-img-title'}
                 onChange={onImageTitleChange}
                 defaultValue={metadata.newImageTitle ? metadata.newImageTitle : metadata.imageTitle}/>
+
     <StudioActionForm stageNode={startStageNode}/>
   </>
 }
