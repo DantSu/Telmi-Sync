@@ -10,38 +10,56 @@
   border-top: 2px solid $white60;
 }
 
-.actionListContainer {
+.actionListContainer, .inventoryUpdatesContainer {
   border-top: 1px dashed $white30;
   border-bottom: 1px dashed $white30;
   padding: 15px 0 10px 0;
 }
-
-.actionItem {
-  cursor: ns-resize;
+.inventoryUpdatesContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+.actionItem, .inventoryUpdate {
   border: 1px solid $blue;
   background: $blueDark;
   border-radius: 5px;
-  padding: 5px 10px;
   margin-bottom: 3px;
+}
+.inventoryUpdate {
   display: flex;
   align-items: center;
+  padding: 4px;
+  margin: 5px;
+}
+.actionItem[draggable="true"] {
+  cursor: ns-resize;
 }
 .actionItem * {
   pointer-events: none;
 }
-
 .actionItemDragOver {
-  border: 1px solid $orange;
+  box-shadow: 0px 0px 8px 4px $white60;
 }
 
 .actionItemDefaultChoice {
   border: 2px solid $orange;
+}
+
+.actionItemTitle {
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+}
+
+.actionItemDefaultChoice .actionItemTitle {
   padding: 4px 9px;
 }
 
 .actionItemText {
   flex: 1;
+  padding-right: 5px;
 }
+
 .actionItemButton {
   pointer-events: auto;
   flex: 0 0 auto;
@@ -111,4 +129,66 @@
 
 .actionNewItemButton {
   margin: 0 auto;
+}
+
+.conditionsContainer {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  background: $black10;
+}
+
+.conditionsContainer * {
+  pointer-events: auto;
+}
+
+.conditionContainer {
+  padding: 5px 10px;
+  margin: 5px;
+  border-radius: 15px;
+  background: $purple1;
+  display: flex;
+  align-items: center;
+}
+
+.conditionButton {
+  font-size: 16px;
+  padding: 2px;
+  margin-left: 6px;
+}
+
+.conditionFormContainer {
+  flex: 0 0 100%;
+  background: $black20;
+}
+
+.conditionTitle {
+  text-align: center;
+  font-size: 14px;
+}
+
+.conditionForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.conditionInputSmall {
+  width: 44px;
+}
+
+.conditionInputmedium {
+  width: 64px;
+}
+
+.conditionInputWide {
+  width: 84px;
+}
+
+.conditionTitle,
+.conditionForm,
+.conditionInputSmall,
+.conditionInputmedium,
+.conditionInputWide {
+  padding: 0 2px;
 }

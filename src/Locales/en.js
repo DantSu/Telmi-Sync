@@ -74,6 +74,8 @@ const en = {
   'initial-number': 'Initial number',
   'max-number': 'Maximum number',
   'show-item-counter-as-bar': 'Show item counter as bar',
+  'display-conditions': 'Display conditions',
+  'add-display-condition': 'Add a display condition',
 
   'action-continue-to': 'Continue to :',
   'action-scene-existing': 'Existing scene',

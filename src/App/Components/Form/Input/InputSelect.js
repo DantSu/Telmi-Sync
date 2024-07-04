@@ -35,7 +35,10 @@ function InputSelect({label, id, required, className, options, vertical, ...prop
            required={required}
            id={id}
            ref={refCallback}>
-      {options.map(({value, text}) => <option key={value || text} value={value || text} className={styles.option}>{text}</option>)}
+      {options.map(({value, text}) => {
+        const v = value === undefined ? text : value
+        return <option key={id + '-option-' + v} value={v} className={styles.option}>{text}</option>
+      })}
     </select>
   </InputLayout>
 }

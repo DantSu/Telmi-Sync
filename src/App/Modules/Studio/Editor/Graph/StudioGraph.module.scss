@@ -100,9 +100,14 @@
   cursor: pointer;
   min-width: 10px;
   min-height: 10px;
-  background: $white60;
-  border: 1px solid $white40;
+  background: $white;
   border-radius: 5px;
+}
+
+.nodeActionCondition {
+  padding: 2px 4px;
+  font-size: 11px;
+  color: $black;
 }
 
 .line {

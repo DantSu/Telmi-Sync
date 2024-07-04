@@ -136,7 +136,8 @@ const
         if (actionNotExists) {
           const
             actionParentToStage = stageFrom === 'startStage' || stagesSize[stageId].stageParent === stageFrom,
-            actionWidth = actionParentToStage ? stagesSize[stageId].width : nodeWidth
+            actionWidth = actionParentToStage ? stagesSize[stageId].width : nodeWidth,
+            [actionFromId, actionFromKey] = actionFrom.split('-')
 
           actionsPos[actionFrom] = {
             x: actionsSize[actionFrom].posX + actionWidth / 2 + margin,
@@ -146,6 +147,7 @@ const
           components.actions = [
             ...components.actions,
             <StudioStoryNodeAction key={'action-' + actionFrom}
+                                   action={nodes.actions[actionFromId][actionFromKey]}
                                    x={actionsPos[actionFrom].x}
                                    y={actionsPos[actionFrom].y}/>
           ]

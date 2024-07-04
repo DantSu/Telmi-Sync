@@ -74,6 +74,8 @@ const fr = {
   'initial-number': 'Nombre initial',
   'max-number': 'Nombre maximum',
   'show-item-counter-as-bar': 'Afficher le compteur d\'objet en jauge',
+  'display-conditions': 'Conditions d\'affichage',
+  'add-display-condition': 'Ajouter une condition d\'affichage',
 
   'action-continue-to': 'Continuer vers :',
   'action-scene-existing': 'Scène existante',

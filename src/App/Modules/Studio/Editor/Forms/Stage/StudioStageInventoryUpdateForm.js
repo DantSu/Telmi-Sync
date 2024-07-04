@@ -29,7 +29,7 @@ function StudioStageInventoryUpdateForm({rule, rulePosition}) {
       [parentStage, rulePosition, updateStory]
     )
   
-  return <li className={styles.actionItem}>
+  return <li className={styles.inventoryUpdate}>
     <span className={styles.actionItemText}>{rule.number > 0 ? '+' : ''}{rule.number} {item.name}</span>
     <ButtonIconTrash className={styles.actionItemButton} onClick={onDelete}/>
   </li>

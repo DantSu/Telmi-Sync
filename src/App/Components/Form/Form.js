@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { useModal } from '../Modal/ModalHooks.js'
 import ModalFormAlert from './ModalFormAlert.js'
 
-function Form ({children}) {
+function Form ({children, ...props}) {
   const
     {addModal, rmModal} = useModal(),
     validate = useCallback(
@@ -24,7 +24,7 @@ function Form ({children}) {
       [addModal, rmModal]
     )
 
-  return <form onSubmit={(e) => {e.preventDefault()}} noValidate={true}>{
+  return <form{...props} onSubmit={(e) => {e.preventDefault()}} noValidate={true}>{
     children(validate)
   }</form>
 }

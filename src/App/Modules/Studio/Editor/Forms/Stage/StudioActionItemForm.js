@@ -9,6 +9,7 @@ import ButtonIconTrash from '../../../../../Components/Buttons/Icons/ButtonIconT
 
 
 import styles from './StudioStageForm.module.scss'
+import StudioActionConditions from './StudioActionConditions.js'
 
 function StudioActionItemForm({action, actionPosition}) {
   const
@@ -62,21 +63,30 @@ function StudioActionItemForm({action, actionPosition}) {
                styles.actionItem,
                parentStage.ok.index === actionPosition ? styles.actionItemDefaultChoice : ''
              ].join(' ')}>
-    <span className={styles.actionItemText}>{note.title}</span>
-    <ButtonIconSquareCheck className={styles.actionItemButton}
-                           title={getLocale('action-default')}
-                           onDragStart={onPreventChildDraggable}
-                           onDragEnter={onPreventChildDraggable}
-                           onDragLeave={onPreventChildDraggable}
-                           onDrop={onPreventChildDraggable}
-                           onClick={onDefault}/>
-    <ButtonIconTrash className={styles.actionItemButton}
-                     title={getLocale('action-delete')}
-                     onDragStart={onPreventChildDraggable}
-                     onDragEnter={onPreventChildDraggable}
-                     onDragLeave={onPreventChildDraggable}
-                     onDrop={onPreventChildDraggable}
-                     onClick={onDelete}/>
+    <div className={styles.actionItemTitle}>
+      <span className={styles.actionItemText}>{note.title}</span>
+      <ButtonIconSquareCheck className={styles.actionItemButton}
+                             title={getLocale('action-default')}
+                             onDragStart={onPreventChildDraggable}
+                             onDragEnter={onPreventChildDraggable}
+                             onDragLeave={onPreventChildDraggable}
+                             onDrop={onPreventChildDraggable}
+                             onClick={onDefault}/>
+      <ButtonIconTrash className={styles.actionItemButton}
+                       title={getLocale('action-delete')}
+                       onDragStart={onPreventChildDraggable}
+                       onDragEnter={onPreventChildDraggable}
+                       onDragLeave={onPreventChildDraggable}
+                       onDrop={onPreventChildDraggable}
+                       onClick={onDelete}/>
+
+    </div>
+    {Array.isArray(nodes.inventory) && <StudioActionConditions action={action}
+                                                               actionPosition={actionPosition}
+                                                               onDragStart={onPreventChildDraggable}
+                                                               onDragEnter={onPreventChildDraggable}
+                                                               onDragLeave={onPreventChildDraggable}
+                                                               onDrop={onPreventChildDraggable}/>}
   </li>
 }
 

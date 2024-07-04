@@ -113,10 +113,7 @@ function StudioStageForm() {
                 onChange={onImageChange}
                 defaultValue={stageNode.newImage ? stageNode.newImage : (stageNode.image ? metadata.path + '/images/' + stageNode.image : undefined)}/>
 
-    {
-      Array.isArray(nodes.inventory) && nodes.inventory.length > 0 && <StudioStageInventoryForm/>
-    }
-
+    {Array.isArray(nodes.inventory) && <StudioStageInventoryForm/>}
     <StudioActionForm/>
   </>
 }

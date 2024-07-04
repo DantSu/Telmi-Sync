@@ -65,6 +65,7 @@ const
   addNote = (notes, stageId, title) => {
     notes[stageId] = {title: title || stageId, text: ''}
     return {...notes}
-  }
+  },
+  getConditionComparator = () => (['<', '<=', '=', '>', '>='])
 
-export {addStage, addAction, addStageOption, addInventoryItem, nodesMoveObject, addNote}
+export {addStage, addAction, addStageOption, addInventoryItem, nodesMoveObject, addNote, getConditionComparator}

@@ -33,7 +33,7 @@ function StudioStageInventoryForm() {
 
   return <div className={styles.actionContainer}>
     <h2 className={styles.actionTitle}>{getLocale('inventory-update')}</h2>
-    <ul className={styles.actionListContainer}>{
+    <ul className={styles.inventoryUpdatesContainer}>{
       inventoryUpdate.map((v, k) => <StudioStageInventoryUpdateForm rule={v}
                                                                     rulePosition={k}
                                                                     parentStage={stageNode}
