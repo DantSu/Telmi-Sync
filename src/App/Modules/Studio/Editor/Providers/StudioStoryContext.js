@@ -4,7 +4,6 @@ const
   StudioStoryContext = createContext(null),
   StudioStoryUpdaterContext = createContext({
     updateStory: (story) => {},
-    clearStoryUpdated: () => {},
     isStoryUpdated: false
   })
 

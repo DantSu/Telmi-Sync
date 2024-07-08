@@ -119,6 +119,7 @@ const fr = {
   'story-delete-confirm': 'Êtes-vous sûr de vouloir supprimer l\'histoire <strong>"{0}"</strong> ?',
   'story-not-found': 'Histoire non trouvée',
   'story-display-tiles': 'Affichage de la mosaïque 9 histoires par défaut',
+  'story-saving': 'Sauvegarde de l\'histoire',
   'stories': 'Histoires',
   'stories-local': 'Mes histoires ({0})',
   'stories-on-store': '{0} histoires sur le store',
@@ -154,8 +155,8 @@ const fr = {
   'store-delete-confirm': 'Êtes-vous sûr de vouloir supprimer le store <strong>"{0}"</strong> ?',
 
   'studio': 'Studio',
-  'studio-story-save': 'Enregistrer l\'histoire ?',
-  'studio-story-save-confirm': 'Cette histoire a été modifier. Voulez-vous enregister vos modifications ?',
+  'studio-story-unsaved': 'Histoire non enregistrée !',
+  'studio-story-unsaved-confirm': 'Cette histoire a été modifier. Êtes-vous sûr de vouloir quitter le Studio sans enregistrer les modifications apportées à cette histoire ?',
 
   'studio-stage-control-ok': 'Aller à la scène suivante en appuyant sur le bouton A',
   'studio-stage-autoplay': 'Lire automatiquement la scène suivante à la fin de la piste audio',

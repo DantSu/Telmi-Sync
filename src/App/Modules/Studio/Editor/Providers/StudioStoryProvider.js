@@ -9,7 +9,6 @@ function StudioStoryProvider({storyMetadata, children}) {
     storyUpdater = useMemo(
       () => ({
         updateStory: setStory,
-        clearStoryUpdated: () => setOriginalStory(story),
         isStoryUpdated: story !== originalStory
       }),
       [story, originalStory]

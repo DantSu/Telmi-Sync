@@ -23,12 +23,16 @@ function homePaths (homePath) {
       return dirPath
     },
 
+    getTmpPath: (dirName) => {
+      return dirName === undefined ? TMP_PATH : path.join(TMP_PATH, dirName)
+    },
+
     getStoriesPath: (dirStory) => {
-      return (dirStory === undefined) ? STORIES_PATH : path.join(STORIES_PATH, dirStory)
+      return dirStory === undefined ? STORIES_PATH : path.join(STORIES_PATH, dirStory)
     },
 
     getMusicPath: (fileAudio) => {
-      return (fileAudio === undefined) ? MUSIC_PATH : path.join(MUSIC_PATH, fileAudio)
+      return fileAudio === undefined ? MUSIC_PATH : path.join(MUSIC_PATH, fileAudio)
     },
 
     getBinPath: (filePath) => {

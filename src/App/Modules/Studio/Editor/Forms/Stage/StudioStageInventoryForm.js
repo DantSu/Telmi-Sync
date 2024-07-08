@@ -19,12 +19,12 @@ function StudioStageInventoryForm() {
     stageNode = nodes.stages[stage],
     numberRef = useRef(null),
     itemRef = useRef(null),
-    inventoryUpdate = Array.isArray(stageNode.inventoryUpdate) ? stageNode.inventoryUpdate : [],
+    inventoryUpdate = Array.isArray(stageNode.items) ? stageNode.items : [],
     onValidate = (values) => updateStory((s) => {
-      if (!Array.isArray(stageNode.inventoryUpdate)) {
-        stageNode.inventoryUpdate = []
+      if (!Array.isArray(stageNode.items)) {
+        stageNode.items = []
       }
-      stageNode.inventoryUpdate.push({itemId: values[1], number: values[0]})
+      stageNode.items.push({item: values[1], number: values[0]})
       return {
         ...s,
         nodes: {...s.nodes}

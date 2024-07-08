@@ -30,7 +30,7 @@ function StudioActionConditions({action, actionPosition, ...props}) {
       if (!Array.isArray(action.conditions)) {
         action.conditions = []
       }
-      action.conditions.push({itemId: values[2], number: values[1], comparator: values[0]})
+      action.conditions.push({item: values[2], number: values[1], comparator: values[0]})
       return {
         ...s,
         nodes: {...s.nodes}

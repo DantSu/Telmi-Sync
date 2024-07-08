@@ -11,14 +11,14 @@ function StudioStageInventoryUpdateForm({rule, rulePosition}) {
     {form: stage} = useStudioForm(),
     {updateStory} = useStudioStoryUpdater(),
     parentStage = nodes.stages[stage],
-    item = nodes.inventory.find((v) => v.id === rule.itemId),
+    item = nodes.inventory.find((v) => v.id === rule.item),
     
     onDelete = useCallback(
       () => {
         updateStory((s) => {
-          parentStage.inventoryUpdate.splice(rulePosition, 1)
-          if(!parentStage.inventoryUpdate.length) {
-            delete parentStage.inventoryUpdate
+          parentStage.items.splice(rulePosition, 1)
+          if(!parentStage.items.length) {
+            delete parentStage.items
           }
           return {
             ...s,

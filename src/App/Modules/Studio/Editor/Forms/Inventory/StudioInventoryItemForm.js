@@ -14,7 +14,7 @@ import {addInventoryItem} from '../StudioNodesHelpers.js'
 
 function StudioInventoryItemForm({itemKey, onValidate}) {
   const
-    {nodes} = useStudioStory(),
+    {metadata, nodes} = useStudioStory(),
     {updateStory} = useStudioStoryUpdater(),
     {getLocale} = useLocale(),
     isSetInventory = Array.isArray(nodes.inventory),
@@ -66,7 +66,7 @@ function StudioInventoryItemForm({itemKey, onValidate}) {
                      label={getLocale('show-item-counter-as-bar')}/>
         <InputImage key={'studio-inventory-image-' + inputKey}
                     id="studio-inventory-image"
-                    defaultValue={item.newImage || item.image}
+                    defaultValue={item.newImage || (item.image ? metadata.path + '/images/' + item.image : undefined)}
                     ref={imageRef}
                     label={getLocale('picture')}
                     width={128}
@@ -92,7 +92,6 @@ function StudioInventoryItemForm({itemKey, onValidate}) {
                                     counterAsBar: values[3],
                                     newImage: values[4] || s.nodes.inventory[editItemKey].newImage,
                                   }
-                                  console.log(s.nodes.inventory)
                                   return {...s}
                                 })
                                 typeof onValidate === 'function' && onValidate()

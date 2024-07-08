@@ -14,7 +14,7 @@ function StudioStoryNodeAction({action, x, y}) {
     <div className={styles.nodeActionContainer}>
       <ul className={styles.nodeAction}>{
         Array.isArray(action.conditions) &&
-        action.conditions.map((condition) => <StudioStoryNodeActionCondition condition={condition}/>)
+        action.conditions.map((condition, k) => <StudioStoryNodeActionCondition key={'story-action-condition-' + k} condition={condition}/>)
       }</ul>
     </div>
   </SVGHtml>

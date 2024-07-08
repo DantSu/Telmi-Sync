@@ -1,27 +1,80 @@
 import {ipcMain} from 'electron'
 import * as fs from 'fs'
 import * as path from 'path'
-import {getExtraResourcesPath} from './Helpers/AppPaths.js'
+import {getExtraResourcesPath, getStoriesPath, initTmpPath} from './Helpers/AppPaths.js'
+import runProcess from './Processes/RunProcess.js'
+import {readStoryMetadata} from './Helpers/StoriesFiles.js'
+import {generateDirNameStory} from './Helpers/Stories.js'
 
 function mainEventStudio(mainWindow) {
-  const checkNotes = (metadata, nodes) => {
-    const notesPath = path.join(metadata.path, 'notes.json')
-    if (fs.existsSync(notesPath)) {
-      return JSON.parse(fs.readFileSync(notesPath).toString('utf8'))
-    }
+  const
+    checkNotes = (storyPath, nodes) => {
+      const notesPath = path.join(storyPath, 'notes.json')
+      if (fs.existsSync(notesPath)) {
+        return JSON.parse(fs.readFileSync(notesPath).toString('utf8'))
+      }
 
-    const notes = Object.keys(nodes.stages).reduce(
-      (acc, k) => ({...acc, [k]: {title: k, notes: ''}}),
-      {}
-    )
-    fs.writeFileSync(notesPath, JSON.stringify(notes))
-    return notes
-  }
+      const notes = Object.keys(nodes.stages).reduce(
+        (acc, k) => ({...acc, [k]: {title: k, notes: ''}}),
+        {}
+      )
+      fs.writeFileSync(notesPath, JSON.stringify(notes))
+      return notes
+    },
+    checkNodes = (nodes) => {
+      if (Array.isArray(nodes.inventory) && nodes.inventory.length) {
+        return {
+          startAction: nodes.startAction,
+          inventory: nodes.inventory.map((i, k) => ({id: 'i' + k, ...i})),
+          stages: Object.keys(nodes.stages).reduce(
+            (acc, stageKey) => {
+              const stage = nodes.stages[stageKey]
+              if (Array.isArray(stage.items)) {
+                return {
+                  ...acc,
+                  [stageKey]: {
+                    ...stage,
+                    items: stage.items.map((i) => ({
+                      ...i,
+                      item: 'i' + i.item
+                    }))
+                  }
+                }
+              } else {
+                return {...acc, [stageKey]: stage}
+              }
+            },
+            {}
+          ),
+          actions: Object.keys(nodes.actions).reduce(
+            (acc, actionKey) => ({
+              ...acc,
+              [actionKey]: nodes.actions[actionKey].map((action) => {
+                if (Array.isArray(action.conditions)) {
+                  return {
+                    ...action,
+                    conditions: action.conditions.map((c) => ({
+                      ...c,
+                      item: 'i' + c.item
+                    }))
+                  }
+                } else {
+                  return action
+                }
+              })
+            }),
+            {}
+          )
+        }
+      }
+      return nodes
+    }
 
 
   ipcMain.on(
     'studio-story-get',
     async (event, metadataSrc) => {
+      initTmpPath('audios')
       if (metadataSrc.path === undefined) {
         mainWindow.webContents.send(
           'studio-story-data',
@@ -54,9 +107,45 @@ function mainEventStudio(mainWindow) {
             imageTitle: fs.existsSync(pathImageTitle) ? pathImageTitle : undefined,
             imageCover: fs.existsSync(pathImageCover) ? pathImageCover : undefined,
           },
-          nodes = JSON.parse(fs.readFileSync(path.join(metadata.path, 'nodes.json')).toString('utf8'))
-        mainWindow.webContents.send('studio-story-data', {metadata, nodes, notes: checkNotes(metadata, nodes)})
+          nodes = checkNodes(JSON.parse(fs.readFileSync(path.join(metadata.path, 'nodes.json')).toString('utf8')))
+        mainWindow.webContents.send('studio-story-data', {metadata, nodes, notes: checkNotes(metadata.path, nodes)})
       }
+    }
+  )
+
+  ipcMain.on(
+    'studio-story-save',
+    async (event, storyData) => {
+      const jsonPath = path.join(initTmpPath('json'), 'story.json')
+      fs.writeFileSync(jsonPath, JSON.stringify(storyData))
+      runProcess(
+        path.join('Studio', 'StudioSave.js'),
+        [jsonPath],
+        () => {
+          mainWindow.webContents.send('studio-story-save-task', '', '', 0, 0)
+          ipcMain.emit(
+            'studio-story-get',
+            event,
+            readStoryMetadata(
+              getStoriesPath(),
+              generateDirNameStory(
+                storyData.metadata.title,
+                storyData.metadata.uuid,
+                storyData.metadata.age,
+                storyData.metadata.category
+              )
+            )
+          )
+        },
+        (message, current, total) => {
+          mainWindow.webContents.send('studio-story-save-task', 'story-saving', message, current, total)
+        },
+        (error) => {
+          mainWindow.webContents.send('studio-story-save-task', 'error', error)
+        },
+        () => {
+        }
+      )
     }
   )
 }

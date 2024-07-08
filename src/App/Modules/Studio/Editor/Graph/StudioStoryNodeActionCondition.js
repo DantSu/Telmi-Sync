@@ -6,7 +6,7 @@ import styles from './StudioGraph.module.scss'
 function StudioStoryNodeActionCondition({condition}) {
   const
     {nodes} = useStudioStory(),
-    item = nodes.inventory.find((v) => v.id === condition.itemId)
+    item = nodes.inventory.find((v) => v.id === condition.item)
 
   return <li className={styles.nodeActionCondition}>{getConditionComparator()[condition.comparator]} {condition.number} {item.name}</li>
 }

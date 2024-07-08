@@ -4,6 +4,7 @@ import {useModal} from '../../../Components/Modal/ModalHooks.js'
 import {useStudioStory, useStudioStoryUpdater} from './Providers/StudioStoryHooks.js'
 import {useStudioForm} from './Providers/StudioStageHooks.js'
 
+import ModalElectronTaskVisualizer from '../../../Components/Electron/Modal/ModalElectronTaskVisualizer.js'
 import StudioStoryEditorGraphContainer from './Graph/StudioStoryEditorGraphContainer.js'
 import ButtonIconXMark from '../../../Components/Buttons/Icons/ButtonIconXMark.js'
 import ButtonIconFloppyDisk from '../../../Components/Buttons/Icons/ButtonIconFloppyDisk.js'
@@ -22,7 +23,7 @@ function StudioStoryEditorLayout({closeEditor}) {
     {addModal, rmModal} = useModal(),
     {setForm} = useStudioForm(),
     story = useStudioStory(),
-    {updateStory, clearStoryUpdated, isStoryUpdated} = useStudioStoryUpdater(),
+    {updateStory, isStoryUpdated} = useStudioStoryUpdater(),
     loading = story === null,
     onEditItems = useCallback(() => setForm((f) => f === 'form-inventory' ? null : 'form-inventory'), [setForm]),
     onSave = useCallback(
@@ -30,9 +31,15 @@ function StudioStoryEditorLayout({closeEditor}) {
         if (!isStoryUpdated) {
           return
         }
-        clearStoryUpdated()
+        addModal((key) => {
+          const modal = <ModalElectronTaskVisualizer key={key}
+                                                     taskName="studio-story-save"
+                                                     dataSent={[story]}
+                                                     onClose={() => rmModal(modal)}/>
+          return modal
+        })
       },
-      [clearStoryUpdated, isStoryUpdated]
+      [addModal, isStoryUpdated, rmModal, story]
     ),
     onClose = useCallback(
       () => {
@@ -42,18 +49,12 @@ function StudioStoryEditorLayout({closeEditor}) {
 
         addModal((key) => {
           const modal = <ModalStudioStorySaveConfirm key={key}
-                                                     story={story.metadata}
-                                                     onConfirm={() => {
-
-                                                     }}
-                                                     onClose={() => {
-                                                       rmModal(modal)
-                                                       closeEditor()
-                                                     }}/>
+                                                     onConfirm={() => closeEditor()}
+                                                     onClose={() => rmModal(modal)}/>
           return modal
         })
       },
-      [isStoryUpdated, addModal, closeEditor, story, rmModal]
+      [isStoryUpdated, addModal, closeEditor, rmModal]
     ),
     onTitleBlur = useCallback(
       (e) => {

@@ -1,13 +1,18 @@
 import {useCallback, useEffect, useState} from 'react'
+import {useElectronListener} from '../Electron/Hooks/UseElectronEvent.js'
 import {useTelmiSyncParams} from '../TelmiSyncParams/TelmiSyncParamsHooks.js'
 import ButtonIconMicrophone from '../Buttons/Icons/ButtonIconMicrophone.js'
 import ButtonIconCircle from '../Buttons/Icons/ButtonIconCircle.js'
+import ButtonIconSpinner from '../Buttons/Icons/ButtonIconSpinner.js'
 
 import styles from './Audio.module.scss'
+
+const {ipcRenderer} = window.require('electron')
 
 function AudioRecord({title, onRecordEnded, className}) {
   const
     [isRecording, setIsRecording] = useState(false),
+    [isLoading, setIsLoading] = useState(false),
     [mediaRecorder, setMediaRecorder] = useState(null),
     {params} = useTelmiSyncParams(),
     onRecord = useCallback(
@@ -19,6 +24,7 @@ function AudioRecord({title, onRecordEnded, className}) {
             mediaRecorder.stop()
             setMediaRecorder(null)
             setIsRecording(false)
+            setIsLoading(true)
           }
         } else {
           setIsRecording(true)
@@ -43,12 +49,14 @@ function AudioRecord({title, onRecordEnded, className}) {
                 .then(() => {
                   const mr = new MediaRecorder(stream)
                   mr.start()
-                  let chunks = [];
+                  let chunks = []
                   mr.ondataavailable = (e) => {
                     chunks.push(e.data)
                   }
-                  mr.onstop = (e) => {
-                    onRecordEnded(window.URL.createObjectURL(new Blob(chunks, {type: "audio/mp3"})))
+                  mr.onstop = () => {
+                    (new Blob(chunks, {type: 'audio/webm'}))
+                      .arrayBuffer()
+                      .then((arr) => ipcRenderer.send('audio-record-buffer-to-file', arr))
                   }
                   setMediaRecorder(mr)
                 })
@@ -63,23 +71,36 @@ function AudioRecord({title, onRecordEnded, className}) {
             })
         }
       },
-      [isRecording, mediaRecorder, onRecordEnded, params.microphone]
+      [isRecording, mediaRecorder, params.microphone]
     )
 
 
   useEffect(
     () => () => {
       if (mediaRecorder !== null) {
-        mediaRecorder.stop();
+        mediaRecorder.stop()
         setMediaRecorder(null)
       }
     },
     [mediaRecorder]
   )
 
+  useElectronListener(
+    'audio-record-file',
+    (path) => {
+      setIsLoading(false)
+      typeof onRecordEnded === 'function' && onRecordEnded(path)
+    },
+    [onRecordEnded]
+  )
+
   return isRecording ?
     <ButtonIconCircle className={[styles.active, className].join(' ')} title={title} onClick={onRecord}/> :
-    <ButtonIconMicrophone className={className} title={title} onClick={onRecord}/>
+    (
+      isLoading ?
+        <ButtonIconSpinner className={className} title={title}/> :
+        <ButtonIconMicrophone className={className} title={title} onClick={onRecord}/>
+    )
 }
 
 export default AudioRecord

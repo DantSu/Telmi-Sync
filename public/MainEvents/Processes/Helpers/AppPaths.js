@@ -6,6 +6,7 @@ const
   appPaths = homePaths(os.homedir()),
   initAppPaths = appPaths.initAppPaths,
   initTmpPath = appPaths.initTmpPath,
+  getTmpPath = appPaths.getTmpPath,
   getStoriesPath = appPaths.getStoriesPath,
   getMusicPath = appPaths.getMusicPath,
   getBinPath = appPaths.getBinPath,
@@ -17,4 +18,4 @@ const
   },
   getExtraResourcesPath = () => path.join(getElectronAppPath(), 'extraResources')
 
-export { initAppPaths, initTmpPath, getStoriesPath, getMusicPath, getBinPath, getStoresPath, getElectronAppPath, getParametersPath, getExtraResourcesPath }
+export { initAppPaths, initTmpPath, getTmpPath, getStoriesPath, getMusicPath, getBinPath, getStoresPath, getElectronAppPath, getParametersPath, getExtraResourcesPath }

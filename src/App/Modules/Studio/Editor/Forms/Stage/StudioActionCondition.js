@@ -11,7 +11,7 @@ function StudioActionCondition({action, condition, conditionKey}) {
     {getLocale} = useLocale(),
     {nodes} = useStudioStory(),
     {updateStory} = useStudioStoryUpdater(),
-    item = nodes.inventory.find((v) => v.id === condition.itemId),
+    item = nodes.inventory.find((v) => v.id === condition.item),
     onDelete = useCallback(
       () => {
         updateStory((s) => {

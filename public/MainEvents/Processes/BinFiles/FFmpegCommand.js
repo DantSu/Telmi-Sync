@@ -1,6 +1,7 @@
 import { spawn } from 'child_process'
 import { getBinPath } from '../Helpers/AppPaths.js'
 import * as fs from 'fs'
+import {rmFile} from '../../Helpers/Files.js'
 
 const
   getFFmpegFileName = () => {
@@ -28,6 +29,7 @@ const
   },
   ffmpegAudioToMp3 = (srcFile, dstMp3) => {
     return new Promise((resolve, reject) => {
+      rmFile(dstMp3)
       const stream = spawn(getFFmpegFilePath(), ['-i', srcFile, '-map_metadata', '-1', '-map_chapters', '-1', '-vn', '-ar', '44100', '-ac', '2', '-b:a', '192k', dstMp3])
       stream.on('close', (code) => {
         if (code === 0) {
@@ -67,6 +69,7 @@ const
   },
   convertImageToPng = (srcFile, dstPng, width, height) => {
     return new Promise((resolve, reject) => {
+      rmFile(dstPng)
       const stream = spawn(getFFmpegFilePath(), ['-i', srcFile, '-vf', 'scale=' + width + 'x' + height + ':flags=bilinear', dstPng])
       stream.on('close', (code) => {
         if (code === 0) {
@@ -79,6 +82,7 @@ const
   },
   extractMetadataFromMp3 = (srcFile, dstTxt) => {
     return new Promise((resolve, reject) => {
+      rmFile(dstTxt)
       const stream = spawn(getFFmpegFilePath(), ['-i', srcFile, '-f', 'ffmetadata', dstTxt])
       stream.on('close', (code) => {
         if (code === 0) {
@@ -91,6 +95,7 @@ const
   },
   extractPngFromMp3 = (srcFile, dstPng) => {
     return new Promise((resolve, reject) => {
+      rmFile(dstPng)
       const stream = spawn(getFFmpegFilePath(), ['-i', srcFile, '-filter:v', 'scale=256x256', '-an', dstPng])
       stream.on('close', (code) => {
         if (code === 0) {

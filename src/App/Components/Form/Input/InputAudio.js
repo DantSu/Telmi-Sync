@@ -7,6 +7,7 @@ import AudioTTS from '../../Audio/AudioTTS.js'
 
 import styles from './Input.module.scss'
 
+
 function InputAudio({label, id, textTTS, required, className, onChange, audio, ...props}, ref) {
   const
     {getLocale} = useLocale(),
@@ -33,14 +34,14 @@ function InputAudio({label, id, textTTS, required, className, onChange, audio, .
       (r) => {
         if (r !== null && ref !== null) {
           r.checkValue = () => {
-            if (r.required && (typeof audioPath !== 'string' || audioPath === '')) {
+            if (r.required && !audioPath) {
               return getLocale('input-required', label)
             }
             return null
           }
           r.getValue = () => {
-            if (r.files.length && r.files[0].type.indexOf('audio/') === 0) {
-              return r.files[0].path
+            if (audioPath) {
+              return audioPath
             }
             return null
           }
@@ -49,7 +50,6 @@ function InputAudio({label, id, textTTS, required, className, onChange, audio, .
       },
       [ref, label, getLocale, audioPath]
     )
-
 
   return <InputLayout label={label}
                       id={id}

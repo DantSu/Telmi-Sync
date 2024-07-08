@@ -4,8 +4,8 @@ import ModalDialogConfirm from '../../../Components/Modal/Templates/ModalDialogs
 function ModalStudioStorySaveConfirm (props) {
   const {getLocale} = useLocale()
   return <ModalDialogConfirm {...props}
-                             title={getLocale('studio-story-save')}
-                             message={getLocale('studio-story-save-confirm', props.story.title)}/>
+                             title={getLocale('studio-story-unsaved')}
+                             message={getLocale('studio-story-unsaved-confirm')}/>
 }
 
 export default ModalStudioStorySaveConfirm

@@ -119,6 +119,7 @@ const en = {
   'story-delete-confirm': 'Are you sure you want to delete the story <strong>"{0}"</strong> ?',
   'story-not-found': 'Story not found',
   'story-display-tiles': 'Display nine story tiles by default',
+  'story-saving': 'Saving story',
   'stories': 'Stories',
   'stories-local': 'My stories ({0})',
   'stories-on-store': '{0} stories on the store',
