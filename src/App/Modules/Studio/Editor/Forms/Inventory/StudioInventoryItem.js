@@ -41,7 +41,7 @@ function StudioInventoryItem({itemKey}) {
       () => {
         updateStory((s) => {
           s.nodes.inventory.splice(itemKey, 1)
-          if(!s.nodes.inventory.length) {
+          if (!s.nodes.inventory.length) {
             delete s.nodes.inventory
           }
           return {...s, nodes: {...s.nodes}}
@@ -60,12 +60,14 @@ function StudioInventoryItem({itemKey}) {
     <div className={styles.itemLabel}>
       <span className={styles.itemTitle}>{item.name}</span>
       <ButtonIconPen onClick={onEdit}
+                     draggable={true}
                      onDragStart={onPreventChildDraggable}
                      onDragEnter={onPreventChildDraggable}
                      onDragLeave={onPreventChildDraggable}
                      onDrop={onPreventChildDraggable}
                      className={styles.itemButton}/>
       <ButtonIconTrash onClick={onDelete}
+                       draggable={true}
                        onDragStart={onPreventChildDraggable}
                        onDragEnter={onPreventChildDraggable}
                        onDragLeave={onPreventChildDraggable}
@@ -74,7 +76,12 @@ function StudioInventoryItem({itemKey}) {
     </div>
     {
       displayForm &&
-      <div className={styles.itemForm}>
+      <div className={styles.itemForm}
+           draggable={true}
+           onDragStart={onPreventChildDraggable}
+           onDragEnter={onPreventChildDraggable}
+           onDragLeave={onPreventChildDraggable}
+           onDrop={onPreventChildDraggable}>
         <StudioInventoryItemForm itemKey={itemKey} onValidate={onEdit}/>
       </div>
     }

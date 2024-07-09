@@ -7,11 +7,10 @@ import {getConditionComparator} from '../StudioNodesHelpers.js'
 import Form from '../../../../../Components/Form/Form.js'
 import InputSelect from '../../../../../Components/Form/Input/InputSelect.js'
 import InputText from '../../../../../Components/Form/Input/InputText.js'
-import ButtonIconTextPlus from '../../../../../Components/Buttons/IconsTexts/ButtonIconTextPlus.js'
 import StudioActionCondition from './StudioActionCondition.js'
+import ButtonIconPlus from '../../../../../Components/Buttons/Icons/ButtonIconPlus.js'
 
 import styles from './StudioStageForm.module.scss'
-import ButtonIconPlus from '../../../../../Components/Buttons/Icons/ButtonIconPlus.js'
 
 function StudioActionConditions({action, actionPosition, ...props}) {
   const
@@ -37,12 +36,14 @@ function StudioActionConditions({action, actionPosition, ...props}) {
       }
     })
 
-  return <ul{...props} draggable={false} className={styles.conditionsContainer}>
+  return <ul{...props}
+            className={styles.conditionsContainer}>
     {conditions.map((c, k) => <StudioActionCondition key={'action-condition-' + actionPosition + '-' + k}
                                                      action={action}
                                                      condition={c}
                                                      conditionKey={k}/>)}
-    <li className={styles.conditionFormContainer} key={'action-condition-form-' + actionPosition + '-' + stage}>
+    <li className={styles.conditionFormContainer}
+        key={'action-condition-form-' + actionPosition + '-' + stage}>
       <Form className={styles.conditionForm}>{
         (validation) => {
           return <>
@@ -53,7 +54,7 @@ function StudioActionConditions({action, actionPosition, ...props}) {
                            ref={comparatorRef}
                            vertical={true}/>
             </div>
-            <div className={styles.conditionInputmedium}>
+            <div className={styles.conditionInputMedium}>
               <InputText key={'action-condition-number-' + stage + '-' + actionPosition + '-' + conditions.length}
                          ref={numberRef}
                          type="number"

@@ -80,6 +80,7 @@ function StudioActionItemForm({stageNode, action, actionPosition}) {
     </div>
     {Array.isArray(nodes.inventory) && <StudioActionConditions action={action}
                                                                actionPosition={actionPosition}
+                                                               draggable={true}
                                                                onDragStart={onPreventChildDraggable}
                                                                onDragEnter={onPreventChildDraggable}
                                                                onDragLeave={onPreventChildDraggable}

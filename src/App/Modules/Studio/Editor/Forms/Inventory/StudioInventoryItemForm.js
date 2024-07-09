@@ -1,6 +1,7 @@
 import {useRef} from 'react'
 import {useLocale} from '../../../../../Components/Locale/LocaleHooks.js'
 import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
+import {addInventoryItem} from '../StudioNodesHelpers.js'
 
 import Form from '../../../../../Components/Form/Form.js'
 import InputText from '../../../../../Components/Form/Input/InputText.js'
@@ -9,7 +10,6 @@ import InputSwitch from '../../../../../Components/Form/Input/InputSwitch.js'
 import ButtonsContainer from '../../../../../Components/Buttons/ButtonsContainer.js'
 import ButtonIconTextPlus from '../../../../../Components/Buttons/IconsTexts/ButtonIconTextPlus.js'
 import ButtonIconTextFloppyDisk from '../../../../../Components/Buttons/IconsTexts/ButtonIconTextFloppyDisk.js'
-import {addInventoryItem} from '../StudioNodesHelpers.js'
 
 
 function StudioInventoryItemForm({itemKey, onValidate}) {
