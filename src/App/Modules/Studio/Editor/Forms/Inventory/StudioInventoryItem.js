@@ -40,10 +40,27 @@ function StudioInventoryItem({itemKey}) {
     onDelete = useCallback(
       () => {
         updateStory((s) => {
+          const item = s.nodes.inventory[itemKey]
+
+          if (
+            Object.values(s.nodes.stages).find(
+              (v) => Array.isArray(v.items) && v.items.find((v) => v.item === item.id) !== undefined
+            ) !== undefined ||
+            Object.values(s.nodes.actions).find(
+              (v) => v.find(
+                (v) => Array.isArray(v.conditions) && v.conditions.find((v) => v.item === item.id) !== undefined
+              ) !== undefined
+            )
+          ) {
+            return s
+          }
+
           s.nodes.inventory.splice(itemKey, 1)
+
           if (!s.nodes.inventory.length) {
             delete s.nodes.inventory
           }
+
           return {...s, nodes: {...s.nodes}}
         })
       },

@@ -66,6 +66,22 @@ const
     notes[stageId] = {title: title || stageId, text: ''}
     return {...notes}
   },
-  getConditionComparator = () => (['<', '<=', '=', '>', '>='])
+  getConditionComparator = () => (['<', '<=', '=', '>', '>=']),
+  checkConditionComparator = (itemCount, conditionNumber, conditionComparator) => {
+    switch (conditionComparator) {
+      case 0:
+        return itemCount < conditionNumber
+      case 1:
+        return itemCount <= conditionNumber
+      case 2:
+        return itemCount === conditionNumber
+      case 3:
+        return itemCount > conditionNumber
+      case 4:
+        return itemCount >= conditionNumber
+      default:
+        return false
+    }
+  }
 
-export {addStage, addAction, addStageOption, addInventoryItem, nodesMoveObject, addNote, getConditionComparator}
+export {addStage, addAction, addStageOption, addInventoryItem, nodesMoveObject, addNote, getConditionComparator, checkConditionComparator}

@@ -1,0 +1,121 @@
+@import "/src/App/variables";
+
+.container {
+  width: 370px;
+  padding: 20px;
+  box-shadow: inset -2px -2px 7px 0px $black30, inset 2px 2px 5px 0px $white10;
+}
+
+.images {
+  position: relative;
+  width: 330px;
+  height: 250px;
+  border: 5px solid $black;
+  background-color: $black;
+}
+
+.images > * {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.imageStory {
+  z-index: 1;
+}
+
+.imageInventory {
+  z-index: 2;
+}
+
+.buttons {
+  position: relative;
+  height: 150px;
+}
+
+.buttonLeft,
+.buttonUp,
+.buttonRight,
+.buttonDown {
+  position: absolute;
+  background: $black;
+  border-radius: 5px;
+}
+
+.buttonLeft,
+.buttonRight {
+  top: 64px;
+  width: 50px;
+}
+
+.buttonLeft {
+  left: 20px;
+  padding-right: 25px;
+}
+
+.buttonRight {
+  left: 70px;
+  padding-left: 25px;
+}
+
+.buttonDown,
+.buttonUp {
+  left: 51px;
+}
+.buttonUp {
+  top: 27px;
+  padding-bottom: 25px;
+}
+
+.buttonDown {
+  top: 80px;
+  padding-top: 25px;
+}
+
+.buttonM,
+.buttonX,
+.buttonY,
+.buttonA,
+.buttonB {
+  position: absolute;
+  height: 32px;
+  width: 32px;
+  border-radius: 16px;
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+  border: 1px solid $black;
+  box-shadow: -2px -2px 5px 0px $black30, 1px 1px 5px 0px $white30, inset -2px -2px 7px 0px $black40, inset 1px 1px 5px 0px $white40;
+}
+
+.buttonM {
+  left: 144px;
+  top: 20px;
+  background-color: $black;
+}
+
+.buttonX {
+  left: 240px;
+  top: 32px;
+  background-color: $indigo;
+}
+
+.buttonY {
+  left: 206px;
+  top: 66px;
+  background-color: $green;
+}
+
+.buttonA {
+  left: 274px;
+  top: 66px;
+  background-color: $red;
+}
+
+.buttonB {
+  left: 240px;
+  top: 100px;
+  background-color: $orange;
+}

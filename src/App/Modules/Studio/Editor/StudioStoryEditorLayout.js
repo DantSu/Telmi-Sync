@@ -15,6 +15,7 @@ import StudioForms from './Forms/StudioForms.js'
 import Loader from '../../../Components/Loader/Loader.js'
 
 import styles from './StudioStoryEditor.module.scss'
+import ModalPlayer from '../Player/ModalPlayer.js'
 
 
 function StudioStoryEditorLayout({closeEditor}) {
@@ -25,7 +26,21 @@ function StudioStoryEditorLayout({closeEditor}) {
     story = useStudioStory(),
     {updateStory, isStoryUpdated} = useStudioStoryUpdater(),
     loading = story === null,
+
+    onPlay = useCallback(
+      () => {
+        addModal((key) => {
+          const modal = <ModalPlayer key={key}
+                                     story={story}
+                                     onClose={() => rmModal(modal)}/>
+          return modal
+        })
+      },
+      [addModal, rmModal, story]
+    ),
+
     onEditItems = useCallback(() => setForm((f) => f === 'form-inventory' ? null : 'form-inventory'), [setForm]),
+
     onSave = useCallback(
       () => {
         if (!isStoryUpdated) {
@@ -41,6 +56,7 @@ function StudioStoryEditorLayout({closeEditor}) {
       },
       [addModal, isStoryUpdated, rmModal, story]
     ),
+
     onClose = useCallback(
       () => {
         if (!isStoryUpdated) {
@@ -56,6 +72,7 @@ function StudioStoryEditorLayout({closeEditor}) {
       },
       [isStoryUpdated, addModal, closeEditor, rmModal]
     ),
+
     onTitleBlur = useCallback(
       (e) => {
         if (loading) {
@@ -85,12 +102,13 @@ function StudioStoryEditorLayout({closeEditor}) {
           <li>
             <ButtonIconPlay className={styles.topBarButton}
                             title={getLocale('story-play')}
-                            onClick={onEditItems}/>
+                            onClick={onPlay}/>
           </li>
           <li>
-            <ButtonIconFloppyDisk className={[styles.topBarButton, !isStoryUpdated ? styles.topBarButtonDisabled : ''].join(' ')}
-                                  title={getLocale('save')}
-                                  onClick={onSave}/>
+            <ButtonIconFloppyDisk
+              className={[styles.topBarButton, !isStoryUpdated ? styles.topBarButtonDisabled : ''].join(' ')}
+              title={getLocale('save')}
+              onClick={onSave}/>
           </li>
         </> : null}
         <li>
