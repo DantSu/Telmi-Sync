@@ -1,11 +1,14 @@
 import {useCallback, useMemo} from 'react'
+import {useModal} from '../../../Components/Modal/ModalHooks.js'
 import {useLocale} from '../../../Components/Locale/LocaleHooks.js'
 import {useLocalStories} from '../../../Components/LocalStories/LocalStoriesHooks.js'
 import Table from '../../../Components/Table/Table.js'
 import AppContainer from '../../../Layout/Container/AppContainer.js'
+import ModalPlayerLauncher from '../Player/ModalPlayerLauncher.js'
 
 function StudioStoriesTable({setStory}) {
   const
+    {addModal, rmModal} = useModal(),
     {getLocale} = useLocale(),
     localStories = useLocalStories(),
     tableStories = useMemo(
@@ -18,6 +21,17 @@ function StudioStoriesTable({setStory}) {
       },
       [localStories]
     ),
+    onPlay = useCallback(
+      (story) => {
+        addModal((key) => {
+          const modal = <ModalPlayerLauncher key={'modal-launcher-' + key}
+                                             storyMetadata={story}
+                                             onClose={() => rmModal(modal)}/>
+          return modal
+        })
+      },
+      [addModal, rmModal]
+    ),
     onEdit = useCallback((story) => setStory(story), [setStory]),
     onAdd = useCallback(() => setStory({}), [setStory])
 
@@ -26,6 +40,7 @@ function StudioStoriesTable({setStory}) {
            data={tableStories}
            onEdit={onEdit}
            onAdd={onAdd}
+           onPlay={onPlay}
            isLoading={!tableStories.length}/>
   </AppContainer>
 }
