@@ -18,7 +18,7 @@ const
     return storiesIds[str]
   }
 
-function StoriesTable ({stories, className, onEdit, onEditSelected, onDelete, onOptimizeAudio, onOptimizeAudioSelected, selectedStories, setSelectedStories}) {
+function StoriesTable ({stories, className, onPlay, onEdit, onEditSelected, onDelete, onOptimizeAudio, onOptimizeAudioSelected, selectedStories, setSelectedStories}) {
   const
     {getLocale} = useLocale(),
     {addModal, rmModal} = useModal(),
@@ -58,7 +58,6 @@ function StoriesTable ({stories, className, onEdit, onEditSelected, onDelete, on
       }),
       [setSelectedStories]
     ),
-    getAudioPath = useCallback((story) => story.audio, []),
     callbackOnEdit = useCallback(
       (story) => {
         addModal((key) => {
@@ -136,7 +135,7 @@ function StoriesTable ({stories, className, onEdit, onEditSelected, onDelete, on
                 selectedData={selectedStories}
                 onSelect={onSelect}
                 onSelectAll={onSelectAll}
-                getAudioPath={getAudioPath}
+                onPlay={onPlay}
                 onOptimizeAudio={onOptimizeAudio}
                 onOptimizeAudioSelected={onOptimizeAudioSelected}
                 onEdit={onEdit !== undefined ? callbackOnEdit : undefined}

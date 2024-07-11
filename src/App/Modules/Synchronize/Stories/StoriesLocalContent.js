@@ -5,6 +5,7 @@ import { useLocalStories } from '../../../Components/LocalStories/LocalStoriesHo
 
 import StoriesTable from './StoriesTable.js'
 import ModalStoriesOptimizeAudio from './ModalStoriesOptimizeAudio.js'
+import ModalPlayerLauncher from '../../Studio/Player/ModalPlayerLauncher.js'
 
 const {ipcRenderer} = window.require('electron')
 
@@ -46,6 +47,18 @@ function StoriesLocalContent ({setSelectedStories, selectedStories}) {
       [selectedStories, addModal, rmModal]
     ),
 
+    onPlay = useCallback(
+      (story) => {
+        addModal((key) => {
+          const modal = <ModalPlayerLauncher key={'modal-launcher-' + key}
+                                             storyMetadata={story}
+                                             onClose={() => rmModal(modal)}/>
+          return modal
+        })
+      },
+      [addModal, rmModal]
+    ),
+
     onEdit = useCallback(
       (story) => ipcRenderer.send('local-stories-update', [story]),
       []
@@ -62,6 +75,7 @@ function StoriesLocalContent ({setSelectedStories, selectedStories}) {
   return <StoriesTable stories={stories}
                        onOptimizeAudio={onOptimizeAudio}
                        onOptimizeAudioSelected={onOptimizeAudioSelected}
+                       onPlay={onPlay}
                        onEdit={onEdit}
                        onEditSelected={onEditSelected}
                        onDelete={onDelete}

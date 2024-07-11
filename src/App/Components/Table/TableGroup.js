@@ -9,7 +9,7 @@ import TableList from './TableList.js'
 
 import styles from './Table.module.scss'
 
-function TableGroup ({data, selectedData, onSelect, onSelectAll, getAudioPath, onInfo, onEdit, onOptimizeAudio, onDownload, onDelete}) {
+function TableGroup ({data, selectedData, onSelect, onSelectAll, onPlay, onInfo, onEdit, onOptimizeAudio, onDownload, onDelete}) {
   const
     {getLocale} = useLocale(),
     [displayCells, setDisplayCells] = useState(false),
@@ -52,7 +52,7 @@ function TableGroup ({data, selectedData, onSelect, onSelectAll, getAudioPath, o
                                 data={v}
                                 selected={isCellSelected(selectedData, v)}
                                 onSelect={onSelect}
-                                getAudioPath={getAudioPath}
+                                onPlay={onPlay}
                                 onInfo={onInfo}
                                 onOptimizeAudio={onOptimizeAudio}
                                 onEdit={onEdit}

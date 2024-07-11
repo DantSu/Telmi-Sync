@@ -6,11 +6,11 @@ import ButtonIconWave from '../Buttons/Icons/ButtonIconWave.js'
 import ButtonIconPen from '../Buttons/Icons/ButtonIconPen.js'
 import ButtonIconDownload from '../Buttons/Icons/ButtonIconDownload.js'
 import ButtonIconInfo from '../Buttons/Icons/ButtonIconInfo.js'
-import AudioPlayer from '../Audio/AudioPlayer.js'
+import ButtonIconPlay from '../Buttons/Icons/ButtonIconPlay.js'
 
 import styles from './Table.module.scss'
 
-function TableCell ({data, selected, onSelect, getAudioPath, onInfo, onOptimizeAudio, onEdit, onDownload, onDelete}) {
+function TableCell ({data, selected, onSelect, onPlay, onInfo, onOptimizeAudio, onEdit, onDownload, onDelete}) {
   const
     {getLocale} = useLocale(),
     onCSelect = useCallback(
@@ -24,6 +24,14 @@ function TableCell ({data, selected, onSelect, getAudioPath, onInfo, onOptimizeA
         typeof onInfo === 'function' && onInfo(data)
       },
       [onInfo, data]
+    ),
+    onCPlay = useCallback(
+      (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        typeof onPlay === 'function' && onPlay(data)
+      },
+      [onPlay, data]
     ),
     onCOptimizeAudio = useCallback(
       (e) => {
@@ -67,9 +75,9 @@ function TableCell ({data, selected, onSelect, getAudioPath, onInfo, onOptimizeA
       {data.cellLabelIcon && <p className={styles.cellImageLabel} title={data.cellLabelIconText}>{data.cellLabelIcon}</p>}
     </div>
     {
-      (getAudioPath || onEdit || onDownload || onDelete) &&
+      (onPlay || onEdit || onDownload || onDelete) &&
       <div className={styles.cellActionBar}>
-        {getAudioPath && <AudioPlayer title={getLocale('listen')} audioPath={getAudioPath(data)} className={styles.cellActionButton}/>}
+        {onPlay && <ButtonIconPlay title={getLocale('story-play')} onClick={onCPlay} className={styles.cellActionButton}/>}
         {onInfo && <ButtonIconInfo title={getLocale('infos')} onClick={onCInfo} className={styles.cellActionButton}/>}
         {onOptimizeAudio && <ButtonIconWave title={getLocale('telmios-optimize-audio')} onClick={onCOptimizeAudio} className={styles.cellActionButton}/>}
         {onEdit && <ButtonIconPen title={getLocale('edit')} onClick={onCEdit} className={styles.cellActionButton}/>}
