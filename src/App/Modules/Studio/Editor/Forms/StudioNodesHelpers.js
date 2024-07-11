@@ -82,6 +82,17 @@ const
       default:
         return false
     }
+  },
+  getUpdateInventoryType = () => (['+', '-', '=']),
+  checkUpdateInventory = (itemCount, updateNumber, updateType) => {
+    switch (updateType) {
+      case 0:
+        return itemCount + updateNumber
+      case 1:
+        return itemCount - updateNumber
+      default:
+        return updateNumber
+    }
   }
 
-export {addStage, addAction, addStageOption, addInventoryItem, nodesMoveObject, addNote, getConditionComparator, checkConditionComparator}
+export {addStage, addAction, addStageOption, addInventoryItem, nodesMoveObject, addNote, getConditionComparator, checkConditionComparator, getUpdateInventoryType, checkUpdateInventory}

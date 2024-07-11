@@ -4,6 +4,7 @@ import {useStudioForm} from '../../Providers/StudioStageHooks.js'
 import ButtonIconTrash from '../../../../../Components/Buttons/Icons/ButtonIconTrash.js'
 
 import styles from './StudioStageForm.module.scss'
+import {getUpdateInventoryType} from '../StudioNodesHelpers.js'
 
 function StudioStageInventoryUpdateForm({rule, rulePosition}) {
   const 
@@ -30,8 +31,9 @@ function StudioStageInventoryUpdateForm({rule, rulePosition}) {
     )
   
   return <li className={styles.inventoryUpdate}>
-    <span className={styles.actionItemText}>{rule.number > 0 ? '+' : ''}{rule.number} {item.name}</span>
-    <ButtonIconTrash className={styles.actionItemButton} onClick={onDelete}/>
+    <span className={styles.actionItemText}>{getUpdateInventoryType()[rule.type]}{rule.number} {item.name}</span>
+    <ButtonIconTrash className={styles.actionItemButton}
+                     onClick={onDelete}/>
   </li>
 }
 

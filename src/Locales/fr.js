@@ -76,6 +76,7 @@ const fr = {
   'show-item-counter-as-bar': 'Afficher le compteur d\'objet en jauge',
   'display-conditions': 'Conditions d\'affichage',
   'add-display-condition': 'Ajouter une condition d\'affichage',
+  'operation-to-perform': 'Opération à effectuer',
 
   'action-continue-to': 'Continuer vers :',
   'action-scene-existing': 'Scène existante',

@@ -1,6 +1,6 @@
 import {useCallback, useEffect, useMemo, useState} from 'react'
 import {isAudioDefined, isImageDefined} from '../Helpers/FileHelpers.js'
-import {checkConditionComparator} from '../Editor/Forms/StudioNodesHelpers.js'
+import {checkConditionComparator, checkUpdateInventory} from '../Editor/Forms/StudioNodesHelpers.js'
 
 import ModalLayout from '../../../Components/Modal/ModalLayout.js'
 import ButtonIconChevronLeft from '../../../Components/Buttons/Icons/ButtonIconChevronLeft.js'
@@ -183,7 +183,7 @@ function ModalPlayer({story, onClose}) {
         setItems((items) => {
           newStage.items.forEach((item) => {
             const itemInventory = items.find((i) => i.id === item.item)
-            itemInventory.count = Math.min(Math.max(0, itemInventory.count + item.number), itemInventory.maxNumber)
+            itemInventory.count = Math.min(Math.max(0, checkUpdateInventory(itemInventory.count, item.number, item.type)), itemInventory.maxNumber)
           })
           return [...items]
         })

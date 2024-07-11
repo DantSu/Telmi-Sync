@@ -76,6 +76,7 @@ const en = {
   'show-item-counter-as-bar': 'Show item counter as bar',
   'display-conditions': 'Display conditions',
   'add-display-condition': 'Add a display condition',
+  'operation-to-perform': 'Operation to perform',
 
   'action-continue-to': 'Continue to :',
   'action-scene-existing': 'Existing scene',

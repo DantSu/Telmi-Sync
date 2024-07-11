@@ -9,6 +9,8 @@ import ButtonIconTextPlus from '../../../../../Components/Buttons/IconsTexts/But
 import InputSelect from '../../../../../Components/Form/Input/InputSelect.js'
 
 import styles from './StudioStageForm.module.scss'
+import {getConditionComparator, getUpdateInventoryType} from '../StudioNodesHelpers.js'
+import ButtonIconPlus from '../../../../../Components/Buttons/Icons/ButtonIconPlus.js'
 
 function StudioStageInventoryForm() {
   const
@@ -19,12 +21,13 @@ function StudioStageInventoryForm() {
     stageNode = nodes.stages[stage],
     numberRef = useRef(null),
     itemRef = useRef(null),
+    typeRef = useRef(null),
     inventoryUpdate = Array.isArray(stageNode.items) ? stageNode.items : [],
     onValidate = (values) => updateStory((s) => {
       if (!Array.isArray(stageNode.items)) {
         stageNode.items = []
       }
-      stageNode.items.push({item: values[1], number: values[0]})
+      stageNode.items.push({item: values[1], number: values[0], type: parseInt(values[2])})
       return {
         ...s,
         nodes: {...s.nodes}
@@ -39,27 +42,35 @@ function StudioStageInventoryForm() {
                                                                     parentStage={stageNode}
                                                                     key={'inventory-rule-' + k}/>)
     }</ul>
-    <h3 className={styles.actionNewItemTitle}>{getLocale('inventory-update-add')}</h3>
-    <Form>{
+    <Form className={styles.conditionForm}>{
       (validation) => {
         return <>
-          <InputText id={'inventory-update-number'}
-                     key={'inventory-update-number-' + stage + '-' + inventoryUpdate.length}
-                     type="number"
-                     label={getLocale('add-remove')}
-                     step={1}
-                     defaultValue={1}
-                     required={true}
-                     ref={numberRef}/>
-          <InputSelect id={'inventory-update-item'}
-                       key={'inventory-update-item-' + stage + '-' + inventoryUpdate.length}
-                       label={getLocale('inventory-of-item')}
-                       options={nodes.inventory.map((v) => ({value: v.id, text: v.name}))}
-                       ref={itemRef}/>
-          <ButtonIconTextPlus text={getLocale('add')}
-                              className={styles.actionNewItemButton}
-                              rounded={true}
-                              onClick={() => validation([numberRef, itemRef], onValidate)}/>
+          <h3 className={styles.conditionTitle}>{getLocale('operation-to-perform')}:</h3>
+          <div className={styles.conditionInputSmall}>
+            <InputSelect key={'inventory-update-type-' + stage + '-' + inventoryUpdate.length}
+                         options={getUpdateInventoryType().map((text, value) => ({value, text}))}
+                         ref={typeRef}
+                         vertical={true}/>
+          </div>
+          <div className={styles.conditionInputMedium}>
+            <InputText key={'inventory-update-number-' + stage + '-' + inventoryUpdate.length}
+                       type="number"
+                       min={1}
+                       step={1}
+                       defaultValue={1}
+                       required={true}
+                       vertical={true}
+                       ref={numberRef}/>
+          </div>
+          <div className={styles.conditionInputWide}>
+            <InputSelect key={'inventory-update-item-' + stage + '-' + inventoryUpdate.length}
+                         options={nodes.inventory.map((v) => ({value: v.id, text: v.name}))}
+                         ref={itemRef}
+                         vertical={true}/>
+          </div>
+          <ButtonIconPlus rounded={true}
+                          title={getLocale('add')}
+                          onClick={() => validation([numberRef, itemRef, typeRef], onValidate)}/>
         </>
       }
     }</Form>

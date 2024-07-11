@@ -60,6 +60,7 @@ function StudioActionConditions({action, actionPosition, ...props}) {
                          type="number"
                          step={1}
                          defaultValue={0}
+                         required={true}
                          vertical={true}/>
             </div>
             <div className={styles.conditionInputWide}>

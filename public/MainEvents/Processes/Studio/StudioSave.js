@@ -201,6 +201,7 @@ function main(jsonPath) {
             },
             hasInventory && Array.isArray(stage.items) && stage.items.length ? {
               items: stage.items.map((i) => ({
+                type: i.type,
                 item: mapInventory[i.item],
                 number: i.number
               }))
