@@ -110,8 +110,8 @@ function ModalPlayer({story, onClose}) {
           return
         }
         setActionIndex((i) => {
-          const index = i + 1
-          return index >= actionOptions.length ? 0 : index
+          const index = i - 1
+          return index < 0 ? actionOptions.length - 1 : index
         })
       },
       [actionOptions, stage]
@@ -123,8 +123,8 @@ function ModalPlayer({story, onClose}) {
           return
         }
         setActionIndex((i) => {
-          const index = i - 1
-          return index < 0 ? actionOptions.length - 1 : index
+          const index = i + 1
+          return index >= actionOptions.length ? 0 : index
         })
       },
       [actionOptions, stage]
