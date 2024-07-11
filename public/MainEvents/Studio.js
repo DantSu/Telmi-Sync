@@ -116,13 +116,16 @@ function mainEventStudio(mainWindow) {
   ipcMain.on(
     'studio-story-save',
     async (event, storyData) => {
-      const jsonPath = path.join(initTmpPath('json'), 'story.json')
+      const
+        isNewStory = storyData.metadata.path === undefined,
+        jsonPath = path.join(initTmpPath('json'), 'story.json')
       fs.writeFileSync(jsonPath, JSON.stringify(storyData))
       runProcess(
         path.join('Studio', 'StudioSave.js'),
         [jsonPath],
         () => {
           mainWindow.webContents.send('studio-story-save-task', '', '', 0, 0)
+          isNewStory && ipcMain.emit('local-stories-get')
           ipcMain.emit(
             'studio-story-get',
             event,
