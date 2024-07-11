@@ -43,7 +43,7 @@ const
       name: '',
       initialNumber: 0,
       maxNumber: 1,
-      counterAsBar: false,
+      display: 0,
       image: null,
     })
     return nodes.inventory.length - 1

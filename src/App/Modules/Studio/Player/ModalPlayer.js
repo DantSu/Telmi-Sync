@@ -13,6 +13,8 @@ import PlayerInventory from './PlayerInventory.js'
 import styles from './ModalPlayer.module.scss'
 
 const
+  checkRandomIndex = (index, options) => index === -1 ? Math.floor(Math.random() * options.length) : index,
+
   findNextAction = (stage, nodes, items) => {
     const action = stage === null ? nodes.startAction : stage.ok
     if (action === null || nodes.actions[action.action] === undefined) {
@@ -20,7 +22,7 @@ const
     }
     const
       options = nodes.actions[action.action],
-      index = action.index
+      index = checkRandomIndex(action.index, options)
 
     for (let i = 0; i < options.length; ++i) {
       const
@@ -45,23 +47,26 @@ const
 
 function ModalPlayer({story, onClose}) {
   const
-    [stage, setStage] = useState(null),
+    [stage, setStage] = useState(),
     [actionOptions, setActionOptions] = useState([]),
     [actionIndex, setActionIndex] = useState(0),
     metadata = story.metadata,
     nodes = story.nodes,
     [items, setItems] = useState(
-      () => Array.isArray(nodes.inventory) && nodes.inventory.length > 0 ?
-        nodes.inventory.map((item) => ({
-          ...item,
-          count: item.initialNumber
-        })) : null
+      () => Array.isArray(nodes.inventory) && nodes.inventory.length > 0 ? nodes.inventory : null
+    ),
+    resetItems = useCallback(
+      () => setItems((items) => items === null ? null : items.map((item) => ({...item, count: item.initialNumber}))),
+      []
     ),
 
-    itemsGot = useMemo(() => items === null ? [] : items.filter((i) => i.count > 0), [items]),
+    itemsGot = useMemo(() => items === null ? [] : items.filter((i) => i.count > 0 && i.display !== 2), [items]),
 
     image = useMemo(
       () => {
+        if (stage === undefined) {
+          return null
+        }
         if (stage === null) {
           return metadata.newImageTitle || metadata.imageTitle
         }
@@ -72,7 +77,7 @@ function ModalPlayer({story, onClose}) {
 
     onOk = useCallback(
       () => {
-        if (stage !== null && !stage.control.ok) {
+        if (stage === undefined || (stage !== null && !stage.control.ok)) {
           return
         }
         const [aOptions, aIndex] = findNextAction(stage, nodes, items)
@@ -84,13 +89,16 @@ function ModalPlayer({story, onClose}) {
 
     onCancel = useCallback(
       () => {
+        if (stage === undefined) {
+          return
+        }
         const action = stage === null ? null : stage.home
         if (action === null) {
           setActionOptions([])
           setActionIndex(0)
         } else {
           setActionOptions(nodes.actions[action.action])
-          setActionIndex(action.index)
+          setActionIndex(checkRandomIndex(action.index, nodes.actions[action.action]))
         }
       },
       [nodes, stage]
@@ -98,7 +106,7 @@ function ModalPlayer({story, onClose}) {
 
     onLeft = useCallback(
       () => {
-        if (stage.control.autoplay) {
+        if (stage === undefined || stage === null || stage.control.autoplay) {
           return
         }
         setActionIndex((i) => {
@@ -111,7 +119,7 @@ function ModalPlayer({story, onClose}) {
 
     onRight = useCallback(
       () => {
-        if (stage.control.autoplay) {
+        if (stage === undefined || stage === null || stage.control.autoplay) {
           return
         }
         setActionIndex((i) => {
@@ -124,6 +132,10 @@ function ModalPlayer({story, onClose}) {
 
   useEffect(
     () => {
+      if (stage === undefined) {
+        return
+      }
+
       const audio = stage === null ?
         (metadata.newAudioTitle || metadata.audioTitle) :
         (stage.newAudio || isAudioDefined(stage.audio, metadata.path))
@@ -158,17 +170,15 @@ function ModalPlayer({story, onClose}) {
   useEffect(
     () => {
       if (actionOptions.length === 0) {
+        resetItems()
         setStage(null)
         return
       }
 
-      if (actionIndex === -1) {
-        setActionIndex(Math.floor(Math.random() * actionOptions.length))
-        return
-      }
       const option = actionOptions[actionIndex]
 
       if (option === undefined) {
+        resetItems()
         setStage(null)
         return
       }
@@ -176,9 +186,11 @@ function ModalPlayer({story, onClose}) {
       const newStage = nodes.stages[option.stage]
 
       if (newStage === undefined) {
+        resetItems()
         setStage(null)
         return
       }
+
       if (Array.isArray(newStage.items) && newStage.items.length) {
         setItems((items) => {
           newStage.items.forEach((item) => {
@@ -190,7 +202,7 @@ function ModalPlayer({story, onClose}) {
       }
       setStage(newStage)
     },
-    [actionIndex, actionOptions, metadata, nodes]
+    [actionIndex, actionOptions, metadata, nodes, resetItems]
   )
 
   return <ModalLayout className={styles.container}
@@ -198,7 +210,7 @@ function ModalPlayer({story, onClose}) {
                       onClose={onClose}>
     <div className={styles.images}>
       {image !== null && <img src={image} className={styles.imageStory} alt=""/>}
-      {itemsGot.length > 0 && <PlayerInventory items={itemsGot}/>}
+      {image !== null && itemsGot.length > 0 && <PlayerInventory items={itemsGot} story={story}/>}
     </div>
     <ul className={styles.buttons}>
       <li><ButtonIconChevronLeft className={styles.buttonLeft} onClick={onLeft}/></li>

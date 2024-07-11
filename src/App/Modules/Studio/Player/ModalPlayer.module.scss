@@ -119,3 +119,54 @@
   top: 100px;
   background-color: $orange;
 }
+
+
+.inventory {
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 10%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 100%);
+}
+
+.inventoryList {
+  display: flex;
+  justify-content: center;
+}
+
+.inventoryItemContainer {
+  position: relative;
+}
+
+.inventoryItemImage {
+  width: 40px;
+  height: 40px;
+  display: block;
+}
+
+.inventoryItemCounter {
+  position: absolute;
+  bottom: -1px;
+  right: 0;
+  padding: 0 2px;
+  color: $white90;
+  font-size: 12px;
+  font-weight: bold;
+  text-shadow: -1px -1px 0 $black, 1px -1px 0 $black, -1px 1px 0 $black, 1px 1px 0 $black;
+}
+
+.inventoryItemBarBg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 7px;
+  padding: 2px;
+  border-radius: 1px;
+  background: $black;
+}
+.inventoryItemBar {
+  height: 3px;
+  border-radius: 1px;
+  background: $white80;
+}

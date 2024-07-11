@@ -6,10 +6,10 @@ import {addInventoryItem} from '../StudioNodesHelpers.js'
 import Form from '../../../../../Components/Form/Form.js'
 import InputText from '../../../../../Components/Form/Input/InputText.js'
 import InputImage from '../../../../../Components/Form/Input/InputImage.js'
-import InputSwitch from '../../../../../Components/Form/Input/InputSwitch.js'
 import ButtonsContainer from '../../../../../Components/Buttons/ButtonsContainer.js'
 import ButtonIconTextPlus from '../../../../../Components/Buttons/IconsTexts/ButtonIconTextPlus.js'
 import ButtonIconTextFloppyDisk from '../../../../../Components/Buttons/IconsTexts/ButtonIconTextFloppyDisk.js'
+import InputSelect from '../../../../../Components/Form/Input/InputSelect.js'
 
 
 function StudioInventoryItemForm({itemKey, onValidate}) {
@@ -22,7 +22,7 @@ function StudioInventoryItemForm({itemKey, onValidate}) {
       name: '',
       initialNumber: 0,
       maxNumber: 1,
-      counterAsBar: false,
+      display: 0,
       image: null
     },
     inventoryCount = isSetInventory ? nodes.inventory.length : 0,
@@ -30,7 +30,7 @@ function StudioInventoryItemForm({itemKey, onValidate}) {
     nameRef = useRef(null),
     initialNumberRef = useRef(null),
     maxNumberRef = useRef(null),
-    counterAsBarRef = useRef(null),
+    displayRef = useRef(null),
     imageRef = useRef(null),
     ButtonValidation = itemKey === -1 ? ButtonIconTextPlus : ButtonIconTextFloppyDisk
 
@@ -59,11 +59,16 @@ function StudioInventoryItemForm({itemKey, onValidate}) {
                    step={1}
                    label={getLocale('max-number')}
                    required={true}/>
-        <InputSwitch key={'studio-inventory-counter-bar-' + inputKey}
-                     id="studio-inventory-counter-bar"
-                     defaultValue={item.counterAsBar}
-                     ref={counterAsBarRef}
-                     label={getLocale('show-item-counter-as-bar')}/>
+        <InputSelect key={'studio-inventory-display-' + inputKey}
+                     id="studio-display-bar"
+                     defaultValue={item.display}
+                     ref={displayRef}
+                     options={[
+                       {value: 0, text: getLocale('display-number')},
+                       {value: 1, text: getLocale('display-bar')},
+                       {value: 2, text: getLocale('display-none')}
+                     ]}
+                     label={getLocale('display')}/>
         <InputImage key={'studio-inventory-image-' + inputKey}
                     id="studio-inventory-image"
                     defaultValue={item.newImage || (item.image ? metadata.path + '/images/' + item.image : undefined)}
@@ -77,7 +82,7 @@ function StudioInventoryItemForm({itemKey, onValidate}) {
           <ButtonValidation text={getLocale(itemKey === -1 ? 'add' : 'save')}
                             rounded={true}
                             onClick={() => validation(
-                              [nameRef, initialNumberRef, maxNumberRef, counterAsBarRef, imageRef],
+                              [nameRef, initialNumberRef, maxNumberRef, displayRef, imageRef],
                               (values) => {
                                 updateStory((s) => {
                                   if (!Array.isArray(s.nodes.inventory)) {
@@ -89,7 +94,7 @@ function StudioInventoryItemForm({itemKey, onValidate}) {
                                     name: values[0],
                                     initialNumber: values[1],
                                     maxNumber: values[2],
-                                    counterAsBar: values[3],
+                                    display: parseInt(values[3], 10),
                                     newImage: values[4] || s.nodes.inventory[editItemKey].newImage,
                                   }
                                   return {...s}

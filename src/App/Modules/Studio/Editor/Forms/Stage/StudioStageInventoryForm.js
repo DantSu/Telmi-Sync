@@ -2,15 +2,15 @@ import {useRef} from 'react'
 import {useLocale} from '../../../../../Components/Locale/LocaleHooks.js'
 import {useStudioForm} from '../../Providers/StudioStageHooks.js'
 import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
-import StudioStageInventoryUpdateForm from './StudioStageInventoryUpdateForm.js'
+import {getUpdateInventoryType} from '../StudioNodesHelpers.js'
+
 import Form from '../../../../../Components/Form/Form.js'
 import InputText from '../../../../../Components/Form/Input/InputText.js'
-import ButtonIconTextPlus from '../../../../../Components/Buttons/IconsTexts/ButtonIconTextPlus.js'
 import InputSelect from '../../../../../Components/Form/Input/InputSelect.js'
+import ButtonIconPlus from '../../../../../Components/Buttons/Icons/ButtonIconPlus.js'
+import StudioStageInventoryUpdateForm from './StudioStageInventoryUpdateForm.js'
 
 import styles from './StudioStageForm.module.scss'
-import {getConditionComparator, getUpdateInventoryType} from '../StudioNodesHelpers.js'
-import ButtonIconPlus from '../../../../../Components/Buttons/Icons/ButtonIconPlus.js'
 
 function StudioStageInventoryForm() {
   const

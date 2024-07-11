@@ -175,7 +175,7 @@ function main(jsonPath) {
             name: item.name,
             initialNumber: item.initialNumber,
             maxNumber: item.maxNumber,
-            counterAsBar: item.counterAsBar,
+            display: item.display,
             image: imageName,
           }
         }
