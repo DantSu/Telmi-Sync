@@ -5,7 +5,13 @@ const
   StudioStoryUpdaterContext = createContext({
     updateStory: (story) => {},
     isStoryUpdated: false
+  }),
+  StudioStoryVersionsContext = createContext({
+    onUndo: () => {},
+    onRedo: () => {},
+    hasUndo: false,
+    hasRedo: false
   })
 
 
-export {StudioStoryContext, StudioStoryUpdaterContext}
+export {StudioStoryContext, StudioStoryUpdaterContext, StudioStoryVersionsContext}

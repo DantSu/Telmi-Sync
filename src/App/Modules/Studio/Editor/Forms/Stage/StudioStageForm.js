@@ -75,31 +75,31 @@ function StudioStageForm() {
 
   return <>
     <InputText label={getLocale('title')}
-               id={stage + '-title'}
-               key={stage + '-title'}
+               id={'title'}
+               key={'title'}
                defaultValue={note.title}
                onBlur={onTitleBlur}/>
     <InputTextarea label={getLocale('text')}
-                   key={stage + '-text'}
-                   id={stage + '-text'}
+                   key={'text'}
+                   id={'text'}
                    defaultValue={note.notes}
                    onBlur={onNotesBlur}
                    vertical={true}/>
     <InputAudio label={getLocale('story')}
-                key={stage + '-audio'}
-                id={stage + '-audio'}
+                key={'audio'}
+                id={'audio'}
                 textTTS={notes[stage].notes}
                 onChange={onAudioChange}
                 audio={stageNode.newAudio ? stageNode.newAudio : (stageNode.audio ? metadata.path + '/audios/' + stageNode.audio : undefined)}/>
     <InputSwitch label={getLocale('studio-stage-control-ok')}
-                 key={stage + '-control-ok'}
-                 id={stage + '-control-ok'}
+                 key={'control-ok'}
+                 id={'control-ok'}
                  defaultValue={stageNode.control.ok}
                  ref={refOk}
                  onChange={onControlOkChange}/>
     <InputSwitch label={getLocale('studio-stage-autoplay')}
-                 key={stage + '-control-autoplay'}
-                 id={stage + '-control-autoplay'}
+                 key={'control-autoplay'}
+                 id={'control-autoplay'}
                  ref={refAutoplay}
                  defaultValue={stageNode.control.autoplay}
                  onChange={onControlAutoplayChange}/>
@@ -108,8 +108,8 @@ function StudioStageForm() {
                 height={480}
                 displayScale={0.4}
                 vertical={true}
-                key={stage + '-image'}
-                id={stage + '-image'}
+                key={'image'}
+                id={'image'}
                 onChange={onImageChange}
                 defaultValue={stageNode.newImage ? stageNode.newImage : (stageNode.image ? metadata.path + '/images/' + stageNode.image : undefined)}/>
 

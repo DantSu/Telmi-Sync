@@ -14,7 +14,7 @@ const
     if(form === 'startStage') {
       return <StudioStartStageForm/>
     }
-    return <StudioStageForm/>
+    return <StudioStageForm key={form}/>
   }
 
 function StudioForms() {

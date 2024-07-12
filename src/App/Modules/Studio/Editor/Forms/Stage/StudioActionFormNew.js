@@ -1,7 +1,6 @@
 import {useRef} from 'react'
 import {useLocale} from '../../../../../Components/Locale/LocaleHooks.js'
 import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
-import {useStudioForm} from '../../Providers/StudioStageHooks.js'
 import {addNote, addStage, addStageOption} from '../StudioNodesHelpers.js'
 import InputText from '../../../../../Components/Form/Input/InputText.js'
 import Form from '../../../../../Components/Form/Form.js'
@@ -13,7 +12,6 @@ function StudioActionFormNew({stageNode}) {
   const
     {getLocale} = useLocale(),
     {nodes} = useStudioStory(),
-    {form: stage} = useStudioForm(),
     {updateStory} = useStudioStoryUpdater(),
     countActions = stageNode.ok !== null && nodes.actions[stageNode.ok.action] !== undefined ? nodes.actions[stageNode.ok.action].length : 0,
 
@@ -33,7 +31,7 @@ function StudioActionFormNew({stageNode}) {
       (validation) => {
         return <>
           <InputText id={'action-new-stage'}
-                     key={'action-new-stage-' + stage + '-' + countActions}
+                     key={'action-new-stage-' + countActions}
                      vertical={true}
                      ref={nameRef}/>
           <ButtonIconTextPlus text={getLocale('add')}

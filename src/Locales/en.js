@@ -81,6 +81,8 @@ const en = {
   'add-display-condition': 'Add a display condition',
   'operation-to-perform': 'Operation to perform',
   'choose-scene-randomly': 'Choose the next scene randomly',
+  'undo': 'Undo',
+  'redo': 'Redo',
 
   'action-continue-to': 'Continue to :',
   'action-scene-existing': 'Existing scene',

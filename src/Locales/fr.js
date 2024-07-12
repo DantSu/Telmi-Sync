@@ -81,6 +81,8 @@ const fr = {
   'add-display-condition': 'Ajouter une condition d\'affichage',
   'operation-to-perform': 'Opération à effectuer',
   'choose-scene-randomly': 'Choisir la prochaine scène aléatoirement',
+  'undo': 'Annuler',
+  'redo': 'Rétablir',
 
   'action-continue-to': 'Continuer vers :',
   'action-scene-existing': 'Scène existante',

@@ -1,10 +1,11 @@
+import {useCallback} from 'react'
+import {useLocale} from '../../../../../Components/Locale/LocaleHooks.js'
 import {getConditionComparator} from '../StudioNodesHelpers.js'
 import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
 
-import styles from './StudioStageForm.module.scss'
 import ButtonIconTrash from '../../../../../Components/Buttons/Icons/ButtonIconTrash.js'
-import {useCallback} from 'react'
-import {useLocale} from '../../../../../Components/Locale/LocaleHooks.js'
+
+import styles from './StudioStageForm.module.scss'
 
 function StudioActionCondition({action, condition, conditionKey}) {
   const

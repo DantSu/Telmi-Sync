@@ -47,13 +47,13 @@ function StudioStageInventoryForm() {
         return <>
           <h3 className={styles.conditionTitle}>{getLocale('operation-to-perform')}:</h3>
           <div className={styles.conditionInputSmall}>
-            <InputSelect key={'inventory-update-type-' + stage + '-' + inventoryUpdate.length}
+            <InputSelect key={'inventory-update-type-' + inventoryUpdate.length}
                          options={getUpdateInventoryType().map((text, value) => ({value, text}))}
                          ref={typeRef}
                          vertical={true}/>
           </div>
           <div className={styles.conditionInputMedium}>
-            <InputText key={'inventory-update-number-' + stage + '-' + inventoryUpdate.length}
+            <InputText key={'inventory-update-number-' + inventoryUpdate.length}
                        type="number"
                        min={1}
                        step={1}
@@ -63,7 +63,7 @@ function StudioStageInventoryForm() {
                        ref={numberRef}/>
           </div>
           <div className={styles.conditionInputWide}>
-            <InputSelect key={'inventory-update-item-' + stage + '-' + inventoryUpdate.length}
+            <InputSelect key={'inventory-update-item-' + inventoryUpdate.length}
                          options={nodes.inventory.map((v) => ({value: v.id, text: v.name}))}
                          ref={itemRef}
                          vertical={true}/>

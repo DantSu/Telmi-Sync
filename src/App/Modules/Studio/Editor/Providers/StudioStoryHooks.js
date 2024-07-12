@@ -1,8 +1,9 @@
 import {useContext} from 'react'
-import {StudioStoryContext, StudioStoryUpdaterContext} from './StudioStoryContext.js'
+import {StudioStoryContext, StudioStoryUpdaterContext, StudioStoryVersionsContext} from './StudioStoryContext.js'
 
 const
   useStudioStory = () => useContext(StudioStoryContext),
-  useStudioStoryUpdater = () => useContext(StudioStoryUpdaterContext)
+  useStudioStoryUpdater = () => useContext(StudioStoryUpdaterContext),
+  useStudioStoryVersions = () => useContext(StudioStoryVersionsContext)
 
-export {useStudioStory, useStudioStoryUpdater}
+export {useStudioStory, useStudioStoryUpdater, useStudioStoryVersions}

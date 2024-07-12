@@ -1,7 +1,6 @@
 import {useRef} from 'react'
 import {useLocale} from '../../../../../Components/Locale/LocaleHooks.js'
 import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
-import {useStudioForm} from '../../Providers/StudioStageHooks.js'
 import {getConditionComparator} from '../StudioNodesHelpers.js'
 
 import Form from '../../../../../Components/Form/Form.js'
@@ -16,7 +15,6 @@ function StudioActionConditions({action, actionPosition, ...props}) {
   const
     {getLocale} = useLocale(),
     {nodes} = useStudioStory(),
-    {form: stage} = useStudioForm(),
     {updateStory} = useStudioStoryUpdater(),
 
     comparatorRef = useRef(null),
@@ -42,20 +40,19 @@ function StudioActionConditions({action, actionPosition, ...props}) {
                                                      action={action}
                                                      condition={c}
                                                      conditionKey={k}/>)}
-    <li className={styles.conditionFormContainer}
-        key={'action-condition-form-' + actionPosition + '-' + stage}>
+    <li className={styles.conditionFormContainer} key={'action-condition-form-' + actionPosition}>
       <Form className={styles.conditionForm}>{
         (validation) => {
           return <>
             <h3 className={styles.conditionTitle}>{getLocale('display-conditions')}:</h3>
             <div className={styles.conditionInputSmall}>
-              <InputSelect key={'action-condition-comparator-' + stage + '-' + actionPosition + '-' + conditions.length}
+              <InputSelect key={'action-condition-comparator-' + actionPosition + '-' + conditions.length}
                            options={getConditionComparator().map((text, value) => ({value, text}))}
                            ref={comparatorRef}
                            vertical={true}/>
             </div>
             <div className={styles.conditionInputMedium}>
-              <InputText key={'action-condition-number-' + stage + '-' + actionPosition + '-' + conditions.length}
+              <InputText key={'action-condition-number-' + actionPosition + '-' + conditions.length}
                          ref={numberRef}
                          type="number"
                          step={1}
@@ -64,7 +61,7 @@ function StudioActionConditions({action, actionPosition, ...props}) {
                          vertical={true}/>
             </div>
             <div className={styles.conditionInputWide}>
-              <InputSelect key={'action-condition-item-' + stage + '-' + actionPosition + '-' + conditions.length}
+              <InputSelect key={'action-condition-item-' + actionPosition + '-' + conditions.length}
                            ref={itemRef}
                            options={nodes.inventory.map((v) => ({value: v.id, text: v.name}))}
                            vertical={true}/>

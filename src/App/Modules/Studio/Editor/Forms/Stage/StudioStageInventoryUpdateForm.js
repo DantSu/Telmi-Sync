@@ -1,10 +1,10 @@
 import {useCallback} from 'react'
 import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
 import {useStudioForm} from '../../Providers/StudioStageHooks.js'
+import {getUpdateInventoryType} from '../StudioNodesHelpers.js'
 import ButtonIconTrash from '../../../../../Components/Buttons/Icons/ButtonIconTrash.js'
 
 import styles from './StudioStageForm.module.scss'
-import {getUpdateInventoryType} from '../StudioNodesHelpers.js'
 
 function StudioStageInventoryUpdateForm({rule, rulePosition}) {
   const 
