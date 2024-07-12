@@ -8,6 +8,7 @@ const
   FORMAT_UNKNOW = -1,
   FORMAT_STUDIO = 1,
   FORMAT_FS = 2,
+  FORMAT_TELMI = 3,
 
   findDirectory = (list) => {
     const subdirectories = {}
@@ -19,15 +20,15 @@ const
         case 'ni':
         case 'ri':
         case 'si':
-          const key = f.dir + '-' + FORMAT_FS
-          if (subdirectories[key] === undefined) {
-            subdirectories[key] = {
+          const keyFS = f.dir + '-' + FORMAT_FS
+          if (subdirectories[keyFS] === undefined) {
+            subdirectories[keyFS] = {
               dir: f.dir === '' ? null : f.dir,
               format: FORMAT_FS,
               fileCount: 1
             }
           } else {
-            subdirectories[key].fileCount++
+            subdirectories[keyFS].fileCount++
           }
           break
         case 'story.json':
@@ -36,12 +37,27 @@ const
             format: FORMAT_STUDIO
           }
           break
+        case 'metadata.json':
+        case 'nodes.json':
+        case 'title.mp3':
+        case 'title.png':
+          const keyTelmi = f.dir + '-' + FORMAT_TELMI
+          if (subdirectories[keyTelmi] === undefined) {
+            subdirectories[keyTelmi] = {
+              dir: f.dir === '' ? null : f.dir,
+              format: FORMAT_FS,
+              fileCount: 1
+            }
+          } else {
+            subdirectories[keyTelmi].fileCount++
+          }
+          break
         default:
       }
     }
 
     for (const dir of Object.values(subdirectories)) {
-      if (dir.format === FORMAT_STUDIO || (dir.format === FORMAT_FS && dir.fileCount === 4)) {
+      if (dir.format === FORMAT_STUDIO || ((dir.format === FORMAT_FS || dir.format === FORMAT_TELMI) && dir.fileCount === 4)) {
         return [dir.format, dir.dir]
       }
     }
