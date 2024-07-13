@@ -40,6 +40,18 @@ function StudioStoryProvider({storyMetadata, children}) {
       [undo, redo]
     )
 
+  useElectronListener(
+    'studio-story-data',
+    (sd) => {
+      setUndo([])
+      setRedo([])
+      setStory(sd)
+      setOriginalStory(JSON.stringify(sd))
+    },
+    []
+  )
+  useElectronEmitter('studio-story-get', [storyMetadata])
+
   useEffect(
     () => {
       if (story !== null) {
@@ -49,17 +61,6 @@ function StudioStoryProvider({storyMetadata, children}) {
     },
     [story]
   )
-
-  useElectronListener(
-    'studio-story-data',
-    (sd) => {
-      setRedo([])
-      setStory(sd)
-      setOriginalStory(JSON.stringify(sd))
-    },
-    []
-  )
-  useElectronEmitter('studio-story-get', [storyMetadata])
 
   return <StudioStoryContext.Provider value={story}>
     <StudioStoryUpdaterContext.Provider value={storyUpdater}>

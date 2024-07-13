@@ -102,11 +102,11 @@ function StudioStoryEditorLayout({closeEditor}) {
 
   useEffect(
     () => {
-      if (!hasRedo && !isStoryUpdated) {
+      if (!hasUndo && !hasRedo && !isStoryUpdated) {
         setReloadForm((i) => i + 1)
       }
     },
-    [hasRedo, isStoryUpdated, story]
+    [hasUndo, hasRedo, isStoryUpdated, story]
   )
 
   return <div className={styles.container}>
