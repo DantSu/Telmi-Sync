@@ -53,6 +53,7 @@ function StudioStoryProvider({storyMetadata, children}) {
   useElectronListener(
     'studio-story-data',
     (sd) => {
+      setRedo([])
       setStory(sd)
       setOriginalStory(JSON.stringify(sd))
     },
