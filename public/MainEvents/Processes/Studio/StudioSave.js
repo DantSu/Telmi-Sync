@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import {getProcessParams} from '../Helpers/ProcessParams.js'
-import {getStoriesPath} from '../Helpers/AppPaths.js'
+import {getExtraResourcesPath, getStoriesPath} from '../Helpers/AppPaths.js'
 import {generateDirNameStory} from '../../Helpers/Stories.js'
 import {createPathDirectories, rmFile} from '../../Helpers/Files.js'
 import {convertCoverImage, convertInventoryImages, convertStoryImages} from '../Import/Helpers/ImageFile.js'
@@ -9,8 +9,11 @@ import {convertAudios} from '../Import/Helpers/AudioFile.js'
 
 
 const
+  defaultItemImage = path.join(getExtraResourcesPath(), 'assets', 'images', 'unknow-item.png'),
+
+  isValidPath = (pathFile) => typeof pathFile === 'string' && pathFile !== '' && fs.existsSync(pathFile),
   checkNew = (dstPath, stageKey, pathFile, ext, arr) => {
-    if (pathFile === undefined) {
+    if (!isValidPath(pathFile)) {
       return arr
     }
     return {
@@ -20,13 +23,10 @@ const
   },
   checkNewImage = (dstPath, stageKey, stage, arr) => checkNew(dstPath, stageKey, stage.newImage, 'png', arr),
   checkNewAudio = (dstPath, stageKey, stage, arr) => checkNew(dstPath, stageKey, stage.newAudio, 'mp3', arr),
-  getFileName = (stageKey, file, newFile, ext) => (newFile !== undefined ? (stageKey + '.' + ext) : file) || null,
+  getFileName = (stageKey, file, newFile, ext) => (isValidPath(newFile) ? (stageKey + '.' + ext) : file) || null,
   checkExisting = (stageKey, file, newFile, ext, obj) => {
     const fileName = getFileName(stageKey, file, newFile, ext)
-    if (fileName === null) {
-      return obj
-    }
-    return {...obj, [newFile !== undefined ? (stageKey + '.' + ext) : file]: true}
+    return fileName === null ? obj : {...obj, [fileName]: true}
   },
   getImageName = (stageKey, stage) => getFileName(stageKey, stage.image, stage.newImage, 'png'),
   getAudioName = (stageKey, stage) => getFileName(stageKey, stage.audio, stage.newAudio, 'mp3'),
@@ -116,9 +116,9 @@ function main(jsonPath) {
       imageTitlePath = path.join(storyPath, 'title.png'),
       imageCoverPath = path.join(storyPath, 'cover.png'),
 
-      isNewImageTitleUploaded = typeof metadata.newImageTitle === 'string' && metadata.newImageTitle !== '',
-      isNewCoverUploaded = typeof metadata.newImageCover === 'string' && metadata.newImageCover !== '',
-      isNewAudioTitleUploaded = typeof metadata.newAudioTitle === 'string' && metadata.newAudioTitle !== '',
+      isNewImageTitleUploaded = isValidPath(metadata.newImageTitle),
+      isNewCoverUploaded = isValidPath(metadata.newImageCover),
+      isNewAudioTitleUploaded = isValidPath(metadata.newAudioTitle),
       hasCover = isNewCoverUploaded || fs.existsSync(imageCoverPath),
 
       files = Object.keys(nodes.stages).reduce(
@@ -163,11 +163,13 @@ function main(jsonPath) {
         (item, k) => {
           const imageName = 'i' + k + '.png'
           files.existingImages[imageName] = true
-          if (typeof item.newImage === 'string' && item.newImage !== '') {
+          if (isValidPath(item.newImage)) {
             files.newInventoryImages = {
               src: [...files.newInventoryImages.src, item.newImage],
               dst: [...files.newInventoryImages.dst, path.join(imagesPath, imageName)]
             }
+          } else if (!isValidPath(item.image)) {
+            fs.copyFileSync(defaultItemImage, path.join(imagesPath, imageName))
           } else if (item.image !== imageName) {
             fs.renameSync(path.join(imagesPath, item.image), path.join(imagesPath, imageName))
           }

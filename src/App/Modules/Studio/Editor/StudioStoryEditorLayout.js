@@ -1,4 +1,4 @@
-import {useCallback, useState} from 'react'
+import {useCallback, useEffect, useState} from 'react'
 import {useLocale} from '../../../Components/Locale/LocaleHooks.js'
 import {useModal} from '../../../Components/Modal/ModalHooks.js'
 import {useStudioStory, useStudioStoryUpdater, useStudioStoryVersions} from './Providers/StudioStoryHooks.js'
@@ -99,6 +99,15 @@ function StudioStoryEditorLayout({closeEditor}) {
       onRedo()
       setReloadForm((i) => i + 1)
     }
+
+  useEffect(
+    () => {
+      if (!hasRedo && !isStoryUpdated) {
+        setReloadForm((i) => i + 1)
+      }
+    },
+    [hasRedo, isStoryUpdated, story]
+  )
 
   return <div className={styles.container}>
     <div className={styles.topBar}>
