@@ -14,9 +14,9 @@ function StudioStoryProvider({storyMetadata, children}) {
           setRedo([])
           setStory(story)
         },
-        isStoryUpdated: story !== originalStory
+        isStoryUpdated: undo[0] !== originalStory
       }),
-      [story, originalStory]
+      [undo, originalStory]
     ),
     storyVersions = useMemo(
       () => ({
@@ -54,7 +54,7 @@ function StudioStoryProvider({storyMetadata, children}) {
     'studio-story-data',
     (sd) => {
       setStory(sd)
-      setOriginalStory(sd)
+      setOriginalStory(JSON.stringify(sd))
     },
     []
   )

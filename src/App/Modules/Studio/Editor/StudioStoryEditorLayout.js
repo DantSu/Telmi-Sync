@@ -82,10 +82,10 @@ function StudioStoryEditorLayout({closeEditor}) {
         if (loading) {
           return
         }
-        updateStory((sd) => ({
+        updateStory((sd) => sd.metadata.title === e.target.value ? sd : {
           ...sd,
           metadata: {...sd.metadata, title: e.target.value},
-        }))
+        })
         setReloadForm((i) => i + 1)
       },
       [loading, updateStory]

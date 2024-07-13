@@ -22,6 +22,9 @@ function StudioStageForm() {
 
     onTitleBlur = useCallback(
       (e) => updateStory((s) => {
+        if(s.notes[stage].title === e.target.value) {
+          return s
+        }
         s.notes[stage].title = e.target.value
         return {...s}
       }),
@@ -29,6 +32,9 @@ function StudioStageForm() {
     ),
     onNotesBlur = useCallback(
       (e) => updateStory((s) => {
+        if(s.notes[stage].notes === e.target.value) {
+          return s
+        }
         s.notes[stage].notes = e.target.value
         return {...s}
       }),

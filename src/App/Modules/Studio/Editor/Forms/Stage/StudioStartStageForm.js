@@ -33,6 +33,9 @@ function StudioStartStageForm() {
 
     onTitleBlur = useCallback(
       (e) => updateStory((s) => {
+        if(s.metadata.title === e.target.value) {
+          return s
+        }
         s.metadata.title = e.target.value
         return {...s}
       }),
@@ -40,6 +43,9 @@ function StudioStartStageForm() {
     ),
     onCategoryBlur = useCallback(
       (e) => updateStory((s) => {
+        if(s.metadata.category === e.target.value) {
+          return s
+        }
         s.metadata.category = e.target.value
         return {...s}
       }),
@@ -47,6 +53,9 @@ function StudioStartStageForm() {
     ),
     onAgeBlur = useCallback(
       (e) => updateStory((s) => {
+        if(s.metadata.age === e.target.value) {
+          return s
+        }
         s.metadata.age = e.target.value
         return {...s}
       }),
@@ -54,6 +63,9 @@ function StudioStartStageForm() {
     ),
     onDescriptionBlur = useCallback(
       (e) => updateStory((s) => {
+        if(s.metadata.description === e.target.value) {
+          return s
+        }
         s.metadata.description = e.target.value
         return {...s}
       }),
