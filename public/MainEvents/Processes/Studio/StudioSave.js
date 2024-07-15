@@ -168,7 +168,7 @@ function main(jsonPath) {
               src: [...files.newInventoryImages.src, item.newImage],
               dst: [...files.newInventoryImages.dst, path.join(imagesPath, imageName)]
             }
-          } else if (!isValidPath(item.image)) {
+          } else if (!isValidPath(path.join(imagesPath, item.image))) {
             fs.copyFileSync(defaultItemImage, path.join(imagesPath, imageName))
           } else if (item.image !== imageName) {
             fs.renameSync(path.join(imagesPath, item.image), path.join(imagesPath, imageName))

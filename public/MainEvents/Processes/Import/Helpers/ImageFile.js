@@ -47,8 +47,8 @@ const
     process.stdout.write('*converting-images*' + index + '*' + length + '*')
 
     convertInventoryImage(srcImage, dstImage)
-      .then(() => convertStoryImages(srcImages, dstImages, index + 1, length, onEnd))
-      .catch(() => convertStoryImages(srcImages, dstImages, index + 1, length, onEnd))
+      .then(() => convertInventoryImages(srcImages, dstImages, index + 1, length, onEnd))
+      .catch(() => convertInventoryImages(srcImages, dstImages, index + 1, length, onEnd))
   }
 
 export {

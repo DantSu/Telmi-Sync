@@ -62,7 +62,7 @@ function InputImage(
              required={required}
              id={id}
              ref={refCallback}/>
-      {imagePath && <img src={imagePath} className={styles.inputImageImg} alt=""/>}
+      {imagePath && <img src={imagePath + '?time=' + Date.now()} className={styles.inputImageImg} alt=""/>}
     </div>
   </InputLayout>
 }
