@@ -47,9 +47,25 @@ function StudioStageForm() {
       }),
       [stage, updateStory]
     ),
+    onImageDelete = useCallback(
+      () => updateStory((s) => {
+        s.nodes.stages[stage].image = null
+        delete s.nodes.stages[stage].newImage
+        return {...s}
+      }),
+      [stage, updateStory]
+    ),
     onAudioChange = useCallback(
       (path) => updateStory((s) => {
         s.nodes.stages[stage].newAudio = path
+        return {...s}
+      }),
+      [stage, updateStory]
+    ),
+    onAudioDelete = useCallback(
+      () => updateStory((s) => {
+        s.nodes.stages[stage].audio = null
+        delete s.nodes.stages[stage].newAudio
         return {...s}
       }),
       [stage, updateStory]
@@ -96,6 +112,7 @@ function StudioStageForm() {
                 id={'audio'}
                 textTTS={notes[stage].notes}
                 onChange={onAudioChange}
+                onDelete={onAudioDelete}
                 audio={stageNode.newAudio ? stageNode.newAudio : (stageNode.audio ? metadata.path + '/audios/' + stageNode.audio : undefined)}/>
     <InputSwitch label={getLocale('studio-stage-control-ok')}
                  key={'control-ok'}
@@ -117,6 +134,7 @@ function StudioStageForm() {
                 key={'image'}
                 id={'image'}
                 onChange={onImageChange}
+                onDelete={onImageDelete}
                 defaultValue={stageNode.newImage ? stageNode.newImage : (stageNode.image ? metadata.path + '/images/' + stageNode.image : undefined)}/>
 
     {Array.isArray(nodes.inventory) && <StudioStageInventoryForm/>}

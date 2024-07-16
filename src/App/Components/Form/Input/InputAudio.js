@@ -6,9 +6,10 @@ import AudioRecord from '../../Audio/AudioRecord.js'
 import AudioTTS from '../../Audio/AudioTTS.js'
 
 import styles from './Input.module.scss'
+import ButtonIconXMark from '../../Buttons/Icons/ButtonIconXMark.js'
 
 
-function InputAudio({label, id, textTTS, required, className, onChange, audio, ...props}, ref) {
+function InputAudio({label, id, textTTS, required, className, onChange, audio, onDelete, ...props}, ref) {
   const
     {getLocale} = useLocale(),
     [audioPath, setAudioPath] = useState(audio),
@@ -57,9 +58,18 @@ function InputAudio({label, id, textTTS, required, className, onChange, audio, .
                       className={styles.containerVertical}>
     <div className={styles.inputAudioContainer}>
       {
-        audioPath && <AudioPlayer audioPath={audioPath}
-                                  className={styles.inputAudioButton}
-                                  title={getLocale('listen')}/>
+        audioPath && <div className={styles.playerAudioButtonContainer}>
+          <AudioPlayer audioPath={audioPath}
+                       className={styles.playerAudioButton}
+                       title={getLocale('listen')}/>
+          {onDelete && <ButtonIconXMark className={styles.deleteButton}
+                                        rounded={true}
+                                        title={getLocale('delete-audio')}
+                                        onClick={() => {
+                                          setAudioPath(null)
+                                          typeof onDelete === 'function' && onDelete()
+                                        }}/>}
+        </div>
       }
       <AudioRecord className={styles.inputAudioButton}
                    title={getLocale('record')}

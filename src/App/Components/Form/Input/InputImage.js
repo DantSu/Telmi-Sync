@@ -3,9 +3,10 @@ import {useLocale} from '../../Locale/LocaleHooks.js'
 import InputLayout from './InputLayout.js'
 
 import styles from './Input.module.scss'
+import ButtonIconXMark from '../../Buttons/Icons/ButtonIconXMark.js'
 
 function InputImage(
-  {label, id, required, className, onChange, defaultValue, vertical, width, height, displayScale, ...props},
+  {label, id, required, className, onChange, defaultValue, vertical, width, height, displayScale, onDelete, ...props},
   ref
 ) {
   const
@@ -52,18 +53,28 @@ function InputImage(
                       required={required}
                       vertical={vertical}
                       className={vertical ? styles.containerVertical : undefined}>
-    <div className={[styles.inputImageContainer, vertical ? styles.inputImageContainerVertical : ''].join(' ')}
+    <div className={[styles.inputImageLayout, vertical ? styles.inputImageLayoutVertical : ''].join(' ')}
          style={{width: (width * displayScale) + 'px', height: (height * displayScale) + 'px'}}>
-      <input {...props}
-             type="file"
-             accept=".jpg, .jpeg, .png, .bmp, .gif"
-             onChange={onChangeCallback}
-             className={[styles.inputImage, className].join(' ')}
-             required={required}
-             id={id}
-             ref={refCallback}/>
-      {imagePath && <img src={imagePath + '?time=' + Date.now()} className={styles.inputImageImg} alt=""/>}
+      <div className={styles.inputImageContainer}>
+        <input {...props}
+               type="file"
+               accept=".jpg, .jpeg, .png, .bmp, .gif"
+               onChange={onChangeCallback}
+               className={[styles.inputImage, className].join(' ')}
+               required={required}
+               id={id}
+               ref={refCallback}/>
+        {imagePath && <img src={imagePath + '?time=' + Date.now()} className={styles.inputImageImg} alt=""/>}
+      </div>
+      {imagePath && onDelete && <ButtonIconXMark className={styles.deleteButton}
+                                                 rounded={true}
+                                                 title={getLocale('delete-image')}
+                                                 onClick={() => {
+                                                   setImagePath(null)
+                                                   typeof onDelete === 'function' && onDelete()
+                                                 }}/>}
     </div>
+
   </InputLayout>
 }
 
