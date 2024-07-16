@@ -73,6 +73,8 @@ const en = {
   'music-inactivity-time': 'Inactivity time before shutdown (Listening music)',
   'what-next': 'What\'s next ?',
   'audio-title': 'Audio title',
+  'delete-audio': 'Delete audio file',
+  'delete-image': 'Delete image file',
   'picture-cover': 'Picture cover',
   'picture-title': 'Picture title',
   'initial-number': 'Initial number',

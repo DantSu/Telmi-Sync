@@ -73,6 +73,8 @@ const fr = {
   'music-inactivity-time': 'Temps d\'inactivité avant extinction (Ecoute de musique)',
   'what-next': 'Quelle est la suite ?',
   'audio-title': 'Titre audio',
+  'delete-audio': 'Supprimer le fichier audio',
+  'delete-image': 'Supprimer l\'image',
   'picture-cover': 'Image de couverture',
   'picture-title': 'Image titre',
   'initial-number': 'Nombre initial',
