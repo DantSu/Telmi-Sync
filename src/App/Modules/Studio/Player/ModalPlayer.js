@@ -141,6 +141,11 @@ function ModalPlayer({story, onClose}) {
         (stage.newAudio || isAudioDefined(stage.audio, metadata.path))
 
       if (audio === null) {
+        if (stage.control.autoplay) {
+          const [aOptions, aIndex] = findNextAction(stage, nodes, items)
+          setActionOptions(aOptions)
+          setActionIndex(aIndex)
+        }
         return
       }
 
