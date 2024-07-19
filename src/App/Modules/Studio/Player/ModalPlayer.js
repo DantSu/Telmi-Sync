@@ -15,15 +15,8 @@ import styles from './ModalPlayer.module.scss'
 const
   checkRandomIndex = (index, options) => index === -1 ? Math.floor(Math.random() * options.length) : index,
 
-  findNextAction = (stage, nodes, items) => {
-    const action = stage === null ? nodes.startAction : stage.ok
-    if (action === null || nodes.actions[action.action] === undefined) {
-      return [[], 0]
-    }
-    const
-      options = nodes.actions[action.action],
-      index = checkRandomIndex(action.index, options)
-
+  findNextOption = (options, defaultIndex, items) => {
+    const index = defaultIndex >= options.length ? 0 : (defaultIndex < 0 ? options.length - 1 : defaultIndex)
     for (let i = 0; i < options.length; ++i) {
       const
         ci = index + i,
@@ -31,7 +24,7 @@ const
         option = options[currentIndex]
 
       if (!Array.isArray(option.conditions) || !option.conditions.length) {
-        return [options, currentIndex]
+        return currentIndex
       }
 
       const condition = option.conditions.find((c) => {
@@ -39,10 +32,22 @@ const
         return !checkConditionComparator(item.count, c.number, c.comparator)
       })
       if (condition === undefined) {
-        return [options, currentIndex]
+        return currentIndex
       }
     }
-    return [[], 0]
+    return -1
+  },
+
+  findNextAction = (stage, nodes, items) => {
+    const action = stage === null ? nodes.startAction : stage.ok
+    if (action === null || nodes.actions[action.action] === undefined) {
+      return [[], 0]
+    }
+    const
+      options = nodes.actions[action.action],
+      index = findNextOption(options, checkRandomIndex(action.index, options), items)
+
+    return index < 0 ? [[], 0] : [options, index]
   }
 
 function ModalPlayer({story, onClose}) {
@@ -109,12 +114,9 @@ function ModalPlayer({story, onClose}) {
         if (stage === undefined || stage === null || stage.control.autoplay) {
           return
         }
-        setActionIndex((i) => {
-          const index = i - 1
-          return index < 0 ? actionOptions.length - 1 : index
-        })
+        setActionIndex((i) => findNextOption(actionOptions, i - 1, items))
       },
-      [actionOptions, stage]
+      [actionOptions, items, stage]
     ),
 
     onRight = useCallback(
@@ -122,12 +124,9 @@ function ModalPlayer({story, onClose}) {
         if (stage === undefined || stage === null || stage.control.autoplay) {
           return
         }
-        setActionIndex((i) => {
-          const index = i + 1
-          return index >= actionOptions.length ? 0 : index
-        })
+        setActionIndex((i) => findNextOption(actionOptions, i + 1, items))
       },
-      [actionOptions, stage]
+      [actionOptions, items, stage]
     )
 
   useEffect(
