@@ -1,5 +1,5 @@
-import { spawn } from 'child_process'
-import { getBinPath } from '../Helpers/AppPaths.js'
+import {spawn} from 'child_process'
+import {getBinPath} from '../Helpers/AppPaths.js'
 import * as fs from 'fs'
 import {rmFile} from '../../Helpers/Files.js'
 
@@ -12,25 +12,39 @@ const
   },
   getAudioInfos = (srcFile) => {
     return new Promise((resolve, reject) => {
-      const stream = spawn(getFFmpegFilePath(), ['-i', srcFile])
+      const stream = spawn(getFFmpegFilePath(), ['-i', srcFile, '-af', 'volumedetect', '-vn', '-sn', '-dn', '-f', 'null', process.platform === 'win32' ? 'NUL' : '/dev/null'])
       let data = ''
       stream.stderr.on('data', (d) => {
         data += d.toString()
       })
       stream.on('close', () => {
-        const infos = data.toString().match(/Stream #[0-9]:[0-9]: Audio: ([A-Za-z0-9,/ ]+)/i)
+        const
+          strRes = data.toString(),
+          infos = strRes.match(/Stream #[0-9]:[0-9]: Audio: ([A-Za-z0-9_,/ ]+)/i),
+          maxVolumeMatch = strRes.match(/ max_volume: -([0-9.]+) dB/i),
+          maxVolume = maxVolumeMatch !== null ? parseFloat(maxVolumeMatch[1]) : 0
+
         if (infos === null || infos.length < 2) {
-          reject('audio-infos-not-found')
+          resolve([['unknow', 'unknow', 'unknow', 'unknow'], maxVolume])
         } else {
-          resolve(infos[1].toLowerCase().split(', '))
+          resolve([infos[1].toLowerCase().split(', '), maxVolume])
         }
       })
     })
   },
-  ffmpegAudioToMp3 = (srcFile, dstMp3) => {
+  ffmpegAudioToMp3 = (srcFile, dstMp3, maxVolume) => {
     return new Promise((resolve, reject) => {
       rmFile(dstMp3)
-      const stream = spawn(getFFmpegFilePath(), ['-i', srcFile, '-map_metadata', '-1', '-map_chapters', '-1', '-vn', '-ar', '44100', '-ac', '2', '-b:a', '192k', dstMp3])
+      const stream = spawn(getFFmpegFilePath(), [
+        '-i', srcFile,
+        '-map_metadata', '-1',
+        '-map_chapters', '-1',
+        '-vn',
+        ...(maxVolume > 0 ? ['-af', 'volume=' + maxVolume + 'dB'] : []),
+        '-ar', '44100',
+        '-ac', '2',
+        '-b:a', '192k',
+        dstMp3])
       stream.on('close', (code) => {
         if (code === 0) {
           resolve()
@@ -41,11 +55,10 @@ const
     })
   },
   convertAudioToMp3 = (srcFile, dstMp3, forceConverting) => {
-    if (!forceConverting) {
       return new Promise((resolve, reject) => {
         getAudioInfos(srcFile)
-          .then((infos) => {
-            if (infos[0] === 'mp3' && infos[1] === '44100 hz' && (infos[2] === 'stereo' || infos[2] === 'mono')) {
+          .then(([infos, maxVolume]) => {
+            if (!forceConverting && infos[0] === 'mp3' && infos[1] === '44100 hz' && (infos[2] === 'stereo' || infos[2] === 'mono')) {
               try {
                 fs.copyFileSync(srcFile, dstMp3)
                 resolve()
@@ -53,19 +66,17 @@ const
                 reject()
               }
             } else {
-              ffmpegAudioToMp3(srcFile, dstMp3)
+              ffmpegAudioToMp3(srcFile, dstMp3, maxVolume)
                 .then(() => resolve())
                 .catch(() => reject())
             }
           })
           .catch((e) => {
-            ffmpegAudioToMp3(srcFile, dstMp3)
+            ffmpegAudioToMp3(srcFile, dstMp3, 0)
               .then(() => resolve())
               .catch(() => reject())
           })
       })
-    }
-    return ffmpegAudioToMp3(srcFile, dstMp3)
   },
   convertImageToPng = (srcFile, dstPng, width, height) => {
     return new Promise((resolve, reject) => {
