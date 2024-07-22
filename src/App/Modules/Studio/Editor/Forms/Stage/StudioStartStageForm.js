@@ -11,7 +11,7 @@ import StudioActionForm from './StudioActionForm.js'
 function StudioStartStageForm() {
   const
     {getLocale} = useLocale(),
-    {metadata, nodes} = useStudioStory(),
+    {story: {metadata, nodes}, storyVersion} = useStudioStory(),
     {updateStory} = useStudioStoryUpdater(),
 
     startStageNode = useMemo(
@@ -95,18 +95,18 @@ function StudioStartStageForm() {
 
   return <>
     <InputText label={getLocale('title')}
+               key={'startStage-title-' + storyVersion + '-' + metadata.title}
                id={'startStage-title'}
-               key={'startStage-title'}
                defaultValue={metadata.title}
                onBlur={onTitleBlur}/>
     <InputText label={getLocale('category')}
+               key={'startStage-category-' + storyVersion}
                id={'startStage-category'}
-               key={'startStage-category'}
                defaultValue={metadata.category}
                onBlur={onCategoryBlur}/>
     <InputText label={getLocale('age')}
+               key={'startStage-age-' + storyVersion}
                id={'startStage-age'}
-               key={'startStage-age'}
                type="number"
                step={1}
                min={0}
@@ -114,13 +114,13 @@ function StudioStartStageForm() {
                defaultValue={metadata.age}
                onBlur={onAgeBlur}/>
     <InputTextarea label={getLocale('description')}
-                   key={'startStage-text'}
+                   key={'startStage-text-' + storyVersion}
                    id={'startStage-text'}
                    defaultValue={metadata.description}
                    onBlur={onDescriptionBlur}
                    vertical={true}/>
     <InputAudio label={getLocale('audio-title')}
-                key={'startStage-audio'}
+                key={'startStage-audio-' + storyVersion}
                 id={'startStage-audio'}
                 textTTS={metadata.title}
                 onChange={onAudioChange}
@@ -130,7 +130,7 @@ function StudioStartStageForm() {
                 height={512}
                 displayScale={0.4}
                 vertical={true}
-                key={'startStage-img-cover'}
+                key={'startStage-img-cover-' + storyVersion}
                 id={'startStage-img-cover'}
                 onChange={onImageCoverChange}
                 defaultValue={metadata.newImageCover ? metadata.newImageCover : metadata.imageCover}/>
@@ -139,7 +139,7 @@ function StudioStartStageForm() {
                 height={480}
                 displayScale={0.4}
                 vertical={true}
-                key={'startStage-img-title'}
+                key={'startStage-img-title-' + storyVersion}
                 id={'startStage-img-title'}
                 onChange={onImageTitleChange}
                 defaultValue={metadata.newImageTitle ? metadata.newImageTitle : metadata.imageTitle}/>

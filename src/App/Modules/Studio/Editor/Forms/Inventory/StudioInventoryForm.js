@@ -9,7 +9,7 @@ import styles from './StudioInventoryForm.module.scss'
 function StudioInventoryForm() {
   const
     {getLocale} = useLocale(),
-    {nodes} = useStudioStory()
+    {story: {nodes}} = useStudioStory()
 
   return <>
     <ul>{

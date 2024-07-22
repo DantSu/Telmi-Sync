@@ -16,7 +16,7 @@ function StudioStageInventoryForm() {
   const
     {getLocale} = useLocale(),
     {form: stage} = useStudioForm(),
-    {nodes} = useStudioStory(),
+    {story: {nodes}, storyVersion} = useStudioStory(),
     {updateStory} = useStudioStoryUpdater(),
     stageNode = nodes.stages[stage],
     numberRef = useRef(null),
@@ -45,31 +45,31 @@ function StudioStageInventoryForm() {
     <Form className={styles.conditionForm}>{
       (validation) => {
         return <>
-          <h3 className={styles.conditionTitle}>{getLocale('operation-to-perform')}:</h3>
+          <h3 className={styles.conditionTitle}>{getLocale('add-operation')}:</h3>
           <div className={styles.conditionInputSmall}>
-            <InputSelect key={'inventory-update-type-' + inventoryUpdate.length}
+            <InputSelect key={'inventory-update-type-' + storyVersion + '-' + stage + '-' + inventoryUpdate.length}
                          options={getUpdateInventoryType().map((text, value) => ({value, text}))}
                          ref={typeRef}
                          vertical={true}/>
           </div>
           <div className={styles.conditionInputMedium}>
-            <InputText key={'inventory-update-number-' + inventoryUpdate.length}
+            <InputText key={'inventory-update-number-' + storyVersion + '-' + stage + '-' + inventoryUpdate.length}
                        type="number"
-                       min={1}
+                       min={0}
                        step={1}
-                       defaultValue={1}
+                       defaultValue={0}
                        required={true}
                        vertical={true}
                        ref={numberRef}/>
           </div>
           <div className={styles.conditionInputWide}>
-            <InputSelect key={'inventory-update-item-' + inventoryUpdate.length}
+            <InputSelect key={'inventory-update-item-' + storyVersion + '-' + stage + '-' + inventoryUpdate.length}
                          options={nodes.inventory.map((v) => ({value: v.id, text: v.name}))}
                          ref={itemRef}
                          vertical={true}/>
           </div>
           <ButtonIconPlus rounded={true}
-                          title={getLocale('add')}
+                          title={getLocale('add-operation-to-perform')}
                           onClick={() => validation([numberRef, itemRef, typeRef], onValidate)}/>
         </>
       }

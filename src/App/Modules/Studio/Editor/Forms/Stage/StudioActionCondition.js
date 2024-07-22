@@ -10,7 +10,7 @@ import styles from './StudioStageForm.module.scss'
 function StudioActionCondition({action, condition, conditionKey}) {
   const
     {getLocale} = useLocale(),
-    {nodes} = useStudioStory(),
+    {story: {nodes}} = useStudioStory(),
     {updateStory} = useStudioStoryUpdater(),
     item = nodes.inventory.find((v) => v.id === condition.item),
     onDelete = useCallback(

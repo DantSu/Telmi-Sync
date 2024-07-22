@@ -1,7 +1,10 @@
 import {createContext} from 'react'
 
 const
-  StudioStoryContext = createContext(null),
+  StudioStoryContext = createContext({
+    story:null,
+    storyVersion: 0
+  }),
   StudioStoryUpdaterContext = createContext({
     updateStory: (story) => {},
     isStoryUpdated: false

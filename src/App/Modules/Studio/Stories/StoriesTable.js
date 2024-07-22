@@ -41,7 +41,7 @@ function StudioStoriesTable({setStory}) {
            onEdit={onEdit}
            onAdd={onAdd}
            onPlay={onPlay}
-           isLoading={!tableStories.length}/>
+           isLoading={false}/>
   </AppContainer>
 }
 

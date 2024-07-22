@@ -8,6 +8,11 @@ function StudioStoryProvider({storyMetadata, children}) {
     [redo, setRedo] = useState([]),
     [originalStory, setOriginalStory] = useState(null),
     [story, setStory] = useState(null),
+    [storyVersion, setStoryVersion] = useState(0),
+    storyData = useMemo(
+      () => ({story, storyVersion}),
+      [story, storyVersion]
+    ),
     storyUpdater = useMemo(
       () => ({
         updateStory: (story) => {
@@ -23,6 +28,7 @@ function StudioStoryProvider({storyMetadata, children}) {
         onUndo: () => {
           if (undo.length > 1) {
             setStory(JSON.parse(undo[1]))
+            setStoryVersion(v => v + 1)
             setUndo(undo.slice(1))
             setRedo((r) => [undo[0], ...r])
           }
@@ -30,6 +36,7 @@ function StudioStoryProvider({storyMetadata, children}) {
         onRedo: () => {
           if (redo.length > 0) {
             setStory(JSON.parse(redo[0]))
+            setStoryVersion(v => v + 1)
             setUndo((u) => [redo[0], ...u])
             setRedo(redo.slice(1))
           }
@@ -46,6 +53,7 @@ function StudioStoryProvider({storyMetadata, children}) {
       setUndo([])
       setRedo([])
       setStory(sd)
+      setStoryVersion(0)
       setOriginalStory(JSON.stringify(sd))
     },
     []
@@ -62,7 +70,7 @@ function StudioStoryProvider({storyMetadata, children}) {
     [story]
   )
 
-  return <StudioStoryContext.Provider value={story}>
+  return <StudioStoryContext.Provider value={storyData}>
     <StudioStoryUpdaterContext.Provider value={storyUpdater}>
       <StudioStoryVersionsContext.Provider value={storyVersions}>
         {children}

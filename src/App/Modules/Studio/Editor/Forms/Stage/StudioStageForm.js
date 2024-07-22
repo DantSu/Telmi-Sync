@@ -15,7 +15,7 @@ function StudioStageForm() {
   const
     {getLocale} = useLocale(),
     {form: stage} = useStudioForm(),
-    {metadata, nodes, notes} = useStudioStory(),
+    {story: {metadata, nodes, notes}, storyVersion} = useStudioStory(),
     {updateStory} = useStudioStoryUpdater(),
     note = notes[stage],
     stageNode = nodes.stages[stage],
@@ -98,30 +98,30 @@ function StudioStageForm() {
   return <>
     <InputText label={getLocale('title')}
                id={'title'}
-               key={'title'}
+               key={'title-' + storyVersion + '-' + stage}
                defaultValue={note.title}
                onBlur={onTitleBlur}/>
     <InputTextarea label={getLocale('text')}
-                   key={'text'}
+                   key={'text-' + storyVersion + '-' + stage}
                    id={'text'}
                    defaultValue={note.notes}
                    onBlur={onNotesBlur}
                    vertical={true}/>
     <InputAudio label={getLocale('story')}
-                key={'audio'}
+                key={'audio-' + storyVersion + '-' + stage}
                 id={'audio'}
                 textTTS={notes[stage].notes}
                 onChange={onAudioChange}
                 onDelete={onAudioDelete}
                 audio={stageNode.newAudio ? stageNode.newAudio : (stageNode.audio ? metadata.path + '/audios/' + stageNode.audio : undefined)}/>
     <InputSwitch label={getLocale('studio-stage-control-ok')}
-                 key={'control-ok'}
+                 key={'control-ok-' + storyVersion + '-' + stage}
                  id={'control-ok'}
                  defaultValue={stageNode.control.ok}
                  ref={refOk}
                  onChange={onControlOkChange}/>
     <InputSwitch label={getLocale('studio-stage-autoplay')}
-                 key={'control-autoplay'}
+                 key={'control-autoplay-' + storyVersion + '-' + stage}
                  id={'control-autoplay'}
                  ref={refAutoplay}
                  defaultValue={stageNode.control.autoplay}
@@ -131,7 +131,7 @@ function StudioStageForm() {
                 height={480}
                 displayScale={0.4}
                 vertical={true}
-                key={'image'}
+                key={'image-' + storyVersion + '-' + stage}
                 id={'image'}
                 onChange={onImageChange}
                 onDelete={onImageDelete}

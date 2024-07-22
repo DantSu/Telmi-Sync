@@ -24,7 +24,7 @@ const
           }
         }
 
-        if (stagesSize[a.stage].stageParent !== stageParent) {
+        if (stagesSize[a.stage].stageParent !== stageParent || stagesSize[a.stage].posX !== undefined) {
           return acc + nodeWidth
         }
 
@@ -140,7 +140,7 @@ const
             [actionFromId, actionFromKey] = actionFrom.split('-')
 
           actionsPos[actionFrom] = {
-            x: actionsSize[actionFrom].posX + actionWidth / 2 + margin,
+            x: actionsSize[actionFrom].posX + (newStage ? actionWidth : nodeWidth) / 2 + margin,
             y: (actionsSize[actionFrom].lvl + 0.5) * nodeHeight + margin
           }
 
@@ -199,7 +199,7 @@ const
 
 function StudioStoryEditorGraph() {
   const
-    {nodes} = useStudioStory(),
+    {story: {nodes}} = useStudioStory(),
     {lines, stages, actions} = useMemo(() => getNodes(nodes), [nodes])
   return <SVGLayout observer={nodes}>
     {lines}

@@ -12,7 +12,7 @@ import styles from './StudioInventoryForm.module.scss'
 function StudioInventoryItem({itemKey}) {
   const
     [displayForm, setDisplayForm] = useState(false),
-    {nodes} = useStudioStory(),
+    {story: {nodes}} = useStudioStory(),
     {updateStory} = useStudioStoryUpdater(),
     item = nodes.inventory[itemKey],
 

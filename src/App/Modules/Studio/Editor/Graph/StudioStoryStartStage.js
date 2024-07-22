@@ -8,7 +8,7 @@ const stageId = 'startStage'
 
 function StudioStoryStartStage({x, y}) {
   const
-    {metadata} = useStudioStory(),
+    {story: {metadata}} = useStudioStory(),
     {form: stage, setForm} = useStudioForm(),
     onClick = useCallback(() => setForm((s) => s === stageId ? null : stageId), [setForm])
 

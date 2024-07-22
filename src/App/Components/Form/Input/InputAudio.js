@@ -9,7 +9,7 @@ import styles from './Input.module.scss'
 import ButtonIconXMark from '../../Buttons/Icons/ButtonIconXMark.js'
 
 
-function InputAudio({label, id, textTTS, required, className, onChange, audio, onDelete, ...props}, ref) {
+function InputAudio({label, id, textTTS, required, className, onChange, onDragOver, onDrop, audio, onDelete, ...props}, ref) {
   const
     {getLocale} = useLocale(),
     [audioPath, setAudioPath] = useState(audio),
@@ -30,6 +30,20 @@ function InputAudio({label, id, textTTS, required, className, onChange, audio, o
         }
       },
       [onChange]
+    ),
+    onDragOverCallback = useCallback(
+      (e) => {
+        e.stopPropagation()
+        typeof onDragOver === 'function' && onDragOver(e)
+      },
+      [onDragOver]
+    ),
+    onDropCallback = useCallback(
+      (e) => {
+        e.stopPropagation()
+        typeof onDrop === 'function' && onDrop(e)
+      },
+      [onDrop]
     ),
     refCallback = useCallback(
       (r) => {
@@ -83,6 +97,8 @@ function InputAudio({label, id, textTTS, required, className, onChange, audio, o
                type="file"
                accept=".mp3, .ogg, .flac, .wav, .wma, .mp4a"
                onChange={onChangeCallback}
+               onDragOver={onDragOverCallback}
+               onDrop={onDropCallback}
                className={[styles.inputAudio, className].join(' ')}
                required={required}
                id={id}

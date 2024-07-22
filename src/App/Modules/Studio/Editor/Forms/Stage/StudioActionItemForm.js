@@ -13,7 +13,7 @@ import styles from './StudioStageForm.module.scss'
 function StudioActionItemForm({stageNode, action, actionPosition}) {
   const
     {getLocale} = useLocale(),
-    {notes, nodes} = useStudioStory(),
+    {story: {notes, nodes}} = useStudioStory(),
     {updateStory} = useStudioStoryUpdater(),
     note = notes[action.stage],
 

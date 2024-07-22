@@ -14,7 +14,7 @@ import InputSelect from '../../../../../Components/Form/Input/InputSelect.js'
 
 function StudioInventoryItemForm({itemKey, onValidate}) {
   const
-    {metadata, nodes} = useStudioStory(),
+    {story: {metadata, nodes}, storyVersion} = useStudioStory(),
     {updateStory} = useStudioStoryUpdater(),
     {getLocale} = useLocale(),
     isSetInventory = Array.isArray(nodes.inventory),
@@ -37,29 +37,31 @@ function StudioInventoryItemForm({itemKey, onValidate}) {
   return <Form>{
     (validation) => {
       return <>
-        <InputText key={'studio-inventory-name-' + inputKey}
+        <InputText key={'studio-inventory-name-' + storyVersion + '-' + inputKey}
                    id="studio-inventory-name"
                    label={getLocale('name')}
                    ref={nameRef}
                    defaultValue={item.name}
                    required={true}/>
-        <InputText key={'studio-inventory-number-' + inputKey}
+        <InputText key={'studio-inventory-number-' + storyVersion + '-' + inputKey}
                    id="studio-inventory-number"
                    defaultValue={item.initialNumber}
                    ref={initialNumberRef}
                    type="number"
                    step={1}
+                   min={0}
                    label={getLocale('initial-number')}
                    required={true}/>
-        <InputText key={'studio-inventory-max-number-' + inputKey}
+        <InputText key={'studio-inventory-max-number-' + storyVersion + '-' + inputKey}
                    id="studio-inventory-max-number"
                    defaultValue={item.maxNumber}
                    ref={maxNumberRef}
                    type="number"
                    step={1}
+                   min={1}
                    label={getLocale('max-number')}
                    required={true}/>
-        <InputSelect key={'studio-inventory-display-' + inputKey}
+        <InputSelect key={'studio-inventory-display-' + storyVersion + '-' + inputKey}
                      id="studio-display-bar"
                      defaultValue={item.display}
                      ref={displayRef}
@@ -69,7 +71,7 @@ function StudioInventoryItemForm({itemKey, onValidate}) {
                        {value: 2, text: getLocale('display-none')}
                      ]}
                      label={getLocale('display')}/>
-        <InputImage key={'studio-inventory-image-' + inputKey}
+        <InputImage key={'studio-inventory-image-' + storyVersion + '-' + inputKey}
                     id="studio-inventory-image"
                     defaultValue={item.newImage || (item.image ? metadata.path + '/images/' + item.image : undefined)}
                     ref={imageRef}

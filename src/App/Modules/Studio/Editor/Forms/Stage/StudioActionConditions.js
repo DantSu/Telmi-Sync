@@ -1,5 +1,6 @@
 import {useRef} from 'react'
 import {useLocale} from '../../../../../Components/Locale/LocaleHooks.js'
+import {useStudioForm} from '../../Providers/StudioStageHooks.js'
 import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
 import {getConditionComparator} from '../StudioNodesHelpers.js'
 
@@ -14,7 +15,8 @@ import styles from './StudioStageForm.module.scss'
 function StudioActionConditions({action, actionPosition, ...props}) {
   const
     {getLocale} = useLocale(),
-    {nodes} = useStudioStory(),
+    {form: stage} = useStudioForm(),
+    {story: {nodes}, storyVersion} = useStudioStory(),
     {updateStory} = useStudioStoryUpdater(),
 
     comparatorRef = useRef(null),
@@ -44,27 +46,31 @@ function StudioActionConditions({action, actionPosition, ...props}) {
       <Form className={styles.conditionForm}>{
         (validation) => {
           return <>
-            <h3 className={styles.conditionTitle}>{getLocale('display-conditions')}:</h3>
+            <h3 className={styles.conditionTitle}>{getLocale('add-condition')}:</h3>
             <div className={styles.conditionInputSmall}>
-              <InputSelect key={'action-condition-comparator-' + actionPosition + '-' + conditions.length}
-                           options={getConditionComparator().map((text, value) => ({value, text}))}
-                           ref={comparatorRef}
-                           vertical={true}/>
+              <InputSelect
+                key={'action-condition-comparator-' + storyVersion + '-' + stage + '-' + actionPosition + '-' + conditions.length}
+                options={getConditionComparator().map((text, value) => ({value, text}))}
+                ref={comparatorRef}
+                vertical={true}/>
             </div>
             <div className={styles.conditionInputMedium}>
-              <InputText key={'action-condition-number-' + actionPosition + '-' + conditions.length}
-                         ref={numberRef}
-                         type="number"
-                         step={1}
-                         defaultValue={0}
-                         required={true}
-                         vertical={true}/>
+              <InputText
+                key={'action-condition-number-' + storyVersion + '-' + stage + '-' + actionPosition + '-' + conditions.length}
+                ref={numberRef}
+                type="number"
+                step={1}
+                min={0}
+                defaultValue={0}
+                required={true}
+                vertical={true}/>
             </div>
             <div className={styles.conditionInputWide}>
-              <InputSelect key={'action-condition-item-' + actionPosition + '-' + conditions.length}
-                           ref={itemRef}
-                           options={nodes.inventory.map((v) => ({value: v.id, text: v.name}))}
-                           vertical={true}/>
+              <InputSelect
+                key={'action-condition-item-' + storyVersion + '-' + stage + '-' + actionPosition + '-' + conditions.length}
+                ref={itemRef}
+                options={nodes.inventory.map((v) => ({value: v.id, text: v.name}))}
+                vertical={true}/>
             </div>
             <ButtonIconPlus rounded={true}
                             title={getLocale('add-display-condition')}

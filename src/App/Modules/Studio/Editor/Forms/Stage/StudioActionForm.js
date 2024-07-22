@@ -14,7 +14,7 @@ import styles from './StudioStageForm.module.scss'
 function StudioActionForm({stageNode}) {
   const
     {getLocale} = useLocale(),
-    {nodes} = useStudioStory(),
+    {story: {nodes}, storyVersion} = useStudioStory(),
     {form: stage} = useStudioForm(),
     {updateStory} = useStudioStoryUpdater(),
     randomRef = useRef(),
@@ -39,7 +39,7 @@ function StudioActionForm({stageNode}) {
   return <div className={styles.actionContainer}>
     <h2 className={styles.actionTitle}>{getLocale('what-next')}</h2>
     <InputSwitch id={'action-default-index'}
-                 key={'action-default-index-' + stage}
+                 key={'action-default-index-' + storyVersion + '-' + stage}
                  ref={randomRef}
                  label={getLocale('choose-scene-randomly')}
                  onChange={onActionIndexRandomChange}

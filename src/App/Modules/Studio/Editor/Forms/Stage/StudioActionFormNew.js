@@ -11,7 +11,7 @@ import styles from './StudioStageForm.module.scss'
 function StudioActionFormNew({stageNode}) {
   const
     {getLocale} = useLocale(),
-    {nodes} = useStudioStory(),
+    {story: {nodes}, storyVersion} = useStudioStory(),
     {updateStory} = useStudioStoryUpdater(),
     countActions = stageNode.ok !== null && nodes.actions[stageNode.ok.action] !== undefined ? nodes.actions[stageNode.ok.action].length : 0,
 
@@ -31,7 +31,7 @@ function StudioActionFormNew({stageNode}) {
       (validation) => {
         return <>
           <InputText id={'action-new-stage'}
-                     key={'action-new-stage-' + countActions}
+                     key={'action-new-stage-' + storyVersion + '-' + countActions}
                      vertical={true}
                      ref={nameRef}/>
           <ButtonIconTextPlus text={getLocale('add')}

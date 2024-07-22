@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from 'react'
+import {useCallback} from 'react'
 import {useLocale} from '../../../Components/Locale/LocaleHooks.js'
 import {useModal} from '../../../Components/Modal/ModalHooks.js'
 import {useStudioStory, useStudioStoryUpdater, useStudioStoryVersions} from './Providers/StudioStoryHooks.js'
@@ -22,11 +22,10 @@ import styles from './StudioStoryEditor.module.scss'
 
 function StudioStoryEditorLayout({closeEditor}) {
   const
-    [reloadForm, setReloadForm] = useState(0),
     {getLocale} = useLocale(),
     {addModal, rmModal} = useModal(),
     {setForm} = useStudioForm(),
-    story = useStudioStory(),
+    {story, storyVersion} = useStudioStory(),
     {updateStory, isStoryUpdated} = useStudioStoryUpdater(),
     {onUndo, onRedo, hasUndo, hasRedo} = useStudioStoryVersions(),
     loading = story === null,
@@ -86,34 +85,17 @@ function StudioStoryEditorLayout({closeEditor}) {
           ...sd,
           metadata: {...sd.metadata, title: e.target.value},
         })
-        setReloadForm((i) => i + 1)
       },
       [loading, updateStory]
     ),
 
-    onUndoClick = () => {
-      onUndo()
-      setReloadForm((i) => i + 1)
-    },
-    onRedoClick = () => {
-      onRedo()
-      setReloadForm((i) => i + 1)
-    }
-
-  useEffect(
-    () => {
-      if (!hasUndo && !hasRedo && !isStoryUpdated) {
-        setReloadForm((i) => i + 1)
-      }
-    },
-    [hasUndo, hasRedo, isStoryUpdated, story]
-  )
+    storyTitle = !loading ? story.metadata.title : ''
 
   return <div className={styles.container}>
     <div className={styles.topBar}>
       <input type="text"
-             key={'metadata-title-' + reloadForm}
-             defaultValue={!loading ? story.metadata.title : ''}
+             key={'metadata-title-' + storyVersion + '-' + storyTitle}
+             defaultValue={storyTitle}
              className={styles.titleInput}
              onBlur={onTitleBlur}/>
       <ul className={styles.topBarButtons}>
@@ -122,13 +104,13 @@ function StudioStoryEditorLayout({closeEditor}) {
             <ButtonIconUndo
               className={[styles.topBarButton, !hasUndo ? styles.topBarButtonDisabled : ''].join(' ')}
               title={getLocale('undo')}
-              onClick={onUndoClick}/>
+              onClick={onUndo}/>
           </li>
           <li>
             <ButtonIconRedo
               className={[styles.topBarButton, !hasRedo ? styles.topBarButtonDisabled : ''].join(' ')}
               title={getLocale('redo')}
-              onClick={onRedoClick}/>
+              onClick={onRedo}/>
           </li>
           <li>
             <ButtonIconToolbox className={styles.topBarButton}
@@ -157,7 +139,7 @@ function StudioStoryEditorLayout({closeEditor}) {
     <div className={styles.content}>{
       loading ? <Loader/> : <>
         <StudioStoryEditorGraphContainer/>
-        <StudioForms key={'studio-form-' + reloadForm}/>
+        <StudioForms/>
       </>
     }
     </div>

@@ -8,7 +8,7 @@ import styles from './StudioStageForm.module.scss'
 
 function StudioStageInventoryUpdateForm({rule, rulePosition}) {
   const 
-    {nodes} = useStudioStory(),
+    {story: {nodes}} = useStudioStory(),
     {form: stage} = useStudioForm(),
     {updateStory} = useStudioStoryUpdater(),
     parentStage = nodes.stages[stage],

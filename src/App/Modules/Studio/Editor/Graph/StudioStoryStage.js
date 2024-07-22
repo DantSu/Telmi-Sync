@@ -6,7 +6,7 @@ import StudioStoryNodeStage from './StudioStoryNodeStage.js'
 
 function StudioStoryStage({stageId, x, y}) {
   const
-    {nodes, notes, metadata} = useStudioStory(),
+    {story: {nodes, notes, metadata}} = useStudioStory(),
     {form: stage, setForm} = useStudioForm(),
     currentStage = nodes.stages[stageId],
     onMouseDown = useCallback((e) => e.stopPropagation(), []),

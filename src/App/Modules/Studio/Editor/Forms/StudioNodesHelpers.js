@@ -66,7 +66,7 @@ const
     notes[stageId] = {title: title || stageId, text: ''}
     return {...notes}
   },
-  getConditionComparator = () => (['<', '<=', '=', '>', '>=']),
+  getConditionComparator = () => (['<', '<=', '=', '>', '>=', '!=']),
   checkConditionComparator = (itemCount, conditionNumber, conditionComparator) => {
     switch (conditionComparator) {
       case 0:
@@ -79,6 +79,8 @@ const
         return itemCount > conditionNumber
       case 4:
         return itemCount >= conditionNumber
+      case 5:
+        return itemCount !== conditionNumber
       default:
         return false
     }

@@ -6,7 +6,7 @@ import styles from './Input.module.scss'
 import ButtonIconXMark from '../../Buttons/Icons/ButtonIconXMark.js'
 
 function InputImage(
-  {label, id, required, className, onChange, defaultValue, vertical, width, height, displayScale, onDelete, ...props},
+  {label, id, required, className, onChange, onDragOver, onDrop, defaultValue, vertical, width, height, displayScale, onDelete, ...props},
   ref
 ) {
   const
@@ -22,6 +22,20 @@ function InputImage(
         }
       },
       [onChange]
+    ),
+    onDragOverCallback = useCallback(
+      (e) => {
+        e.stopPropagation()
+        typeof onDragOver === 'function' && onDragOver(e)
+      },
+      [onDragOver]
+    ),
+    onDropCallback = useCallback(
+      (e) => {
+        e.stopPropagation()
+        typeof onDrop === 'function' && onDrop(e)
+      },
+      [onDrop]
     ),
     refCallback = useCallback(
       (r) => {
@@ -60,6 +74,8 @@ function InputImage(
                type="file"
                accept=".jpg, .jpeg, .png, .bmp, .gif"
                onChange={onChangeCallback}
+               onDragOver={onDragOverCallback}
+               onDrop={onDropCallback}
                className={[styles.inputImage, className].join(' ')}
                required={required}
                id={id}
