@@ -1,15 +1,19 @@
 import {useCallback} from 'react'
 
-function SVGLayout({observer, children}) {
+function SVGLayout({observer, scale, children}) {
   const callback = useCallback(
     (el) => {
       if (el !== null) {
-        const bbox = el.getBBox()
-        el.setAttribute("width", bbox.x + bbox.width + 100)
-        el.setAttribute("height", bbox.y + bbox.height + 100)
+        const
+          bbox = el.getBBox(),
+          width = bbox.x + bbox.width + 100,
+          height = bbox.y + bbox.height + 100
+        el.setAttribute('width', (width * (scale || 1)) + 'px')
+        el.setAttribute('height', (height * (scale || 1)) + 'px')
+        el.setAttribute('viewBox', '0 0 ' + width + ' ' + height)
       }
     },
-    [observer]
+    [scale, observer]
   )
   return <svg ref={callback}>{children}</svg>
 }

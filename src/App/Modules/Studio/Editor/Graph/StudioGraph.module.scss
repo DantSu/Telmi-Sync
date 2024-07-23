@@ -5,8 +5,29 @@
   flex: 1;
 }
 
+.zoomContainer {
+  position: absolute;
+  z-index: 2;
+  top: 10px;
+  right: 15px;
+  border-radius: 15px;
+  background: $blueDark;
+}
+.zoomText {
+  text-align: center;
+  border-bottom: 1px solid $white30;
+  padding: 4px 0;
+}
+.zoomButton, .zoomButtonDisabled {
+  padding: 7px;
+}
+.zoomButtonDisabled, .zoomButtonDisabled:hover {
+  color: $white20;
+}
+
 .graph {
   position: absolute;
+  z-index: 1;
   left: 0;
   right: 0;
   top: 0;

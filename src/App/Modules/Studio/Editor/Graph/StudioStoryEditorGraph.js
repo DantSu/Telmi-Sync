@@ -1,4 +1,4 @@
-import {useMemo} from 'react'
+import {useMemo, useState} from 'react'
 import {useStudioStory} from '../Providers/StudioStoryHooks.js'
 
 import SVGLayout from '../../../../Components/SVG/SVGLayout.js'
@@ -197,11 +197,12 @@ const
     return components
   }
 
-function StudioStoryEditorGraph() {
+function StudioStoryEditorGraph({scale}) {
   const
     {story: {nodes}} = useStudioStory(),
     {lines, stages, actions} = useMemo(() => getNodes(nodes), [nodes])
-  return <SVGLayout observer={nodes}>
+
+  return <SVGLayout observer={nodes} scale={scale}>
     {lines}
     {stages}
     {actions}
