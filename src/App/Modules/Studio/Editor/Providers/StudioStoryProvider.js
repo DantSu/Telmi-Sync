@@ -28,7 +28,7 @@ function StudioStoryProvider({storyMetadata, children}) {
         onUndo: () => {
           if (undo.length > 1) {
             setStory(JSON.parse(undo[1]))
-            setStoryVersion(v => v + 1)
+            setStoryVersion((v) => v + 1)
             setUndo(undo.slice(1))
             setRedo((r) => [undo[0], ...r])
           }
@@ -36,7 +36,7 @@ function StudioStoryProvider({storyMetadata, children}) {
         onRedo: () => {
           if (redo.length > 0) {
             setStory(JSON.parse(redo[0]))
-            setStoryVersion(v => v + 1)
+            setStoryVersion((v) => v + 1)
             setUndo((u) => [redo[0], ...u])
             setRedo(redo.slice(1))
           }
@@ -53,7 +53,7 @@ function StudioStoryProvider({storyMetadata, children}) {
       setUndo([])
       setRedo([])
       setStory(sd)
-      setStoryVersion(0)
+      setStoryVersion((v) => v + 1)
       setOriginalStory(JSON.stringify(sd))
     },
     []

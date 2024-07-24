@@ -78,8 +78,7 @@ function StudioInventoryItemForm({itemKey, onValidate}) {
                     label={getLocale('picture')}
                     width={128}
                     height={128}
-                    displayScale={0.5}
-                    required={true}/>
+                    displayScale={0.5}/>
         <ButtonsContainer>
           <ButtonValidation text={getLocale(itemKey === -1 ? 'add' : 'save')}
                             rounded={true}

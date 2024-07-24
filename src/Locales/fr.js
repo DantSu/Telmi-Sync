@@ -88,6 +88,8 @@ const fr = {
   'choose-scene-randomly': 'Choisir la prochaine scène aléatoirement',
   'undo': 'Annuler',
   'redo': 'Rétablir',
+  'zoom-in': 'Zoom avant',
+  'zoom-out': 'Zoom arrière',
 
   'action-continue-to': 'Continuer vers :',
   'action-scene-existing': 'Scène existante',

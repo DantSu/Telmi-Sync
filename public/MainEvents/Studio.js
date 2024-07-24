@@ -117,7 +117,15 @@ function mainEventStudio(mainWindow) {
     'studio-story-save',
     async (event, storyData) => {
       const
-        isNewStory = storyData.metadata.path === undefined,
+        storiesPath = getStoriesPath(),
+        newStoryDirectory = generateDirNameStory(
+          storyData.metadata.title,
+          storyData.metadata.uuid,
+          storyData.metadata.age,
+          storyData.metadata.category
+        ),
+        newStoryPath = path.join(storiesPath, newStoryDirectory),
+        isStoryDirectoryChange = storyData.metadata.path !== newStoryPath,
         jsonPath = path.join(initTmpPath('json'), 'story.json')
       fs.writeFileSync(jsonPath, JSON.stringify(storyData))
       runProcess(
@@ -125,20 +133,8 @@ function mainEventStudio(mainWindow) {
         [jsonPath],
         () => {
           mainWindow.webContents.send('studio-story-save-task', '', '', 0, 0)
-          isNewStory && ipcMain.emit('local-stories-get')
-          ipcMain.emit(
-            'studio-story-get',
-            event,
-            readStoryMetadata(
-              getStoriesPath(),
-              generateDirNameStory(
-                storyData.metadata.title,
-                storyData.metadata.uuid,
-                storyData.metadata.age,
-                storyData.metadata.category
-              )
-            )
-          )
+          ipcMain.emit('studio-story-get', event, readStoryMetadata(storiesPath, newStoryDirectory))
+          isStoryDirectoryChange && ipcMain.emit('local-stories-get')
         },
         (message, current, total) => {
           mainWindow.webContents.send('studio-story-save-task', 'story-saving', message, current, total)
