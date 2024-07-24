@@ -74,6 +74,8 @@ const en = {
   'what-next': 'What\'s next ?',
   'audio-title': 'Audio title',
   'delete-audio': 'Delete audio file',
+  'no-audio-file':'No audio file',
+  'press-a-to-go-next': 'Press A to go next',
   'delete-image': 'Delete image file',
   'picture-cover': 'Picture cover',
   'picture-title': 'Picture title',

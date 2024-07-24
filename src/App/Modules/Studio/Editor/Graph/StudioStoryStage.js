@@ -1,6 +1,7 @@
 import {useCallback} from 'react'
 import {useStudioStory} from '../Providers/StudioStoryHooks.js'
 import {useStudioForm} from '../Providers/StudioStageHooks.js'
+import {getUpdateInventoryType} from '../Forms/StudioNodesHelpers.js'
 
 import StudioStoryNodeStage from './StudioStoryNodeStage.js'
 
@@ -26,9 +27,17 @@ function StudioStoryStage({stageId, x, y}) {
         setForm((s) => s === stageId ? null : stageId)
       },
       [stageId, setForm]
-    )
+    ),
+    inventoryUpdate = Array.isArray(currentStage.items) ?
+      currentStage.items.map((rule) => {
+        const item = nodes.inventory.find((v) => v.id === rule.item)
+        return getUpdateInventoryType()[rule.type] + rule.number + ' ' + item.name
+      }).join('\n') : undefined
+
   return <StudioStoryNodeStage
     image={currentStage.newImage || (currentStage.image ? metadata.path + '/images/' + currentStage.image : undefined)}
+    audio={currentStage.newAudio || (currentStage.audio ? metadata.path + '/audios/' + currentStage.audio : undefined)}
+    inventoryUpdate={inventoryUpdate}
     title={notes[stageId].title}
     isSelected={stage === stageId}
     onClick={onClick}

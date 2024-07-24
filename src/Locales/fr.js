@@ -74,6 +74,8 @@ const fr = {
   'what-next': 'Quelle est la suite ?',
   'audio-title': 'Titre audio',
   'delete-audio': 'Supprimer le fichier audio',
+  'no-audio-file':'Pas de fichier audio',
+  'press-a-to-go-next': 'Appui A pour aller à la scène suivante',
   'delete-image': 'Supprimer l\'image',
   'picture-cover': 'Image de couverture',
   'picture-title': 'Image titre',

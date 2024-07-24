@@ -13,6 +13,7 @@ function StudioStoryStartStage({x, y}) {
     onClick = useCallback(() => setForm((s) => s === stageId ? null : stageId), [setForm])
 
   return <StudioStoryNodeStage image={metadata.newImageTitle || metadata.imageTitle}
+                               audio={metadata.newAudioTitle || metadata.audioTitle}
                                title={metadata.title}
                                onClick={onClick}
                                isSelected={stage === stageId}

@@ -65,26 +65,36 @@
 .nodeStageSelected.nodeStageAutoplay:before {
   border-top-color: $orange;
 }
-
-.nodeStageOkButton:after {
+.icons {
   position: absolute;
   z-index: 1;
   right: 3px;
   top: 3px;
+  display: flex;
+}
+.icon, .iconText, .redIcon {
   width: 16px;
   height: 16px;
   border-radius: 8px;
-  content: "A";
-  font-weight: bold;
   font-size: 14px;
+  font-weight: bold;
   line-height: 15px;
   text-align: center;
   color: $purple1;
   background: $blue;
   border: 1px solid $purple1;
 }
-.nodeStageSelected.nodeStageOkButton:after {
+.icon, .redIcon {
+  font-family: icons;
+  font-size: 10px;
+}
+.nodeStageSelected .icon,
+.nodeStageSelected .iconText {
   background: $orange;
+}
+
+.redIcon {
+  background-color: $red;
 }
 
 .nodeStageImg, .nodeStageImg img {
@@ -128,7 +138,10 @@
 .nodeActionCondition {
   padding: 2px 4px;
   font-size: 11px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   color: $black;
+  overflow: hidden;
 }
 
 .line {
