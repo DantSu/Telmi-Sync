@@ -13,10 +13,36 @@ import PlayerInventory from './PlayerInventory.js'
 import styles from './ModalPlayer.module.scss'
 
 const
-  checkRandomIndex = (index, options) => index === -1 ? Math.floor(Math.random() * options.length) : index,
+  checkRandomIndex = (index, options, items) => {
+    if (index >= 0) {
+      return index
+    }
+    if (!options.length) {
+      return 0
+    }
+    if (!Array.isArray(items) || !items.length) {
+      return Math.floor(Math.random() * options.length)
+    }
+    const optionsSelected = options.filter(
+      (option) => {
+        if(!Array.isArray(option.conditions) || !option.conditions.length) {
+          return true
+        }
+        return option.conditions.find(
+          (c) => !checkConditionComparator(
+            items.find((item) => item.id === c.item).count,
+            c.number,
+            c.comparator
+          )
+        ) === undefined
+      }
+    )
+    const option = optionsSelected[Math.floor(Math.random() * optionsSelected.length)]
+    return options.findIndex((o) => o === option)
+  },
 
   findNextOption = (options, defaultIndex, direction, items) => {
-    if(options.length === 0) {
+    if (options.length === 0) {
       return -1
     }
 
@@ -24,7 +50,7 @@ const
       index = defaultIndex + direction,
       initialIndex = -1
 
-    if(direction === 0) {
+    if (direction === 0) {
       direction = 1
     }
 
@@ -65,7 +91,7 @@ const
     }
     const
       options = nodes.actions[action.action],
-      index = findNextOption(options, checkRandomIndex(action.index, options), 0, items)
+      index = findNextOption(options, checkRandomIndex(action.index, options, items), 0, items)
 
     return index < 0 ? [[], 0] : [options, index]
   }
@@ -123,10 +149,10 @@ function ModalPlayer({story, onClose}) {
           setActionIndex(0)
         } else {
           setActionOptions(nodes.actions[action.action])
-          setActionIndex(checkRandomIndex(action.index, nodes.actions[action.action]))
+          setActionIndex(checkRandomIndex(action.index, nodes.actions[action.action], items))
         }
       },
-      [nodes, stage]
+      [items, nodes.actions, stage]
     ),
 
     onLeft = useCallback(
