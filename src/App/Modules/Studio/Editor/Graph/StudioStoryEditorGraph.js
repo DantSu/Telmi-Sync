@@ -12,7 +12,7 @@ const
   nodeHeight = 80,
   margin = 30,
 
-  getNodesSizesRecursive = (nodes, aKey, stageParent, lvl, stagesSize, actionsSize) => {
+  getNodesSizesRecursive = (nodes, aKey, stageParent, lvl, stagesSize, actionsSize, defaultPoxX) => {
     return nodes.actions[aKey].reduce(
       (acc, a, k) => {
         const actionKey = aKey + '-' + k
@@ -20,11 +20,11 @@ const
         if (actionsSize[actionKey] === undefined || stagesSize[a.stage].stageParent === stageParent) {
           actionsSize[actionKey] = {
             lvl: lvl,
-            posX: (stageParent !== null ? stagesSize[stageParent].posX : 0) + acc
+            posX: (stageParent !== null ? stagesSize[stageParent].posX : defaultPoxX) + acc
           }
         }
 
-        if (stagesSize[a.stage].stageParent !== stageParent || stagesSize[a.stage].posX !== undefined) {
+        if (a.stage === 'backStage' || stagesSize[a.stage].stageParent !== stageParent || stagesSize[a.stage].posX !== undefined) {
           return acc + nodeWidth
         }
 
@@ -34,22 +34,20 @@ const
         if (stage === undefined || stage.ok === null || !nodes.actions[stage.ok.action].length) {
           stagesSize[a.stage].width = nodeWidth
         } else {
-          stagesSize[a.stage].width = getNodesSizesRecursive(nodes, stage.ok.action, a.stage, lvl + 2, stagesSize, actionsSize)
+          stagesSize[a.stage].width = getNodesSizesRecursive(nodes, stage.ok.action, a.stage, lvl + 2, stagesSize, actionsSize, defaultPoxX)
         }
         return acc + stagesSize[a.stage].width
       },
       0
     )
   },
-  getNodesSizes = (nodes, aKey) => {
+  getNodesSizes = (nodes, aKey, stageFrom, defaultPoxX, stagesSize, actionsSize) => {
     const
-      stagesSize = {},
-      actionsSize = {},
+      stagesDone = Object.keys(stagesSize).reduce((acc, stageKey) => ({...acc, [stageKey]: true}), {}),
       stages = nodes.actions[aKey].map((a) => {
         stagesSize[a.stage] = {stageParent: null}
         return a.stage
-      }),
-      stagesDone = {}
+      })
     while (stages.length > 0) {
       const stageId = stages.shift()
 
@@ -75,27 +73,40 @@ const
       })
     }
 
-    stagesSize.startStage = {
+    stagesSize[stageFrom] = {
       lvl: 0,
-      width: getNodesSizesRecursive(nodes, aKey, null, 1, stagesSize, actionsSize) || nodeWidth,
-      posX: 0
+      width: getNodesSizesRecursive(nodes, aKey, null, 1, stagesSize, actionsSize, defaultPoxX) || nodeWidth,
+      posX: defaultPoxX
     }
 
-    return {stagesSize, actionsSize}
+    return [stagesSize, actionsSize]
   },
   getNodes = (nodes) => {
     const
-      aKey = nodes.startAction.action,
-      {stagesSize, actionsSize} = getNodesSizes(nodes, aKey),
-      stages = nodes.actions[aKey].map((a, k) => ({
-        stageId: a.stage,
-        stageFrom: 'startStage',
-        actionFrom: aKey + '-' + k
-      })),
+      startActionKey = nodes.startAction.action,
+      backActionKey = nodes.stages.backStage.ok.action,
+      [startStagesSize, startActionsSize] = getNodesSizes(nodes, startActionKey, 'startStage', 0, {}, {}),
+      [stagesSize, actionsSize] = getNodesSizes(nodes, backActionKey, 'backStage', startStagesSize.startStage.width, startStagesSize, startActionsSize),
+      stages = [
+        ...nodes.actions[startActionKey].map((a, k) => ({
+          stageId: a.stage,
+          stageFrom: 'startStage',
+          actionFrom: startActionKey + '-' + k
+        })),
+        ...nodes.actions[backActionKey].map((a, k) => ({
+          stageId: a.stage,
+          stageFrom: 'backStage',
+          actionFrom: backActionKey + '-' + k
+        }))
+      ],
       stagesPos = {
         startStage: {
-          x: margin + stagesSize.startStage.width / 2,
+          x: margin + stagesSize.startStage.posX + stagesSize.startStage.width / 2,
           y: margin + (stagesSize.startStage.lvl + 0.5) * nodeHeight
+        },
+        backStage: {
+          x: margin + stagesSize.backStage.posX + stagesSize.backStage.width / 2,
+          y: margin + (stagesSize.backStage.lvl + 0.5) * nodeHeight
         }
       },
       actionsPos = {},
@@ -103,7 +114,11 @@ const
         stages: [
           <StudioStoryStartStage key={'stage-startStage'}
                                  x={stagesPos.startStage.x}
-                                 y={stagesPos.startStage.y}/>
+                                 y={stagesPos.startStage.y}/>,
+          <StudioStoryStage key={'stage-backStage'}
+                            stageId={'backStage'}
+                            x={stagesPos.backStage.x}
+                            y={stagesPos.backStage.y}/>
         ],
         actions: [],
         lines: []
@@ -140,7 +155,7 @@ const
             [actionFromId, actionFromKey] = actionFrom.split('-')
 
           actionsPos[actionFrom] = {
-            x: actionsSize[actionFrom].posX + (newStage ? actionWidth : nodeWidth) / 2 + margin,
+            x: actionsSize[actionFrom].posX + (actionParentToStage ? actionWidth : nodeWidth) / 2 + margin,
             y: (actionsSize[actionFrom].lvl + 0.5) * nodeHeight + margin
           }
 
@@ -202,7 +217,7 @@ function StudioStoryEditorGraph({scale}) {
     {story: {nodes}} = useStudioStory(),
     {lines, stages, actions} = useMemo(() => getNodes(nodes), [nodes])
 
-  return <SVGLayout observer={nodes} scale={scale}>
+  return <SVGLayout observer={nodes} scale={scale} marginRight={100 / scale} marginBottom={100}>
     {lines}
     {stages}
     {actions}

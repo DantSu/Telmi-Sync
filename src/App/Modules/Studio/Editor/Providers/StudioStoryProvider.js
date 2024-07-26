@@ -2,6 +2,35 @@ import {useEffect, useMemo, useState} from 'react'
 import {useElectronEmitter, useElectronListener} from '../../../../Components/Electron/Hooks/UseElectronEvent.js'
 import {StudioStoryContext, StudioStoryUpdaterContext, StudioStoryVersionsContext} from './StudioStoryContext.js'
 
+
+const checkBackNode = (story) => {
+  if (story.nodes.stages.backStage !== undefined) {
+    return story
+  }
+
+  story.nodes.stages.backStage = {
+    audio: null,
+    image: null,
+    ok: {action: 'backChildAction', index: 0},
+    home: null,
+    control: {
+      ok: true,
+      home: false,
+      autoplay: true
+    }
+  }
+  story.nodes.actions.backAction = [{stage: 'backStage'}]
+  story.nodes.actions.backChildAction = []
+  story.notes.backStage = {title: 'Back Button Pressed', notes: ''}
+  Object.values(story.nodes.stages).forEach((stage) => {
+    if (stage.home === null) {
+      stage.home = {action: 'backAction', index: 0}
+    }
+  })
+
+  return story
+}
+
 function StudioStoryProvider({storyMetadata, children}) {
   const
     [undo, setUndo] = useState([]),
@@ -50,11 +79,12 @@ function StudioStoryProvider({storyMetadata, children}) {
   useElectronListener(
     'studio-story-data',
     (sd) => {
+      const sdChecked = checkBackNode(sd)
       setUndo([])
       setRedo([])
-      setStory(sd)
+      setStory(sdChecked)
       setStoryVersion((v) => v + 1)
-      setOriginalStory(JSON.stringify(sd))
+      setOriginalStory(JSON.stringify(sdChecked))
     },
     []
   )

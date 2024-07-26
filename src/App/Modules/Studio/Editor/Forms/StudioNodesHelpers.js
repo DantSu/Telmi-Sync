@@ -8,7 +8,7 @@ const
       image: null,
       audio: null,
       ok: null,
-      home: null,
+      home: {action: 'backAction', index: 0},
       control: {
         ok: false,
         home: true,

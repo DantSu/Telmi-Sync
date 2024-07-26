@@ -1,4 +1,5 @@
 import {useCallback, useEffect, useRef, useState} from 'react'
+import {useLocale} from '../../../../Components/Locale/LocaleHooks.js'
 
 import StudioStoryEditorGraph from './StudioStoryEditorGraph.js'
 import ButtonIconMagnifyingGlassPlus from '../../../../Components/Buttons/Icons/ButtonIconMagnifyingGlassPlus.js'
@@ -6,7 +7,6 @@ import ButtonIconMagnifyingGlassMinus from '../../../../Components/Buttons/Icons
 
 
 import styles from './StudioGraph.module.scss'
-import {useLocale} from '../../../../Components/Locale/LocaleHooks.js'
 
 function StudioStoryEditorGraphContainer() {
   const
