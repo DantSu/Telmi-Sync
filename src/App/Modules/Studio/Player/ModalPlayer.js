@@ -15,27 +15,47 @@ import styles from './ModalPlayer.module.scss'
 const
   checkRandomIndex = (index, options) => index === -1 ? Math.floor(Math.random() * options.length) : index,
 
-  findNextOption = (options, defaultIndex, items) => {
-    const index = defaultIndex >= options.length ? 0 : (defaultIndex < 0 ? options.length - 1 : defaultIndex)
-    for (let i = 0; i < options.length; ++i) {
-      const
-        ci = index + i,
-        currentIndex = ci >= options.length ? ci - options.length : ci,
-        option = options[currentIndex]
+  findNextOption = (options, defaultIndex, direction, items) => {
+    if(options.length === 0) {
+      return -1
+    }
+
+    let
+      index = defaultIndex + direction,
+      initialIndex = -1
+
+    if(direction === 0) {
+      direction = 1
+    }
+
+    while (true) {
+      index = index >= options.length ? 0 : (index < 0 ? options.length - 1 : index)
+
+      const option = options[index]
+
+      if (initialIndex === index) {
+        return -1
+      }
+
+      if (initialIndex === -1) {
+        initialIndex = index
+      }
 
       if (!Array.isArray(option.conditions) || !option.conditions.length) {
-        return currentIndex
+        return index
       }
 
       const condition = option.conditions.find((c) => {
         const item = items.find((item) => item.id === c.item)
         return !checkConditionComparator(item.count, c.number, c.comparator)
       })
+
       if (condition === undefined) {
-        return currentIndex
+        return index
       }
+
+      index += direction
     }
-    return -1
   },
 
   findNextAction = (stage, nodes, items) => {
@@ -45,7 +65,7 @@ const
     }
     const
       options = nodes.actions[action.action],
-      index = findNextOption(options, checkRandomIndex(action.index, options), items)
+      index = findNextOption(options, checkRandomIndex(action.index, options), 0, items)
 
     return index < 0 ? [[], 0] : [options, index]
   }
@@ -114,7 +134,7 @@ function ModalPlayer({story, onClose}) {
         if (stage === undefined || stage === null || stage.control.autoplay) {
           return
         }
-        setActionIndex((i) => findNextOption(actionOptions, i - 1, items))
+        setActionIndex((i) => findNextOption(actionOptions, i, -1, items))
       },
       [actionOptions, items, stage]
     ),
@@ -124,7 +144,7 @@ function ModalPlayer({story, onClose}) {
         if (stage === undefined || stage === null || stage.control.autoplay) {
           return
         }
-        setActionIndex((i) => findNextOption(actionOptions, i + 1, items))
+        setActionIndex((i) => findNextOption(actionOptions, i, 1, items))
       },
       [actionOptions, items, stage]
     )
