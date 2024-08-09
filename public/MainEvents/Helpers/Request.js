@@ -8,7 +8,7 @@ const
     'Accept-Language': 'en-US,en;q=0.5',
     'Connection': 'keep-alive',
     'language': 'fr',
-    'User-Agent': 'TelmiSync/0.3.7 ( https://github.com/DantSu/Telmi-Sync )',
+    'User-Agent': 'TelmiSync/0.3.8 ( https://github.com/DantSu/Telmi-Sync )',
   },
 
   htmlTag = '<!DOCTYPE html>',

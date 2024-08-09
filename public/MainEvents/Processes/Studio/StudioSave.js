@@ -68,8 +68,8 @@ const
       if (stage.ok !== null && !isOtherStageUseAction(nodes, stage.ok.action, stageKey)) {
         delete nodes.actions[stage.ok.action]
       }
-      if (stage.home !== null && stage.home.action !== stage.ok.action && !isOtherStageUseAction(nodes, stage.home.action, stageKey)) {
-        delete nodes.actions[stage.ok.action]
+      if (stage.home !== null && (stage.ok === null || stage.home.action !== stage.ok.action) && !isOtherStageUseAction(nodes, stage.home.action, stageKey)) {
+        delete nodes.actions[stage.home.action]
       }
       delete nodes.stages[stageKey]
     }
