@@ -140,8 +140,8 @@ function mainEventStudio(mainWindow) {
           mainWindow.webContents.send('studio-story-save-task', 'story-saving', message, current, total)
         },
         (error) => {
-          mainWindow.webContents.send('studio-story-save-task', '', '', 0, 0)
           mainWindow.webContents.send('studio-story-save-error', 'error', error)
+          mainWindow.webContents.send('studio-story-save-task', '', '', 0, 0)
         },
         () => {
         }
