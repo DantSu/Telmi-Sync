@@ -18,11 +18,23 @@ function ModalStoreStoryInfo ({story, onClose}) {
         <dt className={styles.infoLabel}>{getLocale('age')}</dt>
         <dd className={styles.infoContent}>{story.age}+</dd>
 
-        <dt className={styles.infoLabel}>{getLocale('awards')}</dt>
-        <dd className={styles.infoContent}>{story.awards.join(' | ')}</dd>
+        <dt className={styles.infoLabel}>{getLocale('category')}</dt>
+        <dd className={styles.infoContent}>{story.category}</dd>
 
-        <dt className={styles.infoLabel}>{getLocale('created-at')}</dt>
-        <dd className={styles.infoContent}>{(new Date(story.created_at)).toLocaleString()}</dd>
+        <dt className={styles.infoLabel}>{getLocale('author')}</dt>
+        <dd className={styles.infoContent}>{story.author}</dd>
+
+        <dt className={styles.infoLabel}>{getLocale('voice')}</dt>
+        <dd className={styles.infoContent}>{story.voice}</dd>
+
+        <dt className={styles.infoLabel}>{getLocale('designer')}</dt>
+        <dd className={styles.infoContent}>{story.designer}</dd>
+
+        <dt className={styles.infoLabel}>{getLocale('publisher')}</dt>
+        <dd className={styles.infoContent}>{story.publisher}</dd>
+
+        <dt className={styles.infoLabel}>{getLocale('download-count')}</dt>
+        <dd className={styles.infoContent}>{story.download_count}</dd>
 
         <dt className={styles.infoLabel}>{getLocale('updated-at')}</dt>
         <dd className={styles.infoContent}>{(new Date(story.updated_at)).toLocaleString()}</dd>

@@ -1,26 +1,18 @@
-import React, { useCallback, useMemo } from 'react'
+import React, {useMemo} from 'react'
 
 const {ipcRenderer} = window.require('electron')
 
-function ButtonExternalLink ({href, children}) {
-  const
-    onClick = useCallback(
-      (e) => {
+function ButtonExternalLink({href, children}) {
+  return useMemo(
+    () => {
+      const onClick = (e) => {
         e.preventDefault()
         ipcRenderer.send('new-window', href)
-      },
-      [href]
-    ),
-    childHref = useMemo(
-      () => React.Children.map(
-        children,
-        (child) => React.cloneElement(child, {onClick})
-      ),
-      [children, onClick]
-    )
-
-  return <>{childHref}</>
-
+      }
+      return React.Children.map(children, (child) => React.cloneElement(child, {onClick}))
+    },
+    [children, href]
+  )
 }
 
 export default ButtonExternalLink

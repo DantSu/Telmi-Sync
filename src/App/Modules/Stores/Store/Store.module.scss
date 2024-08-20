@@ -1,13 +1,14 @@
 @import "src/App/variables";
 
 .tabButton {
+  white-space: nowrap;
   margin: 0;
-  padding-right: 5px;
-  padding-left: 15px;
+  padding: 15px;
 }
 
 .trashButton {
   font-size: 14px;
+  margin-left: -10px;
   padding-right: 15px;
 }
 
@@ -51,4 +52,38 @@
 
 .infoLabelFullWidth {
   padding-top: 20px;
+}
+
+.infoContentFullWidth {
+  white-space: pre-wrap;
+}
+
+.bannerContainer {
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  background: $black;
+  border-radius: 10px;
+  margin: 12px 12px 12px 0;
+  border: 3px solid $black60;
+  box-shadow: 0px 0px 10px 0px $white10;
+  width: 25vh;
+  max-width: 256px;
+}
+
+.bannerInnerContainer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.banner {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
 }

@@ -1,5 +1,5 @@
-import { useRef } from 'react'
-import { useLocale } from '../../../Components/Locale/LocaleHooks.js'
+import {useRef} from 'react'
+import {useLocale} from '../../../Components/Locale/LocaleHooks.js'
 import ModalLayoutPadded from '../../../Components/Modal/ModalLayoutPadded.js'
 import ButtonsContainer from '../../../Components/Buttons/ButtonsContainer.js'
 import ButtonIconTextCheck from '../../../Components/Buttons/IconsTexts/ButtonIconTextCheck.js'
@@ -8,7 +8,7 @@ import ModalTitle from '../../../Components/Modal/ModalTitle.js'
 import ModalContent from '../../../Components/Modal/ModalContent.js'
 import Form from '../../../Components/Form/Form.js'
 
-function ModalStoreFormAdd ({onValidate, onClose}) {
+function ModalStoreFormAdd({onValidate, onClose}) {
   const
     {getLocale} = useLocale(),
     nameRef = useRef(),
@@ -43,6 +43,7 @@ function ModalStoreFormAdd ({onValidate, onClose}) {
                                        onValidate({
                                          name: values[0],
                                          url: values[1],
+                                         deletable: true,
                                        })
                                        onClose()
                                      }

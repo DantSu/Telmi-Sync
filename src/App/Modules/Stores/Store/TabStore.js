@@ -26,7 +26,7 @@ function TabStore ({store, ...props}) {
 
   return <>
     <ButtonText {...props} className={styles.tabButton} text={store.name}/>
-    <ButtonIconTrash className={styles.trashButton} onClick={onDelete}/>
+    {store.deletable && <ButtonIconTrash className={styles.trashButton} onClick={onDelete}/>}
   </>
 }
 

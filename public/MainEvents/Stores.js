@@ -1,7 +1,7 @@
-import { ipcMain } from 'electron'
+import {ipcMain} from 'electron'
 import * as fs from 'fs'
-import { getStoresPath } from './Helpers/AppPaths.js'
-import { requestJson } from './Helpers/Request.js'
+import {getStoresPath} from './Helpers/AppPaths.js'
+import {requestJson} from './Helpers/Request.js'
 import runProcess from './Processes/RunProcess.js'
 import * as path from 'path'
 
@@ -11,28 +11,33 @@ const checkStore = (store) => {
     typeof store.url === 'string' && store.url !== ''
 }
 
-function mainEventStores (mainWindow) {
+function mainEventStores(mainWindow) {
   ipcMain.on(
     'stores-get',
     async () => {
       const storesPath = getStoresPath('stores.json')
+      const defaultStores = [{
+        name: 'Telmi Interactive',
+        url: 'https://gist.githubusercontent.com/DantSu/49ed776755f3a01c995e78e3fd1cb79f/raw/telmi-interactive.json',
+        deletable: false
+      }]
 
       if (!fs.existsSync(storesPath)) {
-        fs.writeFileSync(
-          storesPath,
-          JSON.stringify({
-            stores: [{
-              name: 'Raconte-moi une histoire',
-              url: 'https://gist.githubusercontent.com/DantSu/3aea4c1fe15070bcf394a40b89aec33e/raw/stories.json'
-            }]
-          })
-        )
+        fs.writeFileSync(storesPath, JSON.stringify({stores: defaultStores}))
       }
 
-      mainWindow.webContents.send(
-        'stores-data',
-        JSON.parse(fs.readFileSync(storesPath).toString('utf8')).stores
-      )
+      const jsonStores = JSON.parse(fs.readFileSync(storesPath).toString('utf8'))
+
+      if (!defaultStores.filter((store) => jsonStores.stores.find((s) => store.url === s.url) === undefined).length) {
+        return mainWindow.webContents.send('stores-data', jsonStores.stores)
+      }
+
+      const newStores = [
+        ...defaultStores,
+        ...jsonStores.stores.filter((store) => defaultStores.find((s) => store.url === s.url) === undefined).map((store) => ({...store, deletable:true}))
+      ]
+      fs.writeFileSync(storesPath, JSON.stringify({stores: newStores}))
+      mainWindow.webContents.send('stores-data', newStores)
     }
   )
 
@@ -97,23 +102,34 @@ function mainEventStores (mainWindow) {
     async (event, store) => {
       if (checkStore(store)) {
         requestJson(store.url, {})
-          .then((data) => {
+          .then((response) => {
             mainWindow.webContents.send(
               'store-remote-data',
-              data.map((v) => ({
-                title: v.title,
-                age: v.age,
-                description: v.description,
-                image: findThumb(v),
-                download: v.download || v.downloadUrl,
-                awards: v.awards || [],
-                created_at: v.created_at || '1970-01-01T00:00:00.000Z',
-                updated_at: v.updated_at || '1970-01-01T00:00:00.000Z',
-                uuid: v.uuid || ''
-              }))
+              {
+                ...response,
+                data: response.data.map((v) => ({
+                  title: v.title,
+                  age: v.age,
+                  category: v.category,
+                  description: v.description,
+                  image: findThumb(v),
+                  download: v.download || v.downloadUrl,
+                  download_count: v.download_count || 0,
+                  author: v.author || '',
+                  voice: v.voice || '',
+                  designer: v.designer || '',
+                  publisher: v.publisher || '',
+                  awards: v.awards || [],
+                  created_at: v.created_at || '1970-01-01T00:00:00.000Z',
+                  updated_at: v.updated_at || '1970-01-01T00:00:00.000Z',
+                  uuid: v.uuid || ''
+                }))
+              }
             )
           })
-          .catch((e) => {console.log(e.toString())})
+          .catch((e) => {
+            console.log(e.toString())
+          })
       }
     }
   )
@@ -133,7 +149,8 @@ function mainEventStores (mainWindow) {
     taskRunning = runProcess(
       path.join('Store', 'StoreDownload.js'),
       [story.download],
-      () => {},
+      () => {
+      },
       (message, current, total) => {
         mainWindow.webContents.send('store-download-task', story.title, message, current, total)
       },
