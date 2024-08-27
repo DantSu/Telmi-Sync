@@ -5,6 +5,7 @@ import ButtonsContainer from '../../../Components/Buttons/ButtonsContainer.js'
 import ButtonIconTextCheck from '../../../Components/Buttons/IconsTexts/ButtonIconTextCheck.js'
 import InputRange from '../../../Components/Form/Input/InputRange.js'
 import InputCheckbox from "../../../Components/Form/Input/InputSwitch.js";
+import InputSelect from '../../../Components/Form/Input/InputSelect.js'
 import ModalTitle from '../../../Components/Modal/ModalTitle.js'
 import ModalContent from '../../../Components/Modal/ModalContent.js'
 import Form from '../../../Components/Form/Form.js'
@@ -19,7 +20,10 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
     inputRef4 = useRef(),
     inputRef5 = useRef(),
     inputRef6 = useRef(),
-    inputRef7 = useRef()
+    inputRef7 = useRef(),
+    inputRef8 = useRef(),
+    inputRef9 = useRef(),
+    inputRef10 = useRef()
   return <ModalLayoutPadded isClosable={true}
                             onClose={onClose}>
     <ModalTitle>{getLocale('telmios-parameters')} :</ModalTitle>
@@ -98,6 +102,26 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
                         id="story-display-tiles"
                         defaultValue={parameters.storyDisplayTiles}
                         ref={inputRef7}/>
+            <InputCheckbox label={getLocale('story-disable-night-mode')}
+                        key="story-disable-night-mode"
+                        id="story-disable-night-mode"
+                        defaultValue={parameters.storyDisableNightMode}
+                        ref={inputRef8}/>
+            <InputCheckbox label={getLocale('music-disable-repeat-modes')}
+                        key="music-disable-repeat-mode"
+                        id="music-disable-repeat-mode"
+                        defaultValue={parameters.musicDisableRepeatModes}
+                        ref={inputRef9}/>
+            <InputSelect label={getLocale('change-boot-splashscreen')}
+                         key="boot-splashscreen"
+                         id="boot-splashscreen"
+                         defaultValue={parameters.bootSplashscreen}
+                         options={[
+                           {value:'', text: getLocale('do-nothing')},
+                           {value:'telmi', text: getLocale('put-telmi-picture')},
+                           {value:'original', text: getLocale('restore-original-picture')}
+                         ]}
+                         ref={inputRef10}/>
           </ModalContent>
           <ButtonsContainer>
             <ButtonIconTextCheck text={getLocale('save')}
@@ -112,7 +136,10 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
                                        inputRef4,
                                        inputRef5,
                                        inputRef6,
-                                       inputRef7
+                                       inputRef7,
+                                       inputRef8,
+                                       inputRef9,
+                                       inputRef10
                                      ],
                                      (values) => {
                                        onValidate({
@@ -124,7 +151,10 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
                                          screenOnInactivityTime: values[4] * 60,
                                          screenOffInactivityTime: values[5] * 60,
                                          musicInactivityTime: values[6] * 3600,
-                                         storyDisplayTiles: values[7]
+                                         storyDisplayTiles: values[7],
+                                         storyDisableNightMode: values[8],
+                                         musicDisableRepeatModes: values[9],
+                                         bootSplashscreen: values[10]
                                        })
                                        onClose()
                                      }
