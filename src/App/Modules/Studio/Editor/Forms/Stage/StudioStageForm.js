@@ -7,8 +7,8 @@ import InputText from '../../../../../Components/Form/Input/InputText.js'
 import InputTextarea from '../../../../../Components/Form/Input/InputTextarea.js'
 import InputImage from '../../../../../Components/Form/Input/InputImage.js'
 import InputAudio from '../../../../../Components/Form/Input/InputAudio.js'
-import StudioActionForm from './StudioActionForm.js'
 import InputSwitch from '../../../../../Components/Form/Input/InputSwitch.js'
+import StudioActionForm from './StudioActionForm.js'
 import StudioStageInventoryForm from './StudioStageInventoryForm.js'
 
 function StudioStageForm() {

@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useModal } from '../../../Components/Modal/ModalHooks.js'
-import { useLocale } from '../../../Components/Locale/LocaleHooks.js'
-import { musicClassification } from './MusicClassification.js'
-import {isCellSelected} from '../../../Components/Table/TableHelpers.js';
+import {useCallback, useEffect, useMemo, useState} from 'react'
+import {useModal} from '../../../Components/Modal/ModalHooks.js'
+import {useLocale} from '../../../Components/Locale/LocaleHooks.js'
+import {musicClassification} from './MusicClassification.js'
+import {isCellSelected} from '../../../Components/Table/TableHelpers.js'
 import Table from '../../../Components/Table/Table.js'
 import ModalMusicFormUpdate from './ModalMusicFormUpdate.js'
 import ModalMusicDeleteConfirm from './ModalMusicDeleteConfirm.js'
@@ -18,7 +18,7 @@ const
     return musicIds[str]
   }
 
-function MusicTable ({className, musics, selectedMusics, setSelectedMusics, onEdit, onEditSelected, onDelete}) {
+function MusicTable({className, musics, selectedMusics, setSelectedMusics, onEdit, onEditSelected, onDelete}) {
   const
     {getLocale} = useLocale(),
     {addModal, rmModal} = useModal(),
@@ -71,7 +71,7 @@ function MusicTable ({className, musics, selectedMusics, setSelectedMusics, onEd
                                               onValidate={(music) => {
                                                 onEdit(music)
                                                 setIsLoadingMusics(true)
-                                                 setSelectedMusics([])
+                                                setSelectedMusics([])
                                               }}
                                               onClose={() => rmModal(modal)}/>
           return modal
@@ -130,7 +130,9 @@ function MusicTable ({className, musics, selectedMusics, setSelectedMusics, onEd
       [onDelete, selectedMusics, setSelectedMusics, addModal, rmModal]
     )
 
-  useEffect(() => {setIsLoadingMusics(false)}, [musics, setIsLoadingMusics])
+  useEffect(() => {
+    setIsLoadingMusics(false)
+  }, [musics, setIsLoadingMusics])
 
   return <Table className={className}
                 titleLeft={getLocale('musics-local', flatTableMusics.length)}

@@ -1,12 +1,13 @@
-import { ipcMain } from 'electron'
+import {ipcMain} from 'electron'
 import * as fs from 'fs'
 import * as path from 'path'
-import { getMusicPath } from './Helpers/AppPaths.js'
-import { musicObjectToName } from './Helpers/Music.js'
-import { deleteMusic, readMusic } from './Helpers/MusicFiles.js'
+import {getMusicPath, initTmpPath} from './Helpers/AppPaths.js'
+import {musicObjectToName} from './Helpers/Music.js'
+import {deleteMusic, readMusic} from './Helpers/MusicFiles.js'
 import runProcess from './Processes/RunProcess.js'
+import {convertCoverImage} from './Processes/Import/Helpers/ImageFile.js'
 
-function mainEventLocalMusicReader (mainWindow) {
+function mainEventLocalMusicReader(mainWindow) {
   ipcMain.on(
     'local-musics-get',
     async () => {
@@ -14,7 +15,7 @@ function mainEventLocalMusicReader (mainWindow) {
     }
   )
 
-  const localMusicUpdate = (musics, images = {}) => {
+  const localMusicUpdate = (musics) => {
     if (!musics.length) {
       ipcMain.emit('local-musics-get')
       return
@@ -30,7 +31,7 @@ function mainEventLocalMusicReader (mainWindow) {
       typeof music.album !== 'string' || music.album === '' ||
       typeof music.artist !== 'string' || music.artist === ''
     ) {
-      return localMusicUpdate(musics, images)
+      return localMusicUpdate(musics)
     }
 
     const
@@ -47,50 +48,55 @@ function mainEventLocalMusicReader (mainWindow) {
       dstMusic = dstPath + '.mp3',
       dstImage = dstPath + '.png'
 
-    if (fs.existsSync(srcMusic)) {
+    if (srcMusic !== dstMusic && fs.existsSync(srcMusic)) {
       fs.renameSync(srcMusic, dstMusic)
     }
 
-    if (!music.askNewImage) {
-
-      if (fs.existsSync(srcImage)) {
-        fs.renameSync(srcImage, dstImage)
-      }
-
-      localMusicUpdate(musics, images)
-    } else {
-
+    if (typeof music.newImage === 'string' && music.newImage !== '' && fs.existsSync(music.newImage)) {
       if (fs.existsSync(srcImage)) {
         fs.rmSync(srcImage)
       }
-
-      const
-        pathCoverKey = music.artist + '_' + music.album,
-        pathCover = images[pathCoverKey]
-
-      if (pathCover !== undefined && fs.existsSync(pathCover)) {
-
-        fs.copyFileSync(pathCover, dstImage)
-        localMusicUpdate(musics, images)
-
-      } else {
-
-        runProcess(
-          path.join('Music', 'MusicCover.js'),
-          [newFileName],
-          () => {
-            localMusicUpdate(musics, {...images, [pathCoverKey]: dstImage})
-          },
-          (message, current, total) => {},
-          (error) => {
-            localMusicUpdate(musics, images)
-          },
-          () => {}
-        )
-
+      runProcess(
+        path.join('Music', 'MusicConvertCover.js'),
+        [music.newImage, dstImage],
+        () => {},
+        (message, current, total) => {},
+        (error) => {},
+        () => localMusicUpdate(musics)
+      )
+    } else {
+      if (srcImage !== dstImage && fs.existsSync(srcImage)) {
+        fs.renameSync(srcImage, dstImage)
       }
+      localMusicUpdate(musics)
     }
   }
+
+  ipcMain.on(
+    'local-musics-cover',
+    async (event, music) => {
+      const
+        dstPath = path.join(initTmpPath('music'), Date.now().toString(36)),
+        titleTask = music.artist + ' - ' + music.album
+
+      runProcess(
+        path.join('Music', 'MusicBrainzCover.js'),
+        [dstPath, music.artist, music.album],
+        () => {
+          mainWindow.webContents.send('local-musics-cover-task', '', '', 0, 0)
+          mainWindow.webContents.send('local-musics-cover-path', dstPath)
+        },
+        (message, current, total) => {
+          mainWindow.webContents.send('local-musics-cover-task', titleTask, message, current, total)
+        },
+        (error) => {
+          mainWindow.webContents.send('local-musics-cover-error', titleTask, error)
+          mainWindow.webContents.send('local-musics-cover-task', '', '', 0, 0)
+        },
+        () => {}
+      )
+    }
+  )
 
   ipcMain.on(
     'local-musics-update',
