@@ -30,6 +30,7 @@ function main (srcPath) {
       case '.mp4a':
       case '.m4a':
       case '.wma':
+      case '.webm':
         convertMusic(srcPath)
         break
       default:
