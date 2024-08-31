@@ -184,7 +184,7 @@ const fr = {
 
   'studio': 'Studio',
   'studio-story-unsaved': 'Histoire non enregistrée !',
-  'studio-story-unsaved-confirm': 'Cette histoire a été modifier. Êtes-vous sûr de vouloir quitter le Studio sans enregistrer les modifications apportées à cette histoire ?',
+  'studio-story-unsaved-confirm': 'Cette histoire a été modifiée. Êtes-vous sûr de vouloir quitter le Studio sans enregistrer les modifications apportées à cette histoire ?',
 
   'studio-stage-control-ok': 'Aller à la scène suivante en appuyant sur le bouton A',
   'studio-stage-autoplay': 'Lire automatiquement la scène suivante à la fin de la piste audio',
