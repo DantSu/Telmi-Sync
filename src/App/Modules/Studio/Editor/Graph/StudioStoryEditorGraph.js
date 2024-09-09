@@ -12,7 +12,7 @@ const
   nodeHeight = 80,
   margin = 30,
 
-  getNodesSizesRecursive = (nodes, aKey, stageParent, lvl, stagesSize, actionsSize, defaultPoxX) => {
+  getNodesSizesRecursive = (nodes, aKey, stageParent, lvl, stagesSize, actionsSize) => {
     return nodes.actions[aKey].reduce(
       (acc, a, k) => {
         const actionKey = aKey + '-' + k
@@ -20,7 +20,7 @@ const
         if (actionsSize[actionKey] === undefined || stagesSize[a.stage].stageParent === stageParent) {
           actionsSize[actionKey] = {
             lvl: lvl,
-            posX: (stageParent !== null ? stagesSize[stageParent].posX : defaultPoxX) + acc
+            posX: stagesSize[stageParent].posX + acc
           }
         }
 
@@ -34,7 +34,7 @@ const
         if (stage === undefined || stage.ok === null || !nodes.actions[stage.ok.action].length) {
           stagesSize[a.stage].width = nodeWidth
         } else {
-          stagesSize[a.stage].width = getNodesSizesRecursive(nodes, stage.ok.action, a.stage, lvl + 2, stagesSize, actionsSize, defaultPoxX)
+          stagesSize[a.stage].width = getNodesSizesRecursive(nodes, stage.ok.action, a.stage, lvl + 2, stagesSize, actionsSize)
         }
         return acc + stagesSize[a.stage].width
       },
@@ -45,7 +45,9 @@ const
     const
       stagesDone = Object.keys(stagesSize).reduce((acc, stageKey) => ({...acc, [stageKey]: true}), {}),
       stages = nodes.actions[aKey].map((a) => {
-        stagesSize[a.stage] = {stageParent: null}
+        if (stagesSize[a.stage] === undefined) {
+          stagesSize[a.stage] = {stageParent: stageFrom}
+        }
         return a.stage
       })
     while (stages.length > 0) {
@@ -73,11 +75,8 @@ const
       })
     }
 
-    stagesSize[stageFrom] = {
-      lvl: 0,
-      width: getNodesSizesRecursive(nodes, aKey, null, 1, stagesSize, actionsSize, defaultPoxX) || nodeWidth,
-      posX: defaultPoxX
-    }
+    stagesSize[stageFrom] = {lvl: 0, posX: defaultPoxX}
+    stagesSize[stageFrom].width = getNodesSizesRecursive(nodes, aKey, stageFrom, 1, stagesSize, actionsSize) || nodeWidth
 
     return [stagesSize, actionsSize]
   },
@@ -124,7 +123,6 @@ const
         lines: []
       }
 
-
     while (stages.length > 0) {
       const
         {stageId, stageFrom, actionFrom} = stages.shift(),
@@ -150,7 +148,7 @@ const
         const actionNotExists = actionsPos[actionFrom] === undefined
         if (actionNotExists) {
           const
-            actionParentToStage = stageFrom === 'startStage' || stagesSize[stageId].stageParent === stageFrom,
+            actionParentToStage = stagesSize[stageId].stageParent === stageFrom,
             actionWidth = actionParentToStage ? stagesSize[stageId].width : nodeWidth,
             [actionFromId, actionFromKey] = actionFrom.split('-')
 
