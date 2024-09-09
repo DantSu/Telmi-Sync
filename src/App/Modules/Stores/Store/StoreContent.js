@@ -1,4 +1,4 @@
-import {useCallback, useMemo, useState} from 'react'
+import {useCallback, useEffect, useMemo, useState} from 'react'
 import {useElectronEmitter, useElectronListener} from '../../../Components/Electron/Hooks/UseElectronEvent.js'
 import {useModal} from '../../../Components/Modal/ModalHooks.js'
 import {useLocale} from '../../../Components/Locale/LocaleHooks.js'
@@ -34,7 +34,7 @@ function StoreContent({store}) {
   const
     {getLocale} = useLocale(),
     localStories = useLocalStories(),
-    [banner, setBanner] = useState({}),
+    [storeData, setStoreData] = useState(null),
     [stories, setStories] = useState([]),
     [storiesSelected, setStoriesSelected] = useState([]),
     [isSortedByName, setSortedByName] = useState(true),
@@ -98,15 +98,19 @@ function StoreContent({store}) {
       [isSortedByName, setStories, setSortedByName]
     )
 
-  useElectronListener(
-    'store-remote-data',
-    (response) => {
+  useElectronListener('store-remote-data', (response) => setStoreData(response), [])
+  useElectronEmitter('store-remote-get', [store])
+
+  useEffect(
+    () => {
+      if(storeData === null) {
+        return
+      }
       const
         now = Date.now(),
         lStories = localStories.map((s) => s.uuid)
-      setBanner(response.banner)
       setStories(
-        sortByName(response.data)
+        sortByName(storeData.data)
           .map(
             (s) => {
               const
@@ -129,9 +133,8 @@ function StoreContent({store}) {
           )
       )
     },
-    [setStories, localStories]
+    [getLocale, localStories, storeData]
   )
-  useElectronEmitter('store-remote-get', [store])
 
   return <>
     <Table titleLeft={getLocale('stories-on-store', stories.length)}
@@ -144,13 +147,16 @@ function StoreContent({store}) {
            onDownloadSelected={onDownloadSelected}
            additionalHeaderButtons={additionalHeaderButtons}
            isLoading={!stories.length}/>
-    <ButtonExternalLink href={banner.link}>
-      <div className={styles.bannerContainer} style={{background: banner.background}}>
-        <div className={styles.bannerInnerContainer}>
-          <img className={styles.banner} src={banner.image} alt=""/>
+    {
+      storeData !== null &&
+      <ButtonExternalLink href={storeData.banner.link}>
+        <div className={styles.bannerContainer} style={{background: storeData.banner.background}}>
+          <div className={styles.bannerInnerContainer}>
+            <img className={styles.banner} src={storeData.banner.image} alt=""/>
+          </div>
         </div>
-      </div>
-    </ButtonExternalLink>
+      </ButtonExternalLink>
+    }
   </>
 }
 
