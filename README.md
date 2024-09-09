@@ -1,4 +1,4 @@
-![Total Download](https://img.shields.io/github/downloads/DantSu/Telmi-Sync/total.svg) [![v0.3.10 download](https://img.shields.io/github/downloads/DantSu/Telmi-Sync/0.3.10/total.svg)](https://github.com/DantSu/Telmi-Sync/releases/tag/0.3.10)
+![Total Download](https://img.shields.io/github/downloads/DantSu/Telmi-Sync/total.svg) [![v0.3.11 download](https://img.shields.io/github/downloads/DantSu/Telmi-Sync/0.3.11/total.svg)](https://github.com/DantSu/Telmi-Sync/releases/tag/0.3.11)
 
 <p align="center"><img = src="https://dantsu.com/files/Telmi_MiyooPC.jpg" alt="Telmi OS - Telmi Sync" /></p>
 
