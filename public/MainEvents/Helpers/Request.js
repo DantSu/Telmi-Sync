@@ -28,8 +28,6 @@ const
           url,
           {
             method: 'GET',
-            protocol: isHttps ? 'https:' : 'http:',
-            port: isHttps ? 443 : 80,
             rejectUnauthorized: false,
             headers: Object.assign(
               {...defaultHeader},
@@ -107,8 +105,6 @@ const
           url,
           {
             method: 'HEAD',
-            protocol: isHttps ? 'https:' : 'http:',
-            port: isHttps ? 443 : 80,
           },
           (res) => {
             if (res.statusCode < 200 || res.statusCode >= 400) {
@@ -148,8 +144,6 @@ const
           url,
           {
             method: 'GET',
-            protocol: isHttps ? 'https:' : 'http:',
-            port: isHttps ? 443 : 80,
             rejectUnauthorized: false,
             headers: {
               ...defaultHeader,
