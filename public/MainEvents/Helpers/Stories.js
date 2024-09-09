@@ -1,4 +1,5 @@
 import {stringNormalizeFileName, stringSlugify} from './Strings.js'
+import fs from 'fs'
 
 const
   generateDirNameStory = (title, uuid, age, category) => {
@@ -21,6 +22,23 @@ const
       return {age: parseInt(a[2], 10), title: c[1].trim()}
     }
     return {title}
+  },
+
+  getMetadataStory = (metadata, image) => {
+    return Object.assign(
+      {
+        title: metadata.title,
+        uuid: metadata.uuid,
+        image,
+      },
+      metadata.category ? {category: metadata.category} : null,
+      metadata.description ? {description: metadata.description} : null,
+      metadata.age !== undefined ? {age: metadata.age} : null,
+    )
+  },
+
+  createMetadataFile = (pathFile, metadata, image) => {
+    fs.writeFileSync(pathFile, JSON.stringify(getMetadataStory(metadata, image)))
   }
 
-export {generateDirNameStory, findAgeInStoryName}
+export {generateDirNameStory, findAgeInStoryName, getMetadataStory, createMetadataFile}

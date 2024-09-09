@@ -4,7 +4,6 @@ function mainEventLink (mainWindow) {
   ipcMain.on(
     'new-window',
     async (event, url) => {
-      console.log(url)
       shell.openExternal(url)
     }
   )

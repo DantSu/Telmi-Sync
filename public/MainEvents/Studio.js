@@ -4,7 +4,7 @@ import * as path from 'path'
 import {getExtraResourcesPath, getStoriesPath, initTmpPath} from './Helpers/AppPaths.js'
 import runProcess from './Processes/RunProcess.js'
 import {readStoryMetadata} from './Helpers/StoriesFiles.js'
-import {generateDirNameStory} from './Helpers/Stories.js'
+import {generateDirNameStory, getMetadataStory} from './Helpers/Stories.js'
 
 function mainEventStudio(mainWindow) {
   const
@@ -118,15 +118,17 @@ function mainEventStudio(mainWindow) {
     async (event, storyData) => {
       const
         storiesPath = getStoriesPath(),
+        newMetadataContent = JSON.stringify(getMetadataStory(storyData.metadata, storyData.metadata.newImageCover || storyData.metadata.imageCover ? 'cover.png' : 'title.png')),
+        oldMetadataContent = storyData.metadata.path !== undefined ? fs.readFileSync(path.join(storyData.metadata.path, 'metadata.json')).toString('utf-8') : '',
         newStoryDirectory = generateDirNameStory(
           storyData.metadata.title,
           storyData.metadata.uuid,
           storyData.metadata.age,
           storyData.metadata.category
         ),
-        newStoryPath = path.join(storiesPath, newStoryDirectory),
-        isStoryDirectoryChange = storyData.metadata.path !== newStoryPath,
+        haveToUpdateLocalStories = newMetadataContent !== oldMetadataContent,
         jsonPath = path.join(initTmpPath('json'), 'story.json')
+
       fs.writeFileSync(jsonPath, JSON.stringify(storyData))
       runProcess(
         path.join('Studio', 'StudioSave.js'),
@@ -134,7 +136,7 @@ function mainEventStudio(mainWindow) {
         () => {
           mainWindow.webContents.send('studio-story-save-task', '', '', 0, 0)
           ipcMain.emit('studio-story-get', event, readStoryMetadata(storiesPath, newStoryDirectory))
-          isStoryDirectoryChange && ipcMain.emit('local-stories-get')
+          haveToUpdateLocalStories && ipcMain.emit('local-stories-get')
         },
         (message, current, total) => {
           mainWindow.webContents.send('studio-story-save-task', 'story-saving', message, current, total)

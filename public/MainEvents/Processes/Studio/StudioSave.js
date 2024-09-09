@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import {getProcessParams} from '../Helpers/ProcessParams.js'
 import {getExtraResourcesPath, getStoriesPath} from '../Helpers/AppPaths.js'
-import {generateDirNameStory} from '../../Helpers/Stories.js'
+import {createMetadataFile, generateDirNameStory} from '../../Helpers/Stories.js'
 import {createPathDirectories, rmFile} from '../../Helpers/Files.js'
 import {convertCoverImage, convertInventoryImages, convertStoryImages} from '../Import/Helpers/ImageFile.js'
 import {convertAudios} from '../Import/Helpers/AudioFile.js'
@@ -241,23 +241,11 @@ function main(jsonPath) {
     process.stdout.write('*story-saving*5*' + countFiles + '*')
 
     const metadataPath = path.join(storyPath, 'metadata.json')
-    rmFile(metadataPath)
-    fs.writeFileSync(
-      metadataPath,
-      JSON.stringify({
-        title: metadata.title,
-        description: metadata.description,
-        uuid: metadata.uuid,
-        age: metadata.age,
-        category: metadata.category,
-        image: hasCover ? 'cover.png' : 'title.png'
-      })
-    )
+    createMetadataFile(metadataPath, metadata, hasCover ? 'cover.png' : 'title.png')
 
     process.stdout.write('*story-saving*6*' + countFiles + '*')
 
     const nodesPath = path.join(storyPath, 'nodes.json')
-    rmFile(nodesPath)
     fs.writeFileSync(nodesPath, JSON.stringify(cleanNodes))
 
     process.stdout.write('*story-saving*7*' + countFiles + '*')
@@ -268,7 +256,6 @@ function main(jsonPath) {
         {}
       ),
       notesPath = path.join(storyPath, 'notes.json')
-    rmFile(notesPath)
     fs.writeFileSync(notesPath, JSON.stringify(cleanNotes))
 
     process.stdout.write('*story-saving*8*' + countFiles + '*')

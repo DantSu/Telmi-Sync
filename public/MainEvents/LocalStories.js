@@ -1,12 +1,12 @@
-import { ipcMain } from 'electron'
+import {ipcMain} from 'electron'
 import * as fs from 'fs'
 import * as path from 'path'
-import { getStoriesPath } from './Helpers/AppPaths.js'
+import {getStoriesPath} from './Helpers/AppPaths.js'
 import {deleteStories, readStories} from './Helpers/StoriesFiles.js'
-import { generateDirNameStory } from './Helpers/Stories.js'
+import {createMetadataFile, generateDirNameStory} from './Helpers/Stories.js'
 import runProcess from './Processes/RunProcess.js'
 
-function mainEventLocalStoriesReader (mainWindow) {
+function mainEventLocalStoriesReader(mainWindow) {
   ipcMain.on(
     'local-stories-get',
     async () => {
@@ -25,20 +25,8 @@ function mainEventLocalStoriesReader (mainWindow) {
           mdPath = path.join(story.path, 'metadata.json'),
           md = JSON.parse(fs.readFileSync(mdPath).toString('utf8'))
 
-        fs.writeFileSync(
-          mdPath,
-          JSON.stringify(
-            Object.assign(
-              {
-                title: story.title,
-                uuid: story.uuid,
-                image: md.image,
-              },
-              story.category ? {category: story.category} : null,
-              story.age !== undefined ? {age: story.age} : null,
-            )
-          )
-        )
+        createMetadataFile(mdPath, story, md.image)
+
         const newStoryPath = getStoriesPath(generateDirNameStory(story.title, story.uuid, story.age, story.category))
         if (story.path !== newStoryPath) {
           fs.renameSync(story.path, newStoryPath)
@@ -49,7 +37,7 @@ function mainEventLocalStoriesReader (mainWindow) {
   )
 
   const runOptimizeAudio = (stories) => {
-    if(!stories.length) {
+    if (!stories.length) {
       mainWindow.webContents.send('stories-optimize-audio-task', '', '', 0, 0)
       return ipcMain.emit('local-stories-get')
     }
