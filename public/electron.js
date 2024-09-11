@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, shell } from 'electron'
+import { app, BrowserWindow, Menu } from 'electron'
 import isDev from 'electron-is-dev'
 import mainEventWindow from './MainEvents/Window.js'
 import mainEventImport from './MainEvents/Import.js'
@@ -65,7 +65,7 @@ function initApp () {
   }
 
   app.on('ready', setWindow)
-  app.on('window-all-closed', () => process.platform !== 'darwin' && app.quit())
+  app.on('window-all-closed', () => app.quit())
   app.on('activate', () => BrowserWindow.getAllWindows().length === 0 && setWindow())
 }
 
