@@ -1,10 +1,11 @@
-import {ipcMain} from 'electron'
+import {ipcMain, dialog} from 'electron'
 import * as fs from 'fs'
 import * as path from 'path'
 import {getExtraResourcesPath, getStoriesPath, initTmpPath} from './Helpers/AppPaths.js'
 import runProcess from './Processes/RunProcess.js'
 import {readStoryMetadata} from './Helpers/StoriesFiles.js'
 import {generateDirNameStory, getMetadataStory} from './Helpers/Stories.js'
+import {stringNormalizeFileName} from "./Helpers/Strings.js";
 
 function mainEventStudio(mainWindow) {
   const
@@ -146,6 +147,49 @@ function mainEventStudio(mainWindow) {
           mainWindow.webContents.send('studio-story-save-task', '', '', 0, 0)
         },
         () => {
+        }
+      )
+    }
+  )
+
+  ipcMain.on(
+    'studio-story-zip',
+    async (event, storyData) => {
+      const { canceled, filePath  } = await dialog.showSaveDialog(mainWindow, {
+        filters: [{name: "zip", extensions: ['zip']}],
+        defaultPath: `${stringNormalizeFileName(storyData.metadata.title).substring(0, 32)}.zip`
+      })
+      mainWindow.webContents.send('studio-story-zip-task', 'story-zipping', '', 50, 100)
+      if(canceled) {
+        mainWindow.webContents.send('studio-story-zip-task', '', '', 0, 0)
+        return
+      }
+      const storiesDir = getStoriesPath()
+      const storyDirectory = generateDirNameStory(
+        storyData.metadata.title,
+        storyData.metadata.uuid,
+        storyData.metadata.age,
+        storyData.metadata.category
+      )
+      const storyPath = path.join(storiesDir, storyDirectory, "*")
+      if (fs.existsSync(filePath)) {
+        fs.rmSync(filePath)
+      }
+      runProcess(
+        path.join('Studio', 'StudioZip.js'),
+        [filePath , storyPath],
+        () => {
+          mainWindow.webContents.send('studio-story-zip-task', '', '', 0, 0)
+        },
+        (message, current, total) => {
+          mainWindow.webContents.send('studio-story-zip-task', 'story-zipping', message, current, total)
+        },
+        (error) => {
+          mainWindow.webContents.send('studio-story-zip-error', 'error', error)
+          mainWindow.webContents.send('studio-story-zip-task', '', '', 0, 0)
+        },
+        () => {
+          mainWindow.webContents.send('studio-story-zip-task', '', '', 0, 0)
         }
       )
     }

@@ -98,8 +98,12 @@ const
     run(path7za, ['x', pathToPack, '-y', '-o' + destPathOrCb], cb)
   },
 
+  pack = (pathToPack, destFile, cb) => {
+    run(path7za, ['a', "-tzip", destFile, pathToPack], cb)
+  },
+
   list = (pathToSrc, cb) => {
     run(path7za, ['l', '-slt', '-ba', pathToSrc], cb)
   }
 
-export { get7zipFilePath, list, unpack }
+export { get7zipFilePath, list, unpack, pack }
