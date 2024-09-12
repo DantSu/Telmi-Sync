@@ -34,6 +34,7 @@ const en = {
   'hours': 'Hours',
   'search': 'Search',
   'save': 'Save',
+  'zip-export': 'Export to zip',
   'initialize': 'Initialize',
   'synchronize': 'Synchronize',
   'edit': 'Edit',

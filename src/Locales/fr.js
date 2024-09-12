@@ -34,6 +34,7 @@ const fr = {
   'hours': 'Heures',
   'search': 'Rechercher',
   'save': 'Enregistrer',
+  'zip-export': 'Exporter en zip',
   'initialize': 'Initialisation',
   'synchronize': 'Synchroniser',
   'edit': 'Editer',
