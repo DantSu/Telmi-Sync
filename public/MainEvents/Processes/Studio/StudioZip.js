@@ -15,7 +15,7 @@ function main(filepath, storyPath) {
 const _params_ = getProcessParams()
 
 if (_params_.length !== 2) {
-  process.stderr.write('bad args')
+  process.stderr.write('zip-bad-args')
 } else {
   main(_params_.shift(), _params_.shift())
 }

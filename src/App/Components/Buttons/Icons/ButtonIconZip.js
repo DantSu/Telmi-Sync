@@ -1,7 +1,7 @@
 import ButtonIconGeneric from './ButtonIconGeneric.js'
 
-function ButtonIconPlay(props) {
+function ButtonIconZip(props) {
   return <ButtonIconGeneric {...props} icon={'\uf1c6'}/>
 }
 
-export default ButtonIconPlay
+export default ButtonIconZip

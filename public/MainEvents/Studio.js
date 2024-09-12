@@ -159,8 +159,10 @@ function mainEventStudio(mainWindow) {
         filters: [{name: "zip", extensions: ['zip']}],
         defaultPath: `${stringNormalizeFileName(storyData.metadata.title).substring(0, 32)}.zip`
       })
+      mainWindow.webContents.send('studio-story-zip-task', 'story-zipping', '', 50, 100)
       if(canceled) {
         mainWindow.webContents.send('studio-story-zip-task', '', '', 0, 0)
+        return
       }
       const storiesDir = getStoriesPath()
       const storyDirectory = generateDirNameStory(
@@ -169,7 +171,6 @@ function mainEventStudio(mainWindow) {
         storyData.metadata.age,
         storyData.metadata.category
       )
-      mainWindow.webContents.send('studio-story-zip-task', 'story-zipping', '', 50, 100)
       const storyPath = path.join(storiesDir, storyDirectory, "*")
       if (fs.existsSync(filePath)) {
         fs.rmSync(filePath)
@@ -178,7 +179,7 @@ function mainEventStudio(mainWindow) {
         path.join('Studio', 'StudioZip.js'),
         [filePath , storyPath],
         () => {
-          mainWindow.webContents.send('studio-story-zip-task', 'story-zipping', '', 0, 0)
+          mainWindow.webContents.send('studio-story-zip-task', '', '', 0, 0)
         },
         (message, current, total) => {
           mainWindow.webContents.send('studio-story-zip-task', 'story-zipping', message, current, total)
