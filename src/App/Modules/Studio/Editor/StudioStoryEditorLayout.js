@@ -12,6 +12,7 @@ import ButtonIconRedo from '../../../Components/Buttons/Icons/ButtonIconRedo.js'
 import ButtonIconUndo from '../../../Components/Buttons/Icons/ButtonIconUndo.js'
 import ButtonIconToolbox from '../../../Components/Buttons/Icons/ButtonIconToolbox.js'
 import ButtonIconPlay from '../../../Components/Buttons/Icons/ButtonIconPlay.js'
+import ButtonIconZip from '../../../Components/Buttons/Icons/ButtonIconZip.js'
 import ModalStudioStorySaveConfirm from './ModalStudioStorySaveConfirm.js'
 import StudioForms from './Forms/StudioForms.js'
 import Loader from '../../../Components/Loader/Loader.js'
@@ -52,6 +53,22 @@ function StudioStoryEditorLayout({closeEditor}) {
         addModal((key) => {
           const modal = <ModalElectronTaskVisualizer key={key}
                                                      taskName="studio-story-save"
+                                                     dataSent={[story]}
+                                                     onClose={() => rmModal(modal)}/>
+          return modal
+        })
+      },
+      [addModal, isStoryUpdated, rmModal, story]
+    ),
+
+    onZip = useCallback(
+      () => {
+        if (isStoryUpdated) {
+          return
+        }
+        addModal((key) => {
+          const modal = <ModalElectronTaskVisualizer key={key}
+                                                     taskName="studio-story-zip"
                                                      dataSent={[story]}
                                                      onClose={() => rmModal(modal)}/>
           return modal
@@ -127,6 +144,12 @@ function StudioStoryEditorLayout({closeEditor}) {
               className={[styles.topBarButton, !isStoryUpdated ? styles.topBarButtonDisabled : ''].join(' ')}
               title={getLocale('save')}
               onClick={onSave}/>
+          </li>
+          <li>
+            <ButtonIconZip
+              className={[styles.topBarButton, isStoryUpdated ? styles.topBarButtonDisabled : ''].join(' ')}
+              title={getLocale('zip-export')}
+              onClick={onZip}/>
           </li>
         </> : null}
         <li>
