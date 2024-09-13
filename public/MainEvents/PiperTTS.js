@@ -16,7 +16,6 @@ function mainEventPiperTTS(mainWindow) {
         path.join('PiperTTS', 'PiperTTS.js'),
         [jsonPath],
         () => {
-          mainWindow.webContents.send('piper-convert-task', '', '', 0, 0)
           mainWindow.webContents.send('piper-convert-succeed', wavePath)
         },
         (message, current, total) => {
@@ -26,6 +25,7 @@ function mainEventPiperTTS(mainWindow) {
           mainWindow.webContents.send('piper-convert-task', 'error', error)
         },
         () => {
+          mainWindow.webContents.send('piper-convert-task', '', '', 0, 0)
         }
       )
     }

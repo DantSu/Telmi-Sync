@@ -5,7 +5,6 @@ import {getMusicPath, initTmpPath} from './Helpers/AppPaths.js'
 import {musicObjectToName} from './Helpers/Music.js'
 import {deleteMusic, readMusic} from './Helpers/MusicFiles.js'
 import runProcess from './Processes/RunProcess.js'
-import {convertCoverImage} from './Processes/Import/Helpers/ImageFile.js'
 
 function mainEventLocalMusicReader(mainWindow) {
   ipcMain.on(
@@ -83,7 +82,6 @@ function mainEventLocalMusicReader(mainWindow) {
         path.join('Music', 'MusicBrainzCover.js'),
         [dstPath, music.artist, music.album],
         () => {
-          mainWindow.webContents.send('local-musics-cover-task', '', '', 0, 0)
           mainWindow.webContents.send('local-musics-cover-path', dstPath)
         },
         (message, current, total) => {
@@ -91,9 +89,10 @@ function mainEventLocalMusicReader(mainWindow) {
         },
         (error) => {
           mainWindow.webContents.send('local-musics-cover-error', titleTask, error)
-          mainWindow.webContents.send('local-musics-cover-task', '', '', 0, 0)
         },
-        () => {}
+        () => {
+          mainWindow.webContents.send('local-musics-cover-task', '', '', 0, 0)
+        }
       )
     }
   )

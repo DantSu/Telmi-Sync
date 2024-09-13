@@ -9,7 +9,7 @@ import ButtonIconTextDownload from '../../../Components/Buttons/IconsTexts/Butto
 
 import styles from './Music.module.scss'
 
-function MusicFormImageCover({music}, ref) {
+function MusicFormImageCover({artistInput, albumInput, defaultImage}, ref) {
   const
     {getLocale} = useLocale(),
     {addModal, rmModal} = useModal(),
@@ -21,12 +21,12 @@ function MusicFormImageCover({music}, ref) {
         addModal((key) => {
           const modal = <ModalElectronTaskVisualizer key={key}
                                                      taskName="local-musics-cover"
-                                                     dataSent={[{artist: music.artist, album: music.album}]}
+                                                     dataSent={[{artist: artistInput.current.value, album: albumInput.current.value}]}
                                                      onClose={() => rmModal(modal)}/>
           return modal
         })
       },
-      [addModal, rmModal, music.artist, music.album]
+      [addModal, rmModal, artistInput, albumInput]
     )
 
   useEffect(
@@ -51,7 +51,7 @@ function MusicFormImageCover({music}, ref) {
     </>}
                 key={'music-cover' + newImage}
                 id="music-cover"
-                defaultValue={newImage || music.image.substring(0, music.image.indexOf('?'))}
+                defaultValue={newImage || defaultImage.substring(0, defaultImage.indexOf('?'))}
                 onChange={onImageChange}
                 width={256}
                 height={256}

@@ -55,7 +55,9 @@ function ModalMusicFormUpdate({music, onValidate, onClose}) {
                        defaultValue={music.artist}
                        required={true}
                        ref={artistRef}/>
-            <MusicFormImageCover music={music}
+            <MusicFormImageCover artistInput={artistRef}
+                                 albumInput={albumRef}
+                                 defaultImage={music.image}
                                  ref={coverRef}/>
           </ModalContent>
           <ButtonsContainer>

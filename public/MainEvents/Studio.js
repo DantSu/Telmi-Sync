@@ -134,7 +134,6 @@ function mainEventStudio(mainWindow) {
         path.join('Studio', 'StudioSave.js'),
         [jsonPath],
         () => {
-          mainWindow.webContents.send('studio-story-save-task', '', '', 0, 0)
           ipcMain.emit('studio-story-get', event, readStoryMetadata(storiesPath, newStoryDirectory))
           haveToUpdateLocalStories && ipcMain.emit('local-stories-get')
         },
@@ -143,9 +142,9 @@ function mainEventStudio(mainWindow) {
         },
         (error) => {
           mainWindow.webContents.send('studio-story-save-error', 'error', error)
-          mainWindow.webContents.send('studio-story-save-task', '', '', 0, 0)
         },
         () => {
+          mainWindow.webContents.send('studio-story-save-task', '', '', 0, 0)
         }
       )
     }
