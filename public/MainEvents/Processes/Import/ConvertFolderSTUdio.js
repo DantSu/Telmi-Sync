@@ -48,8 +48,13 @@ function convertFolderSTUdio (srcPath, storyName) {
       stageNodes = [...studioData.stageNodes],
       firstStageNode = stageNodes.shift(),
 
-      {title, age} = findAgeInStoryName(
+      {title, age: titleAge} = findAgeInStoryName(
         typeof studioData.title === 'string' ? studioData.title : (storyName || path.basename(srcPath))
+      ),
+      age = typeof studioData.age === 'number' ? studioData.age : (
+        typeof studioData.age === 'string' && studioData.age !== '' && !isNaN(parseInt(studioData.age, 10)) ?
+          parseInt(studioData.age, 10) :
+          titleAge
       ),
 
       dstPath = getStoriesPath(generateDirNameStory(title, firstStageNode.uuid, age)),
@@ -85,6 +90,7 @@ function convertFolderSTUdio (srcPath, storyName) {
           uuid: firstStageNode.uuid,
           image: 'title.png'
         },
+        studioData.description !== undefined ? {description: studioData.description} : null,
         age !== undefined ? {age} : null
       )
 
