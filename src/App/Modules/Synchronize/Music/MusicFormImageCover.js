@@ -44,7 +44,8 @@ function MusicFormImageCover({artistInput, albumInput, defaultImage}, ref) {
   return <>
     <InputImage label={<>
       {getLocale('picture-cover')}
-      <ButtonIconTextDownload text={getLocale('music-search-cover')}
+      <ButtonIconTextDownload type="button"
+                              text={getLocale('music-search-cover')}
                               className={styles.inputCover}
                               rounded={true}
                               onClick={onImageDownload}/>
