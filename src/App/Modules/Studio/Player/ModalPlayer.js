@@ -259,8 +259,8 @@ function ModalPlayer({story, onClose}) {
                       isClosable={true}
                       onClose={onClose}>
     <div className={styles.images}>
-      {image !== null && <img src={image + '?time=' + Date.now()} className={styles.imageStory} alt=""/>}
-      {image !== null && itemsGot.length > 0 && <PlayerInventory items={itemsGot} story={story}/>}
+      {image && <img src={encodeURI(image.replaceAll('\\', '/')) + '?time=' + Date.now()} className={styles.imageStory} alt=""/>}
+      {image && itemsGot.length > 0 && <PlayerInventory items={itemsGot} story={story}/>}
     </div>
     <ul className={styles.buttons}>
       <li><ButtonIconChevronLeft className={styles.buttonLeft} onClick={onLeft}/></li>

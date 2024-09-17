@@ -80,7 +80,7 @@ function InputImage(
                required={required}
                id={id}
                ref={refCallback}/>
-        {imagePath && <img src={imagePath + '?time=' + Date.now()} className={styles.inputImageImg} alt=""/>}
+        {imagePath && <img src={encodeURI(imagePath.replaceAll('\\', '/')) + '?time=' + Date.now()} className={styles.inputImageImg} alt=""/>}
       </div>
       {imagePath && onDelete && <ButtonIconXMark className={styles.deleteButton}
                                                  rounded={true}
