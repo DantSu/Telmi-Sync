@@ -72,7 +72,7 @@ function InputImage(
       <div className={styles.inputImageContainer}>
         <input {...props}
                type="file"
-               accept=".jpg, .jpeg, .png, .bmp, .gif, .webp"
+               accept=".jpg, .jpeg, .png, .bmp, .gif, .webp, .avif"
                onChange={onChangeCallback}
                onDragOver={onDragOverCallback}
                onDrop={onDropCallback}

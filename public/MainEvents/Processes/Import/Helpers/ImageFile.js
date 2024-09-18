@@ -4,7 +4,7 @@ import * as path from 'path'
 const
   isImageFile = (fileName) => {
     const ext = path.extname(fileName).toLowerCase()
-    return ext === '.png' || ext === '.bmp' || ext === '.gif' || ext === '.jpg' || ext === '.jpeg' || ext === '.webp'
+    return ext === '.png' || ext === '.bmp' || ext === '.gif' || ext === '.jpg' || ext === '.jpeg' || ext === '.webp' || ext === '.avif'
   },
   convertMusicImage = async (fromPath, toPath) => {
     await convertImageToPng(fromPath, toPath, 256, 256)
