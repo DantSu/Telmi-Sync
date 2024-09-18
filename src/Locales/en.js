@@ -49,6 +49,7 @@ const en = {
   'update-recent': 'Recent update',
   'sort-name-or-update': 'Sort by Name / Last update',
   'maximize-window': 'Maximize app',
+  'minimize-window': 'Minimize app',
   'close-app': 'Close Telmi Sync',
   'listen': 'Listen',
   'listen-title': 'Listen the title',

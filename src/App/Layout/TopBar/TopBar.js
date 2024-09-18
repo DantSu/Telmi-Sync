@@ -8,6 +8,7 @@ import {routeStudio} from '../../Modules/Studio/Routes.js'
 
 import ButtonIconXMark from '../../Components/Buttons/Icons/ButtonIconXMark.js'
 import ButtonIconWindow from '../../Components/Buttons/Icons/ButtonIconWindow.js'
+import ButtonIconWindowMinimize from '../../Components/Buttons/Icons/ButtonIconWindowMinimize.js'
 import ButtonIconTextArrowLeftRight from '../../Components/Buttons/IconsTexts/ButtonIconTextArrowLeftRight.js'
 import ButtonIconTextStore from '../../Components/Buttons/IconsTexts/ButtonIconTextStore.js'
 import ButtonIconTextMicrophone from '../../Components/Buttons/IconsTexts/ButtonIconTextMicrophone.js'
@@ -15,11 +16,11 @@ import ButtonIconGear from '../../Components/Buttons/Icons/ButtonIconGear.js'
 import TopButtonNavigation from './TopButtonNavigation.js'
 import ButtonLangChooser from '../../Components/Locale/ButtonLangChooser.js'
 import ButtonUpdate from './ButtonUpdate.js'
+import ModalTelmiSyncParamsForm from '../../Modules/TelmiSyncParams/ModalTelmiSyncParamsForm.js'
 
 import LogoTelmi from '../../Assets/Images/logo-telmi.svg'
 
 import styles from './TopBar.module.scss'
-import ModalTelmiSyncParamsForm from '../../Modules/TelmiSyncParams/ModalTelmiSyncParamsForm.js'
 
 const {ipcRenderer} = window.require('electron')
 
@@ -27,7 +28,8 @@ function TopBar({currentModule}) {
   const
     {getLocale} = useLocale(),
     {addModal, rmModal} = useModal(),
-    onChangeSize = useCallback(() => ipcRenderer.send('change-size'), []),
+    onMaximize = useCallback(() => ipcRenderer.send('window-maximize'), []),
+    onMinimize = useCallback(() => ipcRenderer.send('window-minimize'), []),
     onClose = useCallback(() => ipcRenderer.send('close'), []),
     onParameters = useCallback(
       () => {
@@ -63,8 +65,10 @@ function TopBar({currentModule}) {
       <li><ButtonLangChooser/></li>
       <li><ButtonIconGear title={getLocale('telmi-sync-params')}
                           onClick={onParameters}/></li>
+      <li><ButtonIconWindowMinimize title={getLocale('minimize-window')}
+                            onClick={onMinimize}/></li>
       <li><ButtonIconWindow title={getLocale('maximize-window')}
-                            onClick={onChangeSize}/></li>
+                            onClick={onMaximize}/></li>
       <li><ButtonIconXMark title={getLocale('close-app')}
                            onClick={onClose}/></li>
     </ul>

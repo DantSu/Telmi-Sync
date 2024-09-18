@@ -49,6 +49,7 @@ const fr = {
   'update-recent': 'Mise à jour récente',
   'sort-name-or-update': 'Trier par Nom / Dernière mise à jour',
   'maximize-window': 'Agrandir l\'application',
+  'minimize-window': 'Réduire l\'application',
   'close-app': 'Fermer Telmi Sync',
   'listen': 'Ecouter',
   'listen-title': 'Ecouter le titre',
