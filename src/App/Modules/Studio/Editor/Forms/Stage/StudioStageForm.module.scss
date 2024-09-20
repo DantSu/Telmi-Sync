@@ -1,5 +1,32 @@
 @import "/src/App/variables";
 
+.colorsPicker {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-bottom: 15px;
+}
+
+.colorPicker,
+.colorPicked {
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  margin: 2px;
+  border: 2px solid $purple2;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+.colorPicker:hover, .colorPicked {
+  border-color: $white;
+}
+@each $name, $colorLight, $colorDark in $colors {
+  .#{$name} {
+    background: $colorLight;
+  }
+}
+
 .actionContainer {
   padding: 15px 0;
 }
@@ -15,28 +42,34 @@
   border-bottom: 1px dashed $white30;
   padding: 15px 0 10px 0;
 }
+
 .inventoryUpdatesContainer {
   display: flex;
   flex-wrap: wrap;
 }
+
 .actionItem, .inventoryUpdate {
   border: 1px solid $blue;
   background: $blueDark;
   border-radius: 5px;
   margin-bottom: 3px;
 }
+
 .inventoryUpdate {
   display: flex;
   align-items: center;
   padding: 4px;
   margin: 5px;
 }
+
 .actionItem[draggable="true"] {
   cursor: ns-resize;
 }
+
 .actionItem * {
   pointer-events: none;
 }
+
 .actionItemDragOver {
   box-shadow: 0px 0px 8px 4px $white60;
 }
@@ -146,7 +179,7 @@
   padding: 5px 10px;
   margin: 5px;
   border-radius: 15px;
-  background: $purple1;
+  background: $purple;
   display: flex;
   align-items: center;
 }

@@ -39,6 +39,7 @@ function StudioStoryStage({stageId, x, y}) {
     audio={currentStage.newAudio || (currentStage.audio ? metadata.path + '/audios/' + currentStage.audio : undefined)}
     inventoryUpdate={inventoryUpdate}
     title={notes[stageId].title}
+    color={notes[stageId].color}
     isSelected={stage === stageId}
     onClick={onClick}
     onDragStart={onDragStart}

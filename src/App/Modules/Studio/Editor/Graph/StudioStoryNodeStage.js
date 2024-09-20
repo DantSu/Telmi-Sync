@@ -1,14 +1,15 @@
+import {useLocale} from '../../../../Components/Locale/LocaleHooks.js'
 import {SVG_ANCHOR_CENTER, SVG_ANCHOR_MIDDLE} from '../../../../Components/SVG/SVGConstants.js'
 import SVGHtml from '../../../../Components/SVG/SVGHtml.js'
 
 import styles from './StudioGraph.module.scss'
-import {useLocale} from '../../../../Components/Locale/LocaleHooks.js'
 
 function StudioStoryNodeStage({
                                 image,
                                 audio,
                                 inventoryUpdate,
                                 title,
+                                color,
                                 x,
                                 y,
                                 isSelected,
@@ -29,6 +30,7 @@ function StudioStoryNodeStage({
     <div className={[
       isSelected ? styles.nodeStageSelected : styles.nodeStage,
       isAutoplay ? styles.nodeStageAutoplay : undefined,
+      styles[color] !== undefined ? styles[color] : undefined
     ].join(' ')}
          onClick={onClick}
          onMouseDown={onMouseDown}
@@ -37,10 +39,12 @@ function StudioStoryNodeStage({
       <ul className={styles.icons}>
         {
           typeof audio !== 'string' &&
-          <li className={styles.redIcon} title={getLocale('no-audio-file')}>{'\uf6a9'}</li>}
+          <li className={styles.redIcon} title={getLocale('no-audio-file')}>{'\uf6a9'}</li>
+        }
         {
           typeof inventoryUpdate === 'string' && inventoryUpdate !== '' &&
-          <li className={styles.icon} title={inventoryUpdate}>{'\uf552'}</li>}
+          <li className={styles.icon} title={inventoryUpdate}>{'\uf552'}</li>
+        }
         {isOkButton && <li className={styles.iconText} title={getLocale('press-a-to-go-next')}>A</li>}
       </ul>
       <div className={styles.nodeStageImg}>

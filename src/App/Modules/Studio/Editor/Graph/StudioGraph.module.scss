@@ -13,14 +13,17 @@
   border-radius: 15px;
   background: $blueDark;
 }
+
 .zoomText {
   text-align: center;
   border-bottom: 1px solid $white30;
   padding: 4px 0;
 }
+
 .zoomButton, .zoomButtonDisabled {
   padding: 7px;
 }
+
 .zoomButtonDisabled, .zoomButtonDisabled:hover {
   color: $white20;
 }
@@ -47,6 +50,13 @@
   height: 66px;
 }
 
+@each $name, $colorLight, $colorDark in $colors {
+  .nodeStage.#{$name} {
+    background: $colorDark;
+    border: 1px solid $colorLight;
+  }
+}
+
 .nodeStageSelected {
   background: $orange;
   border: 1px solid $orange;
@@ -62,9 +72,16 @@
   border-top-color: $blue;
 }
 
+@each $name, $colorLight, $colorDark in $colors {
+  .nodeStageAutoplay.#{$name}:before {
+    border-top-color: $colorLight;
+  }
+}
+
 .nodeStageSelected.nodeStageAutoplay:before {
   border-top-color: $orange;
 }
+
 .icons {
   position: absolute;
   z-index: 1;
@@ -72,6 +89,7 @@
   top: 3px;
   display: flex;
 }
+
 .icon, .iconText, .redIcon {
   width: 16px;
   height: 16px;
@@ -80,14 +98,23 @@
   font-weight: bold;
   line-height: 15px;
   text-align: center;
-  color: $purple1;
+  color: $purple;
   background: $blue;
-  border: 1px solid $purple1;
+  border: 1px solid $purple;
 }
+
 .icon, .redIcon {
   font-family: icons;
   font-size: 10px;
 }
+
+@each $name, $colorLight, $colorDark in $colors {
+  .nodeStage.#{$name} .icon,
+  .nodeStage.#{$name} .iconText {
+    background: $colorLight;
+  }
+}
+
 .nodeStageSelected .icon,
 .nodeStageSelected .iconText {
   background: $orange;
