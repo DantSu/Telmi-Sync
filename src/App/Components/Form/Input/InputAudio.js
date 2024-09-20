@@ -7,43 +7,22 @@ import AudioTTS from '../../Audio/AudioTTS.js'
 
 import styles from './Input.module.scss'
 import ButtonIconXMark from '../../Buttons/Icons/ButtonIconXMark.js'
+import InputDropFile from './InputDropFile.js'
 
 
-function InputAudio({label, id, textTTS, required, className, onChange, onDragOver, onDrop, audio, onDelete, ...props}, ref) {
+function InputAudio(
+  {label, id, textTTS, required, className, onChange, onDragOver, onDrop, audio, onDelete, ...props},
+  ref
+) {
   const
     {getLocale} = useLocale(),
     [audioPath, setAudioPath] = useState(audio),
-    onRecordEnded = useCallback(
+    onChangeCallback = useCallback(
       (path) => {
         setAudioPath(path)
         typeof onChange === 'function' && onChange(path)
       },
       [onChange]
-    ),
-    onChangeCallback = useCallback(
-      (e) => {
-        if (!e.target.files.length || e.target.files[0].type.indexOf('audio/') !== 0) {
-          e.target.value = null
-        } else {
-          setAudioPath(e.target.files[0].path)
-          typeof onChange === 'function' && onChange(e.target.files[0].path)
-        }
-      },
-      [onChange]
-    ),
-    onDragOverCallback = useCallback(
-      (e) => {
-        e.stopPropagation()
-        typeof onDragOver === 'function' && onDragOver(e)
-      },
-      [onDragOver]
-    ),
-    onDropCallback = useCallback(
-      (e) => {
-        e.stopPropagation()
-        typeof onDrop === 'function' && onDrop(e)
-      },
-      [onDrop]
     ),
     refCallback = useCallback(
       (r) => {
@@ -87,22 +66,22 @@ function InputAudio({label, id, textTTS, required, className, onChange, onDragOv
       }
       <AudioRecord className={styles.inputAudioButton}
                    title={getLocale('record')}
-                   onRecordEnded={onRecordEnded}/>
+                   onRecordEnded={onChangeCallback}/>
       <AudioTTS className={styles.inputAudioButton}
                 text={textTTS}
                 title={getLocale('text-to-speech')}
-                onTTSEnded={onRecordEnded}/>
+                onTTSEnded={onChangeCallback}/>
       <div className={styles.inputAudioFile}>
-        <input {...props}
-               type="file"
-               accept=".mp3, .ogg, .flac, .wav, .wma, .mp4a"
-               onChange={onChangeCallback}
-               onDragOver={onDragOverCallback}
-               onDrop={onDropCallback}
-               className={[styles.inputAudio, className].join(' ')}
-               required={required}
-               id={id}
-               ref={refCallback}/>
+        <InputDropFile {...props}
+                       mimeStart="audio/"
+                       accept=".mp3, .ogg, .flac, .wav, .wma, .mp4a, .webm"
+                       onChange={onChangeCallback}
+                       onDragOver={onDragOver}
+                       onDrop={onDrop}
+                       className={className}
+                       required={required}
+                       id={id}
+                       ref={refCallback}/>
       </div>
     </div>
   </InputLayout>

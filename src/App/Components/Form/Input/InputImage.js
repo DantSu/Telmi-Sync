@@ -4,38 +4,36 @@ import InputLayout from './InputLayout.js'
 
 import styles from './Input.module.scss'
 import ButtonIconXMark from '../../Buttons/Icons/ButtonIconXMark.js'
+import InputDropFile from './InputDropFile.js'
 
 function InputImage(
-  {label, id, required, className, onChange, onDragOver, onDrop, defaultValue, vertical, width, height, displayScale, onDelete, ...props},
+  {
+    label,
+    id,
+    required,
+    className,
+    onChange,
+    onDragOver,
+    onDrop,
+    defaultValue,
+    vertical,
+    width,
+    height,
+    displayScale,
+    onDelete,
+    ...props
+  },
   ref
 ) {
   const
     {getLocale} = useLocale(),
     [imagePath, setImagePath] = useState(defaultValue),
     onChangeCallback = useCallback(
-      (e) => {
-        if (!e.target.files.length || e.target.files[0].type.indexOf('image/') !== 0) {
-          e.target.value = null
-        } else {
-          setImagePath(e.target.files[0].path)
-          typeof onChange === 'function' && onChange(e.target.files[0].path)
-        }
+      (path) => {
+        setImagePath(path)
+        typeof onChange === 'function' && onChange(path)
       },
       [onChange]
-    ),
-    onDragOverCallback = useCallback(
-      (e) => {
-        e.stopPropagation()
-        typeof onDragOver === 'function' && onDragOver(e)
-      },
-      [onDragOver]
-    ),
-    onDropCallback = useCallback(
-      (e) => {
-        e.stopPropagation()
-        typeof onDrop === 'function' && onDrop(e)
-      },
-      [onDrop]
     ),
     refCallback = useCallback(
       (r) => {
@@ -70,17 +68,20 @@ function InputImage(
     <div className={[styles.inputImageLayout, vertical ? styles.inputImageLayoutVertical : ''].join(' ')}
          style={{width: (width * displayScale) + 'px', height: (height * displayScale) + 'px'}}>
       <div className={styles.inputImageContainer}>
-        <input {...props}
-               type="file"
-               accept=".jpg, .jpeg, .png, .bmp, .gif, .webp, .avif"
-               onChange={onChangeCallback}
-               onDragOver={onDragOverCallback}
-               onDrop={onDropCallback}
-               className={[styles.inputImage, className].join(' ')}
-               required={required}
-               id={id}
-               ref={refCallback}/>
-        {imagePath && <img src={encodeURI(imagePath.replaceAll('\\', '/')) + '?time=' + Date.now()} className={styles.inputImageImg} alt=""/>}
+        <InputDropFile {...props}
+                       mimeStart="image/"
+                       accept=".jpg, .jpeg, .png, .bmp, .gif, .webp, .avif"
+                       onChange={onChangeCallback}
+                       onDragOver={onDragOver}
+                       onDrop={onDrop}
+                       className={className}
+                       required={required}
+                       id={id}
+                       ref={refCallback}/>
+        {imagePath &&
+          <img src={encodeURI(imagePath.replaceAll('\\', '/')) + '?time=' + Date.now()}
+               className={styles.inputImageImg}
+               alt=""/>}
       </div>
       {imagePath && onDelete && <ButtonIconXMark className={styles.deleteButton}
                                                  rounded={true}

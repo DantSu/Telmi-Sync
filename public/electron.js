@@ -15,6 +15,7 @@ import mainEventStudio from './MainEvents/Studio.js'
 import mainEventTelmiSyncParams from './MainEvents/TelmiSyncParams.js'
 import mainEventPiperTTS from './MainEvents/PiperTTS.js'
 import mainEventAudioRecord from './MainEvents/AudioRecord.js'
+import mainEventFileManager from './MainEvents/FilesManager.js'
 
 function createWindow () {
   const mainWindow = new BrowserWindow({
@@ -38,6 +39,7 @@ function createWindow () {
 
   mainEventWindow(mainWindow)
   mainEventLink(mainWindow)
+  mainEventFileManager(mainWindow)
   mainEventImport(mainWindow)
   mainEventDownloadFFmpeg(mainWindow)
   mainEventLocalStoriesReader(mainWindow)
