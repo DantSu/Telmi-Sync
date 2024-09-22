@@ -60,6 +60,13 @@
         "com.apple.security.device.audio-input": true
       }
     },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage"
+        }
+      ]
+    },
     "extraResources": [
       {
         "from": "./extraResources/",
