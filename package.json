@@ -80,5 +80,10 @@
       "buildResources": "electron/build",
       "output": "electron/dist"
     }
-  }
+  },
+  "publish": [
+      {
+        "vPrefixedTagName": false
+      }
+  ]
 }

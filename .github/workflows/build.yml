@@ -27,19 +27,19 @@ jobs:
           python-version: '3.11'
 
       - name: Remove piper Darwin
-        run: rm -r extraResources/piper/darwin
+        run: rm -r extraResources/*/darwin
         if: ${{ ! startsWith(matrix.os, 'macos') }}
 
       - name: Remove piper linux
-        run: rm -r extraResources/piper/linux
+        run: rm -r extraResources/*/linux
         if: ${{ ! startsWith(matrix.os, 'ubuntu') }}
 
       - name: Remove piper win32
-        run: rm -r extraResources/piper/win32
+        run: rm -r extraResources/*/win32
         if: ${{ ! startsWith(matrix.os, 'windows') }}
 
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1
         with:
           github_token: ${{ secrets.github_token }}
-          release: ${{ startsWith(github.ref, 'refs/tags/v') }}
+          release: ${{ startsWith(github.ref, 'refs/tags/') }}
