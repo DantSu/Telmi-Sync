@@ -13,7 +13,6 @@ function SVGLayout({observer, scale, children, marginRight, marginBottom}) {
         el.setAttribute('viewBox', '0 0 ' + width + ' ' + height)
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [marginRight, marginBottom, scale, observer]
   )
   return <svg ref={callback}>{children}</svg>
