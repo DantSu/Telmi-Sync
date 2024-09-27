@@ -55,6 +55,7 @@ const
     if (
       hasDirectory(path, '0') &&
       (
+        hasFile(path, 'main-title.txt') ||
         hasFile(path, 'main-title.mp3') ||
         hasFile(path, 'main-title.webm') ||
         hasFile(path, 'main-title.wma') ||

@@ -44,6 +44,7 @@ const
         case 'title.png':
           setSubdirectory(FORMAT_TELMI, f.dir)
           break
+        case 'main-title.txt':
         case 'main-title.mp3':
         case 'main-title.ogg':
         case 'main-title.flac':
