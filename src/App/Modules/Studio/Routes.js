@@ -1,3 +1,5 @@
-const routeStudio = {module: 'Studio', params: {}}
+const
+  routeStudio = {module: 'Studio', params: {}},
+  getRouteStudio = (story) => ({...routeStudio, params: {story}})
 
-export { routeStudio }
+export {routeStudio, getRouteStudio}

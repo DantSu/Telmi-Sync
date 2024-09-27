@@ -1,11 +1,11 @@
 import TopBar from '../../Layout/TopBar/TopBar.js'
-import StudioContainer from './StudioContainer.js'
+import StudioStoryEditor from './Editor/StudioStoryEditor.js'
 
 
-function Studio() {
+function Studio({story}) {
   return <>
     <TopBar currentModule="Studio"/>
-    <StudioContainer/>
+    <StudioStoryEditor story={story}/>
   </>
 }
 

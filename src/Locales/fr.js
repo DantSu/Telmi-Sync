@@ -38,6 +38,7 @@ const fr = {
   'initialize': 'Initialisation',
   'synchronize': 'Synchroniser',
   'edit': 'Editer',
+  'edit-metadata': 'Editer les métadonnées',
   'download': 'Télécharger',
   'delete': 'Supprimer',
   'avail': 'Dispo.',
@@ -139,6 +140,7 @@ const fr = {
 
   'story': 'Histoire',
   'story-play': 'Lire l\'histoire',
+  'story-create': 'Créer une nouvelle histoire',
   'story-close': 'Fermer l\'histoire',
   'story-deciphering-media': 'Décryptage des fichiers médias',
   'story-reading-metadata': 'Lecture des métadonnées de l\'histoire',
@@ -190,6 +192,7 @@ const fr = {
   'store-delete-confirm': 'Êtes-vous sûr de vouloir supprimer le store <strong>"{0}"</strong> ?',
 
   'studio': 'Studio',
+  'studio-edit-story': 'Editer l\'histoire dans le Studio',
   'studio-story-unsaved': 'Histoire non enregistrée !',
   'studio-story-unsaved-confirm': 'Cette histoire a été modifiée. Êtes-vous sûr de vouloir quitter le Studio sans enregistrer les modifications apportées à cette histoire ?',
 

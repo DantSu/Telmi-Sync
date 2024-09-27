@@ -25,6 +25,7 @@ function Table({
                  onSelect,
                  onSelectAll,
                  onPlay,
+                 onStudio,
                  onInfo,
                  onAdd,
                  onEdit,
@@ -100,12 +101,6 @@ function Table({
         (onAdd || onSelectAll || onDeleteSelected || onDownloadSelected || onEditSelected || onOptimizeAudioSelected) &&
         <ul className={styles.headerIcons}>
           {
-            onAdd &&
-            <TableHeaderIcon componentIcon={ButtonIconPlus}
-                             title="story-create"
-                             onClick={onAdd}/>
-          }
-          {
             onOptimizeAudioSelected && selectedData.length > 0 &&
             <TableHeaderIcon componentIcon={ButtonIconWave}
                              title="telmios-optimize-audio"
@@ -135,6 +130,12 @@ function Table({
                              title="select-all"
                              onClick={onSelectAllCallback}/>
           }
+          {
+            onAdd &&
+            <TableHeaderIcon componentIcon={ButtonIconPlus}
+                             title="story-create"
+                             onClick={onAdd}/>
+          }
           {additionalHeaderButtons || null}
         </ul>
       }
@@ -157,6 +158,7 @@ function Table({
                                  onSelect={onSelect}
                                  onSelectAll={onSelectAll}
                                  onPlay={onPlay}
+                                 onStudio={onStudio}
                                  onOptimizeAudio={onOptimizeAudio}
                                  onEdit={onEdit}
                                  onInfo={onInfo}
@@ -168,6 +170,7 @@ function Table({
                                 selected={isCellSelected(selectedData, v)}
                                 onSelect={onSelect}
                                 onPlay={onPlay}
+                                onStudio={onStudio}
                                 onOptimizeAudio={onOptimizeAudio}
                                 onEdit={onEdit}
                                 onInfo={onInfo}

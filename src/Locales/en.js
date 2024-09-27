@@ -38,6 +38,7 @@ const en = {
   'initialize': 'Initialize',
   'synchronize': 'Synchronize',
   'edit': 'Edit',
+  'edit-metadata': 'Edit the matadata',
   'download': 'Download',
   'delete': 'Delete',
   'avail': 'Avail.',
@@ -139,6 +140,7 @@ const en = {
 
   'story': 'Story',
   'story-play': 'Play the story',
+  'story-create': 'Create a new story',
   'story-close': 'Close the story',
   'story-deciphering-media': 'Decryption of media files',
   'story-reading-metadata': 'Reading the story\'s metadata',
@@ -190,6 +192,7 @@ const en = {
   'store-delete-confirm': 'Are you sure you want to delete the store <strong>"{0}"</strong> ?',
 
   'studio': 'Studio',
+  'studio-edit-story': 'Edit the story in the studio',
   'studio-story-save': 'Save the story ?',
   'studio-story-save-confirm': 'This story has been updated. Would you like to save your changes ?',
 

@@ -54,10 +54,13 @@ function TopBar({currentModule}) {
                              text={getLocale('stores')}
                              route={routeStores}
                              currentModule={currentModule}/>
-        <TopButtonNavigation buttonComponent={ButtonIconTextMicrophone}
-                             text={getLocale('studio')}
-                             route={routeStudio}
-                             currentModule={currentModule}/>
+        {
+          currentModule === routeStudio.module &&
+          <TopButtonNavigation buttonComponent={ButtonIconTextMicrophone}
+                               text={getLocale('studio')}
+                               route={routeStudio}
+                               currentModule={currentModule}
+                               clickable={false}/>}
       </ul>
     </div>
     <ul className={styles.buttons}>
@@ -66,7 +69,7 @@ function TopBar({currentModule}) {
       <li><ButtonIconGear title={getLocale('telmi-sync-params')}
                           onClick={onParameters}/></li>
       <li><ButtonIconWindowMinimize title={getLocale('minimize-window')}
-                            onClick={onMinimize}/></li>
+                                    onClick={onMinimize}/></li>
       <li><ButtonIconWindow title={getLocale('maximize-window')}
                             onClick={onMaximize}/></li>
       <li><ButtonIconXMark title={getLocale('close-app')}

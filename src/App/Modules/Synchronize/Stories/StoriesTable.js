@@ -18,7 +18,7 @@ const
     return storiesIds[str]
   }
 
-function StoriesTable ({stories, className, onPlay, onEdit, onEditSelected, onDelete, onOptimizeAudio, onOptimizeAudioSelected, selectedStories, setSelectedStories}) {
+function StoriesTable ({stories, className, onPlay, onAdd, onStudio, onEdit, onEditSelected, onDelete, onOptimizeAudio, onOptimizeAudioSelected, selectedStories, setSelectedStories}) {
   const
     {getLocale} = useLocale(),
     {addModal, rmModal} = useModal(),
@@ -135,7 +135,9 @@ function StoriesTable ({stories, className, onPlay, onEdit, onEditSelected, onDe
                 selectedData={selectedStories}
                 onSelect={onSelect}
                 onSelectAll={onSelectAll}
+                onStudio={onStudio}
                 onPlay={onPlay}
+                onAdd={onAdd}
                 onOptimizeAudio={onOptimizeAudio}
                 onOptimizeAudioSelected={onOptimizeAudioSelected}
                 onEdit={onEdit !== undefined ? callbackOnEdit : undefined}

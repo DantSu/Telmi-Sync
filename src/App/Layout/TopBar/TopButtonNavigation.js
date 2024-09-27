@@ -1,8 +1,8 @@
-import { useRouter } from '../../Router/RouterHooks.js'
+import {useRouter} from '../../Router/RouterHooks.js'
 
 import styles from './TopBar.module.scss'
 
-function TopButtonNavigation ({buttonComponent, text, route, currentModule}) {
+function TopButtonNavigation({buttonComponent, text, route, currentModule, clickable=true}) {
   const
     setRoute = useRouter(),
     isSelected = route.module === currentModule,
@@ -11,7 +11,7 @@ function TopButtonNavigation ({buttonComponent, text, route, currentModule}) {
   return <li className={[styles.buttonContainer, isSelected ? styles.buttonContainerSelected : ''].join(' ')}>
     <Button text={text}
             className={[styles.button, isSelected ? styles.buttonSelected : ''].join(' ')}
-            onClick={() => setRoute(route)}/>
+            onClick={() => clickable && setRoute(route)}/>
   </li>
 }
 

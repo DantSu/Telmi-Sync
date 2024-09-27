@@ -9,8 +9,9 @@ import ButtonIconInfo from '../Buttons/Icons/ButtonIconInfo.js'
 import ButtonIconPlay from '../Buttons/Icons/ButtonIconPlay.js'
 
 import styles from './Table.module.scss'
+import ButtonIconMicrophone from '../Buttons/Icons/ButtonIconMicrophone.js'
 
-function TableCell ({data, selected, onSelect, onPlay, onInfo, onOptimizeAudio, onEdit, onDownload, onDelete}) {
+function TableCell ({data, selected, onSelect, onPlay, onStudio, onInfo, onOptimizeAudio, onEdit, onDownload, onDelete}) {
   const
     {getLocale} = useLocale(),
     onCSelect = useCallback(
@@ -32,6 +33,14 @@ function TableCell ({data, selected, onSelect, onPlay, onInfo, onOptimizeAudio, 
         typeof onPlay === 'function' && onPlay(data)
       },
       [onPlay, data]
+    ),
+    onCStudio = useCallback(
+      (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        typeof onStudio === 'function' && onStudio(data)
+      },
+      [onStudio, data]
     ),
     onCOptimizeAudio = useCallback(
       (e) => {
@@ -75,12 +84,13 @@ function TableCell ({data, selected, onSelect, onPlay, onInfo, onOptimizeAudio, 
       {data.cellLabelIcon && <p className={styles.cellImageLabel} title={data.cellLabelIconText}>{data.cellLabelIcon}</p>}
     </div>
     {
-      (onPlay || onEdit || onDownload || onDelete) &&
+      (onStudio || onPlay || onInfo || onOptimizeAudio || onEdit || onDownload || onDelete) &&
       <div className={styles.cellActionBar}>
+        {onStudio && <ButtonIconMicrophone title={getLocale('studio-edit-story')} onClick={onCStudio} className={styles.cellActionButton}/>}
         {onPlay && <ButtonIconPlay title={getLocale('story-play')} onClick={onCPlay} className={styles.cellActionButton}/>}
         {onInfo && <ButtonIconInfo title={getLocale('infos')} onClick={onCInfo} className={styles.cellActionButton}/>}
         {onOptimizeAudio && <ButtonIconWave title={getLocale('telmios-optimize-audio')} onClick={onCOptimizeAudio} className={styles.cellActionButton}/>}
-        {onEdit && <ButtonIconPen title={getLocale('edit')} onClick={onCEdit} className={styles.cellActionButton}/>}
+        {onEdit && <ButtonIconPen title={getLocale('edit-metadata')} onClick={onCEdit} className={styles.cellActionButton}/>}
         {onDownload && <ButtonIconDownload title={getLocale('download')} onClick={onCDownload} className={styles.cellActionButton}/>}
         {onDelete && <ButtonIconTrash title={getLocale('delete')} onClick={onCDelete} className={styles.cellActionButton}/>}
       </div>

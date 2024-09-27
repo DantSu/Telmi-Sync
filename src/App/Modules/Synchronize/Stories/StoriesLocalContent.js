@@ -1,7 +1,9 @@
-import { useCallback, useMemo } from 'react'
-import { useModal } from '../../../Components/Modal/ModalHooks.js'
-import { useTelmiOS } from '../../../Components/TelmiOS/TelmiOSHooks.js'
-import { useLocalStories } from '../../../Components/LocalStories/LocalStoriesHooks.js'
+import {useCallback, useMemo} from 'react'
+import {useModal} from '../../../Components/Modal/ModalHooks.js'
+import {useTelmiOS} from '../../../Components/TelmiOS/TelmiOSHooks.js'
+import {useLocalStories} from '../../../Components/LocalStories/LocalStoriesHooks.js'
+import {useRouter} from '../../../Router/RouterHooks.js'
+import {getRouteStudio} from '../../Studio/Routes.js'
 
 import StoriesTable from './StoriesTable.js'
 import ModalStoriesOptimizeAudio from './ModalStoriesOptimizeAudio.js'
@@ -9,11 +11,12 @@ import ModalPlayerLauncher from '../../Studio/Player/ModalPlayerLauncher.js'
 
 const {ipcRenderer} = window.require('electron')
 
-function StoriesLocalContent ({setSelectedStories, selectedStories}) {
+function StoriesLocalContent({setSelectedStories, selectedStories}) {
   const
     localStories = useLocalStories(),
     {stories: telmiOSStories} = useTelmiOS(),
     {addModal, rmModal} = useModal(),
+    setRoute = useRouter(),
 
     stories = useMemo(
       () => {
@@ -59,6 +62,16 @@ function StoriesLocalContent ({setSelectedStories, selectedStories}) {
       [addModal, rmModal]
     ),
 
+    onStudio = useCallback(
+      (story) => setRoute(getRouteStudio(story)),
+      [setRoute]
+    ),
+
+    onAdd = useCallback(
+      () => setRoute(getRouteStudio({})),
+      [setRoute]
+    ),
+
     onEdit = useCallback(
       (story) => ipcRenderer.send('local-stories-update', [story]),
       []
@@ -75,8 +88,10 @@ function StoriesLocalContent ({setSelectedStories, selectedStories}) {
   return <StoriesTable stories={stories}
                        onOptimizeAudio={onOptimizeAudio}
                        onOptimizeAudioSelected={onOptimizeAudioSelected}
+                       onStudio={onStudio}
                        onPlay={onPlay}
                        onEdit={onEdit}
+                       onAdd={onAdd}
                        onEditSelected={onEditSelected}
                        onDelete={onDelete}
                        setSelectedStories={setSelectedStories}
