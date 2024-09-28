@@ -1,18 +1,33 @@
-import {forwardRef, useCallback} from 'react'
+import {forwardRef, useCallback, useState} from 'react'
 import {useModal} from '../../Modal/ModalHooks.js'
 import {useElectronListener} from '../../Electron/Hooks/UseElectronEvent.js'
 import ModalElectronTaskVisualizer from '../../Electron/Modal/ModalElectronTaskVisualizer.js'
 
 import styles from './Input.module.scss'
 
-function InputDropFile({id, accept, mimeStart, required, className, onChange, onDragOver, onDrop, ...props}, refCallback) {
+function InputDropFile(
+  {
+    id,
+    accept,
+    mimeStart,
+    required,
+    className,
+    onChange,
+    onDragOver,
+    onDrop,
+    ...props
+  },
+  refCallback
+) {
   const
+    [waitingForUpload, setWaintingForUpload] = useState(false),
     {addModal, rmModal} = useModal(),
     onChangeCallback = useCallback(
       (e) => {
         if (!e.target.files.length || e.target.files[0].type.indexOf(mimeStart) !== 0) {
           e.target.value = null
         } else {
+          setWaintingForUpload(true)
           addModal((key) => {
             const modal = <ModalElectronTaskVisualizer key={key}
                                                        taskName="file-copy"
@@ -38,15 +53,18 @@ function InputDropFile({id, accept, mimeStart, required, className, onChange, on
       },
       [onDrop]
     )
-  
+
   useElectronListener(
     'file-copy-succeed',
     (filePath) => {
-      typeof onChange == 'function' && onChange(filePath)
+      if (waitingForUpload) {
+        typeof onChange == 'function' && onChange(filePath)
+        setWaintingForUpload(false)
+      }
     },
-    [onChange]
+    [waitingForUpload, onChange]
   )
-  
+
   return <input {...props}
                 type="file"
                 accept={accept}
