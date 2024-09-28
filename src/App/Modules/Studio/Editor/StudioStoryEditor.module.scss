@@ -35,6 +35,12 @@
   opacity: 0.3;
 }
 
+.topBarSeparator {
+  margin: 0 10px;
+  height: 30px;
+  border-left: 1px solid $white15;
+}
+
 .content {
   flex: 1;
   display: flex;

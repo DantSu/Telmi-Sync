@@ -129,16 +129,19 @@ function StudioStoryEditorLayout({closeEditor}) {
               title={getLocale('redo')}
               onClick={onRedo}/>
           </li>
+          <li className={styles.topBarSeparator}></li>
           <li>
             <ButtonIconToolbox className={styles.topBarButton}
                                title={getLocale('inventory')}
                                onClick={onEditItems}/>
           </li>
+          <li className={styles.topBarSeparator}></li>
           <li>
             <ButtonIconPlay className={styles.topBarButton}
                             title={getLocale('story-play')}
                             onClick={onPlay}/>
           </li>
+          <li className={styles.topBarSeparator}></li>
           <li>
             <ButtonIconFloppyDisk
               className={[styles.topBarButton, !isStoryUpdated ? styles.topBarButtonDisabled : ''].join(' ')}
@@ -151,6 +154,7 @@ function StudioStoryEditorLayout({closeEditor}) {
               title={getLocale('zip-export')}
               onClick={onZip}/>
           </li>
+          <li className={styles.topBarSeparator}></li>
         </> : null}
         <li>
           <ButtonIconXMark className={styles.topBarButton}
