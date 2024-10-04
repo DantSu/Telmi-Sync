@@ -3,7 +3,7 @@ import {useLocale} from '../../../../../Components/Locale/LocaleHooks.js'
 import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
 import {useStudioForm} from '../../Providers/StudioStageHooks.js'
 
-import InputSwitch from '../../../../../Components/Form/Input/InputSwitch.js'
+import InputSelect from '../../../../../Components/Form/Input/InputSelect.js'
 import StudioActionItemForm from './StudioActionItemForm.js'
 import StudioActionFormExisting from './StudioActionFormExisting.js'
 import StudioActionFormNew from './StudioActionFormNew.js'
@@ -14,18 +14,27 @@ import styles from './StudioStageForm.module.scss'
 function StudioActionForm({stageNode}) {
   const
     {getLocale} = useLocale(),
-    {story: {nodes}, storyVersion} = useStudioStory(),
+    {story: {nodes, notes}, storyVersion} = useStudioStory(),
     {form: stage} = useStudioForm(),
     {updateStory} = useStudioStoryUpdater(),
-    randomRef = useRef(),
+    nextSceneRef = useRef(),
     actionNode = stageNode.ok === null ? [] : nodes.actions[stageNode.ok.action],
-    actionIndex = stageNode.ok === null ? 0 : stageNode.ok.index,
-    actionIndexRandom = actionIndex === -1,
+    actionIndex = stageNode.ok === null ? 0 : (stageNode.ok.index !== undefined ? stageNode.ok.index : stageNode.ok.indexItem),
 
-    onActionIndexRandomChange = (e) => {
+    onActionIndexChange = (value) => {
       updateStory((s) => {
         if (stageNode.ok !== null) {
-          stageNode.ok.index = e.target.checked ? -1 : 0
+          if (typeof value === 'string') {
+            if (stageNode.ok.index !== undefined) {
+              delete stageNode.ok.index
+            }
+            stageNode.ok.indexItem = value
+          } else {
+            if (stageNode.ok.indexItem !== undefined) {
+              delete stageNode.ok.indexItem
+            }
+            stageNode.ok.index = value
+          }
           return {...s}
         }
         return s
@@ -33,17 +42,25 @@ function StudioActionForm({stageNode}) {
     }
 
   useEffect(() => {
-    randomRef.current.checked = actionIndexRandom
-  }, [actionIndexRandom])
+    nextSceneRef.current.value = actionIndex
+  }, [actionIndex])
 
   return <div className={styles.actionContainer}>
     <h2 className={styles.actionTitle}>{getLocale('what-next')}</h2>
-    <InputSwitch id={'action-default-index'}
+    <InputSelect id={'action-default-index'}
                  key={'action-default-index-' + storyVersion + '-' + stage}
-                 ref={randomRef}
-                 label={getLocale('choose-scene-randomly')}
-                 onChange={onActionIndexRandomChange}
-                 defaultValue={actionIndexRandom}/>
+                 className={styles.selectNextScene}
+                 ref={nextSceneRef}
+                 label={getLocale('choose-next-scene')}
+                 onChange={onActionIndexChange}
+                 options={[
+                   {value: -1, text: getLocale('randomly')},
+                   ...actionNode.map((v, k) => ({value: k, text: 'S.' + (k + 1) + ' : ' + notes[v.stage].title})),
+                   ...(Array.isArray(nodes.inventory) ?
+                       nodes.inventory.map((v) => ({value: v.id, text: 'Obj : ' + v.name})) : []
+                   )
+                 ]}
+                 defaultValue={actionIndex}/>
     <ul className={styles.actionListContainer}>{
       actionNode.map((v, k) => <StudioActionItemForm stageNode={stageNode}
                                                      action={v}

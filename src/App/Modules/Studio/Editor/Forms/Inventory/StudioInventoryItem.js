@@ -41,14 +41,15 @@ function StudioInventoryItem({itemKey}) {
       () => {
         updateStory((s) => {
           const item = s.nodes.inventory[itemKey]
-
           if (
             Object.values(s.nodes.stages).find(
-              (v) => Array.isArray(v.items) && v.items.find((v) => v.item === item.id) !== undefined
+              (v) =>
+                (v.ok !== null && v.ok.indexItem === item.id) ||
+                (Array.isArray(v.items) && v.items.find((v) => v.item === item.id || v.assignItem === item.id) !== undefined)
             ) !== undefined ||
             Object.values(s.nodes.actions).find(
               (v) => v.find(
-                (v) => Array.isArray(v.conditions) && v.conditions.find((v) => v.item === item.id) !== undefined
+                (v) => Array.isArray(v.conditions) && v.conditions.find((v) => v.item === item.id || v.compareItem === item.id) !== undefined
               ) !== undefined
             )
           ) {

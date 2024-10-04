@@ -30,19 +30,20 @@ function mainEventStudio(mainWindow) {
           stages: Object.keys(nodes.stages).reduce(
             (acc, stageKey) => {
               const stage = nodes.stages[stageKey]
-              if (Array.isArray(stage.items)) {
-                return {
-                  ...acc,
-                  [stageKey]: {
-                    ...stage,
-                    items: stage.items.map((i) => ({
-                      ...i,
-                      item: 'i' + i.item
-                    }))
-                  }
-                }
-              } else {
-                return {...acc, [stageKey]: stage}
+              return {
+                ...acc,
+                [stageKey]: Object.assign(
+                  stage,
+                  stage.ok !== null && stage.ok.indexItem !== undefined ? {
+                    ok: {...stage.ok, indexItem: 'i' + stage.ok.indexItem}
+                  } : null,
+                  Array.isArray(stage.items) ? {
+                    items: stage.items.map((i) => Object.assign(
+                      {...i, item: 'i' + i.item},
+                      i.assignItem !== undefined ? {assignItem: 'i' + i.assignItem} : null
+                    ))
+                  } : null
+                )
               }
             },
             {}
@@ -54,10 +55,10 @@ function mainEventStudio(mainWindow) {
                 if (Array.isArray(action.conditions)) {
                   return {
                     ...action,
-                    conditions: action.conditions.map((c) => ({
-                      ...c,
-                      item: 'i' + c.item
-                    }))
+                    conditions: action.conditions.map((c) => Object.assign(
+                      {...c, item: 'i' + c.item},
+                      c.compareItem !== undefined ? {compareItem: 'i' + c.compareItem} : null
+                    ))
                   }
                 } else {
                   return action

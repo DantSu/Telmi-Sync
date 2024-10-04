@@ -95,7 +95,7 @@ function StudioInventoryItemForm({itemKey, onValidate}) {
                                     name: values[0],
                                     initialNumber: values[1],
                                     maxNumber: values[2],
-                                    display: parseInt(values[3], 10),
+                                    display: values[3],
                                     newImage: values[4] || s.nodes.inventory[editItemKey].newImage,
                                   }
                                   return {...s}

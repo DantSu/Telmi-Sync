@@ -37,6 +37,10 @@
   border-top: 2px solid $white60;
 }
 
+.selectNextScene {
+  width: 130px;
+}
+
 .actionListContainer, .inventoryUpdatesContainer {
   border-top: 1px dashed $white30;
   border-bottom: 1px dashed $white30;
@@ -192,12 +196,14 @@
 
 .conditionFormContainer {
   flex: 0 0 100%;
+  max-width: 100%;
   background: $black20;
 }
 
 .conditionTitle {
   text-align: center;
   font-size: 14px;
+  flex: 0 0 100px;
 }
 
 .conditionForm {
@@ -206,22 +212,29 @@
   align-items: center;
 }
 
-.conditionInputSmall {
-  width: 44px;
+.conditionInputTiny {
+  flex: 0 0 32px;
 }
 
-.conditionInputMedium {
-  width: 64px;
+.conditionInputSmall {
+  flex: 1.5;
+  max-width: 50px;
 }
 
 .conditionInputWide {
-  width: 84px;
+  flex: 3;
+  max-width: 100px;
 }
 
 .conditionTitle,
 .conditionForm,
+.conditionInputTiny,
 .conditionInputSmall,
-.conditionInputMedium,
 .conditionInputWide {
-  padding: 0 2px;
+  padding: 0 1px;
+}
+.buttonValidate {
+  border-radius: 16px;
+  padding: 5px 0;
+  width: 100%;
 }

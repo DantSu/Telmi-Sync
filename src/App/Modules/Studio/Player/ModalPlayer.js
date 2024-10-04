@@ -1,6 +1,6 @@
 import {useCallback, useEffect, useMemo, useState} from 'react'
 import {isAudioDefined, isImageDefined} from '../Helpers/FileHelpers.js'
-import {checkConditionComparator, checkUpdateInventory} from '../Editor/Forms/StudioNodesHelpers.js'
+import {doComparisonOperator, doAssignmentOperator} from '../Editor/Forms/StudioNodesHelpers.js'
 
 import ModalLayout from '../../../Components/Modal/ModalLayout.js'
 import ButtonIconChevronLeft from '../../../Components/Buttons/Icons/ButtonIconChevronLeft.js'
@@ -13,25 +13,46 @@ import PlayerInventory from './PlayerInventory.js'
 import styles from './ModalPlayer.module.scss'
 
 const
-  checkRandomIndex = (index, options, items) => {
-    if (index >= 0) {
-      return index
+  getConditionNumber = (condition, items) => {
+    if (condition.number !== undefined) {
+      return condition.number
     }
-    if (!options.length) {
+    if (condition.compareItem !== undefined) {
+      return items.find((item) => item.id === condition.compareItem).count
+    }
+    return 0
+  },
+  getInventoryUpdateNumber = (update, items) => {
+    if (update.number !== undefined) {
+      return update.number
+    }
+    if (update.assignItem !== undefined) {
+      return items.find((item) => item.id === update.assignItem).count
+    }
+    return 0
+  },
+  getIndex = (action, options, items) => {
+    if (!options.length || (action.index === undefined && action.indexItem === undefined)) {
       return 0
+    }
+    if(action.indexItem !== undefined) {
+      return Math.min(Math.max(items.find((item) => item.id === action.indexItem).count, 0), options.length - 1);
+    }
+    if (action.index >= 0) {
+      return action.index
     }
     if (!Array.isArray(items) || !items.length) {
       return Math.floor(Math.random() * options.length)
     }
     const optionsSelected = options.filter(
       (option) => {
-        if(!Array.isArray(option.conditions) || !option.conditions.length) {
+        if (!Array.isArray(option.conditions) || !option.conditions.length) {
           return true
         }
         return option.conditions.find(
-          (c) => !checkConditionComparator(
+          (c) => !doComparisonOperator(
             items.find((item) => item.id === c.item).count,
-            c.number,
+            getConditionNumber(c, items),
             c.comparator
           )
         ) === undefined
@@ -73,7 +94,7 @@ const
 
       const condition = option.conditions.find((c) => {
         const item = items.find((item) => item.id === c.item)
-        return !checkConditionComparator(item.count, c.number, c.comparator)
+        return !doComparisonOperator(item.count, getConditionNumber(c, items), c.comparator)
       })
 
       if (condition === undefined) {
@@ -91,7 +112,7 @@ const
     }
     const
       options = nodes.actions[action.action],
-      index = findNextOption(options, checkRandomIndex(action.index, options, items), 0, items)
+      index = findNextOption(options, getIndex(action, options, items), 0, items)
 
     return index < 0 ? [[], 0] : [options, index]
   }
@@ -149,7 +170,7 @@ function ModalPlayer({story, onClose}) {
           setActionIndex(0)
         } else {
           setActionOptions(nodes.actions[action.action])
-          setActionIndex(checkRandomIndex(action.index, nodes.actions[action.action], items))
+          setActionIndex(getIndex(action, nodes.actions[action.action], items))
         }
       },
       [items, nodes.actions, stage]
@@ -245,7 +266,7 @@ function ModalPlayer({story, onClose}) {
         setItems((items) => {
           newStage.items.forEach((item) => {
             const itemInventory = items.find((i) => i.id === item.item)
-            itemInventory.count = Math.min(Math.max(0, checkUpdateInventory(itemInventory.count, item.number, item.type)), itemInventory.maxNumber)
+            itemInventory.count = Math.min(Math.max(0, doAssignmentOperator(itemInventory.count, getInventoryUpdateNumber(item, items), item.type)), itemInventory.maxNumber)
           })
           return [...items]
         })
@@ -259,7 +280,8 @@ function ModalPlayer({story, onClose}) {
                       isClosable={true}
                       onClose={onClose}>
     <div className={styles.images}>
-      {image && <img src={encodeURI(image.replaceAll('\\', '/')) + '?time=' + Date.now()} className={styles.imageStory} alt=""/>}
+      {image && <img src={encodeURI(image.replaceAll('\\', '/')) + '?time=' + Date.now()} className={styles.imageStory}
+                     alt=""/>}
       {image && itemsGot.length > 0 && <PlayerInventory items={itemsGot} story={story}/>}
     </div>
     <ul className={styles.buttons}>

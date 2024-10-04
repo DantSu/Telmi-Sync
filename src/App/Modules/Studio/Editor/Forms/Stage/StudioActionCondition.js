@@ -1,6 +1,6 @@
 import {useCallback} from 'react'
 import {useLocale} from '../../../../../Components/Locale/LocaleHooks.js'
-import {getConditionComparator} from '../StudioNodesHelpers.js'
+import {getComparisonOperators} from '../StudioNodesHelpers.js'
 import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
 
 import ButtonIconTrash from '../../../../../Components/Buttons/Icons/ButtonIconTrash.js'
@@ -13,6 +13,7 @@ function StudioActionCondition({action, condition, conditionKey}) {
     {story: {nodes}} = useStudioStory(),
     {updateStory} = useStudioStoryUpdater(),
     item = nodes.inventory.find((v) => v.id === condition.item),
+    compareItem = condition.compareItem !== undefined ? nodes.inventory.find((v) => v.id === condition.compareItem) : null,
     onDelete = useCallback(
       () => {
         updateStory((s) => {
@@ -25,9 +26,13 @@ function StudioActionCondition({action, condition, conditionKey}) {
       },
       [action.conditions, conditionKey, updateStory]
     )
-
   return <li className={styles.conditionContainer}>
-    <span>{getConditionComparator()[condition.comparator]} {condition.number} {item.name}</span>
+    <span>
+      {item.name}&nbsp;
+      {getComparisonOperators()[condition.comparator]}&nbsp;
+      {condition.number !== undefined && condition.number}
+      {compareItem !== null && compareItem.name}
+    </span>
     <ButtonIconTrash className={styles.conditionButton} onClick={onDelete} title={getLocale('display-condition-delete')}/>
   </li>
 }

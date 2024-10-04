@@ -66,8 +66,8 @@ const
     notes[stageId] = {title: title || stageId, text: ''}
     return {...notes}
   },
-  getConditionComparator = () => (['<', '<=', '=', '>', '>=', '!=']),
-  checkConditionComparator = (itemCount, conditionNumber, conditionComparator) => {
+  getComparisonOperators = () => (['<', '<=', '==', '>', '>=', '!=']),
+  doComparisonOperator = (itemCount, conditionNumber, conditionComparator) => {
     switch (conditionComparator) {
       case 0:
         return itemCount < conditionNumber
@@ -85,8 +85,8 @@ const
         return false
     }
   },
-  getUpdateInventoryType = () => (['+', '-', '=']),
-  checkUpdateInventory = (itemCount, updateNumber, updateType) => {
+  getAssigmentOperators = () => (['+=', '-=', '=']),
+  doAssignmentOperator = (itemCount, updateNumber, updateType) => {
     switch (updateType) {
       case 0:
         return itemCount + updateNumber
@@ -97,4 +97,4 @@ const
     }
   }
 
-export {addStage, addAction, addStageOption, addInventoryItem, nodesMoveObject, addNote, getConditionComparator, checkConditionComparator, getUpdateInventoryType, checkUpdateInventory}
+export {addStage, addAction, addStageOption, addInventoryItem, nodesMoveObject, addNote, getComparisonOperators, doComparisonOperator, getAssigmentOperators, doAssignmentOperator}

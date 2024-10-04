@@ -4,7 +4,7 @@ import InputLayout from './InputLayout.js'
 
 import styles from './Input.module.scss'
 
-function InputSelect({label, id, required, className, options, vertical, ...props}, ref) {
+function InputSelect({label, id, required, className, options, vertical, onChange, ...props}, ref) {
   const
     {getLocale} = useLocale(),
     refCallback = useCallback(
@@ -16,25 +16,33 @@ function InputSelect({label, id, required, className, options, vertical, ...prop
             }
             return null
           }
+          r.getOption = () => {
+            return options[r.selectedIndex]
+          }
           r.getValue = () => {
-            return r.value
+            return options[r.selectedIndex].value
           }
           ref.current = r
         }
       },
-      [ref, label, getLocale]
+      [ref, getLocale, label, options]
+    ),
+    onChangeCallback = useCallback(
+      (e) => typeof onChange === 'function' && onChange(e.target.getValue()),
+      [onChange]
     )
 
-  if(!options || !options.length) {
+  if (!options || !options.length) {
     return null
   }
 
   return <InputLayout label={label} id={id} required={required} vertical={vertical}>
     <select {...props}
-           className={[styles.select, className].join(' ')}
-           required={required}
-           id={id}
-           ref={refCallback}>
+            className={[styles.select, className].join(' ')}
+            required={required}
+            id={id}
+            onChange={onChangeCallback}
+            ref={refCallback}>
       {options.map(({value, text}) => {
         const v = value === undefined ? text : value
         return <option key={id + '-option-' + v} value={v} className={styles.option}>{text}</option>

@@ -7,9 +7,9 @@ function Form ({children, ...props}) {
     {addModal, rmModal} = useModal(),
     validate = useCallback(
       (inputsRef, onSuccess) => {
-        const checkedValues = inputsRef.map((v) => v.current.checkValue()).filter((v) => v !== null)
+        const checkedValues = inputsRef.map((v) => v.current !== null ? v.current.checkValue() : null).filter((v) => v !== null)
         if (!checkedValues.length) {
-          onSuccess(inputsRef.map((v) => v.current.getValue()))
+          onSuccess(inputsRef.map((v) => v.current !== null ? v.current.getValue() : undefined))
         } else {
           addModal(
             (key) => {

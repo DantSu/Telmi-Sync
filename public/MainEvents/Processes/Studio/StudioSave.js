@@ -197,16 +197,22 @@ function main(jsonPath) {
             {
               image: getImageName(stageKey, stage),
               audio: getAudioName(stageKey, stage),
-              ok: stage.ok,
+              ok: hasInventory && stage.ok !== null && stage.ok.indexItem !== undefined ? {
+                ...stage.ok,
+                indexItem: mapInventory[stage.ok.indexItem]
+              } : stage.ok,
               home: stage.home,
               control: stage.control
             },
             hasInventory && Array.isArray(stage.items) && stage.items.length ? {
-              items: stage.items.map((i) => ({
-                type: i.type,
-                item: mapInventory[i.item],
-                number: i.number
-              }))
+              items: stage.items.map((i) => Object.assign(
+                {
+                  type: i.type,
+                  item: mapInventory[i.item],
+                },
+                i.number !== undefined ? {number: i.number} : null,
+                i.assignItem !== undefined ? {assignItem: mapInventory[i.assignItem]} : null
+              ))
             } : null
           )
         }
@@ -225,11 +231,13 @@ function main(jsonPath) {
             (option) => Object.assign(
               {stage: option.stage},
               hasInventory && Array.isArray(option.conditions) && option.conditions.length ? {
-                conditions: option.conditions.map((i) => ({
-                  comparator: i.comparator,
-                  item: mapInventory[i.item],
-                  number: i.number
-                }))
+                conditions: option.conditions.map((i) => Object.assign({
+                    comparator: i.comparator,
+                    item: mapInventory[i.item]
+                  },
+                  i.number !== undefined ? {number: i.number} : null,
+                  i.compareItem !== undefined ? {compareItem: mapInventory[i.compareItem]} : null
+                ))
               } : null
             )
           )

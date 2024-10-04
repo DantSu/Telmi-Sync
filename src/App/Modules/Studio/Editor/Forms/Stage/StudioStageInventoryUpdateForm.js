@@ -1,7 +1,7 @@
 import {useCallback} from 'react'
 import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
 import {useStudioForm} from '../../Providers/StudioStageHooks.js'
-import {getUpdateInventoryType} from '../StudioNodesHelpers.js'
+import {getAssigmentOperators} from '../StudioNodesHelpers.js'
 import ButtonIconTrash from '../../../../../Components/Buttons/Icons/ButtonIconTrash.js'
 
 import styles from './StudioStageForm.module.scss'
@@ -13,6 +13,7 @@ function StudioStageInventoryUpdateForm({rule, rulePosition}) {
     {updateStory} = useStudioStoryUpdater(),
     parentStage = nodes.stages[stage],
     item = nodes.inventory.find((v) => v.id === rule.item),
+    assignItem = rule.assignItem !== undefined ? nodes.inventory.find((v) => v.id === rule.assignItem) : null,
     
     onDelete = useCallback(
       () => {
@@ -31,7 +32,12 @@ function StudioStageInventoryUpdateForm({rule, rulePosition}) {
     )
   
   return <li className={styles.inventoryUpdate}>
-    <span className={styles.actionItemText}>{getUpdateInventoryType()[rule.type]}{rule.number} {item.name}</span>
+    <span className={styles.actionItemText}>
+      {item.name}&nbsp;
+      {getAssigmentOperators()[rule.type]}&nbsp;
+      {rule.number !== undefined && rule.number}
+      {assignItem !== null && assignItem.name}
+    </span>
     <ButtonIconTrash className={styles.actionItemButton}
                      onClick={onDelete}/>
   </li>

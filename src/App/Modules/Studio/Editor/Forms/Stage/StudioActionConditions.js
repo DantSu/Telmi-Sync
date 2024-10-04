@@ -1,8 +1,8 @@
-import {useRef} from 'react'
+import {useRef, useState} from 'react'
 import {useLocale} from '../../../../../Components/Locale/LocaleHooks.js'
 import {useStudioForm} from '../../Providers/StudioStageHooks.js'
 import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
-import {getConditionComparator} from '../StudioNodesHelpers.js'
+import {getComparisonOperators} from '../StudioNodesHelpers.js'
 
 import Form from '../../../../../Components/Form/Form.js'
 import InputSelect from '../../../../../Components/Form/Input/InputSelect.js'
@@ -19,9 +19,12 @@ function StudioActionConditions({action, actionPosition, ...props}) {
     {story: {nodes}, storyVersion} = useStudioStory(),
     {updateStory} = useStudioStoryUpdater(),
 
-    comparatorRef = useRef(null),
-    numberRef = useRef(null),
     itemRef = useRef(null),
+    comparatorRef = useRef(null),
+    typeValueRef = useRef(null),
+    numberRef = useRef(null),
+    compareItemRef = useRef(null),
+    [typeValue, setTypeValue] = useState(0),
 
     conditions = Array.isArray(action.conditions) ? action.conditions : [],
 
@@ -29,12 +32,19 @@ function StudioActionConditions({action, actionPosition, ...props}) {
       if (!Array.isArray(action.conditions)) {
         action.conditions = []
       }
-      action.conditions.push({item: values[2], number: values[1], comparator: parseInt(values[0], 10)})
+      setTypeValue(0)
+      action.conditions.push(
+        values[2] === 0 ?
+          {item: values[0], number: values[3], comparator: values[1]} :
+          {item: values[0], compareItem: values[4], comparator: values[1]}
+      )
       return {
         ...s,
         nodes: {...s.nodes}
       }
-    })
+    }),
+
+    inventoryOptions = nodes.inventory.map((v) => ({value: v.id, text: v.name}))
 
   return <ul{...props}
             className={styles.conditionsContainer}>
@@ -47,34 +57,55 @@ function StudioActionConditions({action, actionPosition, ...props}) {
         (validation) => {
           return <>
             <h3 className={styles.conditionTitle}>{getLocale('add-condition')}:</h3>
-            <div className={styles.conditionInputSmall}>
-              <InputSelect
-                key={'action-condition-comparator-' + storyVersion + '-' + stage + '-' + actionPosition + '-' + conditions.length}
-                options={getConditionComparator().map((text, value) => ({value, text}))}
-                ref={comparatorRef}
-                vertical={true}/>
-            </div>
-            <div className={styles.conditionInputMedium}>
-              <InputText
-                key={'action-condition-number-' + storyVersion + '-' + stage + '-' + actionPosition + '-' + conditions.length}
-                ref={numberRef}
-                type="number"
-                step={1}
-                min={0}
-                defaultValue={0}
-                required={true}
-                vertical={true}/>
-            </div>
             <div className={styles.conditionInputWide}>
               <InputSelect
                 key={'action-condition-item-' + storyVersion + '-' + stage + '-' + actionPosition + '-' + conditions.length}
                 ref={itemRef}
-                options={nodes.inventory.map((v) => ({value: v.id, text: v.name}))}
+                options={inventoryOptions}
                 vertical={true}/>
             </div>
-            <ButtonIconPlus rounded={true}
-                            title={getLocale('add-display-condition')}
-                            onClick={() => validation([comparatorRef, numberRef, itemRef], onValidate)}/>
+            <div className={styles.conditionInputSmall}>
+              <InputSelect
+                key={'action-condition-comparator-' + storyVersion + '-' + stage + '-' + actionPosition + '-' + conditions.length}
+                options={getComparisonOperators().map((text, value) => ({value, text}))}
+                ref={comparatorRef}
+                vertical={true}/>
+            </div>
+            <div className={styles.conditionInputSmall}>
+              <InputSelect
+                key={'action-condition-typevalue-' + storyVersion + '-' + stage + '-' + actionPosition + '-' + conditions.length}
+                options={[{value: 0, text: 'Nbr.'}, {value: 1, text: 'Obj.'}]}
+                onChange={(value) => setTypeValue(value)}
+                ref={typeValueRef}
+                vertical={true}/>
+            </div>
+            {
+              typeValue === 0 ?
+                <div className={styles.conditionInputWide}>
+                  <InputText
+                    key={'action-condition-number-' + storyVersion + '-' + stage + '-' + actionPosition + '-' + conditions.length}
+                    ref={numberRef}
+                    type="number"
+                    step={1}
+                    min={0}
+                    defaultValue={0}
+                    required={true}
+                    vertical={true}/>
+                </div> :
+                <div className={styles.conditionInputWide}>
+                  <InputSelect
+                    key={'action-condition-compareitem-' + storyVersion + '-' + stage + '-' + actionPosition + '-' + conditions.length}
+                    ref={compareItemRef}
+                    options={inventoryOptions}
+                    vertical={true}/>
+                </div>
+            }
+            <div className={styles.conditionInputTiny}>
+              <ButtonIconPlus rounded={true}
+                              title={getLocale('add-display-condition')}
+                              className={styles.buttonValidate}
+                              onClick={() => validation([itemRef, comparatorRef, typeValueRef, numberRef, compareItemRef], onValidate)}/>
+            </div>
           </>
         }
       }</Form>

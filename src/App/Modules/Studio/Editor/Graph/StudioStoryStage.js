@@ -1,7 +1,7 @@
 import {useCallback} from 'react'
 import {useStudioStory} from '../Providers/StudioStoryHooks.js'
 import {useStudioForm} from '../Providers/StudioStageHooks.js'
-import {getUpdateInventoryType} from '../Forms/StudioNodesHelpers.js'
+import {getAssigmentOperators} from '../Forms/StudioNodesHelpers.js'
 
 import StudioStoryNodeStage from './StudioStoryNodeStage.js'
 
@@ -31,7 +31,10 @@ function StudioStoryStage({stageId, x, y}) {
     inventoryUpdate = Array.isArray(currentStage.items) ?
       currentStage.items.map((rule) => {
         const item = nodes.inventory.find((v) => v.id === rule.item)
-        return getUpdateInventoryType()[rule.type] + rule.number + ' ' + item.name
+        return item.name + ' ' +
+          getAssigmentOperators()[rule.type] + ' ' +
+          (rule.number !== undefined ? rule.number : '') +
+          (rule.assignItem !== undefined ? nodes.inventory.find((v) => v.id === rule.assignItem).name : '')
       }).join('\n') : undefined
 
   return <StudioStoryNodeStage
