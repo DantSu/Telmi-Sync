@@ -55,7 +55,7 @@ function StudioActionForm({stageNode}) {
                  onChange={onActionIndexChange}
                  options={[
                    {value: -1, text: getLocale('randomly')},
-                   ...actionNode.map((v, k) => ({value: k, text: 'Scn ' + (k + 1) + ' : ' + notes[v.stage].title})),
+                   ...actionNode.map((v, k) => ({value: k, text: k + ' : ' + notes[v.stage].title})),
                    ...(Array.isArray(nodes.inventory) ?
                        nodes.inventory.map((v) => ({value: v.id, text: 'Obj : ' + v.name})) : []
                    )

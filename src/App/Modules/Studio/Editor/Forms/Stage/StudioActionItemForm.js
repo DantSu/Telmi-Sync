@@ -61,7 +61,7 @@ function StudioActionItemForm({stageNode, action, actionPosition}) {
                stageNode.ok.index === actionPosition ? styles.actionItemDefaultChoice : ''
              ].join(' ')}>
     <div className={styles.actionItemTitle}>
-      <span className={styles.actionItemText}>{note.title}</span>
+      <span className={styles.actionItemText}>{actionPosition} : {note.title}</span>
       <ButtonIconSquareCheck className={styles.actionItemButton}
                              title={getLocale('action-default')}
                              onDragStart={onPreventChildDraggable}
