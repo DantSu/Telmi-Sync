@@ -54,13 +54,13 @@ function TopBar({currentModule}) {
                              text={getLocale('stores')}
                              route={routeStores}
                              currentModule={currentModule}/>
-        {
-          currentModule === routeStudio.module &&
-          <TopButtonNavigation buttonComponent={ButtonIconTextMicrophone}
-                               text={getLocale('studio')}
-                               route={routeStudio}
-                               currentModule={currentModule}
-                               clickable={false}/>}
+        <TopButtonNavigation buttonComponent={ButtonIconTextMicrophone}
+                             text={getLocale('studio')}
+                             title={getLocale('studio-title')}
+                             route={routeStudio}
+                             currentModule={currentModule}
+                             className={currentModule !== routeStudio.module ? styles.buttonDisabled : undefined}
+                             clickable={false}/>
       </ul>
     </div>
     <ul className={styles.buttons}>

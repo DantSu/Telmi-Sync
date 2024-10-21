@@ -193,6 +193,7 @@ const fr = {
   'store-delete-confirm': 'Êtes-vous sûr de vouloir supprimer le store <strong>"{0}"</strong> ?',
 
   'studio': 'Studio',
+  'studio-title': 'Cliquez sur + pour créer une nouvelle histoire\nCliquez sur le micro d\'une histoire existante pour l\'éditer',
   'studio-edit-story': 'Editer l\'histoire dans le Studio',
   'studio-story-unsaved': 'Histoire non enregistrée !',
   'studio-story-unsaved-confirm': 'Cette histoire a été modifiée. Êtes-vous sûr de vouloir quitter le Studio sans enregistrer les modifications apportées à cette histoire ?',

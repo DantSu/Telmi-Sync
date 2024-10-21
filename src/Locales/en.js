@@ -193,6 +193,7 @@ const en = {
   'store-delete-confirm': 'Are you sure you want to delete the store <strong>"{0}"</strong> ?',
 
   'studio': 'Studio',
+  'studio-title': 'Click + to create a new story.\nClick on the microphone of an existing story to edit it.',
   'studio-edit-story': 'Edit the story in the studio',
   'studio-story-save': 'Save the story ?',
   'studio-story-save-confirm': 'This story has been updated. Would you like to save your changes ?',
