@@ -85,15 +85,23 @@ const
         return false
     }
   },
-  getAssigmentOperators = () => (['+=', '-=', '=']),
+  getAssigmentOperators = () => (['+=', '-=', '=', '*=', '/=', '%=']),
   doAssignmentOperator = (itemCount, updateNumber, updateType) => {
     switch (updateType) {
       case 0:
         return itemCount + updateNumber
       case 1:
         return itemCount - updateNumber
-      default:
+      case 2:
         return updateNumber
+      case 3:
+        return itemCount * updateNumber
+      case 4:
+        return Math.floor(itemCount / updateNumber)
+      case 5:
+        return itemCount % updateNumber
+      default:
+        return itemCount
     }
   }
 
