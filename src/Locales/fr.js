@@ -31,6 +31,7 @@ const fr = {
   'album-not-found': 'Album non trouvé',
   'artist': 'Artiste',
   'picture': 'Image',
+  'audio': 'Audio',
   'hours': 'Heures',
   'search': 'Rechercher',
   'save': 'Enregistrer',

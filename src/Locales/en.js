@@ -31,6 +31,7 @@ const en = {
   'album-not-found': 'Album not found',
   'artist': 'Artist',
   'picture': 'Picture',
+  'audio': 'Audio',
   'hours': 'Hours',
   'search': 'Search',
   'save': 'Save',

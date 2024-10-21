@@ -19,7 +19,10 @@ function StudioStoryNodeStage({
                                 isAutoplay,
                                 isOkButton
                               }) {
-  const {getLocale} = useLocale()
+
+  const
+    {getLocale} = useLocale(),
+    stageTitle = title + (image ? '\n' + getLocale('picture') + ' : ' + image : '') + (audio ? '\n' + getLocale('audio') + ' : ' + audio : '')
 
   return <SVGHtml x={x}
                   y={y}
@@ -27,20 +30,18 @@ function StudioStoryNodeStage({
                   height={80}
                   anchorX={SVG_ANCHOR_CENTER}
                   anchorY={SVG_ANCHOR_MIDDLE}>
-    <div className={[
-      isSelected ? styles.nodeStageSelected : styles.nodeStage,
-      isAutoplay ? styles.nodeStageAutoplay : undefined,
-      styles[color] !== undefined ? styles[color] : undefined
-    ].join(' ')}
+    <div title={stageTitle}
+         className={[
+           isSelected ? styles.nodeStageSelected : styles.nodeStage,
+           isAutoplay ? styles.nodeStageAutoplay : undefined,
+           styles[color] !== undefined ? styles[color] : undefined
+         ].join(' ')}
          onClick={onClick}
          onMouseDown={onMouseDown}
          draggable={typeof onDragStart === 'function'}
          onDragStart={onDragStart}>
       <ul className={styles.icons}>
-        {
-          typeof audio !== 'string' &&
-          <li className={styles.redIcon} title={getLocale('no-audio-file')}>{'\uf6a9'}</li>
-        }
+        {!audio && <li className={styles.redIcon} title={getLocale('no-audio-file')}>{'\uf6a9'}</li>}
         {
           typeof inventoryUpdate === 'string' && inventoryUpdate !== '' &&
           <li className={styles.icon} title={inventoryUpdate}>{'\uf552'}</li>
@@ -50,7 +51,7 @@ function StudioStoryNodeStage({
       <div className={styles.nodeStageImg}>
         {image && <img src={image} alt=""/>}
       </div>
-      <h3 className={styles.nodeStageTitle} title={title}>{title}</h3>
+      <h3 className={styles.nodeStageTitle}>{title}</h3>
     </div>
   </SVGHtml>
 }
