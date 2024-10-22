@@ -111,6 +111,7 @@ const fr = {
   'put-telmi-picture': 'Mettre l\'image de Telmi',
   'restore-original-picture': 'Remettre l\'image originale',
   'waiting-file-path': 'En attente d\'un chemin de fichier',
+  'playing-time': 'Temps de jeu',
 
   'action-continue-to': 'Continuer vers :',
   'action-scene-existing': 'Scène existante',

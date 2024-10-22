@@ -13,6 +13,7 @@ import PlayerInventory from './PlayerInventory.js'
 import styles from './ModalPlayer.module.scss'
 
 const
+  getTime = () => Math.floor(Date.now() / 1000),
   getConditionNumber = (condition, items) => {
     if (condition.number !== undefined) {
       return condition.number
@@ -22,12 +23,15 @@ const
     }
     return 0
   },
-  getInventoryUpdateNumber = (update, items) => {
+  getInventoryUpdateNumber = (update, items, startPlayingTime) => {
     if (update.number !== undefined) {
       return update.number
     }
     if (update.assignItem !== undefined) {
       return items.find((item) => item.id === update.assignItem).count
+    }
+    if (update.playingTime) {
+      return getTime() - startPlayingTime
     }
     return 0
   },
@@ -35,8 +39,8 @@ const
     if (!options.length || (action.index === undefined && action.indexItem === undefined)) {
       return 0
     }
-    if(action.indexItem !== undefined) {
-      return Math.min(Math.max(items.find((item) => item.id === action.indexItem).count, 0), options.length - 1);
+    if (action.indexItem !== undefined) {
+      return Math.min(Math.max(items.find((item) => item.id === action.indexItem).count, 0), options.length - 1)
     }
     if (action.index >= 0) {
       return action.index
@@ -120,6 +124,7 @@ const
 function ModalPlayer({story, onClose}) {
   const
     [stage, setStage] = useState(),
+    [startPlayingTime, setStartPlayingTime] = useState(getTime()),
     [actionOptions, setActionOptions] = useState([]),
     [actionIndex, setActionIndex] = useState(0),
     metadata = story.metadata,
@@ -155,6 +160,9 @@ function ModalPlayer({story, onClose}) {
         const [aOptions, aIndex] = findNextAction(stage, nodes, items)
         setActionOptions(aOptions)
         setActionIndex(aIndex)
+        if (stage === null) {
+          setStartPlayingTime(getTime())
+        }
       },
       [stage, nodes, items]
     ),
@@ -266,14 +274,14 @@ function ModalPlayer({story, onClose}) {
         setItems((items) => {
           newStage.items.forEach((item) => {
             const itemInventory = items.find((i) => i.id === item.item)
-            itemInventory.count = Math.min(Math.max(0, doAssignmentOperator(itemInventory.count, getInventoryUpdateNumber(item, items), item.type)), itemInventory.maxNumber)
+            itemInventory.count = Math.min(Math.max(0, doAssignmentOperator(itemInventory.count, getInventoryUpdateNumber(item, items, startPlayingTime), item.type)), itemInventory.maxNumber)
           })
           return [...items]
         })
       }
       setStage(newStage)
     },
-    [actionIndex, actionOptions, metadata, nodes, resetItems]
+    [actionIndex, actionOptions, metadata, nodes, resetItems, startPlayingTime]
   )
 
   return <ModalLayout className={styles.container}

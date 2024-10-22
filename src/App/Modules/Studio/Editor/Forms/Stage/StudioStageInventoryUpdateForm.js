@@ -1,4 +1,5 @@
 import {useCallback} from 'react'
+import {useLocale} from '../../../../../Components/Locale/LocaleHooks.js'
 import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
 import {useStudioForm} from '../../Providers/StudioStageHooks.js'
 import {getAssigmentOperators} from '../StudioNodesHelpers.js'
@@ -7,7 +8,8 @@ import ButtonIconTrash from '../../../../../Components/Buttons/Icons/ButtonIconT
 import styles from './StudioStageForm.module.scss'
 
 function StudioStageInventoryUpdateForm({rule, rulePosition}) {
-  const 
+  const
+    {getLocale} = useLocale(),
     {story: {nodes}} = useStudioStory(),
     {form: stage} = useStudioForm(),
     {updateStory} = useStudioStoryUpdater(),
@@ -37,6 +39,7 @@ function StudioStageInventoryUpdateForm({rule, rulePosition}) {
       {getAssigmentOperators()[rule.type]}&nbsp;
       {rule.number !== undefined && rule.number}
       {assignItem !== null && assignItem.name}
+      {rule.playingTime && getLocale('playing-time')}
     </span>
     <ButtonIconTrash className={styles.actionItemButton}
                      onClick={onDelete}/>

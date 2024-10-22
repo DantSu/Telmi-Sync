@@ -211,7 +211,8 @@ function main(jsonPath) {
                   item: mapInventory[i.item],
                 },
                 i.number !== undefined ? {number: i.number} : null,
-                i.assignItem !== undefined ? {assignItem: mapInventory[i.assignItem]} : null
+                i.assignItem !== undefined ? {assignItem: mapInventory[i.assignItem]} : null,
+                i.playingTime ? {playingTime: true} : null
               ))
             } : null
           )

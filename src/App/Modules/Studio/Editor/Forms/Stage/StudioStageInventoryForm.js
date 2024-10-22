@@ -27,21 +27,26 @@ function StudioStageInventoryForm() {
     assignItemRef = useRef(null),
 
     inventoryUpdate = Array.isArray(stageNode.items) ? stageNode.items : [],
-    onValidate = (values) => updateStory((s) => {
-      if (!Array.isArray(stageNode.items)) {
-        stageNode.items = []
-      }
+    onValidate = (values) => {
+      updateStory((s) => {
+        if (!Array.isArray(stageNode.items)) {
+          stageNode.items = []
+        }
+        stageNode.items.push(
+          values[2] === 0 ?
+            {item: values[0], type: values[1], number: values[3]} : (
+              values[4] === 'playingTime' ?
+                {item: values[0], type: values[1], playingTime: true} :
+                {item: values[0], type: values[1], assignItem: values[4]}
+            )
+        )
+        return {
+          ...s,
+          nodes: {...s.nodes}
+        }
+      })
       setTypeValue(0)
-      stageNode.items.push(
-        values[2] === 0 ?
-          {item: values[0], number: values[3], type: values[1]} :
-          {item: values[0], assignItem: values[4], type: values[1]}
-      )
-      return {
-        ...s,
-        nodes: {...s.nodes}
-      }
-    }),
+    },
 
     inventoryOptions = nodes.inventory.map((v) => ({value: v.id, text: v.name}))
 
@@ -89,10 +94,11 @@ function StudioStageInventoryForm() {
                            ref={numberRef}/>
               </div> :
               <div className={styles.conditionInputWide}>
-                <InputSelect key={'inventory-update-assignitem-' + storyVersion + '-' + stage + '-' + inventoryUpdate.length}
-                             options={inventoryOptions}
-                             ref={assignItemRef}
-                             vertical={true}/>
+                <InputSelect
+                  key={'inventory-update-assignitem-' + storyVersion + '-' + stage + '-' + inventoryUpdate.length}
+                  options={[...inventoryOptions, {value: 'playingTime', text: getLocale('playing-time')}]}
+                  ref={assignItemRef}
+                  vertical={true}/>
               </div>
           }
           <div className={styles.conditionInputTiny}>

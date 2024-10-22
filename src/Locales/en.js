@@ -111,6 +111,7 @@ const en = {
   'put-telmi-picture': 'Put Telmi picture',
   'restore-original-picture': 'Restore original picture',
   'waiting-file-path': 'Waiting for a file path',
+  'playing-time': 'Playing time',
 
   'action-continue-to': 'Continue to :',
   'action-scene-existing': 'Existing scene',

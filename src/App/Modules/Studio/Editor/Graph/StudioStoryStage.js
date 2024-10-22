@@ -1,4 +1,5 @@
 import {useCallback} from 'react'
+import {useLocale} from '../../../../Components/Locale/LocaleHooks.js'
 import {useStudioStory} from '../Providers/StudioStoryHooks.js'
 import {useStudioForm} from '../Providers/StudioStageHooks.js'
 import {getAssigmentOperators} from '../Forms/StudioNodesHelpers.js'
@@ -7,6 +8,7 @@ import StudioStoryNodeStage from './StudioStoryNodeStage.js'
 
 function StudioStoryStage({stageId, x, y}) {
   const
+    {getLocale} = useLocale(),
     {story: {nodes, notes, metadata}} = useStudioStory(),
     {form: stage, setForm} = useStudioForm(),
     currentStage = nodes.stages[stageId],
@@ -34,7 +36,8 @@ function StudioStoryStage({stageId, x, y}) {
         return item.name + ' ' +
           getAssigmentOperators()[rule.type] + ' ' +
           (rule.number !== undefined ? rule.number : '') +
-          (rule.assignItem !== undefined ? nodes.inventory.find((v) => v.id === rule.assignItem).name : '')
+          (rule.assignItem !== undefined ? nodes.inventory.find((v) => v.id === rule.assignItem).name : '') +
+          (rule.playingTime ? getLocale('playing-time') : '')
       }).join('\n') : undefined
 
   return <StudioStoryNodeStage
