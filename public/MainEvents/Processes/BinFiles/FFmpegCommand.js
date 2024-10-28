@@ -107,7 +107,7 @@ const
   extractPngFromMp3 = (srcFile, dstPng) => {
     return new Promise((resolve, reject) => {
       rmFile(dstPng)
-      const stream = spawn(getFFmpegFilePath(), ['-i', srcFile, '-filter:v', 'scale=256x256', '-an', dstPng])
+      const stream = spawn(getFFmpegFilePath(), ['-i', srcFile, '-filter:v', 'scale=256x256', '-an', '-update', 'true', dstPng])
       stream.on('close', (code) => {
         if (code === 0) {
           resolve()
