@@ -149,11 +149,10 @@ const
         if (actionNotExists) {
           const
             actionParentToStage = stagesSize[stageId].stageParent === stageFrom,
-            actionWidth = actionParentToStage ? stagesSize[stageId].width : nodeWidth,
             [actionFromId, actionFromKey] = actionFrom.split('-')
 
           actionsPos[actionFrom] = {
-            x: actionsSize[actionFrom].posX + (actionParentToStage ? actionWidth : nodeWidth) / 2 + margin,
+            x: actionsSize[actionFrom].posX + (actionParentToStage && newStage ? stagesSize[stageId].width : nodeWidth) / 2 + margin,
             y: (actionsSize[actionFrom].lvl + 0.5) * nodeHeight + margin
           }
 
