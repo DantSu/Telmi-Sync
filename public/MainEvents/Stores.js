@@ -16,11 +16,18 @@ function mainEventStores(mainWindow) {
     'stores-get',
     async () => {
       const storesPath = getStoresPath('stores.json')
-      const defaultStores = [{
-        name: 'Telmi Interactive',
-        url: 'https://gist.githubusercontent.com/DantSu/49ed776755f3a01c995e78e3fd1cb79f/raw/telmi-interactive.json',
-        deletable: false
-      }]
+      const defaultStores = [
+        {
+          name: 'Telmi Interactive',
+          url: 'https://gist.githubusercontent.com/DantSu/49ed776755f3a01c995e78e3fd1cb79f/raw/telmi-interactive.json',
+          deletable: false
+        },
+        {
+          name: 'Litteratureaudio.com',
+          url: 'https://gist.githubusercontent.com/DantSu/c6a58c2d0f3b4dc01ed6cdeed6b93ebb/raw/litteratureaudio.json',
+          deletable: false
+        }
+      ]
 
       if (!fs.existsSync(storesPath)) {
         fs.writeFileSync(storesPath, JSON.stringify({stores: defaultStores}))
@@ -34,7 +41,10 @@ function mainEventStores(mainWindow) {
 
       const newStores = [
         ...defaultStores,
-        ...jsonStores.stores.filter((store) => defaultStores.find((s) => store.url === s.url) === undefined).map((store) => ({...store, deletable:true}))
+        ...jsonStores.stores.filter((store) => defaultStores.find((s) => store.url === s.url) === undefined).map((store) => ({
+          ...store,
+          deletable: true
+        }))
       ]
       fs.writeFileSync(storesPath, JSON.stringify({stores: newStores}))
       mainWindow.webContents.send('stores-data', newStores)
