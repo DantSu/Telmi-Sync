@@ -109,6 +109,7 @@ const
         }
       },
       actionsPos = {},
+      firstActionParentDrawn = {},
       components = {
         stages: [
           <StudioStoryStartStage key={'stage-startStage'}
@@ -149,10 +150,15 @@ const
         if (actionNotExists) {
           const
             actionParentToStage = stagesSize[stageId].stageParent === stageFrom,
-            [actionFromId, actionFromKey] = actionFrom.split('-')
+            [actionFromId, actionFromKey] = actionFrom.split('-'),
+            actionFromParent = actionParentToStage && firstActionParentDrawn[stageId] === undefined
+
+          if (actionFromParent) {
+            firstActionParentDrawn[stageId] = true
+          }
 
           actionsPos[actionFrom] = {
-            x: actionsSize[actionFrom].posX + (actionParentToStage && newStage ? stagesSize[stageId].width : nodeWidth) / 2 + margin,
+            x: actionsSize[actionFrom].posX + (actionFromParent ? stagesSize[stageId].width : nodeWidth) / 2 + margin,
             y: (actionsSize[actionFrom].lvl + 0.5) * nodeHeight + margin
           }
 
