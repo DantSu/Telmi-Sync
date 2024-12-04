@@ -1,4 +1,5 @@
 import { useLocale } from '../../../Components/Locale/LocaleHooks.js'
+import {stripHtmlTags} from '../../../Helpers/String.js'
 import ModalLayoutPadded from '../../../Components/Modal/ModalLayoutPadded.js'
 import ButtonsContainer from '../../../Components/Buttons/ButtonsContainer.js'
 import ModalTitle from '../../../Components/Modal/ModalTitle.js'
@@ -40,7 +41,7 @@ function ModalStoreStoryInfo ({story, onClose}) {
         <dd className={styles.infoContent}>{(new Date(story.updated_at)).toLocaleString()}</dd>
 
         <dt className={styles.infoLabelFullWidth}>{getLocale('description')}</dt>
-        <dd className={styles.infoContentFullWidth}>{story.description}</dd>
+        <dd className={styles.infoContentFullWidth}>{stripHtmlTags(story.description)}</dd>
       </dl>
     </ModalContent>
     <ButtonsContainer>

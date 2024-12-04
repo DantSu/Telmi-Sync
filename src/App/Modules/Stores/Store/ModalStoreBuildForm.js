@@ -1,6 +1,7 @@
 import {useRef} from 'react'
 import {useLocale} from '../../../Components/Locale/LocaleHooks.js'
 import {useModal} from '../../../Components/Modal/ModalHooks.js'
+import {stripHtmlTags} from '../../../Helpers/String.js'
 import ModalStoreBuild from './ModalStoreBuild.js'
 import ModalLayoutPadded from '../../../Components/Modal/ModalLayoutPadded.js'
 import ButtonsContainer from '../../../Components/Buttons/ButtonsContainer.js'
@@ -10,8 +11,6 @@ import InputTextarea from '../../../Components/Form/Input/InputTextarea.js'
 import ModalTitle from '../../../Components/Modal/ModalTitle.js'
 import ModalContent from '../../../Components/Modal/ModalContent.js'
 import Form from '../../../Components/Form/Form.js'
-
-import styles from './Store.module.scss'
 
 function ModalStoreBuildForm({store, stories, onClose}) {
   const
@@ -31,24 +30,22 @@ function ModalStoreBuildForm({store, stories, onClose}) {
             <InputText label={getLocale('title')}
                        key="store-title"
                        id="store-title"
-                       classNameInput={styles.inputWide}
                        required={true}
                        defaultValue={store.title}
                        ref={titleRef}/>
             <InputText label={getLocale('category')}
                        key="store-category"
                        id="store-category"
-                       classNameInput={styles.inputWide}
                        required={false}
                        defaultValue={store.copyright}
                        ref={categoryRef}/>
             <InputTextarea label={getLocale('description')}
                            key="store-description"
                            id="store-description"
-                           classNameInput={styles.inputWide}
+                           vertical={true}
                            type="url"
                            required={false}
-                           defaultValue={store.description + '\n\n' + stories.map((s) => '- ' + s.title).join('\n')}
+                           defaultValue={stripHtmlTags(store.description) + '\n\n' + stories.map((s) => '- ' + s.title).join('\n')}
                            ref={descriptionRef}/>
           </ModalContent>
           <ButtonsContainer>
