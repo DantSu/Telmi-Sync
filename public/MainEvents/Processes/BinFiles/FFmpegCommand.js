@@ -1,7 +1,8 @@
 import {spawn} from 'child_process'
-import {getBinPath} from '../Helpers/AppPaths.js'
+import {getBinPath, getExtraResourcesPath} from '../Helpers/AppPaths.js'
 import * as fs from 'fs'
 import {rmFile} from '../../Helpers/Files.js'
+import path from 'path'
 
 const
   getFFmpegFileName = () => {
@@ -78,10 +79,39 @@ const
         })
     })
   },
-  convertImageToPng = (srcFile, dstPng, width, height) => {
+  processStringToFFmpeg = (str) => {
+    str = str.replaceAll('\'', '’')
+    const aStr = []
+    while (str.length > 32) {
+      const
+        s = str.substring(0, 32),
+        i = s.lastIndexOf(' ')
+      if (i === -1) {
+        const i2 = str.indexOf(' ')
+        if (i2 === -1) {
+          break
+        }
+        aStr.push(str.substring(0, i2))
+        str = str.substring(i2 + 1)
+      } else {
+        aStr.push(str.substring(0, i))
+        str = str.substring(i + 1)
+      }
+    }
+    aStr.push(str)
+    return aStr.map((s) => s.replace(/([^A-Za-z0-9 ]{1})/g, '\\$1')).join('\n')
+  },
+  convertImageToPng = (srcFile, dstPng, width, height, textToWrite) => {
     return new Promise((resolve, reject) => {
       rmFile(dstPng)
-      const stream = spawn(getFFmpegFilePath(), ['-i', srcFile, '-vf', 'scale=' + width + 'x' + height + ':flags=bilinear', dstPng])
+      const
+        textCommand = typeof textToWrite === 'string' ?
+          ', drawtext=fontfile=\'' + path.join(getExtraResourcesPath(), 'fonts', 'exo2.ttf').replaceAll('\\', '\\\\').replaceAll(':', '\\:') +
+          '\':text=\'' + processStringToFFmpeg(textToWrite) + '\':text_align=M+C:fontcolor=black:fontsize=32:' +
+          'box=1:boxcolor=white@0.9:boxborderw=10|10:x=(w-text_w)/2:y=h-th-20' : '',
+
+        stream = spawn(getFFmpegFilePath(), ['-i', srcFile, '-vf', 'scale=' + width + 'x' + height + ':flags=bilinear' + textCommand, dstPng])
+
       stream.on('close', (code) => {
         if (code === 0) {
           resolve()

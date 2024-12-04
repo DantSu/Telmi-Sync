@@ -59,11 +59,13 @@ function main(jsonPath) {
       dstPath = getStoriesPath(generateDirNameStory(metadata.title, metadata.uuid, metadata.age, metadata.category)),
       dstPathImages = path.join(dstPath, 'images'),
       dstPathAudio = path.join(dstPath, 'audios'),
-      srcTts = [store.title, question, ...stories.map((s) => s.title)],
+      storiesTitles = stories.map((s) => s.title),
+      srcTts = [store.title, question, ...storiesTitles],
       dstTts = [path.join(dstPath, 'title.mp3'), path.join(dstPathAudio, 'q.mp3'), ...stories.map((s, k) => path.join(dstPathAudio, 't' + k + '.mp3'))],
       srcHttpAudio = stories.map((s) => s.download),
       dstHttpAudio = stories.map((s, k) => path.join(dstPathAudio, 's' + k + '.mp3')),
       srcImages = [store.cover, ...stories.map((s) => s.image)],
+      titleImages = store.titleImages ? [undefined, ...storiesTitles] : null,
       dstImages = [path.join(dstPath, 'title.png'), ...stories.map((s, k) => path.join(dstPathImages, k + '.png'))],
       countFiles = stories.length * 4 + 6,
 
@@ -118,6 +120,7 @@ function main(jsonPath) {
     convertStoryImages(
       srcImages,
       dstImages,
+      titleImages,
       0,
       countFiles,
       (index) => downloadAudios(

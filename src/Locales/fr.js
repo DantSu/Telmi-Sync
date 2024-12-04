@@ -164,6 +164,7 @@ const fr = {
   'story-saving': 'Sauvegarde de l\'histoire',
   'story-export': 'Export de l\'histoire',
   'story-zipping': 'Export de l\'histoire au format zip',
+  'story-add-title-images': 'Ajouter le titre aux images des histoires',
   'stories': 'Histoires',
   'stories-local': 'Mes histoires ({0})',
   'stories-on-store': '{0} histoires sur le store',

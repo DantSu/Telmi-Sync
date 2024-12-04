@@ -8,6 +8,7 @@ import ButtonsContainer from '../../../Components/Buttons/ButtonsContainer.js'
 import ButtonIconTextCheck from '../../../Components/Buttons/IconsTexts/ButtonIconTextCheck.js'
 import InputText from '../../../Components/Form/Input/InputText.js'
 import InputTextarea from '../../../Components/Form/Input/InputTextarea.js'
+import InputSwitch from '../../../Components/Form/Input/InputSwitch.js'
 import ModalTitle from '../../../Components/Modal/ModalTitle.js'
 import ModalContent from '../../../Components/Modal/ModalContent.js'
 import Form from '../../../Components/Form/Form.js'
@@ -18,7 +19,8 @@ function ModalStoreBuildForm({store, stories, onClose}) {
     {addModal, rmModal} = useModal(),
     titleRef = useRef(),
     categoryRef = useRef(),
-    descriptionRef = useRef()
+    descriptionRef = useRef(),
+    titleImagesRef = useRef()
 
   return <ModalLayoutPadded isClosable={true}
                             onClose={onClose}>
@@ -47,13 +49,18 @@ function ModalStoreBuildForm({store, stories, onClose}) {
                            required={false}
                            defaultValue={stripHtmlTags(store.description) + '\n\n' + stories.map((s) => '- ' + s.title).join('\n')}
                            ref={descriptionRef}/>
+
+            <InputSwitch label={getLocale('story-add-title-images')}
+                         key="store-confirm"
+                         id="store-confirm"
+                         ref={titleImagesRef}/>
           </ModalContent>
           <ButtonsContainer>
             <ButtonIconTextCheck text={getLocale('save')}
                                  rounded={true}
                                  onClick={() => {
                                    validation(
-                                     [titleRef, categoryRef, descriptionRef],
+                                     [titleRef, categoryRef, descriptionRef, titleImagesRef],
                                      (values) => {
                                        onClose()
                                        addModal((key) => {
@@ -63,6 +70,7 @@ function ModalStoreBuildForm({store, stories, onClose}) {
                                                                           title: values[0],
                                                                           category: values[1],
                                                                           description: values[2],
+                                                                          titleImages: values[3],
                                                                           cover: stories[0].image
                                                                         }}
                                                                         stories={stories}

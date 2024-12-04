@@ -164,6 +164,7 @@ const en = {
   'story-saving': 'Saving story',
   'story-export': 'Exporting story',
   'story-zipping': 'Pack story in a zip file',
+  'story-add-title-images': 'Add title to story images',
   'stories': 'Stories',
   'stories-local': 'My stories ({0})',
   'stories-on-store': '{0} stories on the store',

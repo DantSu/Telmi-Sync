@@ -216,6 +216,7 @@ function convertFolderStoryPack(srcPath, storyName) {
     convertStoryImages(
       srcImages,
       dstImages,
+      null,
       2,
       countFiles,
       (index) => convertTextToSpeech(
