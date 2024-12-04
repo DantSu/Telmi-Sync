@@ -5,6 +5,7 @@ import {getStoriesPath} from './Helpers/AppPaths.js'
 import {deleteStories, readStories} from './Helpers/StoriesFiles.js'
 import {createMetadataFile, generateDirNameStory} from './Helpers/Stories.js'
 import runProcess from './Processes/RunProcess.js'
+import {rmDirectory} from './Helpers/Files.js'
 
 function mainEventLocalStoriesReader(mainWindow) {
   ipcMain.on(
@@ -29,6 +30,7 @@ function mainEventLocalStoriesReader(mainWindow) {
 
         const newStoryPath = getStoriesPath(generateDirNameStory(story.title, story.uuid, story.age, story.category))
         if (story.path !== newStoryPath) {
+          rmDirectory(newStoryPath)
           fs.renameSync(story.path, newStoryPath)
         }
       }

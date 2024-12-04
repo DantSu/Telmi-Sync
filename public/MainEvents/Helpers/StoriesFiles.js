@@ -28,7 +28,9 @@ const
       storyDirName = generateDirNameStory(md.title, md.uuid, md.age, md.category)
 
     if (storyDirName !== directory) {
-      fs.renameSync(storyPath, path.join(storiesPath, storyDirName))
+      const newStoryPath = path.join(storiesPath, storyDirName)
+      rmDirectory(newStoryPath)
+      fs.renameSync(storyPath, newStoryPath)
       directory = storyDirName
     }
 
