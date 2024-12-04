@@ -1,4 +1,6 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
+import {rmDirectory} from './Helpers/Files.js'
+import {getTmpPath} from './Helpers/AppPaths.js'
 
 function mainEventWindow (mainWindow) {
   ipcMain.on('window-maximize', () => {
@@ -14,12 +16,13 @@ function mainEventWindow (mainWindow) {
   })
 
   ipcMain.on('close', () => {
+    rmDirectory(getTmpPath())
+
     if (mainWindow instanceof BrowserWindow) {
       mainWindow.close()
     }
-    if (process.platform !== 'darwin') {
-      app.quit()
-    }
+
+    app.quit()
   })
 }
 
