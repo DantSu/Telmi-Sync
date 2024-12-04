@@ -29,10 +29,10 @@ const
   },
 
   downloadAudio = (srcAudios, dstAudios, index, countFiles, callback, i) => {
-    process.stdout.write('*downloading-files*' + (index++) + '*' + countFiles + '*')
     if (i >= srcAudios.length) {
       return callback(index, dstAudios)
     }
+    process.stdout.write('*downloading-files*' + (index++) + '*' + countFiles + '*')
     const dstAudio = path.join(tmpFolder, Date.now().toString(36))
     downloadFile(srcAudios[i], dstAudio, () => {})
       .then(() => downloadAudio(srcAudios, [...dstAudios, dstAudio], index, countFiles, callback, ++i))
@@ -138,10 +138,10 @@ function main(jsonPath) {
               index,
               countFiles,
               (index) => {
-                process.stdout.write('*converting-images*' + (++index) + '*' + countFiles + '*')
+                process.stdout.write('*converting-images*' + (index++) + '*' + countFiles + '*')
                 convertCoverImage(store.cover, path.join(dstPath, 'cover.png'))
                   .then(() => {
-                    process.stdout.write('*writing-metadata*' + (++index) + '*' + countFiles + '*')
+                    process.stdout.write('*writing-metadata*' + index + '*' + countFiles + '*')
                     fs.writeFileSync(path.join(dstPath, 'nodes.json'), JSON.stringify(nodes))
                     fs.writeFileSync(path.join(dstPath, 'metadata.json'), JSON.stringify(metadata))
                     process.stdout.write('success')
