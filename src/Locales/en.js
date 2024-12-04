@@ -16,6 +16,7 @@ const en = {
   'age': 'Age',
   'category': 'Category',
   'url': 'URL',
+  'url-store': 'URL (Telmi store or RSS Feed)',
   'author': 'Author',
   'voice': 'Voice',
   'designer': 'Designer',

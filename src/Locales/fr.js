@@ -16,6 +16,7 @@ const fr = {
   'age': 'Age',
   'category': 'Catégorie',
   'url': 'URL',
+  'url-store': 'URL (Store Telmi ou Flux RSS)',
   'author': 'Auteur',
   'voice': 'Voix',
   'designer': 'Graphisme',

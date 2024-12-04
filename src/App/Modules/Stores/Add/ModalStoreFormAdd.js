@@ -31,7 +31,7 @@ function ModalStoreFormAdd({onValidate, onClose}) {
                        className={styles.inputMaxWidth}
                        required={true}
                        ref={nameRef}/>
-            <InputText label={getLocale('url')}
+            <InputText label={getLocale('url-store')}
                        key="store-url"
                        id="store-url"
                        type="url"
