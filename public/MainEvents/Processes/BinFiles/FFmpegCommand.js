@@ -55,28 +55,28 @@ const
     })
   },
   convertAudioToMp3 = (srcFile, dstMp3, forceConverting) => {
-      return new Promise((resolve, reject) => {
-        getAudioInfos(srcFile)
-          .then(([infos, maxVolume]) => {
-            if (!forceConverting && infos[0] === 'mp3' && infos[1] === '44100 hz' && (infos[2] === 'stereo' || infos[2] === 'mono')) {
-              try {
-                fs.copyFileSync(srcFile, dstMp3)
-                resolve()
-              } catch (ignored) {
-                reject()
-              }
-            } else {
-              ffmpegAudioToMp3(srcFile, dstMp3, maxVolume)
-                .then(() => resolve())
-                .catch(() => reject())
+    return new Promise((resolve, reject) => {
+      getAudioInfos(srcFile)
+        .then(([infos, maxVolume]) => {
+          if (!forceConverting && infos[0] === 'mp3' && infos[1] === '44100 hz' && (infos[2] === 'stereo' || infos[2] === 'mono')) {
+            try {
+              fs.copyFileSync(srcFile, dstMp3)
+              resolve()
+            } catch (ignored) {
+              reject()
             }
-          })
-          .catch((e) => {
-            ffmpegAudioToMp3(srcFile, dstMp3, 0)
+          } else {
+            ffmpegAudioToMp3(srcFile, dstMp3, maxVolume)
               .then(() => resolve())
               .catch(() => reject())
-          })
-      })
+          }
+        })
+        .catch((e) => {
+          ffmpegAudioToMp3(srcFile, dstMp3, 0)
+            .then(() => resolve())
+            .catch(() => reject())
+        })
+    })
   },
   convertImageToPng = (srcFile, dstPng, width, height) => {
     return new Promise((resolve, reject) => {

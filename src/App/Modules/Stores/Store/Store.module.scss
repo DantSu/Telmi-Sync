@@ -73,6 +73,7 @@
 
 .bannerInnerContainer {
   position: absolute;
+  z-index: 1;
   left: 0;
   right: 0;
   top: 0;
@@ -86,4 +87,38 @@
   display: block;
   max-width: 100%;
   max-height: 100%;
+}
+
+.infoAudioList {
+  position: absolute;
+  z-index: 2;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  background: $orange;
+  border-radius: 10px;
+  color: $purple5Dark;
+}
+.infoAudioListTitle, .infoAudioListText {
+  padding: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+.infoAudioListText {
+  padding-top: 0;
+}
+
+.infoAudioListIcon:before {
+  display: inline-block;
+  font-family: icons;
+  font-weight: bold;
+  font-style: normal;
+  margin-right: 10px;
+}
+.infoIconRss:before {
+  content: "\f09e";
+}
+
+.inputWide {
+  width: 400px;
 }

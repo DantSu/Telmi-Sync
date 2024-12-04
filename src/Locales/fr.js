@@ -112,6 +112,10 @@ const fr = {
   'restore-original-picture': 'Remettre l\'image originale',
   'waiting-file-path': 'En attente d\'un chemin de fichier',
   'playing-time': 'Temps de jeu',
+  'confirm-source-gcu': 'En cochant cette case, vous confirmez avoir lu les conditions générales d\'utilisation de l\'URL saisie ci-dessus et que ces conditions permettent le téléchargement permanent des fichiers audio accessibles via cette URL.',
+  'rss-feed': 'Flux RSS',
+  'select-to-build-pack': 'Sélectionnez les histoires puis cliquez sur "Télécharger" pour générer un pack d\'histoires.',
+  'which-story': 'Quelle histoire veux-tu écouter ?',
 
   'action-continue-to': 'Continuer vers :',
   'action-scene-existing': 'Scène existante',

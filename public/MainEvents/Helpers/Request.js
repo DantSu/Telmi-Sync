@@ -1,3 +1,4 @@
+import {parseString} from 'xml2js'
 import {request as requestHttps} from 'https'
 import {request as requestHttp} from 'http'
 import * as fs from 'fs'
@@ -194,6 +195,35 @@ const
       }
     )
       .then(data => JSON.parse(data.toString('utf-8')))
+  },
+  requestJsonOrXml = (url, header) => {
+    return new Promise((resolve, reject) => {
+      requestData(
+        url,
+        {
+          ...header,
+          'Accept': 'application/json, text/xml, application/xml',
+          'Access-Control-Max-Age': '1800',
+        }
+      )
+        .then(data => {
+          const utf8String = data.toString('utf-8')
+          try {
+            resolve(JSON.parse(utf8String))
+          } catch (ignored) {
+            try {
+              parseString(utf8String, function (err, result) {
+                if (err) {
+                  return reject(err)
+                }
+                resolve(result)
+              })
+            } catch (e) {
+              reject(e)
+            }
+          }
+        })
+    })
   }
 
-export {requestData, requestJson, downloadFile}
+export {requestData, requestJson, requestJsonOrXml, downloadFile}

@@ -49,7 +49,7 @@ function StudioActionForm({stageNode}) {
     <h2 className={styles.actionTitle}>{getLocale('what-next')}</h2>
     <InputSelect id={'action-default-index'}
                  key={'action-default-index-' + storyVersion + '-' + stage}
-                 className={styles.selectNextScene}
+                 classNameInput={styles.selectNextScene}
                  ref={nextSceneRef}
                  label={getLocale('choose-next-scene')}
                  onChange={onActionIndexChange}

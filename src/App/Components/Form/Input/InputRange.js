@@ -3,11 +3,10 @@ import InputLayout from './InputLayout.js'
 
 import styles from './Input.module.scss'
 
-function InputRange ({label, type, id, unit, defaultValue, className, vertical, ...props}, ref) {
+function InputRange ({label, type, id, unit, defaultValue, className, classNameInput, vertical, ...props}, ref) {
 
   const
     [value, setValue] = useState(defaultValue),
-    classNames = useMemo(() => [styles.inputRange, className].join(' '), [className]),
     callBackRef = useCallback(
       (r) => {
         if (r !== null && ref !== null) {
@@ -27,10 +26,10 @@ function InputRange ({label, type, id, unit, defaultValue, className, vertical, 
       [setValue]
     )
 
-  return <InputLayout label={label} id={id} vertical={vertical}>
+  return <InputLayout label={label} id={id} vertical={vertical} className={className}>
     <input {...props}
            type="range"
-           className={classNames}
+           className={[styles.inputRange, classNameInput].join(' ')}
            defaultValue={defaultValue}
            onChange={onChange}
            id={id}

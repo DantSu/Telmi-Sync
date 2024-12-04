@@ -3,10 +3,9 @@ import InputLayout from './InputLayout.js'
 
 import styles from './Input.module.scss'
 
-function InputSwitch ({label, type, id, defaultValue, className, ...props}, ref) {
+function InputSwitch ({label, type, id, defaultValue, className, classNameInput, ...props}, ref) {
 
   const
-    classNames = useMemo(() => [styles.inputSwitch, className].join(' '), [className]),
     callBackRef = useCallback(
       (r) => {
         if (r !== null && ref !== null) {
@@ -22,8 +21,8 @@ function InputSwitch ({label, type, id, defaultValue, className, ...props}, ref)
       [ref]
     )
 
-  return <InputLayout label={label} id={id}>
-    <div className={classNames}>
+  return <InputLayout label={label} id={id} className={className}>
+    <div className={[styles.inputSwitch, classNameInput].join(' ')}>
     <input {...props}
            type="checkbox"
            className={styles.inputSwitchI}

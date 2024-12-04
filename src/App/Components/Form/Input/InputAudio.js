@@ -11,7 +11,7 @@ import InputDropFile from './InputDropFile.js'
 
 
 function InputAudio(
-  {label, id, textTTS, required, className, onChange, onDragOver, onDrop, audio, onDelete, ...props},
+  {label, id, textTTS, required, className, classNameInput, onChange, onDragOver, onDrop, audio, onDelete, ...props},
   ref
 ) {
   const
@@ -48,7 +48,7 @@ function InputAudio(
   return <InputLayout label={label}
                       id={id}
                       required={required}
-                      className={styles.containerVertical}>
+                      className={[styles.containerVertical, className].join(' ')}>
     <div className={styles.inputAudioContainer}>
       {
         audioPath && <div className={styles.playerAudioButtonContainer}>
@@ -78,7 +78,7 @@ function InputAudio(
                        onChange={onChangeCallback}
                        onDragOver={onDragOver}
                        onDrop={onDrop}
-                       className={className}
+                       className={classNameInput}
                        required={required}
                        id={id}
                        ref={refCallback}/>

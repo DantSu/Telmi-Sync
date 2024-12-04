@@ -1,9 +1,10 @@
 import {ipcMain} from 'electron'
 import * as fs from 'fs'
-import {getStoresPath} from './Helpers/AppPaths.js'
-import {requestJson} from './Helpers/Request.js'
+import {getStoresPath, getTmpPath} from './Helpers/AppPaths.js'
+import {requestJsonOrXml} from './Helpers/Request.js'
 import runProcess from './Processes/RunProcess.js'
 import * as path from 'path'
+import {rmFile} from './Helpers/Files.js'
 
 const checkStore = (store) => {
   return typeof store === 'object' && store !== null &&
@@ -105,37 +106,106 @@ function mainEventStores(mainWindow) {
         return v.smallThumbUrl
       }
       return null
-    }
+    },
+    getFirstArrayElement = (arr) => Array.isArray(arr) && arr.length > 0 ? arr[0] : undefined
 
   ipcMain.on(
     'store-remote-get',
     async (event, store) => {
       if (checkStore(store)) {
-        requestJson(store.url, {})
+        requestJsonOrXml(store.url, {})
           .then((response) => {
-            mainWindow.webContents.send(
-              'store-remote-data',
-              {
-                ...response,
-                data: response.data.map((v) => ({
-                  title: v.title,
-                  age: v.age,
-                  category: v.category,
-                  description: v.description,
-                  image: findThumb(v),
-                  download: v.download || v.downloadUrl,
-                  download_count: v.download_count || 0,
-                  author: v.author || '',
-                  voice: v.voice || '',
-                  designer: v.designer || '',
-                  publisher: v.publisher || '',
-                  awards: v.awards || [],
-                  created_at: v.created_at || '1970-01-01T00:00:00.000Z',
-                  updated_at: v.updated_at || '1970-01-01T00:00:00.000Z',
-                  uuid: v.uuid || ''
-                }))
+            if (response.rss !== undefined) {
+              const
+                channel = getFirstArrayElement(response.rss.channel)
+
+              if (channel === undefined) {
+                return
               }
-            )
+
+              const
+                copyright = getFirstArrayElement(channel.copyright) || '',
+                imageUrl = getFirstArrayElement((getFirstArrayElement(channel.image) || {}).url)
+
+              mainWindow.webContents.send(
+                'store-remote-data',
+                {
+                  audioList: true,
+                  store: {
+                    title: getFirstArrayElement(channel.title) || 'Unknow title',
+                    copyright: copyright,
+                    description: getFirstArrayElement(channel.description) || '',
+                    cover: imageUrl
+                  },
+                  banner: {
+                    image: imageUrl,
+                    background: '#2e144b',
+                    link: getFirstArrayElement(channel.link)
+                  },
+                  data: channel.item.reduce(
+                    (acc, v) => {
+                      const episodeType = getFirstArrayElement(v['itunes:episodeType'])
+
+                      if (episodeType === 'trailer') {
+                        return acc
+                      }
+
+                      const downloadUrl = v.enclosure.find((encl) => encl.$.type.startsWith('audio/'))
+
+                      if (downloadUrl === undefined) {
+                        return acc
+                      }
+
+                      return [
+                        ...acc,
+                        {
+                          title: getFirstArrayElement(v.title) || '',
+                          age: 0,
+                          category: getFirstArrayElement(v.category) || '',
+                          description: getFirstArrayElement(v.description) || '',
+                          image: (getFirstArrayElement(v['itunes:image']) || {'$': {}}).$.href || null,
+                          download: downloadUrl.$.url,
+                          download_count: 0,
+                          author: getFirstArrayElement(v['itunes:author']) || getFirstArrayElement(v.author) || copyright,
+                          voice: copyright,
+                          designer: copyright,
+                          publisher: copyright,
+                          awards: [],
+                          created_at: getFirstArrayElement(v.pubDate) || '1970-01-01T00:00:00.000Z',
+                          updated_at: getFirstArrayElement(v.pubDate) || '1970-01-01T00:00:00.000Z',
+                          uuid: ''
+                        }]
+                    },
+                    []
+                  )
+                }
+              )
+            } else {
+              mainWindow.webContents.send(
+                'store-remote-data',
+                {
+                  ...response,
+                  audioList: false,
+                  data: response.data.map((v) => ({
+                    title: v.title,
+                    age: v.age,
+                    category: v.category,
+                    description: v.description,
+                    image: findThumb(v),
+                    download: v.download || v.downloadUrl,
+                    download_count: v.download_count || 0,
+                    author: v.author || '',
+                    voice: v.voice || '',
+                    designer: v.designer || '',
+                    publisher: v.publisher || '',
+                    awards: v.awards || [],
+                    created_at: v.created_at || '1970-01-01T00:00:00.000Z',
+                    updated_at: v.updated_at || '1970-01-01T00:00:00.000Z',
+                    uuid: v.uuid || ''
+                  }))
+                }
+              )
+            }
           })
           .catch((e) => {
             console.log(e.toString())
@@ -144,10 +214,10 @@ function mainEventStores(mainWindow) {
     }
   )
 
-  let taskRunning = null
+  let downloadTaskRunning = null
   const runDownload = (stories) => {
     if (!stories.length) {
-      taskRunning = null
+      downloadTaskRunning = null
       mainWindow.webContents.send('store-download-task', '', '', 0, 0)
       return ipcMain.emit('local-stories-get')
     }
@@ -156,7 +226,7 @@ function mainEventStores(mainWindow) {
     mainWindow.webContents.send('store-download-task', story.title, 'initialize', 0, 1)
     mainWindow.webContents.send('store-download-waiting', stories)
 
-    taskRunning = runProcess(
+    downloadTaskRunning = runProcess(
       path.join('Store', 'StoreDownload.js'),
       [story.download],
       () => {
@@ -174,12 +244,49 @@ function mainEventStores(mainWindow) {
   ipcMain.on(
     'store-download-cancel',
     async () => {
-      if (taskRunning !== null) {
-        taskRunning.process.kill()
+      if (downloadTaskRunning !== null) {
+        downloadTaskRunning.process.kill()
       }
     }
   )
 
+
+  let buildTaskRunning = null
+  ipcMain.on('store-build', async (event, store, question, stories) => {
+    mainWindow.webContents.send('store-build-task', store.title, 'initialize', 0, 1)
+    mainWindow.webContents.send('store-build-waiting', [])
+
+    const pathJson = path.join(getTmpPath(), 'store-rss.json')
+
+    rmFile(pathJson)
+    fs.writeFileSync(pathJson, JSON.stringify({store, question, stories}))
+
+    buildTaskRunning = runProcess(
+      path.join('Store', 'StoreBuild.js'),
+      [pathJson],
+      () => {
+      },
+      (message, current, total) => {
+        mainWindow.webContents.send('store-build-task', store.title, message, current, total)
+      },
+      (error) => {
+        mainWindow.webContents.send('store-build-error', store.title, error)
+      },
+      () => {
+        buildTaskRunning = null
+        mainWindow.webContents.send('store-build-task', '', '', 0, 0)
+        return ipcMain.emit('local-stories-get')
+      }
+    )
+  })
+  ipcMain.on(
+    'store-build-cancel',
+    async () => {
+      if (buildTaskRunning !== null) {
+        buildTaskRunning.process.kill()
+      }
+    }
+  )
 }
 
 export default mainEventStores

@@ -112,6 +112,10 @@ const en = {
   'restore-original-picture': 'Restore original picture',
   'waiting-file-path': 'Waiting for a file path',
   'playing-time': 'Playing time',
+  'confirm-source-gcu': 'By checking this box, you confirm that you have read the terms and conditions of use for the URL entered above and that these terms allow the permanent download of audio files accessible via this URL.',
+  'rss-feed': 'RSS Feed',
+  'select-to-build-pack': 'Select stories then click "Download" to build a stories pack.',
+  'which-story': 'Which story do you want to hear ?',
 
   'action-continue-to': 'Continue to :',
   'action-scene-existing': 'Existing scene',

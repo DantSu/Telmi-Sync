@@ -12,6 +12,7 @@ function InputImage(
     id,
     required,
     className,
+    classNameInput,
     onChange,
     onDragOver,
     onDrop,
@@ -64,7 +65,7 @@ function InputImage(
                       id={id}
                       required={required}
                       vertical={vertical}
-                      className={vertical ? styles.containerVertical : undefined}>
+                      className={[vertical ? styles.containerVertical : undefined, className].join(' ')}>
     <div className={[styles.inputImageLayout, vertical ? styles.inputImageLayoutVertical : ''].join(' ')}
          style={{width: (width * displayScale) + 'px', height: (height * displayScale) + 'px'}}>
       <div className={styles.inputImageContainer}>
@@ -74,7 +75,7 @@ function InputImage(
                        onChange={onChangeCallback}
                        onDragOver={onDragOver}
                        onDrop={onDrop}
-                       className={className}
+                       className={classNameInput}
                        required={required}
                        id={id}
                        ref={refCallback}/>

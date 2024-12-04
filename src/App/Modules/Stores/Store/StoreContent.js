@@ -7,6 +7,7 @@ import {useLocalStories} from '../../../Components/LocalStories/LocalStoriesHook
 import Table from '../../../Components/Table/Table.js'
 import ModalStoreDownload from './ModalStoreDownload.js'
 import ModalStoreStoryInfo from './ModalStoreStoryInfo.js'
+import ModalStoreBuildForm from './ModalStoreBuildForm.js'
 import TableHeaderIcon from '../../../Components/Table/TableHeaderIcon.js'
 import ButtonIconSort from '../../../Components/Buttons/Icons/ButtonIconSort.js'
 import ButtonExternalLink from '../../../Components/Link/ButtonExternalLink.js'
@@ -33,12 +34,12 @@ const
 function StoreContent({store}) {
   const
     {getLocale} = useLocale(),
+    {addModal, rmModal} = useModal(),
     localStories = useLocalStories(),
     [storeData, setStoreData] = useState(null),
     [stories, setStories] = useState([]),
     [storiesSelected, setStoriesSelected] = useState([]),
     [isSortedByName, setSortedByName] = useState(true),
-    {addModal, rmModal} = useModal(),
 
     onInfo = useCallback(
       (story) => {
@@ -65,17 +66,30 @@ function StoreContent({store}) {
 
     onDownloadSelected = useCallback(
       () => {
-        addModal((key) => {
-          const modal = <ModalStoreDownload key={key}
-                                            stories={storiesSelected}
-                                            onClose={() => {
-                                              rmModal(modal)
-                                              setStoriesSelected([])
-                                            }}/>
-          return modal
-        })
+        if (storeData.audioList) {
+          addModal((key) => {
+            const modal = <ModalStoreBuildForm key={key}
+                                               store={storeData.store}
+                                               stories={storiesSelected}
+                                               onClose={() => {
+                                                 rmModal(modal)
+                                                 setStoriesSelected([])
+                                               }}/>
+            return modal
+          })
+        } else {
+          addModal((key) => {
+            const modal = <ModalStoreDownload key={key}
+                                              stories={storiesSelected}
+                                              onClose={() => {
+                                                rmModal(modal)
+                                                setStoriesSelected([])
+                                              }}/>
+            return modal
+          })
+        }
       },
-      [storiesSelected, setStoriesSelected, addModal, rmModal]
+      [storeData, addModal, getLocale, storiesSelected, rmModal]
     ),
     onDownload = useCallback(
       (story) => {
@@ -103,7 +117,7 @@ function StoreContent({store}) {
 
   useEffect(
     () => {
-      if(storeData === null) {
+      if (storeData === null) {
         return
       }
       const
@@ -114,10 +128,11 @@ function StoreContent({store}) {
           .map(
             (s) => {
               const
-                title = s.age + '+] ' + s.title,
+                title = (!storeData.audioList ? s.age + '+] ' : '') + s.title,
                 isNew = now - Date.parse(s.created_at) < 1296000000,
                 isUpdated = now - Date.parse(s.updated_at) < 1296000000,
                 isPerfect = s.awards.includes('PARFAIT')
+
               return {
                 ...s,
                 isUpdated,
@@ -143,7 +158,7 @@ function StoreContent({store}) {
            onInfo={onInfo}
            selectedData={storiesSelected}
            onSelect={onSelect}
-           onDownload={onDownload}
+           onDownload={storeData !== null && !storeData.audioList ? onDownload : undefined}
            onDownloadSelected={onDownloadSelected}
            additionalHeaderButtons={additionalHeaderButtons}
            isLoading={!stories.length}/>
@@ -151,6 +166,13 @@ function StoreContent({store}) {
       storeData !== null &&
       <ButtonExternalLink href={storeData.banner.link}>
         <div className={styles.bannerContainer} style={{background: storeData.banner.background}}>
+          {
+            storeData.audioList && <div className={styles.infoAudioList}>
+              <h2 className={styles.infoAudioListTitle}><i
+                className={[styles.infoAudioListIcon, styles.infoIconRss].join(' ')}></i>{getLocale('rss-feed')}</h2>
+              <p className={styles.infoAudioListText}>{getLocale('select-to-build-pack')}</p>
+            </div>
+          }
           <div className={styles.bannerInnerContainer}>
             <img className={styles.banner} src={storeData.banner.image} alt=""/>
           </div>
