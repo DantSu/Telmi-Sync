@@ -1,6 +1,6 @@
 import {ipcMain} from 'electron'
 import * as fs from 'fs'
-import {getStoresPath, getTmpPath} from './Helpers/AppPaths.js'
+import {getStoresPath, initTmpPath} from './Helpers/AppPaths.js'
 import {requestJsonOrXml} from './Helpers/Request.js'
 import runProcess from './Processes/RunProcess.js'
 import * as path from 'path'
@@ -107,7 +107,13 @@ function mainEventStores(mainWindow) {
       }
       return null
     },
-    getFirstArrayElement = (arr) => Array.isArray(arr) && arr.length > 0 ? arr[0] : undefined
+    getFirstArrayElement = (arr) => Array.isArray(arr) && arr.length > 0 ? arr[0] : undefined,
+    getItuneImageHref = (arr) => {
+      if(!Array.isArray(arr)) {
+        return null
+      }
+      return (arr.find((img) => img.$ !== undefined && img.$.href !== undefined) || {'$': {}}).$.href || null
+    }
 
   ipcMain.on(
     'store-remote-get',
@@ -125,7 +131,7 @@ function mainEventStores(mainWindow) {
 
               const
                 copyright = getFirstArrayElement(channel.copyright) || '',
-                imageUrl = getFirstArrayElement((getFirstArrayElement(channel.image) || {}).url)
+                imageUrl = getFirstArrayElement((getFirstArrayElement(channel.image) || {}).url) || getItuneImageHref(channel['itunes:image'])
 
               mainWindow.webContents.send(
                 'store-remote-data',
@@ -146,7 +152,7 @@ function mainEventStores(mainWindow) {
                     (acc, v) => {
                       const episodeType = getFirstArrayElement(v['itunes:episodeType'])
 
-                      if (episodeType === 'trailer') {
+                      if (episodeType === 'trailer' || v.enclosure === undefined) {
                         return acc
                       }
 
@@ -163,7 +169,7 @@ function mainEventStores(mainWindow) {
                           age: 0,
                           category: getFirstArrayElement(v.category) || '',
                           description: getFirstArrayElement(v.description) || '',
-                          image: (getFirstArrayElement(v['itunes:image']) || {'$': {}}).$.href || null,
+                          image: getItuneImageHref(v['itunes:image']),
                           download: downloadUrl.$.url,
                           download_count: 0,
                           author: getFirstArrayElement(v['itunes:author']) || getFirstArrayElement(v.author) || copyright,
@@ -256,7 +262,7 @@ function mainEventStores(mainWindow) {
     mainWindow.webContents.send('store-build-task', store.title, 'initialize', 0, 1)
     mainWindow.webContents.send('store-build-waiting', [])
 
-    const pathJson = path.join(getTmpPath(), 'store-rss.json')
+    const pathJson = path.join(initTmpPath('store'), 'store-builder.json')
 
     rmFile(pathJson)
     fs.writeFileSync(pathJson, JSON.stringify({store, question, stories}))
