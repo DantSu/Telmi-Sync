@@ -14,7 +14,7 @@ const
   tmpFolder = initTmpPath('store-builder'),
 
   convertTextToSpeech = (stringsTTS, index, length, callback) => {
-    process.stdout.write('*converting-audio*' + index + '*' + length + '*')
+    process.stdout.write('*tts-converting*' + (index++) + '*' + length + '*')
     const
       params = getTelmiSyncParams(),
       jsonPath = path.join(tmpFolder, 'tts.json'),
@@ -24,7 +24,7 @@ const
     fs.writeFileSync(jsonPath, jsonContent.join('\n'))
 
     piperTTS(jsonPath, params.piper.voice, params.piper.speaker)
-      .then(() => callback(txtToWav))
+      .then(() => callback(index, txtToWav))
       .catch((e) => process.stderr.write(e.toString()))
   },
 
@@ -65,7 +65,7 @@ function main(jsonPath) {
       dstHttpAudio = stories.map((s, k) => path.join(dstPathAudio, 's' + k + '.mp3')),
       srcImages = [store.cover, ...stories.map((s) => s.image)],
       dstImages = [path.join(dstPath, 'title.png'), ...stories.map((s, k) => path.join(dstPathImages, k + '.png'))],
-      countFiles = stories.length * 4 + 6,
+      countFiles = stories.length * 4 + 7,
 
       nodes = {
         startAction: {action: 'start', index: 0},
@@ -115,12 +115,10 @@ function main(jsonPath) {
     createPathDirectories(dstPathAudio)
     createPathDirectories(dstPathImages)
 
-    process.stdout.write('*converting-images*' + srcHttpAudio.join('*') + '*' + countFiles + '*')
-
     convertStoryImages(
       srcImages,
       dstImages,
-      1,
+      0,
       countFiles,
       (index) => downloadAudios(
         srcHttpAudio,
@@ -130,7 +128,7 @@ function main(jsonPath) {
           srcTts,
           index,
           countFiles,
-          (tmpAudio) => {
+          (index, tmpAudio) => {
             const
               srcAudio = [...tmpAudio, ...srcLocalAudio],
               dstAudio = [...dstTts, ...dstHttpAudio]
