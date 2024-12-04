@@ -65,7 +65,7 @@ function main(jsonPath) {
       dstHttpAudio = stories.map((s, k) => path.join(dstPathAudio, 's' + k + '.mp3')),
       srcImages = [store.cover, ...stories.map((s) => s.image)],
       dstImages = [path.join(dstPath, 'title.png'), ...stories.map((s, k) => path.join(dstPathImages, k + '.png'))],
-      countFiles = stories.length * 4 + 7,
+      countFiles = stories.length * 4 + 8,
 
       nodes = {
         startAction: {action: 'start', index: 0},
