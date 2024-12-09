@@ -28,6 +28,21 @@ const
       .catch((e) => process.stderr.write(e.toString()))
   },
 
+  downloadImage = (srcImages, dstImages, index, countFiles, callback, i) => {
+    if (i >= srcImages.length) {
+      return callback(index, dstImages)
+    }
+    process.stdout.write('*downloading-files*' + (index++) + '*' + countFiles + '*')
+    const dstImage = path.join(tmpFolder, Date.now().toString(36))
+    downloadFile(srcImages[i], dstImage, () => {})
+      .then(() => downloadImage(srcImages, [...dstImages, dstImage], index, countFiles, callback, ++i))
+      .catch(() => process.stderr.write('error-when-downloading : ' + srcImages[i]))
+  },
+
+  downloadImages = (srcImages, index, countFiles, callback) => {
+    downloadImage(srcImages, [], index, countFiles, callback, 0)
+  },
+
   downloadAudio = (srcAudios, dstAudios, index, countFiles, callback, i) => {
     if (i >= srcAudios.length) {
       return callback(index, dstAudios)
@@ -67,7 +82,7 @@ function main(jsonPath) {
       srcImages = [store.cover, ...stories.map((s) => s.image)],
       titleImages = store.titleImages ? [undefined, ...storiesTitles] : null,
       dstImages = [path.join(dstPath, 'title.png'), ...stories.map((s, k) => path.join(dstPathImages, k + '.png'))],
-      countFiles = stories.length * 4 + 6,
+      countFiles = stories.length * 5 + 6,
 
       nodes = {
         startAction: {action: 'start', index: 0},
@@ -117,43 +132,48 @@ function main(jsonPath) {
     createPathDirectories(dstPathAudio)
     createPathDirectories(dstPathImages)
 
-    convertStoryImages(
+    downloadImages(
       srcImages,
-      dstImages,
-      titleImages,
       0,
       countFiles,
-      (index) => downloadAudios(
-        srcHttpAudio,
+      (index, srcImages) => convertStoryImages(
+        srcImages,
+        dstImages,
+        titleImages,
         index,
         countFiles,
-        (index, srcLocalAudio) => convertTextToSpeech(
-          srcTts,
+        (index) => downloadAudios(
+          srcHttpAudio,
           index,
           countFiles,
-          (index, tmpAudio) => {
-            const
-              srcAudio = [...tmpAudio, ...srcLocalAudio],
-              dstAudio = [...dstTts, ...dstHttpAudio]
-            convertAudios(
-              srcAudio,
-              dstAudio,
-              index,
-              countFiles,
-              (index) => {
-                process.stdout.write('*converting-images*' + (index++) + '*' + countFiles + '*')
-                convertCoverImage(store.cover, path.join(dstPath, 'cover.png'))
-                  .then(() => {
-                    process.stdout.write('*writing-metadata*' + index + '*' + countFiles + '*')
-                    fs.writeFileSync(path.join(dstPath, 'nodes.json'), JSON.stringify(nodes))
-                    fs.writeFileSync(path.join(dstPath, 'metadata.json'), JSON.stringify(metadata))
-                    process.stdout.write('success')
-                  })
-                  .catch(() => process.stderr.write('file-not-found'))
-              },
-              false
-            )
-          }
+          (index, srcLocalAudio) => convertTextToSpeech(
+            srcTts,
+            index,
+            countFiles,
+            (index, tmpAudio) => {
+              const
+                srcAudio = [...tmpAudio, ...srcLocalAudio],
+                dstAudio = [...dstTts, ...dstHttpAudio]
+              convertAudios(
+                srcAudio,
+                dstAudio,
+                index,
+                countFiles,
+                (index) => {
+                  process.stdout.write('*converting-images*' + (index++) + '*' + countFiles + '*')
+                  convertCoverImage(store.cover, path.join(dstPath, 'cover.png'))
+                    .then(() => {
+                      process.stdout.write('*writing-metadata*' + index + '*' + countFiles + '*')
+                      fs.writeFileSync(path.join(dstPath, 'nodes.json'), JSON.stringify(nodes))
+                      fs.writeFileSync(path.join(dstPath, 'metadata.json'), JSON.stringify(metadata))
+                      process.stdout.write('success')
+                    })
+                    .catch(() => process.stderr.write('file-not-found'))
+                },
+                false
+              )
+            }
+          )
         )
       )
     )
