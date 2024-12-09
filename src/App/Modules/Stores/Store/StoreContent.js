@@ -5,12 +5,12 @@ import {useLocale} from '../../../Components/Locale/LocaleHooks.js'
 import {isCellSelected} from '../../../Components/Table/TableHelpers.js'
 import {useLocalStories} from '../../../Components/LocalStories/LocalStoriesHooks.js'
 import Table from '../../../Components/Table/Table.js'
-import ModalStoreDownload from './ModalStoreDownload.js'
-import ModalStoreStoryInfo from './ModalStoreStoryInfo.js'
-import ModalStoreBuildForm from './ModalStoreBuildForm.js'
 import TableHeaderIcon from '../../../Components/Table/TableHeaderIcon.js'
 import ButtonIconSort from '../../../Components/Buttons/Icons/ButtonIconSort.js'
 import ButtonExternalLink from '../../../Components/Link/ButtonExternalLink.js'
+import ModalStoreDownload from './ModalStoreDownload.js'
+import ModalStoreStoryInfo from './ModalStoreStoryInfo.js'
+import ModalStoreBuildForm from './ModalStoreBuildForm.js'
 
 import styles from './Store.module.scss'
 
@@ -89,7 +89,7 @@ function StoreContent({store}) {
           })
         }
       },
-      [storeData, addModal, getLocale, storiesSelected, rmModal]
+      [storeData, addModal, storiesSelected, rmModal]
     ),
     onDownload = useCallback(
       (story) => {
@@ -104,7 +104,7 @@ function StoreContent({store}) {
     ),
     additionalHeaderButtons = useMemo(
       () => <TableHeaderIcon componentIcon={ButtonIconSort}
-                             title="sort-name-or-update"
+                             title="sort-by-name-or-date"
                              onClick={() => {
                                setStories((stories) => [...(isSortedByName ? sortByUpdatedAt(stories) : sortByName(stories))])
                                setSortedByName((sort) => !sort)
@@ -122,9 +122,11 @@ function StoreContent({store}) {
       }
       const
         now = Date.now(),
-        lStories = localStories.map((s) => s.uuid)
+        lStories = localStories.map((s) => s.uuid),
+        storiesSorted = storeData.audioList ? sortByUpdatedAt(storeData.data) : sortByName(storeData.data)
+      setSortedByName(!storeData.audioList)
       setStories(
-        sortByName(storeData.data)
+        storiesSorted
           .map(
             (s) => {
               const
@@ -152,7 +154,7 @@ function StoreContent({store}) {
   )
 
   return <>
-    <Table titleLeft={getLocale('stories-on-store', stories.length)}
+    <Table titleLeft={getLocale('stories-on-store', stories.length) + ' (' + (isSortedByName ? getLocale('sorted-by-name') : getLocale('sorted-by-date')) + ')'}
            titleRight={storiesSelected.length ? getLocale('stories-selected', storiesSelected.length) : undefined}
            data={stories}
            onInfo={onInfo}
