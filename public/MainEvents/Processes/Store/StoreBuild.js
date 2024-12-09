@@ -136,46 +136,49 @@ function main(jsonPath) {
       srcImages,
       0,
       countFiles,
-      (index, srcImages) => convertStoryImages(
-        srcImages,
-        dstImages,
-        titleImages,
-        index,
-        countFiles,
-        (index) => downloadAudios(
-          srcHttpAudio,
+      (index, srcImages) => {
+        const coverTmpImage = srcImages[0]
+        convertStoryImages(
+          srcImages,
+          dstImages,
+          titleImages,
           index,
           countFiles,
-          (index, srcLocalAudio) => convertTextToSpeech(
-            srcTts,
+          (index) => downloadAudios(
+            srcHttpAudio,
             index,
             countFiles,
-            (index, tmpAudio) => {
-              const
-                srcAudio = [...tmpAudio, ...srcLocalAudio],
-                dstAudio = [...dstTts, ...dstHttpAudio]
-              convertAudios(
-                srcAudio,
-                dstAudio,
-                index,
-                countFiles,
-                (index) => {
-                  process.stdout.write('*converting-images*' + (index++) + '*' + countFiles + '*')
-                  convertCoverImage(srcImages[0], path.join(dstPath, 'cover.png'))
-                    .then(() => {
-                      process.stdout.write('*writing-metadata*' + index + '*' + countFiles + '*')
-                      fs.writeFileSync(path.join(dstPath, 'nodes.json'), JSON.stringify(nodes))
-                      fs.writeFileSync(path.join(dstPath, 'metadata.json'), JSON.stringify(metadata))
-                      process.stdout.write('success')
-                    })
-                    .catch(() => process.stderr.write('file-not-found'))
-                },
-                false
-              )
-            }
+            (index, srcLocalAudio) => convertTextToSpeech(
+              srcTts,
+              index,
+              countFiles,
+              (index, tmpAudio) => {
+                const
+                  srcAudio = [...tmpAudio, ...srcLocalAudio],
+                  dstAudio = [...dstTts, ...dstHttpAudio]
+                convertAudios(
+                  srcAudio,
+                  dstAudio,
+                  index,
+                  countFiles,
+                  (index) => {
+                    process.stdout.write('*converting-images*' + (index++) + '*' + countFiles + '*')
+                    convertCoverImage(coverTmpImage, path.join(dstPath, 'cover.png'))
+                      .then(() => {
+                        process.stdout.write('*writing-metadata*' + index + '*' + countFiles + '*')
+                        fs.writeFileSync(path.join(dstPath, 'nodes.json'), JSON.stringify(nodes))
+                        fs.writeFileSync(path.join(dstPath, 'metadata.json'), JSON.stringify(metadata))
+                        process.stdout.write('success')
+                      })
+                      .catch(() => process.stderr.write('file-not-found'))
+                  },
+                  false
+                )
+              }
+            )
           )
         )
-      )
+      }
     )
   } catch (e) {
     process.stderr.write(e.toString())
