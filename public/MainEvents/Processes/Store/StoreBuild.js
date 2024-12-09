@@ -161,7 +161,7 @@ function main(jsonPath) {
                 countFiles,
                 (index) => {
                   process.stdout.write('*converting-images*' + (index++) + '*' + countFiles + '*')
-                  convertCoverImage(store.cover, path.join(dstPath, 'cover.png'))
+                  convertCoverImage(srcImages[0], path.join(dstPath, 'cover.png'))
                     .then(() => {
                       process.stdout.write('*writing-metadata*' + index + '*' + countFiles + '*')
                       fs.writeFileSync(path.join(dstPath, 'nodes.json'), JSON.stringify(nodes))
