@@ -125,13 +125,17 @@ function mainEventStores(mainWindow) {
               const
                 channel = getFirstArrayElement(response.rss.channel)
 
-              if (channel === undefined) {
-                return
+              if (channel === undefined || channel.item === undefined || channel.item.length === 0) {
+                return mainWindow.webContents.send('store-remote-data', [])
               }
 
               const
                 copyright = getFirstArrayElement(channel.copyright) || '',
-                imageUrl = getFirstArrayElement((getFirstArrayElement(channel.image) || {}).url) || getItuneImageHref(channel['itunes:image'])
+                imageUrl = getFirstArrayElement((getFirstArrayElement(channel.image) || {}).url) || getItuneImageHref(channel['itunes:image']) || getItuneImageHref(channel.item[0]['itunes:image'])
+
+              if(imageUrl === undefined) {
+                return mainWindow.webContents.send('store-remote-data', [])
+              }
 
               mainWindow.webContents.send(
                 'store-remote-data',
@@ -169,7 +173,7 @@ function mainEventStores(mainWindow) {
                           age: 0,
                           category: getFirstArrayElement(v.category) || '',
                           description: getFirstArrayElement(v.description) || '',
-                          image: getItuneImageHref(v['itunes:image']),
+                          image: getItuneImageHref(v['itunes:image']) || imageUrl,
                           download: downloadUrl.$.url,
                           download_count: 0,
                           author: getFirstArrayElement(v['itunes:author']) || getFirstArrayElement(v.author) || copyright,
