@@ -60,16 +60,18 @@ function mainEventStores(mainWindow) {
           storesPath = getStoresPath('stores.json'),
           storesContent = fs.existsSync(storesPath) ? JSON.parse(fs.readFileSync(storesPath).toString('utf8')) : {}
 
-        fs.writeFileSync(
-          storesPath,
-          JSON.stringify({
-            stores: [
-              ...storesContent.stores,
-              store
-            ]
-          })
-        )
-        ipcMain.emit('stores-get')
+        if (storesContent.stores.find((s) => s.url === store.url) === undefined) {
+          fs.writeFileSync(
+            storesPath,
+            JSON.stringify({
+              stores: [
+                ...storesContent.stores,
+                store
+              ]
+            })
+          )
+          ipcMain.emit('stores-get')
+        }
       }
     }
   )
@@ -128,7 +130,7 @@ function mainEventStores(mainWindow) {
     },
     getFirstArrayElement = (arr) => Array.isArray(arr) && arr.length > 0 ? arr[0] : undefined,
     getItuneImageHref = (arr) => {
-      if(!Array.isArray(arr)) {
+      if (!Array.isArray(arr)) {
         return null
       }
       return (arr.find((img) => img.$ !== undefined && img.$.href !== undefined) || {'$': {}}).$.href || null
@@ -152,7 +154,7 @@ function mainEventStores(mainWindow) {
                 copyright = getFirstArrayElement(channel.copyright) || '',
                 imageUrl = getFirstArrayElement((getFirstArrayElement(channel.image) || {}).url) || getItuneImageHref(channel['itunes:image']) || getItuneImageHref(channel.item[0]['itunes:image'])
 
-              if(imageUrl === undefined) {
+              if (imageUrl === undefined) {
                 return mainWindow.webContents.send('store-remote-data', [])
               }
 
