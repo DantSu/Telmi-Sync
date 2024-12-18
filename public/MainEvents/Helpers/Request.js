@@ -30,6 +30,7 @@ const
           {
             method: 'GET',
             rejectUnauthorized: false,
+            timeout: 5000,
             headers: Object.assign(
               {...defaultHeader},
               bytesStart !== undefined ? {'Range': 'bytes=' + bytesStart + '-' + (bytesEnd - 1)} : null
@@ -87,6 +88,10 @@ const
         file.close()
         reject(e)
       })
+      req.on('timeout', () => {
+        file.close()
+        reject(new Error('Unable to connect to : ' + url))
+      })
       req.end()
     } catch (e) {
       reject(e)
@@ -106,6 +111,7 @@ const
           url,
           {
             method: 'HEAD',
+            timeout: 5000,
           },
           (res) => {
             if (res.statusCode < 200 || res.statusCode >= 400) {
@@ -132,6 +138,9 @@ const
       req.on('error', e => {
         reject(e)
       })
+      req.on('timeout', () => {
+        reject(new Error('Unable to connect to : ' + url))
+      })
       req.end()
     })
   },
@@ -146,6 +155,7 @@ const
           {
             method: 'GET',
             rejectUnauthorized: false,
+            timeout: 5000,
             headers: {
               ...defaultHeader,
               ...header
@@ -181,6 +191,9 @@ const
         )
       req.on('error', e => {
         reject(e)
+      })
+      req.on('timeout', () => {
+        reject(new Error('Unable to connect to : ' + url))
       })
       req.end()
     })
