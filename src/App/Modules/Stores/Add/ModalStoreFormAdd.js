@@ -55,7 +55,7 @@ function ModalStoreFormAdd({onValidate, onClose}) {
                                        if (values[2]) {
                                          onValidate({
                                            name: values[0],
-                                           url: values[1],
+                                           url: values[1].trim(),
                                            deletable: true,
                                          })
                                          onClose()
