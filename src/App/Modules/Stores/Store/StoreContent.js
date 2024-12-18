@@ -14,6 +14,8 @@ import ModalStoreBuildForm from './ModalStoreBuildForm.js'
 
 import styles from './Store.module.scss'
 
+const {ipcRenderer} = window.require('electron')
+
 const
   storeStoriesIds = {},
   storeStoryGetId = (str) => {
@@ -106,10 +108,12 @@ function StoreContent({store}) {
       () => <TableHeaderIcon componentIcon={ButtonIconSort}
                              title="sort-by-name-or-date"
                              onClick={() => {
-                               setStories((stories) => [...(isSortedByName ? sortByUpdatedAt(stories) : sortByName(stories))])
-                               setSortedByName((sort) => !sort)
+                               store.isSortedByName = !isSortedByName
+                               setStories((stories) => [...(store.isSortedByName ? sortByName(stories) : sortByUpdatedAt(stories))])
+                               setSortedByName(store.isSortedByName)
+                               ipcRenderer.send('store-update', store)
                              }}/>,
-      [isSortedByName, setStories, setSortedByName]
+      [store, isSortedByName]
     )
 
   useElectronListener('store-remote-data', (response) => setStoreData(response), [])
@@ -120,11 +124,17 @@ function StoreContent({store}) {
       if (storeData === null) {
         return
       }
+      if (store.isSortedByName === undefined) {
+        store.isSortedByName = !storeData.audioList
+      }
+
       const
         now = Date.now(),
         lStories = localStories.map((s) => s.uuid),
-        storiesSorted = storeData.audioList ? sortByUpdatedAt(storeData.data) : sortByName(storeData.data)
-      setSortedByName(!storeData.audioList)
+        storiesSorted = store.isSortedByName ? sortByName(storeData.data) : sortByUpdatedAt(storeData.data)
+
+      setSortedByName(store.isSortedByName)
+
       setStories(
         storiesSorted
           .map(
@@ -154,16 +164,17 @@ function StoreContent({store}) {
   )
 
   return <>
-    <Table titleLeft={getLocale('stories-on-store', stories.length) + ' (' + (isSortedByName ? getLocale('sorted-by-name') : getLocale('sorted-by-date')) + ')'}
-           titleRight={storiesSelected.length ? getLocale('stories-selected', storiesSelected.length) : undefined}
-           data={stories}
-           onInfo={onInfo}
-           selectedData={storiesSelected}
-           onSelect={onSelect}
-           onDownload={storeData !== null && !storeData.audioList ? onDownload : undefined}
-           onDownloadSelected={onDownloadSelected}
-           additionalHeaderButtons={additionalHeaderButtons}
-           isLoading={!stories.length}/>
+    <Table
+      titleLeft={getLocale('stories-on-store', stories.length) + ' (' + (isSortedByName ? getLocale('sorted-by-name') : getLocale('sorted-by-date')) + ')'}
+      titleRight={storiesSelected.length ? getLocale('stories-selected', storiesSelected.length) : undefined}
+      data={stories}
+      onInfo={onInfo}
+      selectedData={storiesSelected}
+      onSelect={onSelect}
+      onDownload={storeData !== null && !storeData.audioList ? onDownload : undefined}
+      onDownloadSelected={onDownloadSelected}
+      additionalHeaderButtons={additionalHeaderButtons}
+      isLoading={!stories.length}/>
     {
       storeData !== null &&
       <ButtonExternalLink href={storeData.banner.link}>

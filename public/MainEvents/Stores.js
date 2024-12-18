@@ -73,7 +73,26 @@ function mainEventStores(mainWindow) {
       }
     }
   )
+  ipcMain.on(
+    'store-update',
+    async (event, store) => {
+      if (checkStore(store)) {
+        const storesPath = getStoresPath('stores.json')
 
+        if (fs.existsSync(storesPath)) {
+          fs.writeFileSync(
+            storesPath,
+            JSON.stringify({
+              stores: JSON
+                .parse(fs.readFileSync(storesPath).toString('utf8'))
+                .stores
+                .map((s) => s.url !== store.url ? s : store)
+            })
+          )
+        }
+      }
+    }
+  )
   ipcMain.on(
     'store-delete',
     async (event, store) => {
@@ -87,7 +106,7 @@ function mainEventStores(mainWindow) {
               stores: JSON
                 .parse(fs.readFileSync(storesPath).toString('utf8'))
                 .stores
-                .filter((s) => s.url !== store.url || s.name !== store.name)
+                .filter((s) => s.url !== store.url)
             })
           )
         }
