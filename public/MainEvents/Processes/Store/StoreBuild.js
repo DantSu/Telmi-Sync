@@ -9,6 +9,7 @@ import {piperTTS} from '../BinFiles/PiperTTSCommand.js'
 import {generateDirNameStory} from '../../Helpers/Stories.js'
 import {createPathDirectories, rmDirectory} from '../../Helpers/Files.js'
 import {downloadFile} from '../../Helpers/Request.js'
+import {stripHtmlTags} from '../../Helpers/Strings.js'
 
 const
   tmpFolder = initTmpPath('store-builder'),
@@ -126,6 +127,23 @@ function main(jsonPath) {
             {}
           )
         }
+      },
+      notes = {
+        question: {title: 'question', notes: ''},
+        ...stories.reduce(
+            (acc, s, k) => ({
+              ...acc,
+              ['m' + k]: {
+                title: 'm' + k,
+                notes: s.title,
+              },
+              ['s' + k]: {
+                title: s.title,
+                notes: stripHtmlTags(s.description),
+              }
+            }),
+            {}
+          )
       }
 
     rmDirectory(dstPath)
@@ -167,6 +185,7 @@ function main(jsonPath) {
                       .then(() => {
                         process.stdout.write('*writing-metadata*' + index + '*' + countFiles + '*')
                         fs.writeFileSync(path.join(dstPath, 'nodes.json'), JSON.stringify(nodes))
+                        fs.writeFileSync(path.join(dstPath, 'notes.json'), JSON.stringify(notes))
                         fs.writeFileSync(path.join(dstPath, 'metadata.json'), JSON.stringify(metadata))
                         process.stdout.write('success')
                       })

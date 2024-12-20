@@ -63,7 +63,7 @@ const
     return {...nodes}
   },
   addNote = (notes, stageId, title) => {
-    notes[stageId] = {title: title || stageId, text: ''}
+    notes[stageId] = {title: title || stageId, notes: ''}
     return {...notes}
   },
   getComparisonOperators = () => (['<', '<=', '==', '>', '>=', '!=']),

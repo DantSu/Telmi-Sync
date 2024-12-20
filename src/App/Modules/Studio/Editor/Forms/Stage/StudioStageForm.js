@@ -135,7 +135,7 @@ function StudioStageForm() {
     <InputAudio label={getLocale('story')}
                 key={'audio-' + storyVersion + '-' + stage}
                 id={'audio'}
-                textTTS={notes[stage].notes}
+                textTTS={note.notes}
                 onChange={onAudioChange}
                 onDelete={onAudioDelete}
                 audio={stageNode.newAudio ? stageNode.newAudio : (stageNode.audio ? metadata.path + '/audios/' + stageNode.audio : undefined)}/>
