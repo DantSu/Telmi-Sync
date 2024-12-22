@@ -124,6 +124,7 @@ function StoreContent({store}) {
       if (storeData === null) {
         return
       }
+
       if (store.isSortedByName === undefined) {
         store.isSortedByName = !storeData.audioList
       }
@@ -160,7 +161,7 @@ function StoreContent({store}) {
           )
       )
     },
-    [getLocale, localStories, storeData]
+    [store, getLocale, localStories, storeData]
   )
 
   return <>

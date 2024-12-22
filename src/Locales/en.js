@@ -120,6 +120,9 @@ const en = {
   'select-to-build-pack': 'Select stories then click "Download" to build a stories pack.',
   'which-story': 'Which story do you want to hear ?',
 
+  'error-download-images': 'Unable to download images',
+  'error-download-audio': 'Unable to download audio files',
+
   'action-continue-to': 'Continue to :',
   'action-scene-existing': 'Existing scene',
   'action-scene-new': 'New scene',

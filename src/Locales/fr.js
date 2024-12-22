@@ -120,6 +120,9 @@ const fr = {
   'select-to-build-pack': 'Sélectionnez les histoires puis cliquez sur "Télécharger" pour générer un pack d\'histoires.',
   'which-story': 'Quelle histoire veux-tu écouter ?',
 
+  'error-download-images': 'Impossible de télécharger les images',
+  'error-download-audio': 'Impossible de télécharger les fichiers audio',
+
   'action-continue-to': 'Continuer vers :',
   'action-scene-existing': 'Scène existante',
   'action-scene-new': 'Nouvelle scène',

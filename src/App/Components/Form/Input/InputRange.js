@@ -1,4 +1,4 @@
-import { forwardRef, useCallback, useMemo, useState } from 'react'
+import { forwardRef, useCallback, useState } from 'react'
 import InputLayout from './InputLayout.js'
 
 import styles from './Input.module.scss'
