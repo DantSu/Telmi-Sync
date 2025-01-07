@@ -7,43 +7,14 @@ import { unpack } from './7zipCommands.js'
 
 const
   links = {
-    'win32-x64': 'https://github.com/ffbinaries/ffbinaries-prebuilt/releases/download/v6.1/ffmpeg-6.1-win-64.zip',
-    'linux-x64': 'https://github.com/ffbinaries/ffbinaries-prebuilt/releases/download/v6.1/ffmpeg-6.1-linux-64.zip',
-    'linux-arm64': 'https://github.com/ffbinaries/ffbinaries-prebuilt/releases/download/v6.1/ffmpeg-6.1-linux-arm-64.zip',
-    'darwin-arm64': 'https://www.osxexperts.net/ffmpeg61arm.zip',
-    'darwin-x64': 'https://github.com/ffbinaries/ffbinaries-prebuilt/releases/download/v6.1/ffmpeg-6.1-macos-64.zip',
-  }/*,
-  baseUrl = 'https://github.com/ffbinaries/ffbinaries-prebuilt/releases/download/v6.1/ffmpeg-6.1-',
-  getOS = () => {
-    switch (process.platform) {
-      case 'darwin':
-        return 'macos'
-      case 'linux':
-        return 'linux'
-      case 'win32':
-        return 'win'
-      default:
-        return null
-    }
-  },
-  getArch = () => {
-    switch (process.arch) {
-      case 'x64':
-        return '64'
-      case 'arm64':
-        return 'arm-64'
-      default:
-        return null
-    }
-  }*/
+    'win32-x64': 'https://github.com/DantSu/ffmpeg-binaries/releases/download/6.1.0/ffmpeg-6.1-win-64.zip',
+    'linux-x64': 'https://github.com/DantSu/ffmpeg-binaries/releases/download/6.1.0/ffmpeg-6.1-linux-64.zip',
+    'linux-arm64': 'https://github.com/DantSu/ffmpeg-binaries/releases/download/6.1.0/ffmpeg-6.1-linux-arm-64.zip',
+    'darwin-arm64': 'https://github.com/DantSu/ffmpeg-binaries/releases/download/6.1.0/ffmpeg-6.1-macos-arm-64.zip',
+    'darwin-x64': 'https://github.com/DantSu/ffmpeg-binaries/releases/download/6.1.0/ffmpeg-6.1-macos-64.zip',
+  }
 
 function main () {
-  /*const url = baseUrl + getOS() + '-' + getArch() + '.zip'
-
-  if (!links.includes(url)) {
-    process.stderr.write('ffmpeg-os-not-supported')
-    return
-  }*/
 
   const url = links[process.platform + '-' + process.arch]
 
