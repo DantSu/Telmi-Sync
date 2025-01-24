@@ -22,7 +22,6 @@ function StudioStoryStageDropContext({x, y, stageSrc, stageDst, setContextMenu})
           nodes: addStageOption(s.nodes, s.nodes.stages[stageDst], stageSrc)
         }
       })
-      setContextMenu(null)
     },
     onClickClone = () => {
       updateStory((s) => {
@@ -47,7 +46,6 @@ function StudioStoryStageDropContext({x, y, stageSrc, stageDst, setContextMenu})
           notes: addNote(s.notes, stageId, stageId)
         }
       })
-      setContextMenu(null)
     },
     onClickCancel = () => {
       setContextMenu(null)
