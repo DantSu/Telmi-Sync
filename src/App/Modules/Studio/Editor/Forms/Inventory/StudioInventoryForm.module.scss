@@ -13,9 +13,11 @@
   border-radius: 5px;
   margin: 10px 0;
 }
+
 .itemContainer * {
   pointer-events: none;
 }
+
 .itemLabel {
   display: flex;
   justify-content: space-between;
@@ -37,6 +39,7 @@
   padding: 5px 15px 0 15px;
   border-top: 1px dashed $blue;
 }
+
 .itemForm * {
   pointer-events: auto;
 }

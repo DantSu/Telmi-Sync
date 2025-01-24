@@ -5,8 +5,9 @@ import {useStudioForm} from '../Providers/StudioStageHooks.js'
 import {getAssigmentOperators} from '../Forms/StudioNodesHelpers.js'
 
 import StudioStoryNodeStage from './StudioStoryNodeStage.js'
+import StudioStoryStageDropContext from './StudioStoryStageDropContext.js'
 
-function StudioStoryStage({stageId, x, y}) {
+function StudioStoryStage({stageId, x, y, setContextMenu}) {
   const
     {getLocale} = useLocale(),
     {story: {nodes, notes, metadata}} = useStudioStory(),
@@ -21,6 +22,24 @@ function StudioStoryStage({stageId, x, y}) {
         e.dataTransfer.effectAllowed = 'link'
       },
       [stageId]
+    ),
+    onDrop = useCallback(
+      (e) => {
+        if (
+          nodes.stages[e.dataTransfer.getData('stageId')] === undefined ||
+          stageId === e.dataTransfer.getData('stageId')
+        ) {
+          return
+        }
+        setContextMenu(
+          <StudioStoryStageDropContext x={x}
+                                       y={y}
+                                       stageSrc={e.dataTransfer.getData('stageId')}
+                                       stageDst={stageId}
+                                       setContextMenu={setContextMenu}/>
+        )
+      },
+      [nodes.stages, setContextMenu, stageId, x, y]
     ),
     onClick = useCallback(
       (e) => {
@@ -49,6 +68,7 @@ function StudioStoryStage({stageId, x, y}) {
     isSelected={stage === stageId}
     onClick={onClick}
     onDragStart={onDragStart}
+    onDrop={onDrop}
     onMouseDown={onMouseDown}
     isAutoplay={currentStage.control.autoplay}
     isOkButton={currentStage.control.ok}

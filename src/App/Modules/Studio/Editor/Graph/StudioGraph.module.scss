@@ -50,11 +50,19 @@
   height: 66px;
 }
 
+.nodeStage *, .nodeStageSelected * {
+  pointer-events: none;
+}
+
 @each $name, $colorLight, $colorDark in $colors {
   .nodeStage.#{$name} {
     background: $colorDark;
     border: 1px solid $colorLight;
   }
+}
+
+.nodeStageDragOver {
+  border: 1px solid $orange;
 }
 
 .nodeStageSelected {
@@ -101,6 +109,7 @@
   color: $purple;
   background: $blue;
   border: 1px solid $purple;
+  pointer-events: initial;
 }
 
 .icon, .redIcon {
@@ -182,4 +191,19 @@
   fill: $white40;
   dominant-baseline: central;
   padding-right: 50px;
+}
+
+.contextMenu {
+  margin-top: 10px;
+  position: relative;
+}
+
+.contextMenu:before {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -10px;
+  border: 10px solid transparent;
+  border-bottom-color: $purple4;
 }

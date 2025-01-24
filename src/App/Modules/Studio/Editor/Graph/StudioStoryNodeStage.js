@@ -1,3 +1,4 @@
+import {useCallback} from 'react'
 import {useLocale} from '../../../../Components/Locale/LocaleHooks.js'
 import {SVG_ANCHOR_CENTER, SVG_ANCHOR_MIDDLE} from '../../../../Components/SVG/SVGConstants.js'
 import SVGHtml from '../../../../Components/SVG/SVGHtml.js'
@@ -16,13 +17,30 @@ function StudioStoryNodeStage({
                                 onClick,
                                 onMouseDown,
                                 onDragStart,
+                                onDrop,
                                 isAutoplay,
                                 isOkButton
                               }) {
 
   const
     {getLocale} = useLocale(),
-    stageTitle = title + (image ? '\n' + getLocale('picture') + ' : ' + image : '') + (audio ? '\n' + getLocale('audio') + ' : ' + audio : '')
+    stageTitle = title + (image ? '\n' + getLocale('picture') + ' : ' + image : '') + (audio ? '\n' + getLocale('audio') + ' : ' + audio : ''),
+    onDragEnterCb = useCallback((e) => e.target.classList.add(styles.nodeStageDragOver), []),
+    onDragLeaveCb = useCallback((e) => e.target.classList.remove(styles.nodeStageDragOver), []),
+    onDragOverCb = useCallback(
+      (e) => {
+        e.preventDefault()
+        e.dataTransfer.dropEffect = 'link'
+      },
+      []
+    ),
+    onDropCb = useCallback(
+      (e) => {
+        e.target.classList.remove(styles.nodeStageDragOver)
+        onDrop(e)
+      },
+      [onDrop]
+    )
 
   return <SVGHtml x={x}
                   y={y}
@@ -39,7 +57,11 @@ function StudioStoryNodeStage({
          onClick={onClick}
          onMouseDown={onMouseDown}
          draggable={typeof onDragStart === 'function'}
-         onDragStart={onDragStart}>
+         onDragStart={onDragStart}
+         onDragOver={typeof onDrop === 'function' ? onDragOverCb : undefined}
+         onDrop={typeof onDrop === 'function' ? onDropCb : undefined}
+         onDragEnter={typeof onDrop === 'function' ? onDragEnterCb : undefined}
+         onDragLeave={typeof onDrop === 'function' ? onDragLeaveCb : undefined}>
       <ul className={styles.icons}>
         {!audio && <li className={styles.redIcon} title={getLocale('no-audio-file')}>{'\uf6a9'}</li>}
         {

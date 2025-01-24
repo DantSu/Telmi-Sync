@@ -1,0 +1,22 @@
+@import "src/App/variables";
+
+.container {
+  background: $purple2;
+  border: 1px solid $purple4;
+  border-radius: 5px;
+}
+
+.item {
+  margin: 2px;
+}
+
+.itemButton {
+  width: 100%;
+  padding: 2px;
+  background: $purple;
+  border-radius: 5px;
+}
+
+.itemButton:hover {
+  background: $purple4;
+}

@@ -1,4 +1,4 @@
-import {useMemo} from 'react'
+import {useMemo, useState} from 'react'
 import {useStudioStory} from '../Providers/StudioStoryHooks.js'
 
 import SVGLayout from '../../../../Components/SVG/SVGLayout.js'
@@ -80,7 +80,7 @@ const
 
     return [stagesSize, actionsSize]
   },
-  getNodes = (nodes) => {
+  getNodes = (nodes, setContextMenu) => {
     const
       startActionKey = nodes.startAction.action,
       backActionKey = nodes.stages.backStage.ok.action,
@@ -114,11 +114,13 @@ const
         stages: [
           <StudioStoryStartStage key={'stage-startStage'}
                                  x={stagesPos.startStage.x}
-                                 y={stagesPos.startStage.y}/>,
+                                 y={stagesPos.startStage.y}
+                                 setContextMenu={setContextMenu}/>,
           <StudioStoryStage key={'stage-backStage'}
                             stageId={'backStage'}
                             x={stagesPos.backStage.x}
-                            y={stagesPos.backStage.y}/>
+                            y={stagesPos.backStage.y}
+                            setContextMenu={setContextMenu}/>
         ],
         actions: [],
         lines: []
@@ -141,7 +143,8 @@ const
           <StudioStoryStage key={'stage-' + stageId}
                             stageId={stageId}
                             x={stagesPos[stageId].x}
-                            y={stagesPos[stageId].y}/>
+                            y={stagesPos[stageId].y}
+                            setContextMenu={setContextMenu}/>
         ]
       }
 
@@ -217,13 +220,15 @@ const
 
 function StudioStoryEditorGraph({scale}) {
   const
+    [contextMenu, setContextMenu] = useState(null),
     {story: {nodes}} = useStudioStory(),
-    {lines, stages, actions} = useMemo(() => getNodes(nodes), [nodes])
+    {lines, stages, actions} = useMemo(() => getNodes(nodes, setContextMenu), [nodes])
 
   return <SVGLayout observer={nodes} scale={scale} marginRight={100 / scale} marginBottom={100}>
     {lines}
     {stages}
     {actions}
+    {contextMenu}
   </SVGLayout>
 }
 
