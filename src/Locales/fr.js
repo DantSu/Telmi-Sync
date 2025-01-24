@@ -225,6 +225,7 @@ const fr = {
   'inventory-update': 'Mise à jour de l\'inventaire',
   'inventory-update-add': 'Ajouter/retirer des objets',
   'inventory-of-item': 'à l\'objet',
+  'inventory-reset': 'Réinitialiser les valeurs de l\'inventaire',
 }
 
 export default fr

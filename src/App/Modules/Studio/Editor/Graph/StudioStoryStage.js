@@ -49,20 +49,26 @@ function StudioStoryStage({stageId, x, y, setContextMenu}) {
       },
       [stageId, setForm]
     ),
-    inventoryUpdate = Array.isArray(currentStage.items) ?
-      currentStage.items.map((rule) => {
-        const item = nodes.inventory.find((v) => v.id === rule.item)
-        return item.name + ' ' +
-          getAssigmentOperators()[rule.type] + ' ' +
-          (rule.number !== undefined ? rule.number : '') +
-          (rule.assignItem !== undefined ? nodes.inventory.find((v) => v.id === rule.assignItem).name : '') +
-          (rule.playingTime ? getLocale('playing-time') : '')
-      }).join('\n') : undefined
+    getInventoryUpdateString = () => {
+      const
+        inventoryReset = currentStage.inventoryReset ? getLocale('inventory-reset') + '\n' : '',
+        inventoryUpdate = Array.isArray(currentStage.items) ?
+          currentStage.items.map((rule) => {
+            const item = nodes.inventory.find((v) => v.id === rule.item)
+            return item.name + ' ' +
+              getAssigmentOperators()[rule.type] + ' ' +
+              (rule.number !== undefined ? rule.number : '') +
+              (rule.assignItem !== undefined ? nodes.inventory.find((v) => v.id === rule.assignItem).name : '') +
+              (rule.playingTime ? getLocale('playing-time') : '')
+          }).join('\n') : ''
+      return inventoryReset + inventoryUpdate
+    }
+
 
   return <StudioStoryNodeStage
     image={currentStage.newImage || (currentStage.image ? metadata.path + '/images/' + currentStage.image : undefined)}
     audio={currentStage.newAudio || (currentStage.audio ? metadata.path + '/audios/' + currentStage.audio : undefined)}
-    inventoryUpdate={inventoryUpdate}
+    inventoryUpdate={getInventoryUpdateString()}
     title={notes[stageId].title}
     color={notes[stageId].color}
     isSelected={stage === stageId}

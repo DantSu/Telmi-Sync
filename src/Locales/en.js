@@ -225,6 +225,7 @@ const en = {
   'inventory-update': 'Inventory updates',
   'inventory-update-add': 'Add/remove item',
   'inventory-of-item': 'of item',
+  'inventory-reset': 'Reset values of inventory items',
 }
 
 export default en

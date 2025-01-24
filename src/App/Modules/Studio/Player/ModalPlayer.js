@@ -270,6 +270,13 @@ function ModalPlayer({story, onClose}) {
         return
       }
 
+      if (newStage.inventoryReset) {
+        setItems((items) => items.map((item) => ({
+          ...item,
+          count: item.initialNumber
+        })))
+      }
+
       if (Array.isArray(newStage.items) && newStage.items.length) {
         setItems((items) => {
           newStage.items.forEach((item) => {

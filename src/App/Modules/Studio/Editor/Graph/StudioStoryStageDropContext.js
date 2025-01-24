@@ -29,16 +29,19 @@ function StudioStoryStageDropContext({x, y, stageSrc, stageDst, setContextMenu})
           srcNode = s.nodes.stages[stageSrc],
           stageId = addStage(s.nodes)
 
-        s.nodes.stages[stageId] = {
-          ...s.nodes.stages[stageId],
-          newImage: srcNode.newImage || isImageDefined(srcNode.image, s.metadata.path),
-          newAudio: srcNode.newAudio || isAudioDefined(srcNode.audio, s.metadata.path),
-          control: {
-            ok: srcNode.control.ok,
-            home: srcNode.control.home,
-            autoplay: srcNode.control.autoplay
-          }
-        }
+        s.nodes.stages[stageId] = Object.assign({
+            ...s.nodes.stages[stageId],
+            newImage: srcNode.newImage || isImageDefined(srcNode.image, s.metadata.path),
+            newAudio: srcNode.newAudio || isAudioDefined(srcNode.audio, s.metadata.path),
+            control: {
+              ok: srcNode.control.ok,
+              home: srcNode.control.home,
+              autoplay: srcNode.control.autoplay
+            }
+          },
+          srcNode.inventoryReset ? {inventoryReset: true} : null,
+          Array.isArray(srcNode.items) ? {items: JSON.parse(JSON.stringify(srcNode.items))} : null
+        )
 
         return {
           ...s,

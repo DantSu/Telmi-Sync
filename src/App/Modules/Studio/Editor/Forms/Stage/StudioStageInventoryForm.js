@@ -7,6 +7,7 @@ import {getAssigmentOperators} from '../StudioNodesHelpers.js'
 import Form from '../../../../../Components/Form/Form.js'
 import InputText from '../../../../../Components/Form/Input/InputText.js'
 import InputSelect from '../../../../../Components/Form/Input/InputSelect.js'
+import InputSwitch from '../../../../../Components/Form/Input/InputSwitch.js'
 import ButtonIconPlus from '../../../../../Components/Buttons/Icons/ButtonIconPlus.js'
 import StudioStageInventoryUpdateForm from './StudioStageInventoryUpdateForm.js'
 
@@ -20,6 +21,40 @@ function StudioStageInventoryForm() {
     {updateStory} = useStudioStoryUpdater(),
     [typeValue, setTypeValue] = useState(0),
     stageNode = nodes.stages[stage],
+
+    onInventoryResetChange = (e) => {
+      const value = e.target.checked
+      updateStory((s) => {
+        const nodeStage = s.nodes.stages[stage]
+        if (value && !nodeStage.inventoryReset) {
+          return {
+            ...s,
+            nodes: {
+              ...s.nodes,
+              stages: {
+                ...s.nodes.stages,
+                [stage]: {...nodeStage, inventoryReset: true}
+              }
+            }
+          }
+        }
+        if (!value && nodeStage.inventoryReset) {
+          delete nodeStage.inventoryReset
+          return {
+            ...s,
+            nodes: {
+              ...s.nodes,
+              stages: {
+                ...s.nodes.stages,
+                [stage]: {...nodeStage}
+              }
+            }
+          }
+        }
+        return s
+      })
+    },
+
     itemRef = useRef(null),
     typeRef = useRef(null),
     typeValueRef = useRef(null),
@@ -29,6 +64,7 @@ function StudioStageInventoryForm() {
     inventoryUpdate = Array.isArray(stageNode.items) ? stageNode.items : [],
     onValidate = (values) => {
       updateStory((s) => {
+        const stageNode = s.nodes.stages[stage]
         if (!Array.isArray(stageNode.items)) {
           stageNode.items = []
         }
@@ -52,6 +88,12 @@ function StudioStageInventoryForm() {
 
   return <div className={styles.actionContainer}>
     <h2 className={styles.actionTitle}>{getLocale('inventory-update')}</h2>
+
+    <InputSwitch label={getLocale('inventory-reset')}
+                 key={'inventory-reset-' + storyVersion + '-' + stage}
+                 defaultValue={stageNode.inventoryReset === true}
+                 onChange={onInventoryResetChange}/>
+
     <ul className={styles.inventoryUpdatesContainer}>{
       inventoryUpdate.map((v, k) => <StudioStageInventoryUpdateForm rule={v}
                                                                     rulePosition={k}

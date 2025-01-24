@@ -16,16 +16,14 @@ function StudioStartStageForm() {
 
     startStageNode = useMemo(
       () => ({
-        'image': metadata.newImageTitle ||  metadata.imageTitle || null,
-        'audio': metadata.newAudioTitle || metadata.audioTitle || null,
-        'ok': nodes.startAction,
-        'home': null,
-        'control': {
-          'wheel': false,
-          'ok': true,
-          'home': true,
-          'pause': false,
-          'autoplay': false
+        image: metadata.newImageTitle ||  metadata.imageTitle || null,
+        audio: metadata.newAudioTitle || metadata.audioTitle || null,
+        ok: nodes.startAction,
+        home: null,
+        control: {
+          ok: true,
+          home: true,
+          autoplay: false
         }
       }),
       [metadata, nodes]

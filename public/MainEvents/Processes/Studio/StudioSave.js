@@ -195,6 +195,7 @@ function main(jsonPath) {
               home: stage.home,
               control: stage.control
             },
+            hasInventory && stage.inventoryReset ? {inventoryReset: true} : null,
             hasInventory && Array.isArray(stage.items) && stage.items.length ? {
               items: stage.items.map((i) => Object.assign(
                 {
