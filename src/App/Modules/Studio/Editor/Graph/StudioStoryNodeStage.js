@@ -19,7 +19,8 @@ function StudioStoryNodeStage({
                                 onDragStart,
                                 onDrop,
                                 isAutoplay,
-                                isOkButton
+                                isOkButton,
+                                version
                               }) {
 
   const
@@ -71,7 +72,7 @@ function StudioStoryNodeStage({
         {isOkButton && <li className={styles.iconText} title={getLocale('press-a-to-go-next')}>A</li>}
       </ul>
       <div className={styles.nodeStageImg}>
-        {image && <img src={image} alt=""/>}
+        {image && <img src={image + '?version=' + version} alt=""/>}
       </div>
       <h3 className={styles.nodeStageTitle}>{title}</h3>
     </div>

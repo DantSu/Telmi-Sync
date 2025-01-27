@@ -70,6 +70,7 @@ function main(jsonPath) {
         image: 'cover.png',
         category: store.category,
         description: stripHtmlTags(store.description),
+        version: 0,
         age: 0,
       },
       dstPath = getStoriesPath(generateDirNameStory(metadata.title, metadata.uuid, metadata.age, metadata.category)),

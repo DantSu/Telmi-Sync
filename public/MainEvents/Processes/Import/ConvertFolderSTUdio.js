@@ -88,6 +88,7 @@ function convertFolderSTUdio (srcPath, storyName) {
         {
           title,
           uuid: firstStageNode.uuid,
+          version: 0,
           image: 'title.png'
         },
         studioData.description !== undefined ? {description: studioData.description} : null,

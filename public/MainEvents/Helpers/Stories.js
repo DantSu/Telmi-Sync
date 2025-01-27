@@ -8,6 +8,7 @@ const
       stringNormalizeFileName(title).substring(0, 32) + '_' +
       stringSlugify(uuid).substring(0, 36)
   },
+
   findAgeInStoryName = (title) => {
     const a = title.match(/^([0-9]{1,2})\+](.*)/)
     if (a !== null) {
@@ -30,6 +31,7 @@ const
         title: metadata.title,
         uuid: metadata.uuid,
         image,
+        version: metadata.version || 0
       },
       metadata.category ? {category: metadata.category} : null,
       metadata.description ? {description: metadata.description} : null,

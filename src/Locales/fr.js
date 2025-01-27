@@ -17,6 +17,7 @@ const fr = {
   'category': 'Catégorie',
   'url': 'URL',
   'url-store': 'URL (Store Telmi ou Flux RSS)',
+  'version': 'Version',
   'author': 'Auteur',
   'voice': 'Voix',
   'designer': 'Graphisme',

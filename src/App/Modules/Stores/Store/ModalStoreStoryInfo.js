@@ -40,6 +40,9 @@ function ModalStoreStoryInfo ({story, onClose}) {
         <dt className={styles.infoLabel}>{getLocale('updated-at')}</dt>
         <dd className={styles.infoContent}>{(new Date(story.updated_at)).toLocaleString()}</dd>
 
+        <dt className={styles.infoLabel}>{getLocale('version')}</dt>
+        <dd className={styles.infoContent}>{story.version}</dd>
+
         <dt className={styles.infoLabelFullWidth}>{getLocale('description')}</dt>
         <dd className={styles.infoContentFullWidth}>{stripHtmlTags(story.description)}</dd>
       </dl>

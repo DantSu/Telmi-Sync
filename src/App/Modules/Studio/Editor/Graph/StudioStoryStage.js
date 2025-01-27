@@ -78,6 +78,7 @@ function StudioStoryStage({stageId, x, y, setContextMenu}) {
     onMouseDown={onMouseDown}
     isAutoplay={currentStage.control.autoplay}
     isOkButton={currentStage.control.ok}
+    version={metadata.version}
     x={x}
     y={y}/>
 }

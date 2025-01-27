@@ -20,8 +20,8 @@ function StoriesLocalContent({setSelectedStories, selectedStories}) {
 
     stories = useMemo(
       () => {
-        const tStories = telmiOSStories.map((s) => s.uuid)
-        return localStories.map((s) => ({...s, cellDisabled: tStories.includes(s.uuid)}))
+        const tStories = telmiOSStories.reduce((acc, s) => ({...acc, [s.uuid]: s.version}), {})
+        return localStories.map((s) => ({...s, cellDisabled: tStories[s.uuid] !== undefined && tStories[s.uuid] >= s.version}))
       },
       [localStories, telmiOSStories]
     ),

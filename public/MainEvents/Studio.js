@@ -88,7 +88,8 @@ function mainEventStudio(mainWindow) {
               newImageTitle: path.join(getExtraResourcesPath(), 'assets', 'images', 'story-default-title.png'),
               description: '',
               category: '',
-              age: 0
+              age: 0,
+              version: 0
             },
             nodes: {
               startAction: {action: 'a0', index: 0},
@@ -105,6 +106,7 @@ function mainEventStudio(mainWindow) {
           pathImageCover = path.join(metadataSrc.path, 'cover.png'),
           metadata = {
             ...metadataSrc,
+            version: metadataSrc.version || 0,
             audioTitle: fs.existsSync(pathAudioTitle) ? pathAudioTitle : undefined,
             imageTitle: fs.existsSync(pathImageTitle) ? pathImageTitle : undefined,
             imageCover: fs.existsSync(pathImageCover) ? pathImageCover : undefined,
@@ -120,15 +122,12 @@ function mainEventStudio(mainWindow) {
     async (event, storyData) => {
       const
         storiesPath = getStoriesPath(),
-        newMetadataContent = JSON.stringify(getMetadataStory(storyData.metadata, storyData.metadata.newImageCover || storyData.metadata.imageCover ? 'cover.png' : 'title.png')),
-        oldMetadataContent = storyData.metadata.path !== undefined ? fs.readFileSync(path.join(storyData.metadata.path, 'metadata.json')).toString('utf-8') : '',
         newStoryDirectory = generateDirNameStory(
           storyData.metadata.title,
           storyData.metadata.uuid,
           storyData.metadata.age,
           storyData.metadata.category
         ),
-        haveToUpdateLocalStories = newMetadataContent !== oldMetadataContent,
         jsonPath = path.join(initTmpPath('json'), 'story.json')
 
       fs.writeFileSync(jsonPath, JSON.stringify(storyData))
@@ -137,7 +136,6 @@ function mainEventStudio(mainWindow) {
         [jsonPath],
         () => {
           ipcMain.emit('studio-story-get', event, readStoryMetadata(storiesPath, newStoryDirectory))
-          haveToUpdateLocalStories && ipcMain.emit('local-stories-get')
         },
         (message, current, total) => {
           mainWindow.webContents.send('studio-story-save-task', 'story-saving', message, current, total)
@@ -159,7 +157,7 @@ function mainEventStudio(mainWindow) {
 
       const {canceled, filePath} = await dialog.showSaveDialog(mainWindow, {
         filters: [{name: 'zip', extensions: ['zip']}],
-        defaultPath: `${storyData.metadata.age || 0}+] ${stringNormalizeFileName(storyData.metadata.title).substring(0, 32)}.zip`
+        defaultPath: `${storyData.metadata.age || 0}+] ${stringNormalizeFileName(storyData.metadata.title).substring(0, 32)}_v${storyData.metadata.version}.zip`
       })
 
       if (canceled) {

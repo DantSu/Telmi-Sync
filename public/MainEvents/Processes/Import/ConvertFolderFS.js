@@ -150,7 +150,12 @@ function convertFolderFS (srcPath, storyName) {
     firstStageNode = stages['s0'],
     nodes = {startAction: firstStageNode.ok, stages, actions},
     metadata = Object.assign(
-      {title, uuid, image: 'title.png'},
+      {
+        title,
+        uuid,
+        version: 0,
+        image: 'title.png'
+      },
       age !== undefined ? {age} : null
     )
 

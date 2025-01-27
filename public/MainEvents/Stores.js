@@ -204,7 +204,8 @@ function mainEventStores(mainWindow) {
                           awards: [],
                           created_at: getFirstArrayElement(v.pubDate) || '1970-01-01T00:00:00.000Z',
                           updated_at: getFirstArrayElement(v.pubDate) || '1970-01-01T00:00:00.000Z',
-                          uuid: ''
+                          uuid: '',
+                          version: 0
                         }]
                     },
                     []
@@ -232,7 +233,8 @@ function mainEventStores(mainWindow) {
                     awards: v.awards || [],
                     created_at: v.created_at || '1970-01-01T00:00:00.000Z',
                     updated_at: v.updated_at || '1970-01-01T00:00:00.000Z',
-                    uuid: v.uuid || ''
+                    uuid: v.uuid || '',
+                    version: v.version || 0
                   }))
                 }
               )

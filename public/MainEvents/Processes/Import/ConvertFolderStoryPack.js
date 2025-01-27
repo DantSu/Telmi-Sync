@@ -164,6 +164,7 @@ function convertFolderStoryPack(srcPath, storyName) {
           title,
           age,
           uuid: getFileContent(srcPath, 'uuid.txt') || 'fffffe-' + Date.now().toString(16),
+          version: 0,
           image: imageCover != null ? 'cover.png' : 'title.png'
         },
         category !== null ? {category} : null,

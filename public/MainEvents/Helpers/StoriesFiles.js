@@ -38,6 +38,7 @@ const
     md.path = path.join(storiesPath, directory)
     md.image = path.join(md.path, md.image)
     md.audio = path.join(md.path, 'title.mp3')
+    md.version = md.version || 0
     return md
   },
   readStories = (storiesPath) => {

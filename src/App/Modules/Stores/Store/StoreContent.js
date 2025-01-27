@@ -131,7 +131,7 @@ function StoreContent({store}) {
 
       const
         now = Date.now(),
-        lStories = localStories.map((s) => s.uuid),
+        lStories = localStories.reduce((acc, s) => ({...acc, [s.uuid]:s.version}), {}),
         storiesSorted = store.isSortedByName ? sortByName(storeData.data) : sortByUpdatedAt(storeData.data)
 
       setSortedByName(store.isSortedByName)
@@ -155,7 +155,7 @@ function StoreContent({store}) {
                 cellSubtitle: s.category,
                 cellLabelIcon: isNew ? '\uf005' : (isUpdated ? '\uf274' : (isPerfect ? '\uf559' : undefined)),
                 cellLabelIconText: getLocale(isNew ? 'new' : (isUpdated ? 'update-recent' : (isPerfect ? 'award-perfect' : ''))),
-                cellDisabled: s.uuid !== '' && lStories.includes(s.uuid)
+                cellDisabled: s.uuid !== '' && lStories[s.uuid] !== undefined && lStories[s.uuid] >= s.version
               }
             }
           )

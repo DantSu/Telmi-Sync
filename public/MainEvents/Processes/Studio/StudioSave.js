@@ -241,6 +241,7 @@ function main(jsonPath) {
 
     process.stdout.write('*story-saving*6*' + countFiles + '*')
 
+    metadata.version++
     const metadataPath = path.join(storyPath, 'metadata.json')
     createMetadataFile(metadataPath, metadata, hasCover ? 'cover.png' : 'title.png')
 

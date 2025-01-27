@@ -37,6 +37,7 @@ function StudioStoryStartStage({x, y, setContextMenu}) {
                                onClick={onClick}
                                isSelected={stage === stageId}
                                onDrop={onDrop}
+                               version={metadata.version}
                                x={x}
                                y={y}/>
 }
