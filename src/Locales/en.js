@@ -18,6 +18,7 @@ const en = {
   'url': 'URL',
   'url-store': 'URL (Telmi store or RSS Feed)',
   'version': 'Version',
+  'license': 'License',
   'author': 'Author',
   'voice': 'Voice',
   'designer': 'Designer',

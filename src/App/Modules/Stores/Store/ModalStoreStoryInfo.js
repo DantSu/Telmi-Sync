@@ -43,6 +43,9 @@ function ModalStoreStoryInfo ({story, onClose}) {
         <dt className={styles.infoLabel}>{getLocale('version')}</dt>
         <dd className={styles.infoContent}>{story.version}</dd>
 
+        <dt className={styles.infoLabel}>{getLocale('license')}</dt>
+        <dd className={styles.infoContent}>{story.license}</dd>
+
         <dt className={styles.infoLabelFullWidth}>{getLocale('description')}</dt>
         <dd className={styles.infoContentFullWidth}>{stripHtmlTags(story.description)}</dd>
       </dl>
