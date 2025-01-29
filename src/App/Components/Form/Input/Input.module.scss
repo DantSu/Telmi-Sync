@@ -19,7 +19,8 @@
   flex: 0 1 auto;
 }
 
-.input, .textarea, .select {
+.input, .textarea, .select,
+.input:disabled, .textarea:disabled, .select:disabled {
   flex: 0 0 auto;
   width: 220px;
   border-radius: 15px;
@@ -37,9 +38,9 @@
   height: 140px;
 }
 
-.input:hover, .input:focus,
-.select:hover, .select:focus,
-.textarea:hover, .textarea:focus {
+.input:not(:disabled):hover, .input:focus,
+.select:not(:disabled):hover, .select:focus,
+.textarea:not(:disabled):hover, .textarea:focus {
   border: 2px solid $orange;
 }
 

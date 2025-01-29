@@ -45,7 +45,9 @@ body {
   background: radial-gradient(circle, $purple 0%, $purple2 100%);
 }
 
-body, button, input, textarea, select, option {
+body, button,
+input, textarea, select, option,
+input:disabled, textarea:disabled, select:disabled, option:disabled {
   font-family: exo;
   font-size: 16px;
   color: $white70;
@@ -54,10 +56,19 @@ body, button, input, textarea, select, option {
 }
 
 input, textarea, select, option,
+input:disabled, textarea:disabled, select:disabled, option:disabled,
 input:hover, textarea:hover, select:hover, option:hover,
 input:focus, textarea:focus, select:focus, option:focus {
   outline: none;
   border: 0;
+}
+
+input, textarea, select {
+  background: $white;
+}
+
+input:disabled, textarea:disabled, select:disabled {
+  background: $white url("./Assets/Images/scratches-black.svg") repeat top left / 24px ;
 }
 
 button {

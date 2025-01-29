@@ -7,6 +7,7 @@ import InputAudio from '../../../../../Components/Form/Input/InputAudio.js'
 import InputImage from '../../../../../Components/Form/Input/InputImage.js'
 import StudioActionForm from './StudioActionForm.js'
 
+import styles from './StudioStageForm.module.scss'
 
 function StudioStartStageForm() {
   const
@@ -16,7 +17,7 @@ function StudioStartStageForm() {
 
     startStageNode = useMemo(
       () => ({
-        image: metadata.newImageTitle ||  metadata.imageTitle || null,
+        image: metadata.newImageTitle || metadata.imageTitle || null,
         audio: metadata.newAudioTitle || metadata.audioTitle || null,
         ok: nodes.startAction,
         home: null,
@@ -31,7 +32,7 @@ function StudioStartStageForm() {
 
     onTitleBlur = useCallback(
       (e) => updateStory((s) => {
-        if(s.metadata.title === e.target.value) {
+        if (s.metadata.title === e.target.value) {
           return s
         }
         s.metadata.title = e.target.value
@@ -41,7 +42,7 @@ function StudioStartStageForm() {
     ),
     onCategoryBlur = useCallback(
       (e) => updateStory((s) => {
-        if(s.metadata.category === e.target.value) {
+        if (s.metadata.category === e.target.value) {
           return s
         }
         s.metadata.category = e.target.value
@@ -51,7 +52,7 @@ function StudioStartStageForm() {
     ),
     onAgeBlur = useCallback(
       (e) => updateStory((s) => {
-        if(s.metadata.age === e.target.value) {
+        if (s.metadata.age === e.target.value) {
           return s
         }
         s.metadata.age = e.target.value
@@ -61,7 +62,7 @@ function StudioStartStageForm() {
     ),
     onDescriptionBlur = useCallback(
       (e) => updateStory((s) => {
-        if(s.metadata.description === e.target.value) {
+        if (s.metadata.description === e.target.value) {
           return s
         }
         s.metadata.description = e.target.value
@@ -111,6 +112,12 @@ function StudioStartStageForm() {
                max={99}
                defaultValue={metadata.age}
                onBlur={onAgeBlur}/>
+    <InputText label={getLocale('version')}
+               type="number"
+               key={'startStage-version-' + storyVersion + '-' + metadata.title}
+               id={'startStage-version'}
+               defaultValue={metadata.version}
+               disabled={true}/>
     <InputTextarea label={getLocale('description')}
                    key={'startStage-text-' + storyVersion}
                    id={'startStage-text'}
@@ -146,4 +153,4 @@ function StudioStartStageForm() {
   </>
 }
 
-  export default StudioStartStageForm
+export default StudioStartStageForm
