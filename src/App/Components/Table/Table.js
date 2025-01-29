@@ -1,11 +1,13 @@
 import {useCallback, useEffect, useRef, useState} from 'react'
 import {useLocale} from '../Locale/LocaleHooks.js'
-import Loader from '../Loader/Loader.js'
+import {useElectronEmitter, useElectronListener} from '../Electron/Hooks/UseElectronEvent.js'
 
 import {isCellSelected} from './TableHelpers.js'
 import TableHeaderIcon from './TableHeaderIcon.js'
 import TableCell from './TableCell.js'
 import TableGroup from './TableGroup.js'
+
+import Loader from '../Loader/Loader.js'
 
 import ButtonIconTrash from '../Buttons/Icons/ButtonIconTrash.js'
 import ButtonIconSquareCheck from '../Buttons/Icons/ButtonIconSquareCheck.js'
@@ -13,11 +15,15 @@ import ButtonIconDownload from '../Buttons/Icons/ButtonIconDownload.js'
 import ButtonIconPen from '../Buttons/Icons/ButtonIconPen.js'
 import ButtonIconWave from '../Buttons/Icons/ButtonIconWave.js'
 import ButtonIconPlus from '../Buttons/Icons/ButtonIconPlus.js'
+import ButtonIconXMark from '../Buttons/Icons/ButtonIconXMark.js'
 
 import styles from './Table.module.scss'
 
+const {ipcRenderer} = window.require('electron')
+
 function Table({
                  className,
+                 id,
                  titleLeft,
                  titleRight,
                  data,
@@ -42,6 +48,7 @@ function Table({
 
   const
     {getLocale} = useLocale(),
+    [tableState, setTableState] = useState(null),
     [dataFiltered, setDataFiltered] = useState([]),
     searchInput = useRef(),
     onSearch = useCallback(
@@ -49,10 +56,22 @@ function Table({
         if (searchInput === null) {
           return
         }
+
+        setTableState((tableState) => {
+          if (tableState.search === searchInput.current.value) {
+            return tableState
+          }
+          return {
+            ...tableState,
+            search: searchInput.current.value
+          }
+        })
+
         if (searchInput.current.value === '') {
           setDataFiltered(data)
           return
         }
+
         const regSearch = '.*(' + searchInput.current.value.split(' ').join(').*(') + ').*'
         setDataFiltered(
           data.reduce(
@@ -81,6 +100,13 @@ function Table({
       },
       [searchInput, data, setDataFiltered]
     ),
+    clearSearch = useCallback(
+      () => {
+        searchInput.current.value = ''
+        onSearch()
+      },
+      [searchInput, onSearch]
+    ),
     onSelectAllCallback = useCallback(
       () => typeof onSelectAll === 'function' && onSelectAll(
         dataFiltered.reduce(
@@ -91,7 +117,59 @@ function Table({
       [onSelectAll, dataFiltered]
     )
 
-  useEffect(() => onSearch(), [onSearch])
+  useElectronEmitter('tablestate-get', [id, data])
+  useElectronListener(
+    'tablestate-data',
+    (tableId, tableState) => {
+      if (data.length === 0 || tableId !== id) {
+        return
+      }
+      setTableState({
+        search: tableState === null ? '' : tableState.search,
+        group: data.reduce(
+          (acc, v) => {
+            if (v.tableGroup === undefined) {
+              return acc
+            }
+            return {
+              ...acc,
+              [v.tableGroup]: {
+                display: (tableState === null || tableState.group[v.tableGroup] === undefined) ? 0 : tableState.group[v.tableGroup].display
+              }
+            }
+          },
+          {}
+        )
+      })
+    },
+    [id, data]
+  )
+
+  useEffect(
+    () => {
+      if (searchInput === null || tableState === null) {
+        return
+      }
+      searchInput.current.value = tableState.search
+      onSearch()
+    },
+    [tableState, searchInput, onSearch]
+  )
+
+  useEffect(
+    () => {
+      const timeout = setTimeout(
+        () => {
+          if (tableState !== null) {
+            ipcRenderer.send('tablestate-save', id, tableState)
+          }
+        },
+        500
+      )
+      return () => clearTimeout(timeout)
+    },
+    [id, tableState]
+  )
 
   return <div className={[styles.tableContainer, className].join(' ')}>
     <div className={styles.header}>
@@ -140,11 +218,15 @@ function Table({
         </ul>
       }
 
-      <input type="text"
-             placeholder={getLocale('search') + '...'}
-             ref={searchInput}
-             className={styles.headerSearchInput}
-             onKeyUp={onSearch}/>
+      <div className={styles.headerSearchContainer}>
+        <input type="text"
+               placeholder={getLocale('search') + '...'}
+               ref={searchInput}
+               className={styles.headerSearchInput}
+               onKeyUp={onSearch}/>
+        <ButtonIconXMark className={styles.headerSearchReset}
+                         onClick={clearSearch}/>
+      </div>
 
     </div>
     <div className={styles.content}>
@@ -154,6 +236,8 @@ function Table({
             if (v.tableGroup !== undefined) {
               return <TableGroup key={'cell-' + k}
                                  data={v}
+                                 tableState={tableState}
+                                 setTableState={setTableState}
                                  selectedData={selectedData}
                                  onSelect={onSelect}
                                  onSelectAll={onSelectAll}

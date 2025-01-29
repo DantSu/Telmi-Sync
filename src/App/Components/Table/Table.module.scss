@@ -50,6 +50,10 @@
   font-size: 14px;
 }
 
+.headerSearchContainer {
+  position: relative;
+  width: 140px;
+}
 .headerSearchInput {
   padding: 1px 4px 1px 4px;
   background: $white60;
@@ -58,7 +62,14 @@
   font-size: 14px;
   font-weight: bold;
   color: $purple2;
-  width: 140px;
+  width: 100%;
+}
+.headerSearchReset {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0 2px 0 0;
+  color: $purple;
 }
 
 .content {

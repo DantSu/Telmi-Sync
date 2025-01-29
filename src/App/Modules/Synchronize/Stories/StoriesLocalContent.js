@@ -85,7 +85,8 @@ function StoriesLocalContent({setSelectedStories, selectedStories}) {
       []
     )
 
-  return <StoriesTable stories={stories}
+  return <StoriesTable id="stories-local"
+                       stories={stories}
                        onOptimizeAudio={onOptimizeAudio}
                        onOptimizeAudioSelected={onOptimizeAudioSelected}
                        onStudio={onStudio}

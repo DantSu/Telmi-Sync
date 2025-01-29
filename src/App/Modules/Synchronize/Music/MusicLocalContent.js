@@ -22,7 +22,8 @@ function StoriesLocalContent ({setSelectedMusics, selectedMusics}) {
     onEditSelected = useCallback((musics) => ipcRenderer.send('local-musics-update', musics), []),
     onDelete = useCallback((musicsIds) => ipcRenderer.send('local-musics-delete', musicsIds), [])
 
-  return <MusicTable musics={musics}
+  return <MusicTable id="music-local"
+                     musics={musics}
                      onEdit={onEdit}
                      onEditSelected={onEditSelected}
                      onDelete={onDelete}

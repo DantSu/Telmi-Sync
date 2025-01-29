@@ -1,6 +1,6 @@
-import { useCallback, useState } from 'react'
-import { useTelmiOS } from '../../../Components/TelmiOS/TelmiOSHooks.js'
-import { useModal } from '../../../Components/Modal/ModalHooks.js'
+import {useCallback, useState} from 'react'
+import {useTelmiOS} from '../../../Components/TelmiOS/TelmiOSHooks.js'
+import {useModal} from '../../../Components/Modal/ModalHooks.js'
 
 import TelmiOSLayout from '../TelmiOS/TelmiOSLayout.js'
 import MusicTable from './MusicTable.js'
@@ -10,7 +10,7 @@ import styles from '../Synchronize.module.scss'
 
 const {ipcRenderer} = window.require('electron')
 
-function MusicTelmiOSContent ({selectedLocalMusics, setSelectedLocalMusics}) {
+function MusicTelmiOSContent({selectedLocalMusics, setSelectedLocalMusics}) {
   const
     {addModal, rmModal} = useModal(),
     telmiOS = useTelmiOS(),
@@ -37,7 +37,8 @@ function MusicTelmiOSContent ({selectedLocalMusics, setSelectedLocalMusics}) {
 
   return <TelmiOSLayout telmiOS={telmiOS}
                         onTransfer={selectedLocalMusics.length ? onTransfer : undefined}>
-    <MusicTable className={styles.telmiOSTable}
+    <MusicTable id="music-telmios"
+                className={styles.telmiOSTable}
                 musics={telmiOS.music}
                 onDelete={onDelete}
                 selectedMusics={selectedTelmiOSMusics}

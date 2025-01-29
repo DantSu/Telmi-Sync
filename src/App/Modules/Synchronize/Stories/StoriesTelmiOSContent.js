@@ -37,7 +37,8 @@ function StoriesTelmiOSContent ({selectedLocalStories, setSelectedLocalStories})
 
   return <TelmiOSLayout telmiOS={telmiOS}
                         onTransfer={selectedLocalStories.length ? onTransfer : undefined}>
-    <StoriesTable className={styles.telmiOSTable}
+    <StoriesTable id="stories-telmios"
+                  className={styles.telmiOSTable}
                   stories={telmiOS.stories}
                   onDelete={onDelete}
                   setSelectedStories={setSelectedTelmiOSStories}

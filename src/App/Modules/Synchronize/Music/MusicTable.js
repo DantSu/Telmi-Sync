@@ -18,7 +18,7 @@ const
     return musicIds[str]
   }
 
-function MusicTable({className, musics, selectedMusics, setSelectedMusics, onEdit, onEditSelected, onDelete}) {
+function MusicTable({className, id, musics, selectedMusics, setSelectedMusics, onEdit, onEditSelected, onDelete}) {
   const
     {getLocale} = useLocale(),
     {addModal, rmModal} = useModal(),
@@ -135,6 +135,7 @@ function MusicTable({className, musics, selectedMusics, setSelectedMusics, onEdi
   }, [musics, setIsLoadingMusics])
 
   return <Table className={className}
+                id={id}
                 titleLeft={getLocale('musics-local', flatTableMusics.length)}
                 titleRight={selectedMusics.length ? getLocale('musics-selected', selectedMusics.length) : undefined}
                 data={tableMusics}

@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useModal } from '../../../Components/Modal/ModalHooks.js'
-import { useLocale } from '../../../Components/Locale/LocaleHooks.js'
-import {isCellSelected} from '../../../Components/Table/TableHelpers.js';
-import { storiesClassification } from './StoriesClassification.js'
+import {useCallback, useEffect, useMemo, useState} from 'react'
+import {useModal} from '../../../Components/Modal/ModalHooks.js'
+import {useLocale} from '../../../Components/Locale/LocaleHooks.js'
+import {isCellSelected} from '../../../Components/Table/TableHelpers.js'
+import {storiesClassification} from './StoriesClassification.js'
 import Table from '../../../Components/Table/Table.js'
 import ModalStoryFormUpdate from './ModalStoryFormUpdate.js'
 import ModalStoryDeleteConfirm from './ModalStoryDeleteConfirm.js'
@@ -18,7 +18,21 @@ const
     return storiesIds[str]
   }
 
-function StoriesTable ({stories, className, onPlay, onAdd, onStudio, onEdit, onEditSelected, onDelete, onOptimizeAudio, onOptimizeAudioSelected, selectedStories, setSelectedStories}) {
+function StoriesTable({
+                        stories,
+                        className,
+                        id,
+                        onPlay,
+                        onAdd,
+                        onStudio,
+                        onEdit,
+                        onEditSelected,
+                        onDelete,
+                        onOptimizeAudio,
+                        onOptimizeAudioSelected,
+                        selectedStories,
+                        setSelectedStories
+                      }) {
   const
     {getLocale} = useLocale(),
     {addModal, rmModal} = useModal(),
@@ -131,6 +145,7 @@ function StoriesTable ({stories, className, onPlay, onAdd, onStudio, onEdit, onE
   return <Table titleLeft={getLocale('stories-local', flatTableStories.length)}
                 titleRight={selectedStories.length ? getLocale('stories-selected', selectedStories.length) : undefined}
                 className={className}
+                id={id}
                 data={tableStories}
                 selectedData={selectedStories}
                 onSelect={onSelect}

@@ -1,21 +1,41 @@
-import { useCallback, useState } from 'react'
-import { useLocale } from '../Locale/LocaleHooks.js'
+import {useCallback} from 'react'
+import {useLocale} from '../Locale/LocaleHooks.js'
+import {checkGroupDisplayValue, isCellSelected} from './TableHelpers.js'
 import ButtonIconSquareCheck from '../Buttons/Icons/ButtonIconSquareCheck.js'
 import ButtonIconGrip from '../Buttons/Icons/ButtonIconGrip.js'
 import ButtonIconList from '../Buttons/Icons/ButtonIconList.js'
-import {isCellSelected} from './TableHelpers.js';
 import TableCell from './TableCell.js'
 import TableList from './TableList.js'
 
 import styles from './Table.module.scss'
 
-function TableGroup ({data, selectedData, onSelect, onSelectAll, onPlay, onStudio, onInfo, onEdit, onOptimizeAudio, onDownload, onDelete}) {
+function TableGroup({
+                      data,
+                      tableState,
+                      setTableState,
+                      selectedData,
+                      onSelect,
+                      onSelectAll,
+                      onPlay,
+                      onStudio,
+                      onInfo,
+                      onEdit,
+                      onOptimizeAudio,
+                      onDownload,
+                      onDelete
+                    }) {
   const
     {getLocale} = useLocale(),
-    [displayCells, setDisplayCells] = useState(false),
-    onCDisplayCells = useCallback(
-      () => setDisplayCells((v) => !v),
-      [setDisplayCells]
+    display = tableState.group[data.tableGroup].display,
+    onCDisplay = useCallback(
+      () => setTableState((tableState) => ({
+        ...tableState,
+        group: {
+          ...tableState.group,
+          [data.tableGroup]: {display: checkGroupDisplayValue(tableState.group[data.tableGroup].display + 1)}
+        }
+      })),
+      [data.tableGroup, setTableState]
     ),
     onCSelectGroup = useCallback(
       () => typeof onSelectAll === 'function' && onSelectAll(data.tableChildren),
@@ -27,13 +47,13 @@ function TableGroup ({data, selectedData, onSelect, onSelectAll, onPlay, onStudi
       <span>{data.tableGroup}</span>
       <span>
         {
-          displayCells ?
+          display === 1 ?
             <ButtonIconList className={styles.cellGroupButton}
                             title={getLocale('display-list')}
-                            onClick={onCDisplayCells}/> :
+                            onClick={onCDisplay}/> :
             <ButtonIconGrip className={styles.cellGroupButton}
                             title={getLocale('display-thumbnails')}
-                            onClick={onCDisplayCells}/>
+                            onClick={onCDisplay}/>
         }
         {
           onSelectAll &&
@@ -44,7 +64,7 @@ function TableGroup ({data, selectedData, onSelect, onSelectAll, onPlay, onStudi
       </span>
     </h3>
     {
-      displayCells ?
+      display === 1 ?
         <ul className={styles.cells}>
           {
             data.tableChildren.map((v, k) => {

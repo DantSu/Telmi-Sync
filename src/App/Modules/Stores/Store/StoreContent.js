@@ -13,6 +13,7 @@ import ModalStoreStoryInfo from './ModalStoreStoryInfo.js'
 import ModalStoreBuildForm from './ModalStoreBuildForm.js'
 
 import styles from './Store.module.scss'
+import {stringSlugify} from '../../../Helpers/String.js'
 
 const {ipcRenderer} = window.require('electron')
 
@@ -166,6 +167,7 @@ function StoreContent({store}) {
 
   return <>
     <Table
+      id={stringSlugify(store.url)}
       titleLeft={getLocale('stories-on-store', stories.length) + ' (' + (isSortedByName ? getLocale('sorted-by-name') : getLocale('sorted-by-date')) + ')'}
       titleRight={storiesSelected.length ? getLocale('stories-selected', storiesSelected.length) : undefined}
       data={stories}

@@ -5,6 +5,9 @@ const
     }
     return string.replace(/{(\d+)}/g, (match, number) => args[number] !== undefined ? args[number] : match)
   },
+  stringSlugify = (str) => {
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-')
+  },
   stripHtmlTags = (html) => {
     let cursorPos = 0, inTag = false
     while (true) {
@@ -34,4 +37,4 @@ const
     return html.replaceAll(/<\/p>|<br>|<br\/>|<br \/>/g, '\n').replaceAll(/<[^>]+>/g, '').replaceAll('&nbsp;', ' ')
   }
 
-export {printf, stripHtmlTags}
+export {printf, stringSlugify, stripHtmlTags}
