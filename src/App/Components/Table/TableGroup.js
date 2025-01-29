@@ -9,6 +9,8 @@ import TableList from './TableList.js'
 
 import styles from './Table.module.scss'
 
+const getDisplayValue = (group) => group === undefined ? 0 : group.display
+
 function TableGroup({
                       data,
                       tableState,
@@ -26,13 +28,15 @@ function TableGroup({
                     }) {
   const
     {getLocale} = useLocale(),
-    display = tableState.group[data.tableGroup].display,
+    display = getDisplayValue(tableState.group[data.tableGroup]),
     onCDisplay = useCallback(
       () => setTableState((tableState) => ({
         ...tableState,
         group: {
           ...tableState.group,
-          [data.tableGroup]: {display: checkGroupDisplayValue(tableState.group[data.tableGroup].display + 1)}
+          [data.tableGroup]: {
+            display: checkGroupDisplayValue(getDisplayValue(tableState.group[data.tableGroup]) + 1)
+          }
         }
       })),
       [data.tableGroup, setTableState]
