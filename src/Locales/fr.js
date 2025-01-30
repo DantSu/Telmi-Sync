@@ -147,7 +147,7 @@ const fr = {
   'telmios-not-found': 'Impossible de localiser Telmi OS',
   'telmios-update': 'Mise à jour de Telmi OS',
   'telmios-eject': 'Ejecter Telmi OS',
-  'telmios-optimize-audio': 'Optimiser les fichier audio pour Telmi OS',
+  'telmios-optimize-audio': 'Optimiser les fichiers audio pour Telmi OS',
   'telmios-not-detected': 'Telmi OS non détecté',
 
   'telmi-sync-params': 'Paramètres Telmi Sync',
