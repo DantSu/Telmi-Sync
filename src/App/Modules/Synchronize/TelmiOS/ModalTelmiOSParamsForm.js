@@ -23,7 +23,8 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
     inputRef7 = useRef(),
     inputRef8 = useRef(),
     inputRef9 = useRef(),
-    inputRef10 = useRef()
+    inputRef10 = useRef(),
+    inputRef11 = useRef()
   return <ModalLayoutPadded isClosable={true}
                             onClose={onClose}>
     <ModalTitle>{getLocale('telmios-parameters')} :</ModalTitle>
@@ -102,16 +103,21 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
                         id="story-display-tiles"
                         defaultValue={parameters.storyDisplayTiles}
                         ref={inputRef7}/>
-            <InputCheckbox label={getLocale('story-disable-night-mode')}
-                        key="story-disable-night-mode"
-                        id="story-disable-night-mode"
-                        defaultValue={parameters.storyDisableNightMode}
+            <InputCheckbox label={getLocale('story-enable-night-mode')}
+                        key="story-enable-night-mode"
+                        id="story-enable-night-mode"
+                        defaultValue={!parameters.storyDisableNightMode}
                         ref={inputRef8}/>
-            <InputCheckbox label={getLocale('music-disable-repeat-modes')}
-                        key="music-disable-repeat-mode"
-                        id="music-disable-repeat-mode"
-                        defaultValue={parameters.musicDisableRepeatModes}
+            <InputCheckbox label={getLocale('story-enable-timeline')}
+                        key="story-enable-timeline"
+                        id="story-enable-timeline"
+                        defaultValue={!parameters.storyDisableTimeline}
                         ref={inputRef9}/>
+            <InputCheckbox label={getLocale('music-enable-repeat-modes')}
+                        key="music-enable-repeat-mode"
+                        id="music-enable-repeat-mode"
+                        defaultValue={!parameters.musicDisableRepeatModes}
+                        ref={inputRef10}/>
             <InputSelect label={getLocale('change-boot-splashscreen')}
                          key="boot-splashscreen"
                          id="boot-splashscreen"
@@ -121,7 +127,7 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
                            {value:'telmi', text: getLocale('put-telmi-picture')},
                            {value:'original', text: getLocale('restore-original-picture')}
                          ]}
-                         ref={inputRef10}/>
+                         ref={inputRef11}/>
           </ModalContent>
           <ButtonsContainer>
             <ButtonIconTextCheck text={getLocale('save')}
@@ -139,7 +145,8 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
                                        inputRef7,
                                        inputRef8,
                                        inputRef9,
-                                       inputRef10
+                                       inputRef10,
+                                       inputRef11
                                      ],
                                      (values) => {
                                        onValidate({
@@ -152,9 +159,10 @@ function ModalTelmiOSParamsForm ({parameters, onValidate, onClose}) {
                                          screenOffInactivityTime: values[5] * 60,
                                          musicInactivityTime: values[6] * 3600,
                                          storyDisplayTiles: values[7],
-                                         storyDisableNightMode: values[8],
-                                         musicDisableRepeatModes: values[9],
-                                         bootSplashscreen: values[10]
+                                         storyDisableNightMode: !values[8],
+                                         storyDisableTimeline: !values[9],
+                                         musicDisableRepeatModes: !values[10],
+                                         bootSplashscreen: values[11]
                                        })
                                        onClose()
                                      }
