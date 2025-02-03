@@ -238,6 +238,7 @@ function convertFolderStoryPack(srcPath, storyName) {
               finishCallback()
             }
           },
+          false,
           false
         )
       )

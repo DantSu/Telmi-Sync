@@ -8,11 +8,11 @@ const
     return ext === '.mp3' || ext === '.ogg' || ext === '.flac' || ext === '.wav' || ext === '.aac'
   },
 
-  convertAudio = async (fromPath, toPath, forceConverting) => {
-    await convertAudioToMp3(fromPath, toPath, forceConverting)
+  convertAudio = async (fromPath, toPath, forceConverting, forceVolume) => {
+    await convertAudioToMp3(fromPath, toPath, forceConverting, forceVolume)
   },
 
-  convertAudios = (srcAudios, dstAudios, index, length, onEnd, forceConverting) => {
+  convertAudios = (srcAudios, dstAudios, index, length, onEnd, forceConverting, forceVolume) => {
     if (!srcAudios.length) {
       onEnd(index)
       return
@@ -24,9 +24,9 @@ const
 
     process.stdout.write('*converting-audio*' + index + '*' + length + '*')
 
-    convertAudio(srcAudio, dstAudio, forceConverting)
-      .then(() => convertAudios(srcAudios, dstAudios, index + 1, length, onEnd, forceConverting))
-      .catch(() => convertAudios(srcAudios, dstAudios, index + 1, length, onEnd, forceConverting))
+    convertAudio(srcAudio, dstAudio, forceConverting, forceVolume)
+      .then(() => convertAudios(srcAudios, dstAudios, index + 1, length, onEnd, forceConverting, forceVolume))
+      .catch(() => convertAudios(srcAudios, dstAudios, index + 1, length, onEnd, forceConverting, forceVolume))
   },
 
   checkCoverExists = (artist, album, coverPath) => {

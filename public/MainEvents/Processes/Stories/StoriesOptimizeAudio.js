@@ -37,6 +37,7 @@ function main (storyPath) {
       filesTmp.forEach((f) => rmFile(f))
       process.stdout.write('success')
     },
+    true,
     true
   )
 }

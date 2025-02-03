@@ -220,6 +220,7 @@ function main(jsonPath) {
                         })
                         .catch(() => process.stderr.write('file-not-found'))
                     },
+                    false,
                     false
                   )
                 }

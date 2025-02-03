@@ -21,19 +21,19 @@ const
       stream.on('close', () => {
         const
           strRes = data.toString(),
-          infos = strRes.match(/Stream #[0-9]:[0-9]: Audio: ([A-Za-z0-9_,/ ]+)/i),
+          infos = strRes.match(/Stream #[0-9]:[0-9]: Audio: ([A-Za-z0-9._,/ ]+)/i),
           maxVolumeMatch = strRes.match(/ max_volume: -([0-9.]+) dB/i),
           maxVolume = maxVolumeMatch !== null ? parseFloat(maxVolumeMatch[1]) : 0
 
         if (infos === null || infos.length < 2) {
-          resolve([['unknow', 'unknow', 'unknow', 'unknow'], maxVolume])
+          resolve([['unknow', 'unknow', 'unknow', 'unknow', '0 kb/s'], maxVolume])
         } else {
-          resolve([infos[1].toLowerCase().split(', '), maxVolume])
+          resolve([infos[1].toLowerCase().split(', ').map((v) => v.trim()), maxVolume])
         }
       })
     })
   },
-  ffmpegAudioToMp3 = (srcFile, dstMp3, maxVolume) => {
+  ffmpegAudioToMp3 = (srcFile, dstMp3, bitrate, maxVolume) => {
     return new Promise((resolve, reject) => {
       rmFile(dstMp3)
       const stream = spawn(getFFmpegFilePath(), [
@@ -44,7 +44,7 @@ const
         ...(maxVolume > 0 ? ['-af', 'volume=' + maxVolume + 'dB'] : []),
         '-ar', '44100',
         '-ac', '2',
-        '-b:a', '192k',
+        '-b:a', bitrate + 'k',
         dstMp3])
       stream.on('close', (code) => {
         if (code === 0) {
@@ -55,11 +55,19 @@ const
       })
     })
   },
-  convertAudioToMp3 = (srcFile, dstMp3, forceConverting) => {
+  convertAudioToMp3 = (srcFile, dstMp3, forceConverting, forceVolume) => {
     return new Promise((resolve, reject) => {
       getAudioInfos(srcFile)
         .then(([infos, maxVolume]) => {
-          if (!forceConverting && infos[0] === 'mp3' && infos[1] === '44100 hz' && (infos[2] === 'stereo' || infos[2] === 'mono')) {
+          const bitrate = infos.length > 4 && infos[4].endsWith('kb/s') ? parseFloat(infos[4].substring(0, infos[4].length - 5)) : 0
+          if (
+            !forceConverting &&
+            infos[0] === 'mp3' &&
+            infos[1] === '44100 hz' &&
+            infos[2] === 'stereo' &&
+            bitrate >= 64 &&
+            bitrate <= 192
+          ) {
             try {
               fs.copyFileSync(srcFile, dstMp3)
               resolve()
@@ -67,13 +75,18 @@ const
               reject()
             }
           } else {
-            ffmpegAudioToMp3(srcFile, dstMp3, maxVolume)
+            ffmpegAudioToMp3(
+              srcFile,
+              dstMp3,
+              bitrate === 0 ? 192 : (bitrate < 64 ? 64 : (bitrate > 192 ? 192 : (Math.ceil(bitrate / 16) * 16))),
+              forceVolume ? maxVolume : 0
+            )
               .then(() => resolve())
               .catch(() => reject())
           }
         })
         .catch((e) => {
-          ffmpegAudioToMp3(srcFile, dstMp3, 0)
+          ffmpegAudioToMp3(srcFile, dstMp3, 192, 0)
             .then(() => resolve())
             .catch(() => reject())
         })

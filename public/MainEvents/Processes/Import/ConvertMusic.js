@@ -1,6 +1,5 @@
 import * as path from 'path'
 import * as fs from 'fs'
-import * as url from 'url'
 import {getExtraResourcesPath, getMusicPath, initTmpPath} from '../Helpers/AppPaths.js'
 import { checkCoverExists, convertAudio } from './Helpers/AudioFile.js'
 import { extractMetadataFromMp3, extractPngFromMp3 } from '../BinFiles/FFmpegCommand.js'
@@ -57,8 +56,6 @@ function convertMusic (srcPath) {
                 .catch(stepCopyDefaultCover)
             })
             .catch(stepCopyDefaultCover)
-
-
         }
 
       process.stdout.write('*converting-audio*1*3*')
@@ -68,7 +65,7 @@ function convertMusic (srcPath) {
         return
       }
 
-      convertAudio(srcPath, musicDstPath, true)
+      convertAudio(srcPath, musicDstPath, true, true)
         .then(() => {
           process.stdout.write('*music-searching-cover*2*3*')
 

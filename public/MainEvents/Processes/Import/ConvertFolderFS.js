@@ -210,6 +210,7 @@ function convertFolderFS (srcPath, storyName) {
             fs.copyFileSync(path.join(dstAudiosPath, firstStageNode.audio), path.join(dstPath, 'title.mp3'))
             process.stdout.write('success')
           },
+          false,
           false
         )
       )
