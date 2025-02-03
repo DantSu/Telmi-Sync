@@ -10,7 +10,7 @@ const
       ok: null,
       home: {action: 'backAction', index: 0},
       control: {
-        ok: false,
+        ok: true,
         home: true,
         autoplay: true
       }

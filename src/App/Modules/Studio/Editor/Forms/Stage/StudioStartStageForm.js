@@ -7,8 +7,6 @@ import InputAudio from '../../../../../Components/Form/Input/InputAudio.js'
 import InputImage from '../../../../../Components/Form/Input/InputImage.js'
 import StudioActionForm from './StudioActionForm.js'
 
-import styles from './StudioStageForm.module.scss'
-
 function StudioStartStageForm() {
   const
     {getLocale} = useLocale(),
