@@ -64,7 +64,7 @@ const
             !forceConverting &&
             infos[0] === 'mp3' &&
             infos[1] === '44100 hz' &&
-            infos[2] === 'stereo' &&
+            (infos[2] === 'mono' || infos[2] === 'stereo') &&
             bitrate >= 64 &&
             bitrate <= 192
           ) {
