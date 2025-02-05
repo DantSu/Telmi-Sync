@@ -10,7 +10,7 @@ function mainEventUpdate (mainWindow) {
       if (!json.length || !isNewerVersion(app.getVersion(), json[0].tag_name)) {
         return
       }
-      mainWindow.webContents.send('check-update-data', json[0].html_url)
+      mainWindow.webContents.send('check-update-data', 'https://telmi.fr/#download')
     }
   )
 }
