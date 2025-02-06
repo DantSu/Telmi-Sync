@@ -171,6 +171,7 @@ const fr = {
   'story-enable-night-mode': 'Histoires : Activer le night mode',
   'story-enable-timeline': 'Histoires : Activer la timeline',
   'story-saving': 'Sauvegarde de l\'histoire',
+  'story-cleaning': 'Nettoyage de l\'histoire',
   'story-export': 'Export de l\'histoire',
   'story-zipping': 'Export de l\'histoire au format zip',
   'story-add-title-images': 'Ajouter le titre aux images des histoires',

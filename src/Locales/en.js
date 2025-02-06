@@ -171,6 +171,7 @@ const en = {
   'story-enable-night-mode': 'Story : Enable night mode',
   'story-enable-timeline': 'Story : Enable timeline',
   'story-saving': 'Saving story',
+  'story-cleaning': 'Cleaning story',
   'story-export': 'Exporting story',
   'story-zipping': 'Pack story in a zip file',
   'story-add-title-images': 'Add title to story images',

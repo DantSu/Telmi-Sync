@@ -252,6 +252,28 @@ function main(jsonPath) {
 
     process.stdout.write('*story-saving*8*' + countFiles + '*')
 
+    const removeUnusedFiles = (index) => {
+      process.stdout.write('*story-cleaning*' + (index++) + '*' + countFiles + '*')
+
+      const imagesFiles = fs.readdirSync(imagesPath, {encoding: 'utf8'})
+      for (const file of imagesFiles) {
+        if (files.existingImages[file] === undefined) {
+          rmFile(path.join(imagesPath, file))
+        }
+      }
+
+      const audiosFiles = fs.readdirSync(audiosPath, {encoding: 'utf8'})
+      for (const file of audiosFiles) {
+        if (files.existingAudios[file] === undefined) {
+          rmFile(path.join(audiosPath, file))
+        }
+      }
+
+      process.stdout.write('*picture-cover*' + index + '*' + countFiles + '*')
+
+      saveStoryCoverImage(metadata.newImageCover, imageCoverPath)
+    }
+
     const
       cleanNotes = Object.keys(notes).reduce(
         (acc, stageKey) => cleanNodes.stages[stageKey] === undefined ? acc : {...acc, [stageKey]: notes[stageKey]},
@@ -262,27 +284,11 @@ function main(jsonPath) {
 
     process.stdout.write('*story-saving*9*' + countFiles + '*')
 
-    const imagesFiles = fs.readdirSync(imagesPath, {encoding: 'utf8'})
-    for (const file of imagesFiles) {
-      if (files.existingImages[file] === undefined) {
-        rmFile(path.join(imagesPath, file))
-      }
-    }
-
-    const audiosFiles = fs.readdirSync(audiosPath, {encoding: 'utf8'})
-    for (const file of audiosFiles) {
-      if (files.existingAudios[file] === undefined) {
-        rmFile(path.join(audiosPath, file))
-      }
-    }
-
-    process.stdout.write('*story-saving*10*' + countFiles + '*')
-
     convertStoryImages(
       files.newImages.src,
       files.newImages.dst,
       null,
-      10,
+      9,
       countFiles,
       (index) => convertAudios(
         files.newAudios.src,
@@ -291,14 +297,14 @@ function main(jsonPath) {
         countFiles,
         (index) => {
           if (!hasInventory) {
-            return saveStoryCoverImage(metadata.newImageCover, imageCoverPath)
+            return removeUnusedFiles(index)
           }
           convertInventoryImages(
             files.newInventoryImages.src,
             files.newInventoryImages.dst,
             index,
             countFiles,
-            () => saveStoryCoverImage(metadata.newImageCover, imageCoverPath),
+            () => removeUnusedFiles(index),
             false
           )
         },
