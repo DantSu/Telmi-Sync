@@ -14,6 +14,8 @@ function main (dstStoriesPath, srcStoryPath) {
   }
 
   rmDirectory(dstStoryPath)
+  createPathDirectories(path.join(dstStoryPath, 'images'))
+  createPathDirectories(path.join(dstStoryPath, 'audios'))
 
   const files = fs.readdirSync(srcStoryPath, {encoding: 'utf8', recursive: true})
 
@@ -29,7 +31,6 @@ function main (dstStoriesPath, srcStoryPath) {
       continue
     }
 
-    createPathDirectories(path.dirname(dstFile))
     fs.copyFileSync(srcFile, dstFile)
   }
   process.stdout.write('success')
