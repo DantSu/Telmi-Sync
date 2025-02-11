@@ -23,23 +23,29 @@ const
       return null
     }
 
-    const
-      md = JSON.parse(fs.readFileSync(mdPath).toString('utf8')),
-      storyDirName = generateDirNameStory(md.title, md.uuid, md.age, md.category)
+    try {
+      const
+        md = JSON.parse(fs.readFileSync(mdPath).toString('utf8')),
+        storyDirName = generateDirNameStory(md.title, md.uuid, md.age, md.category)
 
-    if (storyDirName !== directory) {
-      const newStoryPath = path.join(storiesPath, storyDirName)
-      rmDirectory(newStoryPath)
-      fs.renameSync(storyPath, newStoryPath)
-      directory = storyDirName
+      if (storyDirName !== directory) {
+        const newStoryPath = path.join(storiesPath, storyDirName)
+        rmDirectory(newStoryPath)
+        fs.renameSync(storyPath, newStoryPath)
+        directory = storyDirName
+      }
+
+      md.directory = directory
+      md.path = path.join(storiesPath, directory)
+      md.image = path.join(md.path, md.image)
+      md.audio = path.join(md.path, 'title.mp3')
+      md.version = md.version || 0
+      return md
+    } catch (e) {
+      console.log('Error parsing story : ' + directory)
+      console.log(e.toString())
+      return null
     }
-
-    md.directory = directory
-    md.path = path.join(storiesPath, directory)
-    md.image = path.join(md.path, md.image)
-    md.audio = path.join(md.path, 'title.mp3')
-    md.version = md.version || 0
-    return md
   },
   readStories = (storiesPath) => {
     if (!fs.existsSync(storiesPath)) {
