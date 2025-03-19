@@ -127,6 +127,7 @@ function convertFolderSTUdio (srcPath, storyName) {
       srcImages,
       toDstPathsArray(srcImages, dstImagesPath, renameImage),
       null,
+      null,
       2,
       countFiles,
       (index) => convertAudios(

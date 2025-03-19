@@ -6,19 +6,19 @@ const
     const ext = path.extname(fileName).toLowerCase()
     return ext === '.png' || ext === '.bmp' || ext === '.gif' || ext === '.jpg' || ext === '.jpeg' || ext === '.webp' || ext === '.avif'
   },
-  convertMusicImage = async (fromPath, toPath, textToWrite) => {
-    await convertImageToPng(fromPath, toPath, 256, 256, textToWrite)
+  convertMusicImage = async (fromPath, toPath, textToWrite, pageNumber) => {
+    await convertImageToPng(fromPath, toPath, 256, 256, textToWrite, pageNumber)
   },
-  convertCoverImage = async (fromPath, toPath, textToWrite) => {
-    await convertImageToPng(fromPath, toPath, 512, 512, textToWrite)
+  convertCoverImage = async (fromPath, toPath, textToWrite, pageNumber) => {
+    await convertImageToPng(fromPath, toPath, 512, 512, textToWrite, pageNumber)
   },
-  convertStoryImage = async (fromPath, toPath, textToWrite) => {
-    await convertImageToPng(fromPath, toPath, 640, 480, textToWrite)
+  convertStoryImage = async (fromPath, toPath, textToWrite, pageNumber) => {
+    await convertImageToPng(fromPath, toPath, 640, 480, textToWrite, pageNumber)
   },
-  convertInventoryImage = async (fromPath, toPath, textToWrite) => {
-    await convertImageToPng(fromPath, toPath, 128, 128, textToWrite)
+  convertInventoryImage = async (fromPath, toPath, textToWrite, pageNumber) => {
+    await convertImageToPng(fromPath, toPath, 128, 128, textToWrite, pageNumber)
   },
-  convertStoryImages = (srcImages, dstImages, textsToWrite, index, length, onEnd) => {
+  convertStoryImages = (srcImages, dstImages, textsToWrite, pagesNumbering, index, length, onEnd) => {
     if (!srcImages.length) {
       onEnd(index)
       return
@@ -27,13 +27,14 @@ const
     const
       srcImage = srcImages.shift(),
       dstImage = dstImages.shift(),
-      textToWrite = Array.isArray(textsToWrite) ? textsToWrite.shift() : undefined
+      textToWrite = Array.isArray(textsToWrite) ? textsToWrite.shift() : undefined,
+      pageNumber = Array.isArray(pagesNumbering) ? pagesNumbering.shift() : undefined
 
     process.stdout.write('*converting-images*' + index + '*' + length + '*')
 
-    convertStoryImage(srcImage, dstImage, textToWrite)
-      .then(() => convertStoryImages(srcImages, dstImages, textsToWrite, index + 1, length, onEnd))
-      .catch(() => convertStoryImages(srcImages, dstImages, textsToWrite, index + 1, length, onEnd))
+    convertStoryImage(srcImage, dstImage, textToWrite, pageNumber)
+      .then(() => convertStoryImages(srcImages, dstImages, textsToWrite, pagesNumbering, index + 1, length, onEnd))
+      .catch(() => convertStoryImages(srcImages, dstImages, textsToWrite, pagesNumbering, index + 1, length, onEnd))
   },
   convertInventoryImages = (srcImages, dstImages, index, length, onEnd) => {
     if (!srcImages.length) {

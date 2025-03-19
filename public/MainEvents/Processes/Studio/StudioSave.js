@@ -288,6 +288,7 @@ function main(jsonPath) {
       files.newImages.src,
       files.newImages.dst,
       null,
+      null,
       9,
       countFiles,
       (index) => convertAudios(

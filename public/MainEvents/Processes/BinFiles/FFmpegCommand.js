@@ -114,16 +114,21 @@ const
     aStr.push(str)
     return aStr.map((s) => s.replace(/([^A-Za-z0-9 ]{1})/g, '\\$1')).join('\n')
   },
-  convertImageToPng = (srcFile, dstPng, width, height, textToWrite) => {
+  convertImageToPng = (srcFile, dstPng, width, height, textToWrite, pageNumber) => {
     return new Promise((resolve, reject) => {
       rmFile(dstPng)
       const
+        pageCommand = typeof pageNumber === 'string' ?
+          ', drawtext=fontfile=\'' + path.join(getExtraResourcesPath(), 'fonts', 'exo2.ttf').replaceAll('\\', '\\\\').replaceAll(':', '\\:') +
+          '\':text=\'' + processStringToFFmpeg(pageNumber) + '\':text_align=M+L:fontcolor=black:fontsize=32:' +
+          'box=1:boxcolor=white@0.9:boxborderw=10|10:x=15:y=15' : '',
+
         textCommand = typeof textToWrite === 'string' ?
           ', drawtext=fontfile=\'' + path.join(getExtraResourcesPath(), 'fonts', 'exo2.ttf').replaceAll('\\', '\\\\').replaceAll(':', '\\:') +
           '\':text=\'' + processStringToFFmpeg(textToWrite) + '\':text_align=M+C:fontcolor=black:fontsize=32:' +
           'box=1:boxcolor=white@0.9:boxborderw=10|10:x=(w-text_w)/2:y=h-th-20' : '',
 
-        stream = spawn(getFFmpegFilePath(), ['-i', srcFile, '-vf', 'scale=' + width + 'x' + height + ':flags=bilinear' + textCommand, dstPng])
+        stream = spawn(getFFmpegFilePath(), ['-i', srcFile, '-vf', 'scale=' + width + 'x' + height + ':flags=bilinear' + textCommand + pageCommand, dstPng])
 
       stream.on('close', (code) => {
         if (code === 0) {

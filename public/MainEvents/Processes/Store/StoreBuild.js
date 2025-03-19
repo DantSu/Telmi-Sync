@@ -125,6 +125,7 @@ function main(jsonPath) {
               dstTts = [path.join(dstPath, 'title.mp3'), path.join(dstPathAudio, 'q.mp3'), ...stories.map((s, k) => path.join(dstPathAudio, 't' + k + '.mp3'))],
               dstHttpAudio = stories.map((s, k) => path.join(dstPathAudio, 's' + k + '.mp3')),
               titleImages = store.titleImages ? [undefined, ...storiesTitles] : null,
+              pagesNumberingImages = [undefined, ...storiesTitles.map((v, k) => (k + 1) + '/' + storiesTitles.length)],
               srcImages = errorDownloadAudio.length ? rawSrcImages2.filter((s, k) => !errorDownloadAudio.includes(k - 1)) : rawSrcImages2,
               dstImages = [path.join(dstPath, 'title.png'), ...stories.map((s, k) => path.join(dstPathImages, k + '.png'))],
 
@@ -193,6 +194,7 @@ function main(jsonPath) {
               srcImages,
               dstImages,
               titleImages,
+              pagesNumberingImages,
               index,
               countFiles,
               (index) => convertTextToSpeech(

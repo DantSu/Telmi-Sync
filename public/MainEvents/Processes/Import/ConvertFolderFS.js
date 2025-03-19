@@ -193,6 +193,7 @@ function convertFolderFS (srcPath, storyName) {
       tmpImagesPathsArray,
       toDstPathsArray(ri, dstImagesPath, renameImage),
       null,
+      null,
       index,
       countFiles,
       (index) => decipherMedias(
