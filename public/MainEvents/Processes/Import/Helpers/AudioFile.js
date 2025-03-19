@@ -33,15 +33,15 @@ const
     const
       prefix = artist + '_' + album,
       dirPath = path.dirname(coverPath),
-      findedCover = fs.readdirSync(dirPath).find(
+      foundCover = fs.readdirSync(dirPath).find(
         (v) => v.substring(v.length - 4) === '.png' && v.substring(0, prefix.length) === prefix
       )
 
-    if (findedCover === undefined) {
+    if (foundCover === undefined) {
       return false
     }
 
-    fs.copyFileSync(path.join(dirPath, findedCover), coverPath)
+    fs.copyFileSync(path.join(dirPath, foundCover), coverPath)
     return true
   }
 
