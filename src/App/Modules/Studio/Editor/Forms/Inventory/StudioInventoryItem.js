@@ -1,4 +1,5 @@
 import {useCallback, useState} from 'react'
+import {useModal} from '../../../../../Components/Modal/ModalHooks.js'
 import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
 import {useDragAndDropMove} from '../../../../../Components/Form/DragAndDrop/DragAndDropMoveHook.js'
 import {nodesMoveObject} from '../StudioNodesHelpers.js'
@@ -8,11 +9,15 @@ import ButtonIconTrash from '../../../../../Components/Buttons/Icons/ButtonIconT
 import StudioInventoryItemForm from './StudioInventoryItemForm.js'
 
 import styles from './StudioInventoryForm.module.scss'
+import ModalPlayer from '../../../Player/ModalPlayer.js'
+import ModalStudioInventoryDeleteError from './ModalStudioInventoryDeleteError.js'
 
 function StudioInventoryItem({itemKey}) {
   const
     [displayForm, setDisplayForm] = useState(false),
-    {story: {nodes}} = useStudioStory(),
+    {story} = useStudioStory(),
+    {addModal, rmModal} = useModal(),
+    nodes = story.nodes,
     {updateStory} = useStudioStoryUpdater(),
     item = nodes.inventory[itemKey],
 
@@ -39,33 +44,61 @@ function StudioInventoryItem({itemKey}) {
 
     onDelete = useCallback(
       () => {
-        updateStory((s) => {
-          const item = s.nodes.inventory[itemKey]
-          if (
-            Object.values(s.nodes.stages).find(
-              (v) =>
-                (v.ok !== null && v.ok.indexItem === item.id) ||
-                (Array.isArray(v.items) && v.items.find((v) => v.item === item.id || v.assignItem === item.id) !== undefined)
-            ) !== undefined ||
-            Object.values(s.nodes.actions).find(
-              (v) => v.find(
-                (v) => Array.isArray(v.conditions) && v.conditions.find((v) => v.item === item.id || v.compareItem === item.id) !== undefined
-              ) !== undefined
+        const
+          item = story.nodes.inventory[itemKey],
+          usedItemInStages = [...Object.keys(story.nodes.stages).filter(
+            (stageKey) => {
+              const stage = story.nodes.stages[stageKey]
+              return (
+                (stage.ok !== null && stage.ok.indexItem === item.id) ||
+                (Array.isArray(stage.items) && stage.items.find((v) => v.item === item.id || v.assignItem === item.id) !== undefined)
+              )
+            }
+          ),
+            ...Object.keys(story.nodes.actions).reduce(
+              (acc, actionKey) => {
+                if (
+                  story.nodes.actions[actionKey].find(
+                    (v) => Array.isArray(v.conditions) &&
+                      v.conditions.find((v) => v.item === item.id || v.compareItem === item.id) !== undefined
+                  ) !== undefined
+                ) {
+                  return [
+                    ...acc,
+                    ...Object.keys(story.nodes.stages).filter((stageKey) => {
+                      const stage = story.nodes.stages[stageKey]
+                      return (
+                        (stage.ok !== null && stage.ok.action === actionKey) ||
+                        (stage.home !== null && stage.home.action === actionKey)
+                      )
+                    })
+                  ]
+                }
+                return acc
+              },
+              []
             )
-          ) {
-            return s
-          }
+          ].map((v) => story.notes[v].title)
 
-          s.nodes.inventory.splice(itemKey, 1)
+        if (usedItemInStages.length) {
+          addModal((key) => {
+            const modal = <ModalStudioInventoryDeleteError key={key}
+                                                           stages={usedItemInStages}
+                                                           onClose={() => rmModal(modal)}/>
+            return modal
+          })
+          return
+        }
 
-          if (!s.nodes.inventory.length) {
-            delete s.nodes.inventory
-          }
+        story.nodes.inventory.splice(itemKey, 1)
 
-          return {...s, nodes: {...s.nodes}}
-        })
+        if (!story.nodes.inventory.length) {
+          delete story.nodes.inventory
+        }
+
+        updateStory({...story, nodes: {...story.nodes}})
       },
-      [itemKey, updateStory]
+      [addModal, itemKey, rmModal, story, updateStory]
     )
 
   return <li className={styles.itemContainer}

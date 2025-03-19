@@ -215,6 +215,8 @@ const fr = {
   'studio-edit-story': 'Editer l\'histoire dans le Studio',
   'studio-story-unsaved': 'Histoire non enregistrée !',
   'studio-story-unsaved-confirm': 'Cette histoire a été modifiée. Êtes-vous sûr de vouloir quitter le Studio sans enregistrer les modifications apportées à cette histoire ?',
+  'studio-inventory-delete-error': 'Impossible de supprimer l\'objet !',
+  'studio-inventory-delete-error-message': 'Cet objet est actuellement utilisé par les scènes suivantes :<br />{0}',
 
   'studio-stage-control-ok': 'Aller à la scène suivante en appuyant sur le bouton A',
   'studio-stage-autoplay': 'Lire automatiquement la scène suivante à la fin de la piste audio',

@@ -218,6 +218,8 @@ const en = {
 
   'studio-stage-control-ok': 'Go to the next scene by pressing the A button',
   'studio-stage-autoplay': 'Auto play the next scene at the end of the audio track',
+  'studio-inventory-delete-error': 'Unable to delete this item !',
+  'studio-inventory-delete-error-message': 'This item is currently used by the following scenes :\n{0}',
 
   'text-to-speech': 'TTS : Converting text to speech',
   'tts-converting': 'Text to speech',
