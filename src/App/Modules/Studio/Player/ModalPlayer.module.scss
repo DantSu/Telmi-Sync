@@ -35,6 +35,17 @@
   height: 150px;
 }
 
+.stageTitle {
+  background: $black60;
+  padding: 5px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .buttonLeft,
 .buttonUp,
 .buttonRight,
@@ -46,7 +57,7 @@
 
 .buttonLeft,
 .buttonRight {
-  top: 64px;
+  top: 74px;
   width: 50px;
 }
 
@@ -65,12 +76,12 @@
   left: 51px;
 }
 .buttonUp {
-  top: 27px;
+  top: 37px;
   padding-bottom: 25px;
 }
 
 .buttonDown {
-  top: 80px;
+  top: 90px;
   padding-top: 25px;
 }
 
@@ -92,31 +103,31 @@
 
 .buttonM {
   left: 144px;
-  top: 20px;
+  top: 30px;
   background-color: $black;
 }
 
 .buttonX {
   left: 240px;
-  top: 32px;
+  top: 42px;
   background-color: $indigo;
 }
 
 .buttonY {
   left: 206px;
-  top: 66px;
+  top: 76px;
   background-color: $green;
 }
 
 .buttonA {
   left: 274px;
-  top: 66px;
+  top: 76px;
   background-color: $red;
 }
 
 .buttonB {
   left: 240px;
-  top: 100px;
+  top: 110px;
   background-color: $orange;
 }
 

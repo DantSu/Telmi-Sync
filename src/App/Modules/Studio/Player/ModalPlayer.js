@@ -123,12 +123,14 @@ const
 
 function ModalPlayer({story, onClose}) {
   const
-    [stage, setStage] = useState(),
+    [stageTitle, setStageTitle] = useState(null),
+    [stage, setStage] = useState(null),
     [startPlayingTime, setStartPlayingTime] = useState(getTime()),
     [actionOptions, setActionOptions] = useState([]),
     [actionIndex, setActionIndex] = useState(0),
     metadata = story.metadata,
     nodes = story.nodes,
+    notes = story.notes,
     [items, setItems] = useState(
       () => Array.isArray(nodes.inventory) && nodes.inventory.length > 0 ? nodes.inventory : null
     ),
@@ -239,7 +241,14 @@ function ModalPlayer({story, onClose}) {
         }
       )
       return () => {
-        player.pause()
+        if (
+          player.currentTime > 0 &&
+          !player.paused &&
+          !player.ended &&
+          player.readyState > player.HAVE_CURRENT_DATA
+        ) {
+          player.pause()
+        }
         player.remove()
       }
     },
@@ -250,6 +259,7 @@ function ModalPlayer({story, onClose}) {
     () => {
       if (actionOptions.length === 0) {
         resetItems()
+        setStageTitle(null)
         setStage(null)
         return
       }
@@ -258,14 +268,18 @@ function ModalPlayer({story, onClose}) {
 
       if (option === undefined) {
         resetItems()
+        setStageTitle(null)
         setStage(null)
         return
       }
 
-      const newStage = nodes.stages[option.stage]
+      const
+        newStage = nodes.stages[option.stage],
+        newStageTitle = notes[option.stage].title
 
       if (newStage === undefined) {
         resetItems()
+        setStageTitle(null)
         setStage(null)
         return
       }
@@ -286,9 +300,10 @@ function ModalPlayer({story, onClose}) {
           return [...items]
         })
       }
+      setStageTitle(newStageTitle !== undefined ? newStageTitle : null)
       setStage(newStage)
     },
-    [actionIndex, actionOptions, metadata, nodes, resetItems, startPlayingTime]
+    [actionIndex, actionOptions, metadata, nodes, notes, resetItems, startPlayingTime]
   )
 
   return <ModalLayout className={styles.container}
@@ -300,6 +315,8 @@ function ModalPlayer({story, onClose}) {
       {image && itemsGot.length > 0 && <PlayerInventory items={itemsGot} story={story}/>}
     </div>
     <ul className={styles.buttons}>
+      {stageTitle !== null && <li className={styles.stageTitle}>{stageTitle}</li>}
+
       <li><ButtonIconChevronLeft className={styles.buttonLeft} onClick={onLeft}/></li>
       <li><ButtonIconChevronUp className={styles.buttonUp}/></li>
       <li><ButtonIconChevronRight className={styles.buttonRight} onClick={onRight}/></li>
