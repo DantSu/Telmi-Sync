@@ -131,15 +131,17 @@ function ModalPlayer({story, onClose}) {
     metadata = story.metadata,
     nodes = story.nodes,
     notes = story.notes,
-    [items, setItems] = useState(
-      () => Array.isArray(nodes.inventory) && nodes.inventory.length > 0 ? nodes.inventory : null
-    ),
+    [items, setItems] = useState(undefined),
     resetItems = useCallback(
-      () => setItems((items) => items === null ? null : items.map((item) => ({...item, count: item.initialNumber}))),
-      []
+      () => setItems((items) =>
+        items === null || !Array.isArray(nodes.inventory) || nodes.inventory.length === 0 ?
+          null :
+          (items || nodes.inventory).map((item) => ({...item, count: item.initialNumber}))
+      ),
+      [nodes.inventory]
     ),
 
-    itemsGot = useMemo(() => items === null ? [] : items.filter((i) => i.count > 0 && i.display !== 2), [items]),
+    itemsGot = useMemo(() => items === undefined || items === null ? [] : items.filter((i) => i.count > 0 && i.display !== 2), [items]),
 
     image = useMemo(
       () => {
@@ -208,7 +210,7 @@ function ModalPlayer({story, onClose}) {
 
   useEffect(
     () => {
-      if (stage === undefined) {
+      if (stage === undefined || items === undefined) {
         return
       }
 
@@ -241,14 +243,7 @@ function ModalPlayer({story, onClose}) {
         }
       )
       return () => {
-        if (
-          player.currentTime > 0 &&
-          !player.paused &&
-          !player.ended &&
-          player.readyState > player.HAVE_CURRENT_DATA
-        ) {
-          player.pause()
-        }
+        player.pause()
         player.remove()
       }
     },
@@ -285,10 +280,7 @@ function ModalPlayer({story, onClose}) {
       }
 
       if (newStage.inventoryReset) {
-        setItems((items) => items.map((item) => ({
-          ...item,
-          count: item.initialNumber
-        })))
+        resetItems()
       }
 
       if (Array.isArray(newStage.items) && newStage.items.length) {
@@ -315,9 +307,9 @@ function ModalPlayer({story, onClose}) {
       {image && itemsGot.length > 0 && <PlayerInventory items={itemsGot} story={story}/>}
     </div>
     <ul className={styles.buttons}>
-      {stageTitle !== null && <li className={styles.stageTitle}>{stageTitle}</li>}
+      <li className={styles.stageTitle}>{stageTitle !== null ? stageTitle : metadata.title}</li>
 
-      <li><ButtonIconChevronLeft className={styles.buttonLeft} onClick={onLeft}/></li>
+        <li><ButtonIconChevronLeft className={styles.buttonLeft} onClick={onLeft}/></li>
       <li><ButtonIconChevronUp className={styles.buttonUp}/></li>
       <li><ButtonIconChevronRight className={styles.buttonRight} onClick={onRight}/></li>
       <li><ButtonIconChevronDown className={styles.buttonDown}/></li>
