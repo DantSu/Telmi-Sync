@@ -5,12 +5,14 @@ import {useModal} from '../../Components/Modal/ModalHooks.js'
 import {routeSynchronize} from '../../Modules/Synchronize/Routes.js'
 import {routeStores} from '../../Modules/Stores/Routes.js'
 import {routeStudio} from '../../Modules/Studio/Routes.js'
+import {routeRSSFeed} from '../../Modules/RSSFeed/Routes.js'
 
 import ButtonIconXMark from '../../Components/Buttons/Icons/ButtonIconXMark.js'
 import ButtonIconWindow from '../../Components/Buttons/Icons/ButtonIconWindow.js'
 import ButtonIconWindowMinimize from '../../Components/Buttons/Icons/ButtonIconWindowMinimize.js'
 import ButtonIconTextArrowLeftRight from '../../Components/Buttons/IconsTexts/ButtonIconTextArrowLeftRight.js'
 import ButtonIconTextStore from '../../Components/Buttons/IconsTexts/ButtonIconTextStore.js'
+import ButtonIconTextRSSFeed from '../../Components/Buttons/IconsTexts/ButtonIconTextRSSFeed.js'
 import ButtonIconTextMicrophone from '../../Components/Buttons/IconsTexts/ButtonIconTextMicrophone.js'
 import ButtonIconGear from '../../Components/Buttons/Icons/ButtonIconGear.js'
 import TopButtonNavigation from './TopButtonNavigation.js'
@@ -53,6 +55,10 @@ function TopBar({currentModule}) {
         <TopButtonNavigation buttonComponent={ButtonIconTextStore}
                              text={getLocale('stores')}
                              route={routeStores}
+                             currentModule={currentModule}/>
+        <TopButtonNavigation buttonComponent={ButtonIconTextRSSFeed}
+                             text={getLocale('podcasts')}
+                             route={routeRSSFeed}
                              currentModule={currentModule}/>
         {currentModule === routeStudio.module && <TopButtonNavigation buttonComponent={ButtonIconTextMicrophone}
                                                                       text={getLocale('studio')}

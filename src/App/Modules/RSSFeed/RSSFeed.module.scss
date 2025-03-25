@@ -1,0 +1,35 @@
+.infoTitle {
+  max-width: 936px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.infoContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+.infoImage {
+  width: 256px;
+  height: auto;
+}
+
+.infoDescription {
+  max-width: 680px;
+  display: flex;
+  flex-direction: column;
+}
+
+.infoLabel,
+.infoContent {
+  padding: 10px 5px 5px 20px;
+}
+
+.infoLabel {
+  font-weight: bold;
+}
+
+.infoContent {
+  white-space: pre-wrap;
+}

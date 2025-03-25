@@ -134,7 +134,7 @@ function Table({
             return {
               ...acc,
               [v.tableGroup]: {
-                display: (tableState === null || tableState.group[v.tableGroup] === undefined) ? 0 : tableState.group[v.tableGroup].display
+                display: (tableState === null || tableState.group[v.tableGroup] === undefined) ? (v.tableGroupDisplay || 0) : tableState.group[v.tableGroup].display
               }
             }
           },
