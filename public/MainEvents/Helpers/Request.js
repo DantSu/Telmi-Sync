@@ -2,6 +2,7 @@ import {parseString} from 'xml2js'
 import {request as requestHttps} from 'https'
 import {request as requestHttp} from 'http'
 import * as fs from 'fs'
+import {URL} from 'node:url'
 
 const
   defaultHeader = {
@@ -14,14 +15,14 @@ const
 
   htmlTag = '<!DOCTYPE html>',
 
-  downloadRangeFile = (url, filePath, resolve, reject, onProgress, bytesStart) => {
+  downloadRangeFile = (fileUrl, filePath, resolve, reject, onProgress, bytesStart) => {
     try {
       const
-        isHttps = url.substring(0, 6) === 'https:',
+        isHttps = fileUrl.substring(0, 6) === 'https:',
         request = isHttps ? requestHttps : requestHttp,
         file = fs.createWriteStream(filePath, {flags: 'a'}),
         req = request(
-          url,
+          fileUrl,
           {
             method: 'GET',
             rejectUnauthorized: false,
@@ -33,18 +34,24 @@ const
           (res) => {
             if (res.statusCode < 200 || res.statusCode >= 400) {
               file.close()
-              return reject(new Error('statusCode=' + res.statusCode + ' : ' + url))
+              return reject(new Error('statusCode=' + res.statusCode + ' : ' + fileUrl))
             }
 
             if (res.statusCode >= 300 && res.statusCode < 400) {
-              if (typeof res.headers['location'] === 'string' && res.headers['location'] !== url) {
+              if (typeof res.headers['location'] === 'string' && res.headers['location'] !== fileUrl) {
                 file.close()
-                return downloadFile(res.headers['location'], filePath, onProgress)
+                return downloadFile(
+                  res.headers['location'].startsWith('/') ?
+                    new URL(fileUrl).origin + res.headers['location'] :
+                    res.headers['location'],
+                  filePath,
+                  onProgress
+                )
                   .then((filePath) => resolve(filePath))
                   .catch((e) => reject(e))
               } else {
                 file.close()
-                return reject(new Error('statusCode=' + res.statusCode + ' : ' + url))
+                return reject(new Error('statusCode=' + res.statusCode + ' : ' + fileUrl))
               }
             }
 
@@ -67,7 +74,7 @@ const
                 if (bytesLengthDownloaded >= bytesLength) {
                   return resolve(filePath)
                 }
-                downloadRangeFile(url, filePath, resolve, reject, onProgress, bytesLengthDownloaded)
+                downloadRangeFile(fileUrl, filePath, resolve, reject, onProgress, bytesLengthDownloaded)
               }
 
               if (bytesLengthDownloaded > 64000) {
@@ -97,7 +104,7 @@ const
       })
       req.on('timeout', () => {
         file.close()
-        reject(new Error('Unable to connect to : ' + url))
+        reject(new Error('Unable to connect to : ' + fileUrl))
       })
       req.end()
     } catch (e) {
@@ -105,22 +112,22 @@ const
     }
   },
 
-  downloadFile = (url, filePath, onProgress) => {
+  downloadFile = (fileUrl, filePath, onProgress) => {
     return new Promise((resolve, reject) => {
       if (fs.existsSync(filePath)) {
         fs.rmSync(filePath)
       }
-      downloadRangeFile(url, filePath, resolve, reject, onProgress, 0)
+      downloadRangeFile(fileUrl, filePath, resolve, reject, onProgress, 0)
     })
   },
 
-  requestData = (url, header) => {
+  requestData = (urlData, header) => {
     return new Promise((resolve, reject) => {
       const
-        isHttps = url.substring(0, 6) === 'https:',
+        isHttps = urlData.substring(0, 6) === 'https:',
         request = isHttps ? requestHttps : requestHttp,
         req = request(
-          url,
+          urlData,
           {
             method: 'GET',
             rejectUnauthorized: false,
@@ -132,16 +139,21 @@ const
           },
           res => {
             if (res.statusCode < 200 || res.statusCode >= 400) {
-              return reject(new Error('statusCode=' + res.statusCode + ' : ' + url))
+              return reject(new Error('statusCode=' + res.statusCode + ' : ' + urlData))
             }
 
             if (res.statusCode >= 300 && res.statusCode < 400) {
-              if (typeof res.headers['location'] === 'string' && res.headers['location'] !== url) {
-                return requestData(res.headers['location'], header)
+              if (typeof res.headers['location'] === 'string' && res.headers['location'] !== urlData) {
+                return requestData(
+                  res.headers['location'].startsWith('/') ?
+                    new URL(urlData).origin + res.headers['location'] :
+                    res.headers['location'],
+                  header
+                )
                   .then((buffer) => resolve(buffer))
                   .catch((e) => reject(e))
               } else {
-                return reject(new Error('statusCode=' + res.statusCode + ' : ' + url))
+                return reject(new Error('statusCode=' + res.statusCode + ' : ' + urlData))
               }
             }
 
@@ -162,14 +174,14 @@ const
         reject(e)
       })
       req.on('timeout', () => {
-        reject(new Error('Unable to connect to : ' + url))
+        reject(new Error('Unable to connect to : ' + urlData))
       })
       req.end()
     })
   },
-  requestJson = (url, header) => {
+  requestJson = (urlJson, header) => {
     return requestData(
-      url,
+      urlJson,
       {
         ...header,
         'Accept': 'application/json',
@@ -178,10 +190,10 @@ const
     )
       .then(data => JSON.parse(data.toString('utf-8')))
   },
-  requestJsonOrXml = (url, header) => {
+  requestJsonOrXml = (urlJsonXml, header) => {
     return new Promise((resolve, reject) => {
       requestData(
-        url,
+        urlJsonXml,
         {
           ...header,
           'Accept': 'application/json, text/xml, application/xml',
