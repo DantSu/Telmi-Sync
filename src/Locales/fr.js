@@ -1,4 +1,6 @@
 const fr = {
+  'yes': 'Oui',
+  'no': 'Non',
   'new': 'Nouveau',
   'add': 'Ajouter',
   'add-remove': 'Ajouter/Soustraire',
@@ -120,6 +122,7 @@ const fr = {
   'confirm-source-gcu': 'En cochant cette case, vous confirmez avoir lu les conditions générales d\'utilisation de l\'URL saisie ci-dessus et que ces conditions permettent le téléchargement permanent des fichiers audio accessibles via cette URL.',
   'podcasts': 'Podcasts',
   'rss-feed': 'Flux RSS',
+  'advertising-presence': 'Présence de publicités',
   'select-to-build-pack': 'Sélectionnez les histoires puis cliquez sur "Télécharger" pour générer un pack d\'histoires.',
   'which-story': 'Quelle histoire veux-tu écouter ?',
   'discover-rss-feed': 'Découvrez les flux RSS de podcasts ci-dessous, lisez les descriptions, visitez les sites Internet et ajoutez ceux qui vous interressent à vos Stores.',

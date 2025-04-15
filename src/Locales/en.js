@@ -1,4 +1,6 @@
 const en = {
+  'yes': 'Yes',
+  'no': 'No',
   'new': 'New',
   'add': 'Add',
   'add-remove': 'Add/Remove',
@@ -120,6 +122,7 @@ const en = {
   'confirm-source-gcu': 'By checking this box, you confirm that you have read the terms and conditions of use for the URL entered above and that these terms allow the permanent download of audio files accessible via this URL.',
   'podcasts': 'Podcasts',
   'rss-feed': 'RSS Feed',
+  'advertising-presence': 'Advertising presence',
   'select-to-build-pack': 'Select stories then click "Download" to build a stories pack.',
   'which-story': 'Which story do you want to hear ?',
   'discover-rss-feed': 'Check out the podcast RSS feeds below, read the descriptions, visit the websites, and add the ones you\'re interested in to your Stores.',

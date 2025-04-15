@@ -19,17 +19,23 @@ function RSSFeedList() {
             {
               tableGroup: key,
               tableGroupDisplay: 1,
-              tableChildren: rssFeed[key].map((child) => ({
-                ...child,
-                cellTitle: child.title,
-                cellSubtitle: child.category
-              }))
+              tableChildren: rssFeed[key].map((child) => Object.assign(
+                {
+                  ...child,
+                  cellTitle: child.title,
+                  cellSubtitle: child.category
+                },
+                child.ads ? {
+                  cellLabelIconText: getLocale('advertising-presence'),
+                  cellLabelIcon: '\uf0a1',
+                } : null
+              ))
             }
           ]
         },
         []
       ),
-      [rssFeed]
+      [getLocale, rssFeed]
     ),
 
     onSelect = useCallback(

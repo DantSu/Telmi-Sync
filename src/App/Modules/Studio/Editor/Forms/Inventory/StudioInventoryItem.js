@@ -7,10 +7,9 @@ import {nodesMoveObject} from '../StudioNodesHelpers.js'
 import ButtonIconPen from '../../../../../Components/Buttons/Icons/ButtonIconPen.js'
 import ButtonIconTrash from '../../../../../Components/Buttons/Icons/ButtonIconTrash.js'
 import StudioInventoryItemForm from './StudioInventoryItemForm.js'
+import ModalStudioInventoryDeleteError from './ModalStudioInventoryDeleteError.js'
 
 import styles from './StudioInventoryForm.module.scss'
-import ModalPlayer from '../../../Player/ModalPlayer.js'
-import ModalStudioInventoryDeleteError from './ModalStudioInventoryDeleteError.js'
 
 function StudioInventoryItem({itemKey}) {
   const

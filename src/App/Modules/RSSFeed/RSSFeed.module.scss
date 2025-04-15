@@ -18,7 +18,7 @@
 .infoDescription {
   max-width: 680px;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
 }
 
 .infoLabel,
@@ -28,8 +28,12 @@
 
 .infoLabel {
   font-weight: bold;
+  white-space: nowrap;
 }
 
 .infoContent {
   white-space: pre-wrap;
+}
+.infoFullWidth {
+  flex: 0 0 100%;
 }

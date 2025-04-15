@@ -39,8 +39,10 @@ function ModalRSSFeedInfo({rssFeed, onClose}) {
       <div className={styles.infoContainer}>
         <img src={rssFeed.image} alt="" className={styles.infoImage}/>
         <dl className={styles.infoDescription}>
-          <dt className={styles.infoLabel}>{getLocale('description')}</dt>
-          <dd className={styles.infoContent}>{rssFeed.description}</dd>
+          <dt className={styles.infoLabel}>{getLocale('advertising-presence')} :</dt>
+          <dd className={styles.infoContent}>{getLocale(rssFeed.ads ? 'yes' : 'no')}</dd>
+          <dt className={[styles.infoLabel, styles.infoFullWidth].join(' ')}>{getLocale('description')} :</dt>
+          <dd className={[styles.infoContent, styles.infoFullWidth].join(' ')}>{rssFeed.description}</dd>
         </dl>
       </div>
     </ModalContent>
