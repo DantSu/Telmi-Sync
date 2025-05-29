@@ -1,20 +1,19 @@
-import { app, utilityProcess } from 'electron'
+import { utilityProcess } from 'electron'
 import * as url from 'url'
 import * as path from 'path'
+import {getElectronAppPath} from '../Helpers/AppPaths.js'
 
-const
-  __dirname = url.fileURLToPath(new URL('.', import.meta.url)),
-  appPath = app.getAppPath()
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 
 function runProcess (jsFile, arrayParams, onSuccess, onProgress, onError, onFinished) {
   const
     taskProcess = utilityProcess.fork(
       path.join(__dirname, jsFile),
-      ['[electron-apppath]' + (path.extname(appPath) !== '' ? path.dirname(appPath) : appPath), ...arrayParams.map(v => '[electron]' + v)],
+      ['[electron-apppath]' + getElectronAppPath(), ...arrayParams.map(v => '[electron]' + v)],
       {stdio: 'pipe'}
     )
 
-  taskProcess.stdout.on('data', data => {
+  taskProcess.stdout.on('data', (data) => {
     const progress = data.toString().split('*')
     console.log(progress)
     if (progress[progress.length - 1] === 'success') {
@@ -30,7 +29,7 @@ function runProcess (jsFile, arrayParams, onSuccess, onProgress, onError, onFini
     }
   })
 
-  taskProcess.stderr.on('data', data => {
+  taskProcess.stderr.on('data', (data) => {
     console.log('RunProcess Error : ', data.toString())
     taskProcess.kill()
     onError(data.toString())

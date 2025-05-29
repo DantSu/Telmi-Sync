@@ -1,8 +1,10 @@
 import * as path from 'path'
-import { createPathDirectories, rmDirectory } from './Files.js'
+import {createPathDirectories, rmDirectory} from './Files.js'
+import {getShortPath} from './Paths.js'
 
-function homePaths (homePath) {
+function homePaths(homeLongPath) {
   const
+    homePath = getShortPath(homeLongPath),
     TMP_PATH = path.join(homePath, '.telmi', 'tmp'),
     STORES_PATH = path.join(homePath, '.telmi', 'stores'),
     STORIES_PATH = path.join(homePath, '.telmi', 'stories'),

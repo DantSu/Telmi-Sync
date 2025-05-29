@@ -1,5 +1,5 @@
 import {exec} from 'child_process'
-import {getElectronAppPath, getExtraResourcesPath} from '../Helpers/AppPaths.js'
+import {getExtraResourcesPath} from '../Helpers/AppPaths.js'
 import * as path from 'path'
 
 const

@@ -1,9 +1,11 @@
 import { app } from 'electron'
 import homePaths from './HomePaths.js'
 import path from 'path'
+import {getShortPath} from './Paths.js'
 
 const
-  appPath = app.getAppPath(),
+  appPathRaw = app.getAppPath(),
+  appPath = getShortPath(path.extname(appPathRaw) !== '' ? path.dirname(appPathRaw) : appPathRaw),
   appPaths = homePaths(app.getPath('home')),
   initAppPaths = appPaths.initAppPaths,
   initTmpPath = appPaths.initTmpPath,
@@ -13,7 +15,7 @@ const
   getBinPath = appPaths.getBinPath,
   getStoresPath = appPaths.getStoresPath,
   getParametersPath = appPaths.getParametersPath,
-  getElectronAppPath = () => path.extname(appPath) !== '' ? path.dirname(appPath) : appPath,
+  getElectronAppPath = () => appPath,
   getExtraResourcesPath = () => path.join(getElectronAppPath(), 'extraResources')
 
 export { initAppPaths, initTmpPath, getTmpPath, getStoriesPath, getMusicPath, getBinPath, getStoresPath, getParametersPath, getElectronAppPath, getExtraResourcesPath}
