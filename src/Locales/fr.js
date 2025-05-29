@@ -125,7 +125,7 @@ const fr = {
   'advertising-presence': 'Présence de publicités',
   'select-to-build-pack': 'Sélectionnez les histoires puis cliquez sur "Télécharger" pour générer un pack d\'histoires.',
   'which-story': 'Quelle histoire veux-tu écouter ?',
-  'discover-rss-feed': 'Découvrez les flux RSS de podcasts ci-dessous, lisez les descriptions, visitez les sites Internet et ajoutez ceux qui vous interressent à vos Stores.',
+  'discover-rss-feed': 'Découvrez les flux RSS de podcasts ci-dessous, lisez les descriptions, visitez les sites Internet et ajoutez ceux qui vous intéressent à vos Stores.',
   'visit-website': 'Visiter le site internet',
   'add-rssfeed-to-store': 'Ajouter ce flux RSS à vos Stores',
 
