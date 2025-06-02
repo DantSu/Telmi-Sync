@@ -123,7 +123,7 @@ const en = {
   'podcasts': 'Podcasts',
   'rss-feed': 'RSS Feed',
   'advertising-presence': 'Advertising presence',
-  'select-to-build-pack': 'Select stories then click "Download" to build a stories pack.',
+  'select-to-build-pack': 'Select the stories in the order you want them to appear in the pack and then click the icon <i class="icon">&#61465;</i> in the top right of the stories list to generate it.',
   'which-story': 'Which story do you want to hear ?',
   'discover-rss-feed': 'Check out the podcast RSS feeds below, read the descriptions, visit the websites, and add the ones you\'re interested in to your Stores.',
   'visit-website': 'Visit the website',

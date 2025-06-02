@@ -186,7 +186,7 @@ function StoreContent({store}) {
             storeData.audioList && <div className={styles.infoAudioList}>
               <h2 className={styles.infoAudioListTitle}><i
                 className={[styles.infoAudioListIcon, styles.infoIconRss].join(' ')}></i>{getLocale('rss-feed')}</h2>
-              <p className={styles.infoAudioListText}>{getLocale('select-to-build-pack')}</p>
+              <p className={styles.infoAudioListText} dangerouslySetInnerHTML={{__html: getLocale('select-to-build-pack')}} />
             </div>
           }
           <div className={styles.bannerInnerContainer}>
