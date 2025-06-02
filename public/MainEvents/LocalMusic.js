@@ -14,7 +14,7 @@ function mainEventLocalMusicReader(mainWindow) {
     }
   )
 
-  const localMusicUpdate = (musics) => {
+  const localMusicUpdate = (musics, albumImage) => {
     if (!musics.length) {
       ipcMain.emit('local-musics-get')
       return
@@ -30,7 +30,7 @@ function mainEventLocalMusicReader(mainWindow) {
       typeof music.album !== 'string' || music.album === '' ||
       typeof music.artist !== 'string' || music.artist === ''
     ) {
-      return localMusicUpdate(musics)
+      return localMusicUpdate(musics, albumImage)
     }
 
     const
@@ -61,13 +61,21 @@ function mainEventLocalMusicReader(mainWindow) {
         () => {},
         (message, current, total) => {},
         (error) => {},
-        () => localMusicUpdate(musics)
+        () => localMusicUpdate(musics, albumImage)
       )
+    } else if (albumImage !== undefined) {
+      if (fs.existsSync(srcImage)) {
+        fs.rmSync(srcImage)
+      }
+      if (fs.existsSync(albumImage)) {
+        fs.copyFileSync(albumImage, dstImage)
+      }
+      localMusicUpdate(musics, albumImage)
     } else {
       if (srcImage !== dstImage && fs.existsSync(srcImage)) {
         fs.renameSync(srcImage, dstImage)
       }
-      localMusicUpdate(musics)
+      localMusicUpdate(musics, dstImage)
     }
   }
 
