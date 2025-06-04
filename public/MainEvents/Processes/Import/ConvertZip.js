@@ -70,7 +70,7 @@ const
       if (
         dir.format === FORMAT_STUDIO ||
         ((dir.format === FORMAT_FS || dir.format === FORMAT_TELMI) && dir.fileCount === 4) ||
-        (dir.format === FORMAT_STORYPACK && dir.fileCount === 2)
+        (dir.format === FORMAT_STORYPACK && dir.fileCount >= 2)
       ) {
         return [dir.format, dir.dir]
       }

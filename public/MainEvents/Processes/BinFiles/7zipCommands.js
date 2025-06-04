@@ -103,7 +103,7 @@ const
   },
 
   list = (pathToSrc, cb) => {
-    run(path7za, ['l', '-slt', '-ba', pathToSrc], cb)
+    run(path7za, ['l', '-sccUTF-8', '-scsUTF-8', '-slt', '-ba', pathToSrc], cb)
   }
 
 export { get7zipFilePath, list, unpack, pack }
