@@ -79,7 +79,7 @@ function TableCell ({data, selected, onSelect, onPlay, onStudio, onInfo, onOptim
     <h5 className={styles.cellTitle} title={data.cellTitle}><span className={styles.cellEllipsis}>{data.cellTitle}</span></h5>
     {data.cellSubtitle && <p className={styles.cellSubtitle} title={data.cellSubtitle}><span className={styles.cellEllipsis}>{data.cellSubtitle}</span></p>}
     <div className={styles.imageContainer}>
-      <img src={data.image} className={styles.cellImage} alt=""/>
+      <img src={data.image} className={styles.cellImage} alt="" loading="lazy"/>
       {data.cellLabelIcon && <p className={styles.cellImageLabel} title={data.cellLabelIconText}>{data.cellLabelIcon}</p>}
     </div>
     {

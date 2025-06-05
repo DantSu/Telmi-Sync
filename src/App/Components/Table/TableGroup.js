@@ -87,7 +87,7 @@ function TableGroup({
           }
         </ul> :
         <div className={styles.groupList}>
-          <img className={styles.groupListImage} src={data.tableChildren[0].image} alt=""/>
+          <img className={styles.groupListImage} src={data.tableChildren[0].image} alt="" loading="lazy"/>
           <ul className={styles.listContainer}>
             {
               data.tableChildren.map((v, k) => <TableList key={'cell-' + k}
