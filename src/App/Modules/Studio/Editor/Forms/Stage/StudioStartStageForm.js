@@ -6,6 +6,7 @@ import InputTextarea from '../../../../../Components/Form/Input/InputTextarea.js
 import InputAudio from '../../../../../Components/Form/Input/InputAudio.js'
 import InputImage from '../../../../../Components/Form/Input/InputImage.js'
 import StudioActionForm from './StudioActionForm.js'
+import {metadataToStartStageObject} from '../StudioStartStageHelpers.js'
 
 function StudioStartStageForm() {
   const
@@ -14,17 +15,7 @@ function StudioStartStageForm() {
     {updateStory} = useStudioStoryUpdater(),
 
     startStageNode = useMemo(
-      () => ({
-        image: metadata.newImageTitle || metadata.imageTitle || null,
-        audio: metadata.newAudioTitle || metadata.audioTitle || null,
-        ok: nodes.startAction,
-        home: null,
-        control: {
-          ok: true,
-          home: true,
-          autoplay: false
-        }
-      }),
+      () => metadataToStartStageObject(metadata, nodes.startAction),
       [metadata, nodes]
     ),
 

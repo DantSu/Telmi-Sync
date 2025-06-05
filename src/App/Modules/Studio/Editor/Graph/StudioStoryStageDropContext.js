@@ -10,6 +10,7 @@ import {SVG_ANCHOR_CENTER, SVG_ANCHOR_TOP} from '../../../../Components/SVG/SVGC
 
 
 import styles from './StudioGraph.module.scss'
+import {metadataToStartStageObject} from '../Forms/StudioStartStageHelpers.js'
 
 function StudioStoryStageDropContext({x, y, stageSrc, stageDst, setContextMenu}) {
   const
@@ -19,7 +20,11 @@ function StudioStoryStageDropContext({x, y, stageSrc, stageDst, setContextMenu})
       updateStory((s) => {
         return {
           ...s,
-          nodes: addStageOption(s.nodes, s.nodes.stages[stageDst], stageSrc)
+          nodes: addStageOption(
+            s.nodes,
+            stageDst === 'startStage' ? metadataToStartStageObject(s.metadata, s.nodes.startAction) : s.nodes.stages[stageDst],
+            stageSrc
+          )
         }
       })
     },
