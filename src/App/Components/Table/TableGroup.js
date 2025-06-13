@@ -1,9 +1,11 @@
-import {useCallback} from 'react'
+import {useCallback, useState} from 'react'
 import {useLocale} from '../Locale/LocaleHooks.js'
 import {checkGroupDisplayValue, isCellSelected} from './TableHelpers.js'
 import ButtonIconSquareCheck from '../Buttons/Icons/ButtonIconSquareCheck.js'
 import ButtonIconGrip from '../Buttons/Icons/ButtonIconGrip.js'
 import ButtonIconList from '../Buttons/Icons/ButtonIconList.js'
+import ButtonIconChevronUp from '../Buttons/Icons/ButtonIconChevronUp.js'
+import ButtonIconChevronDown from '../Buttons/Icons/ButtonIconChevronDown.js'
 import TableCell from './TableCell.js'
 import TableList from './TableList.js'
 
@@ -28,6 +30,7 @@ function TableGroup({
                     }) {
   const
     {getLocale} = useLocale(),
+    [collapsed, setCollapsed] = useState(false),
     display = getDisplayValue(tableState.group[data.tableGroup]),
     onCDisplay = useCallback(
       () => setTableState((tableState) => ({
@@ -44,10 +47,12 @@ function TableGroup({
     onCSelectGroup = useCallback(
       () => typeof onSelectAll === 'function' && onSelectAll(data.tableChildren),
       [onSelectAll, data]
-    )
+    ),
+    collapse = useCallback(() => setCollapsed(true), []),
+    expand = useCallback(() => setCollapsed(false), [])
 
   return <li className={styles.cellGroup}>
-    <h3 className={styles.cellGroupTitle}>
+    <h3 className={[styles.cellGroupTitle, collapsed ? styles.collapsed : ''].join(" ")}>
       <span>{data.tableGroup}</span>
       <span>
         {
@@ -65,9 +70,11 @@ function TableGroup({
                                  title={getLocale('select-all')}
                                  onClick={onCSelectGroup}/>
         }
+        { collapsed ? <ButtonIconChevronDown onClick={expand} /> : <ButtonIconChevronUp onClick={collapse}/> }
       </span>
     </h3>
     {
+      collapsed ? '' :
       display === 1 ?
         <ul className={styles.cells}>
           {
