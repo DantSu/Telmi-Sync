@@ -118,6 +118,10 @@
   border-bottom: 1px solid $white60;
 }
 
+.collapsed {
+  border-bottom: none;
+}
+
 .cellGroupButton {
   font-size: 14px;
 }
@@ -206,6 +210,7 @@
 
 .cellEllipsis {
   display: -webkit-box;
+  line-clamp: 2;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
