@@ -19,6 +19,7 @@ function RSSFeedList() {
             {
               tableGroup: key,
               tableGroupDisplay: 1,
+              collapsed: false,
               tableChildren: rssFeed[key].map((child) => Object.assign(
                 {
                   ...child,

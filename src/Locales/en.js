@@ -128,6 +128,8 @@ const en = {
   'discover-rss-feed': 'Check out the podcast RSS feeds below, read the descriptions, visit the websites, and add the ones you\'re interested in to your Stores.',
   'visit-website': 'Visit the website',
   'add-rssfeed-to-store': 'Add this RSS feed to your Stores',
+  'rssfeed-collapse': 'Collapse this RSS feed',
+  'rssfeed-expand': 'Expand this RSS feed',
 
   'error-download-images': 'Unable to download images',
   'error-download-audio': 'Unable to download audio files',

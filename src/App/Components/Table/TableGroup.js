@@ -1,4 +1,4 @@
-import {useCallback, useState} from 'react'
+import {useCallback} from 'react'
 import {useLocale} from '../Locale/LocaleHooks.js'
 import {checkGroupDisplayValue, isCellSelected} from './TableHelpers.js'
 import ButtonIconSquareCheck from '../Buttons/Icons/ButtonIconSquareCheck.js'
@@ -12,6 +12,7 @@ import TableList from './TableList.js'
 import styles from './Table.module.scss'
 
 const getDisplayValue = (group) => group === undefined ? 0 : group.display
+const getCollapsedValue = (group) => group === undefined ? false : group.collapsed
 
 function TableGroup({
                       data,
@@ -30,32 +31,35 @@ function TableGroup({
                     }) {
   const
     {getLocale} = useLocale(),
-    [collapsed, setCollapsed] = useState(false),
     display = getDisplayValue(tableState.group[data.tableGroup]),
-    onCDisplay = useCallback(
-      () => setTableState((tableState) => ({
-        ...tableState,
-        group: {
-          ...tableState.group,
-          [data.tableGroup]: {
-            display: checkGroupDisplayValue(getDisplayValue(tableState.group[data.tableGroup]) + 1)
-          }
-        }
-      })),
-      [data.tableGroup, setTableState]
-    ),
+    collapsed = getCollapsedValue(tableState.group[data.tableGroup]),
+    onCDisplay = () => updateTableState(checkGroupDisplayValue(getDisplayValue(tableState.group[data.tableGroup]) + 1), getCollapsedValue(tableState.group[data.tableGroup])),
     onCSelectGroup = useCallback(
       () => typeof onSelectAll === 'function' && onSelectAll(data.tableChildren),
       [onSelectAll, data]
     ),
-    collapse = useCallback(() => setCollapsed(true), []),
-    expand = useCallback(() => setCollapsed(false), [])
+    collapse = () => updateTableState(getDisplayValue(tableState.group[data.tableGroup]), true),
+    expand = () => updateTableState(getDisplayValue(tableState.group[data.tableGroup]), false),
+    updateTableState = useCallback(
+      (display, collapsed) => setTableState((tableState) => ({
+        ...tableState,
+        group: {
+          ...tableState.group,
+          [data.tableGroup]: {
+            display,
+            collapsed
+          }
+        }
+      })),
+      [data.tableGroup, setTableState]
+    )
 
   return <li className={styles.cellGroup}>
     <h3 className={[styles.cellGroupTitle, collapsed ? styles.collapsed : ''].join(" ")}>
       <span>{data.tableGroup}</span>
       <span>
         {
+          collapsed ? '' :
           display === 1 ?
             <ButtonIconList className={styles.cellGroupButton}
                             title={getLocale('display-list')}
@@ -70,7 +74,13 @@ function TableGroup({
                                  title={getLocale('select-all')}
                                  onClick={onCSelectGroup}/>
         }
-        { collapsed ? <ButtonIconChevronDown onClick={expand} /> : <ButtonIconChevronUp onClick={collapse}/> }
+        { collapsed ? 
+          <ButtonIconChevronDown 
+              title={getLocale('rssfeed-expand')} 
+              onClick={expand} /> : 
+          <ButtonIconChevronUp 
+              title={getLocale('rssfeed-collapse')} 
+              onClick={collapse}/> }
       </span>
     </h3>
     {
