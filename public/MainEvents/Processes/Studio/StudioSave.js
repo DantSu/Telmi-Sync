@@ -39,6 +39,11 @@ const
       usedActions = {[nodes.startAction.action]: true},
       actions = Object.keys(usedActions)
 
+    if (nodes.stages.backStage !== undefined) {
+      usedActions['backAction'] = true
+      actions.push('backAction')
+    }
+
     while (actions.length) {
       const aKey = actions.shift()
       nodes.actions[aKey].forEach((a) => {
