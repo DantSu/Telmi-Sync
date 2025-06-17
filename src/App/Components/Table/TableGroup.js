@@ -76,16 +76,15 @@ function TableGroup({
         }
         { collapsed ? 
           <ButtonIconChevronDown 
-              title={getLocale('rssfeed-expand')} 
+              title={getLocale('group-expand')} 
               onClick={expand} /> : 
           <ButtonIconChevronUp 
-              title={getLocale('rssfeed-collapse')} 
+              title={getLocale('group-collapse')} 
               onClick={collapse}/> }
       </span>
     </h3>
     {
-      collapsed ? '' :
-      display === 1 ?
+      !collapsed && (display === 1 ?
         <ul className={styles.cells}>
           {
             data.tableChildren.map((v, k) => {
@@ -113,7 +112,7 @@ function TableGroup({
                                                           onSelect={onSelect}/>)
             }
           </ul>
-        </div>
+        </div>)
     }
   </li>
 }
