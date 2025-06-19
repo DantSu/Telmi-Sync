@@ -59,7 +59,8 @@ function RSSFeedList() {
 
   return <Table titleLeft={getLocale('discover-rss-feed')}
                 data={rssFeedTableData}
-                onSelect={onSelect}/>
+                onSelect={onSelect}
+                isLoading={!rssFeedTableData.length}/>
 }
 
 export default RSSFeedList
