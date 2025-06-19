@@ -107,7 +107,9 @@
   margin: 10px;
   border-radius: 15px;
 }
-
+.collapsed {
+  padding: 5px 0 5px 0;
+}
 .cellGroupTitle {
   display: flex;
   flex-direction: row;
@@ -118,7 +120,7 @@
   border-bottom: 1px solid $white60;
 }
 
-.collapsed {
+.collapsed .cellGroupTitle {
   border-bottom: none;
 }
 

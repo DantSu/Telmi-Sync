@@ -11,8 +11,19 @@ import TableList from './TableList.js'
 
 import styles from './Table.module.scss'
 
-const getDisplayValue = (group) => group === undefined ? 0 : group.display
-const getCollapsedValue = (group) => group === undefined ? false : group.collapsed
+const
+  getDisplayValue = (group) => group === undefined ? 0 : group.display,
+  getCollapsedValue = (group) => group === undefined ? false : group.collapsed,
+
+  updateTableState = (setTableState, tableGroup, getNewValue) => setTableState(
+    (tableState) => ({
+        ...tableState,
+        group: {
+          ...tableState.group,
+          [tableGroup]: {...tableState.group[tableGroup], ...getNewValue(tableState.group[tableGroup])}
+        }
+      })
+  )
 
 function TableGroup({
                       data,
@@ -33,40 +44,41 @@ function TableGroup({
     {getLocale} = useLocale(),
     display = getDisplayValue(tableState.group[data.tableGroup]),
     collapsed = getCollapsedValue(tableState.group[data.tableGroup]),
-    onCDisplay = () => updateTableState(checkGroupDisplayValue(getDisplayValue(tableState.group[data.tableGroup]) + 1), getCollapsedValue(tableState.group[data.tableGroup])),
     onCSelectGroup = useCallback(
       () => typeof onSelectAll === 'function' && onSelectAll(data.tableChildren),
       [onSelectAll, data]
     ),
-    collapse = () => updateTableState(getDisplayValue(tableState.group[data.tableGroup]), true),
-    expand = () => updateTableState(getDisplayValue(tableState.group[data.tableGroup]), false),
-    updateTableState = useCallback(
-      (display, collapsed) => setTableState((tableState) => ({
-        ...tableState,
-        group: {
-          ...tableState.group,
-          [data.tableGroup]: {
-            display,
-            collapsed
-          }
-        }
-      })),
+    onCDisplay = useCallback(
+      () => updateTableState(
+        setTableState,
+        data.tableGroup,
+        (data) => ({display: checkGroupDisplayValue(getDisplayValue(data) + 1)})
+      ),
+      [data.tableGroup, setTableState]
+    ),
+    onCCollapse = useCallback(
+      () => updateTableState(
+        setTableState,
+        data.tableGroup,
+        (data) => ({collapsed: !getCollapsedValue(data)})
+      ),
       [data.tableGroup, setTableState]
     )
 
-  return <li className={styles.cellGroup}>
-    <h3 className={[styles.cellGroupTitle, collapsed ? styles.collapsed : ''].join(" ")}>
+  return <li className={[styles.cellGroup, collapsed ? styles.collapsed : ''].join(' ')}>
+    <h3 className={styles.cellGroupTitle}>
       <span>{data.tableGroup}</span>
       <span>
         {
-          collapsed ? '' :
-          display === 1 ?
-            <ButtonIconList className={styles.cellGroupButton}
-                            title={getLocale('display-list')}
-                            onClick={onCDisplay}/> :
-            <ButtonIconGrip className={styles.cellGroupButton}
-                            title={getLocale('display-thumbnails')}
-                            onClick={onCDisplay}/>
+          !collapsed && (
+            display === 1 ?
+              <ButtonIconList className={styles.cellGroupButton}
+                              title={getLocale('display-list')}
+                              onClick={onCDisplay}/> :
+              <ButtonIconGrip className={styles.cellGroupButton}
+                              title={getLocale('display-thumbnails')}
+                              onClick={onCDisplay}/>
+          )
         }
         {
           onSelectAll &&
@@ -74,45 +86,49 @@ function TableGroup({
                                  title={getLocale('select-all')}
                                  onClick={onCSelectGroup}/>
         }
-        { collapsed ? 
-          <ButtonIconChevronDown 
-              title={getLocale('group-expand')} 
-              onClick={expand} /> : 
-          <ButtonIconChevronUp 
-              title={getLocale('group-collapse')} 
-              onClick={collapse}/> }
+        {collapsed ?
+          <ButtonIconChevronDown className={styles.cellGroupButton}
+                                 title={getLocale('expand')}
+                                 onClick={onCCollapse}/> :
+          <ButtonIconChevronUp className={styles.cellGroupButton}
+                               title={getLocale('collapse')}
+                               onClick={onCCollapse}/>}
       </span>
     </h3>
     {
-      !collapsed && (display === 1 ?
-        <ul className={styles.cells}>
-          {
-            data.tableChildren.map((v, k) => {
-              return <TableCell key={'cell-' + k}
-                                data={v}
-                                selected={isCellSelected(selectedData, v)}
-                                onSelect={onSelect}
-                                onPlay={onPlay}
-                                onStudio={onStudio}
-                                onInfo={onInfo}
-                                onOptimizeAudio={onOptimizeAudio}
-                                onEdit={onEdit}
-                                onDownload={onDownload}
-                                onDelete={onDelete}/>
-            })
-          }
-        </ul> :
-        <div className={styles.groupList}>
-          <img className={styles.groupListImage} src={data.tableChildren[0].image} alt="" loading="lazy"/>
-          <ul className={styles.listContainer}>
+      !collapsed && (
+        display === 1 ?
+          <ul className={styles.cells}>
             {
-              data.tableChildren.map((v, k) => <TableList key={'cell-' + k}
-                                                          data={v}
-                                                          selected={isCellSelected(selectedData, v)}
-                                                          onSelect={onSelect}/>)
+              data.tableChildren.map(
+                (v, k) => <TableCell key={'cell-' + k}
+                                     data={v}
+                                     selected={isCellSelected(selectedData, v)}
+                                     onSelect={onSelect}
+                                     onPlay={onPlay}
+                                     onStudio={onStudio}
+                                     onInfo={onInfo}
+                                     onOptimizeAudio={onOptimizeAudio}
+                                     onEdit={onEdit}
+                                     onDownload={onDownload}
+                                     onDelete={onDelete}/>
+              )
             }
-          </ul>
-        </div>)
+          </ul> :
+          <div className={styles.groupList}>
+            <img className={styles.groupListImage} src={data.tableChildren[0].image} alt="" loading="lazy"/>
+            <ul className={styles.listContainer}>
+              {
+                data.tableChildren.map(
+                  (v, k) => <TableList key={'cell-' + k}
+                                       data={v}
+                                       selected={isCellSelected(selectedData, v)}
+                                       onSelect={onSelect}/>
+                )
+              }
+            </ul>
+          </div>
+      )
     }
   </li>
 }

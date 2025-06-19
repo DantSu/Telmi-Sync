@@ -129,8 +129,8 @@ const fr = {
   'discover-rss-feed': 'Découvrez les flux RSS de podcasts ci-dessous, lisez les descriptions, visitez les sites Internet et ajoutez ceux qui vous intéressent à vos Stores.',
   'visit-website': 'Visiter le site internet',
   'add-rssfeed-to-store': 'Ajouter ce flux RSS à vos Stores',
-  'group-collapse': 'Réduire ce groupe',
-  'group-expand': 'Agrandir ce groupe',
+  'collapse': 'Réduire',
+  'expand': 'Agrandir',
 
   'error-download-images': 'Impossible de télécharger les images',
   'error-download-audio': 'Impossible de télécharger les fichiers audio',
