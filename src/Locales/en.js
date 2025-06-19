@@ -125,6 +125,7 @@ const en = {
   'advertising-presence': 'Advertising presence',
   'select-to-build-pack': 'Select the stories in the order you want them to appear in the pack and then click the icon <i class="icon">&#61465;</i> in the top right of the stories list to generate it.',
   'which-story': 'Which story do you want to hear ?',
+  'what-listen': 'What do you want to listen to?',
   'discover-rss-feed': 'Check out the podcast RSS feeds below, read the descriptions, visit the websites, and add the ones you\'re interested in to your Stores.',
   'visit-website': 'Visit the website',
   'add-rssfeed-to-store': 'Add this RSS feed to your Stores',
@@ -191,6 +192,10 @@ const en = {
   'stories-delete-confirm': 'Are you sure you want to delete the selected stories ?',
   'stories-transfer': 'Transfer the stories',
   'stories-deleting': 'Deleting the stories',
+  'stories-merge': 'Merge the selected story packs',
+  'stories-merge-warning': 'Interactive stories containing an inventory will not be merged.',
+  'stories-merge-error': 'Non-mergeable stories',
+  'stories-analysis': 'Analysis of the stories',
 
   'music': 'Music',
   'music-extracting-metadata': 'Extraction of music metadata',

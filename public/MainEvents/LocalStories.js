@@ -1,7 +1,7 @@
 import {ipcMain} from 'electron'
 import * as fs from 'fs'
 import * as path from 'path'
-import {getStoriesPath} from './Helpers/AppPaths.js'
+import {getStoriesPath, initTmpPath} from './Helpers/AppPaths.js'
 import {deleteStories, readStories} from './Helpers/StoriesFiles.js'
 import {createMetadataFile, generateDirNameStory} from './Helpers/Stories.js'
 import runProcess from './Processes/RunProcess.js'
@@ -35,6 +35,33 @@ function mainEventLocalStoriesReader(mainWindow) {
         }
       }
       ipcMain.emit('local-stories-get')
+    }
+  )
+
+  ipcMain.on(
+    'local-stories-merge',
+    async (event, story) => {
+      mainWindow.webContents.send('local-stories-merge-task', story.title, 'initialize', 0, 1)
+      mainWindow.webContents.send('local-stories-merge-waiting', [])
+
+      const jsonPath = path.join(initTmpPath('json'), 'stories-merge.json')
+      fs.writeFileSync(jsonPath, JSON.stringify(story))
+
+      runProcess(
+        path.join('Stories', 'StoriesMerge.js'),
+        [jsonPath],
+        () => {},
+        (message, current, total) => {
+          mainWindow.webContents.send('local-stories-merge-task', story.title, message, current, total)
+        },
+        (error) => {
+          mainWindow.webContents.send('local-stories-merge-error', story.title, error)
+        },
+        () => {
+          mainWindow.webContents.send('local-stories-merge-task', '', '', 0, 0)
+          ipcMain.emit('local-stories-get')
+        }
+      )
     }
   )
 

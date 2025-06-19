@@ -125,6 +125,7 @@ const fr = {
   'advertising-presence': 'Présence de publicités',
   'select-to-build-pack': 'Sélectionnez les histoires dans l\'ordre que vous souhaitez qu\'elles apparaissent dans le pack puis cliquez sur l\'icône <i class="icon">&#61465;</i> en haut à droite de la liste des histoires pour le générer.',
   'which-story': 'Quelle histoire veux-tu écouter ?',
+  'what-listen': 'Que veux-tu écouter ?',
   'discover-rss-feed': 'Découvrez les flux RSS de podcasts ci-dessous, lisez les descriptions, visitez les sites Internet et ajoutez ceux qui vous intéressent à vos Stores.',
   'visit-website': 'Visiter le site internet',
   'add-rssfeed-to-store': 'Ajouter ce flux RSS à vos Stores',
@@ -191,6 +192,10 @@ const fr = {
   'stories-delete-confirm': 'Êtes-vous sûr de vouloir supprimer les histoires sélectionnées ?',
   'stories-transfer': 'Transférer les histoires',
   'stories-deleting': 'Suppression des histoires',
+  'stories-merge': 'Fusionner les packs d\'histoires sélectionnées',
+  'stories-merge-warning': 'Les histoires intéractives contenant un inventaire ne seront pas fusionnées.',
+  'stories-merge-error': 'Histoires non fusionnable',
+  'stories-analysis': 'Analyse des histoires',
 
   'music': 'Musique',
   'music-extracting-metadata': 'Extraction des méta-données de la musique',

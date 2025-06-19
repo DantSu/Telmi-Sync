@@ -31,7 +31,8 @@ function StoriesTable({
                         onOptimizeAudio,
                         onOptimizeAudioSelected,
                         selectedStories,
-                        setSelectedStories
+                        setSelectedStories,
+                        additionalHeaderButtons
                       }) {
   const
     {getLocale} = useLocale(),
@@ -159,6 +160,7 @@ function StoriesTable({
                 onEditSelected={onEditSelected !== undefined ? callbackOnEditSelected : undefined}
                 onDelete={callbackOnDelete}
                 onDeleteSelected={callbackOnDeleteSelected}
+                additionalHeaderButtons={additionalHeaderButtons}
                 isLoading={isLoadingStories}/>
 }
 

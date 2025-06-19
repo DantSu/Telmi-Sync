@@ -6,6 +6,7 @@ import {useRouter} from '../../../Router/RouterHooks.js'
 import {getRouteStudio} from '../../Studio/Routes.js'
 
 import StoriesTable from './StoriesTable.js'
+import StoriesTableHeaderIconMerge from './StoriesTableHeaderIconMerge.js'
 import ModalStoriesOptimizeAudio from './ModalStoriesOptimizeAudio.js'
 import ModalPlayerLauncher from '../../Studio/Player/ModalPlayerLauncher.js'
 
@@ -21,7 +22,10 @@ function StoriesLocalContent({setSelectedStories, selectedStories}) {
     stories = useMemo(
       () => {
         const tStories = telmiOSStories.reduce((acc, s) => ({...acc, [s.uuid]: s.version}), {})
-        return localStories.map((s) => ({...s, cellDisabled: tStories[s.uuid] !== undefined && tStories[s.uuid] >= s.version}))
+        return localStories.map((s) => ({
+          ...s,
+          cellDisabled: tStories[s.uuid] !== undefined && tStories[s.uuid] >= s.version
+        }))
       },
       [localStories, telmiOSStories]
     ),
@@ -46,8 +50,9 @@ function StoriesLocalContent({setSelectedStories, selectedStories}) {
                                                    onClose={() => rmModal(modal)}/>
           return modal
         })
+        setSelectedStories([])
       },
-      [selectedStories, addModal, rmModal]
+      [addModal, setSelectedStories, selectedStories, rmModal]
     ),
 
     onPlay = useCallback(
@@ -83,6 +88,11 @@ function StoriesLocalContent({setSelectedStories, selectedStories}) {
     onDelete = useCallback(
       (stories) => ipcRenderer.send('local-stories-delete', stories),
       []
+    ),
+    additionalHeaderButtons = useMemo(
+      () => selectedStories.length < 2 ? undefined :
+        <StoriesTableHeaderIconMerge selectedStories={selectedStories} setSelectedStories={setSelectedStories}/>,
+      [selectedStories, setSelectedStories]
     )
 
   return <StoriesTable id="stories-local"
@@ -96,7 +106,8 @@ function StoriesLocalContent({setSelectedStories, selectedStories}) {
                        onEditSelected={onEditSelected}
                        onDelete={onDelete}
                        setSelectedStories={setSelectedStories}
-                       selectedStories={selectedStories}/>
+                       selectedStories={selectedStories}
+                       additionalHeaderButtons={additionalHeaderButtons}/>
 }
 
 export default StoriesLocalContent

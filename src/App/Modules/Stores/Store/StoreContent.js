@@ -4,6 +4,7 @@ import {useModal} from '../../../Components/Modal/ModalHooks.js'
 import {useLocale} from '../../../Components/Locale/LocaleHooks.js'
 import {isCellSelected} from '../../../Components/Table/TableHelpers.js'
 import {useLocalStories} from '../../../Components/LocalStories/LocalStoriesHooks.js'
+import {stringSlugify} from '../../../Helpers/String.js'
 import Table from '../../../Components/Table/Table.js'
 import TableHeaderIcon from '../../../Components/Table/TableHeaderIcon.js'
 import ButtonIconSort from '../../../Components/Buttons/Icons/ButtonIconSort.js'
@@ -13,7 +14,6 @@ import ModalStoreStoryInfo from './ModalStoreStoryInfo.js'
 import ModalStoreBuildForm from './ModalStoreBuildForm.js'
 
 import styles from './Store.module.scss'
-import {stringSlugify} from '../../../Helpers/String.js'
 
 const {ipcRenderer} = window.require('electron')
 

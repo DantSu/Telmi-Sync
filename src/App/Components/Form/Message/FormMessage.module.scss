@@ -1,0 +1,21 @@
+@import "/src/App/variables";
+.message {
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 15px;
+  margin-top: 15px;
+}
+
+.icon  {
+  font-family: icons;
+  font-style: normal;
+  margin-right: 10px;
+}
+
+.info {
+  background-color: $blueDark;
+}
+
+.warning {
+  background-color: $redDark;
+}
