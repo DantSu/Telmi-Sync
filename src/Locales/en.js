@@ -119,7 +119,6 @@ const en = {
   'restore-original-picture': 'Restore original picture',
   'waiting-file-path': 'Waiting for a file path',
   'playing-time': 'Playing time',
-  'confirm-source-gcu': 'By checking this box, you confirm that you have read the terms and conditions of use for the URL entered above and that these terms allow the permanent download of audio files accessible via this URL.',
   'podcasts': 'Podcasts',
   'rss-feed': 'RSS Feed',
   'advertising-presence': 'Advertising presence',

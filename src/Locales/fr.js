@@ -119,7 +119,6 @@ const fr = {
   'restore-original-picture': 'Remettre l\'image originale',
   'waiting-file-path': 'En attente d\'un chemin de fichier',
   'playing-time': 'Temps de jeu',
-  'confirm-source-gcu': 'En cochant cette case, vous confirmez avoir lu les conditions générales d\'utilisation de l\'URL saisie ci-dessus et que ces conditions permettent le téléchargement permanent des fichiers audio accessibles via cette URL.',
   'podcasts': 'Podcasts',
   'rss-feed': 'Flux RSS',
   'advertising-presence': 'Présence de publicités',
