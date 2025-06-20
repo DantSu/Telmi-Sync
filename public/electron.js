@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu } from 'electron'
+import {app, BrowserWindow, Menu} from 'electron'
 import isDev from 'electron-is-dev'
 import mainEventWindow from './MainEvents/Window.js'
 import mainEventImport from './MainEvents/Import.js'
@@ -18,7 +18,7 @@ import mainEventAudioRecord from './MainEvents/AudioRecord.js'
 import mainEventFileManager from './MainEvents/FilesManager.js'
 import mainEventTableState from './MainEvents/TableState.js'
 
-function createWindow () {
+function createWindow() {
   const mainWindow = new BrowserWindow({
     width: 1280,
     height: 720,
@@ -59,7 +59,14 @@ function createWindow () {
   return mainWindow
 }
 
-function initApp () {
+function initApp() {
+  const gotTheLock = app.requestSingleInstanceLock()
+
+  if (!gotTheLock) {
+    app.quit()
+    return
+  }
+
   let mainWindow = null
 
   const setWindow = () => {
@@ -68,6 +75,14 @@ function initApp () {
     }
   }
 
+  app.on('second-instance', () => {
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) {
+        mainWindow.restore()
+      }
+      mainWindow.focus()
+    }
+  })
   app.on('ready', setWindow)
   app.on('window-all-closed', () => app.quit())
   app.on('activate', () => BrowserWindow.getAllWindows().length === 0 && setWindow())
