@@ -314,6 +314,16 @@ function mainEventStores(mainWindow) {
       }
     )
   })
+
+  ipcMain.on(
+    'store-build-cancel',
+    async () => {
+      if (buildTaskRunning !== null) {
+        buildTaskRunning.process.kill()
+      }
+    }
+  )
+
   ipcMain.on(
     'store-rssfeed-get',
     async () => {
@@ -323,9 +333,6 @@ function mainEventStores(mainWindow) {
         })
     }
   )
-
-
-
 }
 
 export default mainEventStores
