@@ -29,7 +29,7 @@ function mainEventLocalStoriesReader(mainWindow) {
         createMetadataFile(mdPath, story, md.image)
 
         const newStoryPath = getStoriesPath(generateDirNameStory(story.title, story.uuid, story.age, story.category))
-        if (story.path !== newStoryPath) {
+        if (story.path.toLowerCase() !== newStoryPath.toLowerCase()) {
           rmDirectory(newStoryPath)
           fs.renameSync(story.path, newStoryPath)
         }

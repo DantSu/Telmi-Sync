@@ -28,7 +28,7 @@ const
         md = JSON.parse(fs.readFileSync(mdPath).toString('utf8')),
         storyDirName = generateDirNameStory(md.title, md.uuid, md.age, md.category)
 
-      if (storyDirName !== directory) {
+      if (storyDirName.toLowerCase() !== directory.toLowerCase()) {
         const newStoryPath = path.join(storiesPath, storyDirName)
         rmDirectory(newStoryPath)
         fs.renameSync(storyPath, newStoryPath)
