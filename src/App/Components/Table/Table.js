@@ -1,5 +1,6 @@
 import {useCallback, useEffect, useRef, useState} from 'react'
 import {useLocale} from '../Locale/LocaleHooks.js'
+import {regExpEscape} from '../../Helpers/String.js'
 import {useElectronEmitter, useElectronListener} from '../Electron/Hooks/UseElectronEvent.js'
 
 import {isCellSelected} from './TableHelpers.js'
@@ -72,7 +73,7 @@ function Table({
           return
         }
 
-        const regSearch = '.*(' + searchInput.current.value.split(' ').join(').*(') + ').*'
+        const regSearch = '.*(' + searchInput.current.value.split(' ').map(regExpEscape).join(').*(') + ').*'
         setDataFiltered(
           data.reduce(
             (acc, d) => {
