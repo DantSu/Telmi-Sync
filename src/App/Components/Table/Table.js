@@ -78,7 +78,9 @@ function Table({
           data.reduce(
             (acc, d) => {
               if (d.tableGroup !== undefined) {
-                const children = d.tableChildren.filter((d) => new RegExp(regSearch, 'gi').test(d.cellTitle))
+                const
+                  testGroup = new RegExp(regSearch, 'gi').test(d.tableGroup),
+                  children = d.tableChildren.filter((d) => testGroup || new RegExp(regSearch, 'gi').test(d.cellTitle))
                 if (children.length) {
                   return [
                     ...acc,
