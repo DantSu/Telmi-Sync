@@ -29,6 +29,7 @@
 }
 
 .telmiOSInactiveArea {
+  position: relative;
   flex: 1;
   border-radius: 10px;
   margin: 2px;
@@ -88,4 +89,35 @@
 .buttonTransfer:hover {
   color: $white;
   border-color: $white;
+}
+
+.telmiOSNewCard {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: $purple;
+  width: 140px;
+  height: 140px;
+  border-radius: 70px;
+  margin: -70px 0 0 -70px;
+  background-color: $white60;
+  transition: background-color 0.3s;
+}
+.telmiOSNewCard:hover {
+  background-color: $orange;
+}
+
+.telmiOSNewCardIcon {
+  font-family: icons;
+  font-size: 40px;
+  font-style: normal;
+}
+
+.telmiOSNewCardText {
+  font-size: 16px;
 }

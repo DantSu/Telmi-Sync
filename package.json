@@ -16,6 +16,7 @@
   },
   "private": false,
   "dependencies": {
+    "@expo/sudo-prompt": "^9.3.2",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",

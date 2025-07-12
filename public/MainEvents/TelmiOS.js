@@ -1,12 +1,12 @@
-import { ipcMain } from 'electron'
+import {ipcMain} from 'electron'
 import * as drivelist from 'drivelist'
 import * as diskusage from 'diskusage'
-import { parseTelmiOSAutorun } from './Helpers/InfFiles.js'
-import { readTelmiOSParameters, saveTelmiOSParameters } from './Helpers/TelmiOS.js'
+import {parseTelmiOSAutorun} from './Helpers/InfFiles.js'
+import {readTelmiOSParameters, saveTelmiOSParameters} from './Helpers/TelmiOS.js'
 import runProcess from './Processes/RunProcess.js'
 import * as path from 'path'
 
-function mainEventTelmiOS (mainWindow) {
+function mainEventTelmiOS(mainWindow) {
   const checkUsbDevices = async () => {
     const drives = (await drivelist.list()).reduce((acc, d) => [...acc, ...d.mountpoints.map((p) => p.path)], [])
 
@@ -23,6 +23,18 @@ function mainEventTelmiOS (mainWindow) {
 
   setInterval(checkUsbDevices, 5000)
   setTimeout(checkUsbDevices, 500)
+
+  ipcMain.on(
+    'telmios-disklist',
+    async (event) => {
+      mainWindow.webContents.send(
+        'telmios-disklist-data',
+        (await drivelist.list())
+          .filter((d) => d.busType === 'USB' || d.busType === 'SD' || d.busType === 'MMC')
+          .reduce((acc, d) => [...acc, ...d.mountpoints.map((p) => ({name: d.description, drive: p.path}))], [])
+      )
+    }
+  )
 
   ipcMain.on(
     'telmios-diskusage',
@@ -74,6 +86,30 @@ function mainEventTelmiOS (mainWindow) {
         },
         () => {
           mainWindow.webContents.send('telmios-eject-task', '', '', 0, 0)
+          checkUsbDevices()
+        }
+      )
+    }
+  )
+
+  ipcMain.on(
+    'telmios-cardmaker',
+    async (event, drive) => {
+      if (drive === undefined || drive === null) {
+        return
+      }
+      runProcess(
+        path.join('TelmiOS', 'CardMaker.js'),
+        [drive.drive],
+        () => {},
+        (message, current, total) => {
+          mainWindow.webContents.send('telmios-cardmaker-task', 'telmios-cardmaker', message, current, total)
+        },
+        (error) => {
+          mainWindow.webContents.send('telmios-cardmaker-error', 'telmios-cardmaker', error)
+        },
+        () => {
+          mainWindow.webContents.send('telmios-cardmaker-task', '', '', 0, 0)
           checkUsbDevices()
         }
       )

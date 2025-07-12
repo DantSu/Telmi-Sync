@@ -4,6 +4,7 @@ const en = {
   'new': 'New',
   'add': 'Add',
   'add-remove': 'Add/Remove',
+  'make': 'Make',
   'infos': 'Infos',
   'waiting': 'Waiting',
   'please-wait': 'Please wait',
@@ -130,6 +131,10 @@ const en = {
   'add-rssfeed-to-store': 'Add this RSS feed to your Stores',
   'collapse': 'Collapse',
   'expand': 'Expand',
+  'drive-not-found': 'Drive not found',
+  'wrong-parameters': 'Wrong parameters',
+  'formatting': 'Formatting',
+  'formatting-failed': 'Formatting failed',
 
   'error-download-images': 'Unable to download images',
   'error-download-audio': 'Unable to download audio files',
@@ -156,6 +161,12 @@ const en = {
   'telmios-eject': 'Eject Telmi OS',
   'telmios-optimize-audio': 'Optimize audio files for Telmi OS',
   'telmios-not-detected': 'Telmi OS not detected',
+  'telmios-download-error': 'Unable to download Telmi OS.',
+  'telmios-cardmaker': 'Making a new Telmi OS card',
+  'telmios-cardmaker-create': 'Make a new Telmi OS card',
+  'telmios-cardmaker-select': 'Select a micro SD card drive',
+  'telmios-cardmaker-alert': 'Drive {0} will be formatted',
+  'telmios-cardmaker-alert-message': 'Warning! All data on the {0} drive will be deleted. Please carefully check the contents of the selected drive before continue.',
 
   'telmi-sync-parameters': 'Telmi Sync parameters',
 

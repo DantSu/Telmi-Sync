@@ -4,6 +4,7 @@ const fr = {
   'new': 'Nouveau',
   'add': 'Ajouter',
   'add-remove': 'Ajouter/Soustraire',
+  'make': 'Créer',
   'infos': 'Informations',
   'waiting': 'En attente',
   'please-wait': 'Veuillez patienter',
@@ -130,6 +131,10 @@ const fr = {
   'add-rssfeed-to-store': 'Ajouter ce flux RSS à vos Stores',
   'collapse': 'Réduire',
   'expand': 'Agrandir',
+  'drive-not-found': 'Drive not found',
+  'wrong-parameters': 'Mauvais paramètres',
+  'formatting': 'Formatage en cours',
+  'formatting-failed': 'Le formatage a échoué',
 
   'error-download-images': 'Impossible de télécharger les images',
   'error-download-audio': 'Impossible de télécharger les fichiers audio',
@@ -156,6 +161,12 @@ const fr = {
   'telmios-eject': 'Ejecter Telmi OS',
   'telmios-optimize-audio': 'Optimiser les fichiers audio pour Telmi OS',
   'telmios-not-detected': 'Telmi OS non détecté',
+  'telmios-download-error': 'Impossible de télécharger Telmi OS.',
+  'telmios-cardmaker': 'Création d\'une carte Telmi OS',
+  'telmios-cardmaker-create': 'Créer une carte Telmi OS',
+  'telmios-cardmaker-select': 'Sélectionner la carte micro SD',
+  'telmios-cardmaker-alert': 'Le stockage {0} va être formaté',
+  'telmios-cardmaker-alert-message': 'Attention ! Toutes les données présentes sur <strong>{0}</strong> vont être supprimées. Merci de bien vérifier le contenu de ce stockage avant de continuer.',
 
   'telmi-sync-params': 'Paramètres Telmi Sync',
 
