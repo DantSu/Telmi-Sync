@@ -11,9 +11,8 @@ const
       case 'win32':
         return 'CALL "' + path.join(getExtraResourcesPath(), 'fat32', process.platform, 'format.bat') + '" ' + drive.substring(0, drive.indexOf(':'))
       case 'darwin':
-        return 'diskutil eraseDisk FAT32 TelmiOS MBRFormat ' + drive
       case 'linux':
-        return 'mkfs.vfat -F 32 ' + drive
+        return path.join(getExtraResourcesPath(), 'fat32', process.platform, 'format.sh') + ' ' + drive
       default:
         return null
     }
