@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [ -z "$1" ]; then
   echo "wrong-parameters" >&2
@@ -15,13 +15,11 @@ if [ -z "$DEVICE" ] || [[ "$DEVICE" != /dev/* ]]; then
   exit 1
 fi
 
-if ! umount "$DEVICE" >/dev/null 2>&1; then
-  echo "formatting-failed" >&2
+if ! umount "$DEVICE" >/dev/null; then
   exit 1
 fi
 
-if ! mkfs.vfat -F 32 -n "$VOLUME_NAME" "$DEVICE" >/dev/null 2>&1; then
-  echo "formatting-failed" >&2
+if ! mkfs.fat -F 32 -n "$VOLUME_NAME" "$DEVICE" >/dev/null; then
   exit 1
 fi
 
