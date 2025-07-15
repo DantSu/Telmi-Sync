@@ -1,16 +1,22 @@
-import {getProcessParams} from '../Helpers/ProcessParams.js'
 import sudo from '@expo/sudo-prompt'
 import path from 'path'
+import {getProcessParams} from '../Helpers/ProcessParams.js'
 import {getExtraResourcesPath, initTmpPath} from '../Helpers/AppPaths.js'
-import {isNewerVersion} from '../../Helpers/Version.js'
 import {downloadFile, requestJson} from '../../Helpers/Request.js'
 import {unpack} from '../BinFiles/7zipCommands.js'
 
 const
   getCommand = (drive) => {
-    return process.platform === 'win32' ?
-      'CALL "' + path.join(getExtraResourcesPath(), 'fat32', process.platform, 'format.bat') + '" ' + drive.substring(0, drive.indexOf(':')) :
-      path.join(getExtraResourcesPath(), 'fat32', process.platform, 'format.sh') + ' ' + drive
+    switch (process.platform) {
+      case 'win32':
+        return 'CALL "' + path.join(getExtraResourcesPath(), 'fat32', process.platform, 'format.bat') + '" ' + drive.substring(0, drive.indexOf(':'))
+      case 'darwin':
+        return 'diskutil eraseDisk FAT32 TelmiOS MBRFormat ' + drive
+      case 'linux':
+        return 'mkfs.vfat -F 32 ' + drive
+      default:
+        return null
+    }
   }
 
 async function main(drive) {
