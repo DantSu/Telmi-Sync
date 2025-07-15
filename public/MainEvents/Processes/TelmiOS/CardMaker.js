@@ -12,7 +12,7 @@ const
         return 'CALL "' + path.join(getExtraResourcesPath(), 'fat32', process.platform, 'format.bat') + '" ' + drive.substring(0, drive.indexOf(':'))
       case 'darwin':
       case 'linux':
-        return path.join(getExtraResourcesPath(), 'fat32', process.platform, 'format.sh') + ' "' + drive + '"'
+        return '"' + path.join(getExtraResourcesPath(), 'fat32', process.platform, 'format.sh') + '" "' + drive + '"'
       default:
         return null
     }
