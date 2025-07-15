@@ -20,9 +20,7 @@ set EXIT_CODE=%ERRORLEVEL%
 powershell -command "Remove-MpPreference -ExclusionPath \"%DRIVE_LETTER%:\\\"" >nul 2>&1
 reg delete "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v NoDriveTypeAutoRun /f >nul 2>&1
 
-if %EXIT_CODE% equ 0 (
-    echo success
-) else (
+if %EXIT_CODE% NEQ 0 (
     echo formatting-failed 1>&2
 )
 
