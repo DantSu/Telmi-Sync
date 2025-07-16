@@ -16,13 +16,11 @@ fi
 
 DISK=$(echo "$DEVICE" | sed -E 's|/dev/(disk[0-9]+)s[0-9]+|\1|')
 
-if ! diskutil unmountDisk "/dev/$DISK" >/dev/null 2>&1; then
-  echo "formatting-failed" >&2
+if ! diskutil unmountDisk "/dev/$DISK" >/dev/null; then
   exit 1
 fi
 
 if ! diskutil eraseDisk FAT32 "$VOLUME_NAME" MBRFormat "/dev/$DISK" >/dev/null; then
-  echo "formatting-failed" >&2
   exit 1
 fi
 

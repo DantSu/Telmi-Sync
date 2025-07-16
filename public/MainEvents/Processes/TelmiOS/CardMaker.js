@@ -1,4 +1,5 @@
 import sudo from '@expo/sudo-prompt'
+import fs from 'fs'
 import path from 'path'
 import {getProcessParams} from '../Helpers/ProcessParams.js'
 import {getExtraResourcesPath, initTmpPath} from '../Helpers/AppPaths.js'
@@ -6,13 +7,29 @@ import {downloadFile, requestJson} from '../../Helpers/Request.js'
 import {unpack} from '../BinFiles/7zipCommands.js'
 
 const
+  getScriptPath = () => {
+    switch (process.platform) {
+      case 'win32':
+        return path.join(getExtraResourcesPath(), 'fat32', process.platform, 'format.bat')
+      case 'darwin':
+        return path.join(getExtraResourcesPath(), 'fat32', process.platform, 'format.sh')
+      case 'linux':
+        const tmpPath = path.join(initTmpPath('script'), 'format.sh')
+        fs.copyFileSync(path.join(getExtraResourcesPath(), 'fat32', process.platform, 'format.sh'), tmpPath)
+        fs.chmodSync(tmpPath, 0o777)
+        return tmpPath
+      default:
+        return null
+    }
+  },
+
   getCommand = (drive) => {
     switch (process.platform) {
       case 'win32':
-        return 'CALL "' + path.join(getExtraResourcesPath(), 'fat32', process.platform, 'format.bat') + '" ' + drive.substring(0, drive.indexOf(':'))
+        return 'CALL "' + getScriptPath() + '" ' + drive.substring(0, drive.indexOf(':'))
       case 'darwin':
       case 'linux':
-        return '"' + path.join(getExtraResourcesPath(), 'fat32', process.platform, 'format.sh') + '" "' + drive + '"'
+        return '"' + getScriptPath() + '" "' + drive + '"'
       default:
         return null
     }
