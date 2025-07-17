@@ -68,17 +68,16 @@ async function main(drive) {
             }
           )
 
-          process.stdout.write('*zip-extract*0*1*')
+          process.stdout.write('*zip-extract*1*2*')
 
           unpack(
             zipPath,
             drive,
             (error) => {
               if (error) {
-                process.stderr.write('zip-invalid')
+                process.stderr.write(error.toString())
                 return
               }
-              process.stdout.write('*zip-extract*1*1*')
               process.stdout.write('success')
             }
           )

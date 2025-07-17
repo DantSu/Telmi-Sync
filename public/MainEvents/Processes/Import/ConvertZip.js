@@ -85,7 +85,7 @@ function convertZip(zipPath) {
     zipPath,
     (error, result) => {
       if (error) {
-        process.stderr.write('zip-invalid')
+        process.stderr.write(error.toString())
         return
       }
       const [storyFormat, storyDir] = findDirectory(result)
@@ -105,7 +105,7 @@ function convertZip(zipPath) {
         tmpPath,
         (error) => {
           if (error) {
-            process.stderr.write('zip-invalid')
+            process.stderr.write(error.toString())
             return
           }
 

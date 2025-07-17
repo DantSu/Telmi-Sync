@@ -44,7 +44,7 @@ function main () {
         (error) => {
 
           if (error) {
-            process.stderr.write('zip-invalid')
+            process.stderr.write(error.toString())
             return
           }
 
