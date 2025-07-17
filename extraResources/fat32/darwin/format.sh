@@ -5,22 +5,22 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
-MOUNT_PATH="$1"
-VOLUME_NAME=$(basename "$MOUNT_PATH")
-DEVICE=$(df "$MOUNT_PATH" 2>/dev/null | tail -1 | awk '{print $1}')
+readonly mountPath="$1"
+readonly volumeName=$(basename "$mountPath")
+readonly device=$(df "$mountPath" 2>/dev/null | tail -1 | awk '{print $1}')
 
-if [ -z "$DEVICE" ]; then
+if [ -z "$device" ]; then
   echo "wrong-parameters" >&2
   exit 1
 fi
 
-DISK=$(echo "$DEVICE" | sed -E 's|/dev/(disk[0-9]+)s[0-9]+|\1|')
+readonly disk=$(echo "$device" | sed -E 's|/dev/(disk[0-9]+)s[0-9]+|\1|')
 
-if ! diskutil unmountDisk "/dev/$DISK" >/dev/null; then
+if ! diskutil unmountDisk "/dev/$disk" >/dev/null; then
   exit 1
 fi
 
-if ! diskutil eraseDisk FAT32 "$VOLUME_NAME" MBRFormat "/dev/$DISK" >/dev/null; then
+if ! diskutil eraseDisk FAT32 "$volumeName" MBRFormat "/dev/$disk" >/dev/null; then
   exit 1
 fi
 

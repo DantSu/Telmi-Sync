@@ -5,33 +5,32 @@ if [[ -z "$1" || -z "${PKEXEC_UID}" ]]; then
   exit 1
 fi
 
-USER_UID="${PKEXEC_UID}"
-USER_GID=$( id -g "${USER_UID}" )
+readonly userUID="$PKEXEC_UID"
+readonly userGID=$( id -g "$userUID" )
 
-MOUNT_PATH="$1"
-VOLUME_NAME=$(basename "$MOUNT_PATH")
+readonly mountPath="$1"
+readonly volumeName=$(basename "$mountPath")
+readonly device=$(df "$mountPath" 2>/dev/null | tail -1 | awk '{print $1}')
 
-DEVICE=$(df "$MOUNT_PATH" 2>/dev/null | tail -1 | awk '{print $1}')
-
-if [ -z "$DEVICE" ] || [[ "$DEVICE" != /dev/* ]]; then
+if [[ -z "$device" || "$device" != /dev/* ]]; then
   echo "wrong-parameters" >&2
   exit 1
 fi
 
-if ! umount "$DEVICE" >/dev/null; then
+if ! umount "$device" >/dev/null; then
   exit 1
 fi
 
-if ! mkfs.fat -F 32 -n "$VOLUME_NAME" "$DEVICE" >/dev/null 2>&1; then
+if ! mkfs.fat -F 32 -n "$volumeName" "$device" >/dev/null 2>&1; then
   echo "formatting-failed" >&2
   exit 1
 fi
 
-if ! mkdir -p "$MOUNT_PATH" >/dev/null; then
+if ! mkdir -p "$mountPath" >/dev/null; then
   exit 1
 fi
 
-if ! mount "$DEVICE" "$MOUNT_PATH" -o "uid=${USER_UID},gid=${USER_GID}" >/dev/null; then
+if ! mount "$device" "$mountPath" -o "uid=$userUID,gid=$userGID" >/dev/null; then
   exit 1
 fi
 
