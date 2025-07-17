@@ -1,4 +1,4 @@
-import { spawn } from 'child_process'
+import {spawn} from 'child_process'
 import {getExtraResourcesPath} from '../Helpers/AppPaths.js'
 import * as path from 'path'
 
@@ -26,4 +26,4 @@ const
     })
   }
 
-export { ejectDrive }
+export {ejectDrive}
