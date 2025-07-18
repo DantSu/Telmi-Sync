@@ -66,6 +66,10 @@ function StoreContent({store}) {
       }),
       [setStoriesSelected]
     ),
+      
+    onSelectAll = useCallback(() => {
+      setStoriesSelected((selectedStories) => selectedStories.length === stories.length ? [] : stories)
+    }, [setStoriesSelected, stories]),
 
     onDownloadSelected = useCallback(
       () => {
@@ -174,6 +178,7 @@ function StoreContent({store}) {
       onInfo={onInfo}
       selectedData={storiesSelected}
       onSelect={onSelect}
+      onSelectAll={onSelectAll}
       onDownload={storeData !== null && !storeData.audioList ? onDownload : undefined}
       onDownloadSelected={onDownloadSelected}
       additionalHeaderButtons={additionalHeaderButtons}
