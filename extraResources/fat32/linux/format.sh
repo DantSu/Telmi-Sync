@@ -5,8 +5,7 @@ if [[ -z "$1" || -z "${PKEXEC_UID}" ]]; then
   exit 1
 fi
 
-readonly userUID="$PKEXEC_UID"
-readonly userGID=$( id -g "$userUID" )
+readonly userName=$( id -u -n "$PKEXEC_UID" )
 
 readonly mountPath="$1"
 readonly volumeName=$(basename "$mountPath")
@@ -26,11 +25,7 @@ if ! mkfs.fat -F 32 -n "$volumeName" "$device" >/dev/null 2>&1; then
   exit 1
 fi
 
-if ! mkdir -p "$mountPath" >/dev/null; then
-  exit 1
-fi
-
-if ! mount "$device" "$mountPath" -o "uid=$userUID,gid=$userGID" >/dev/null; then
+if ! runuser -u $userName -- udisksctl mount -b "$device" >/dev/null; then
   exit 1
 fi
 
