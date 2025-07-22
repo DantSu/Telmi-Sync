@@ -30,7 +30,7 @@ function mainEventTelmiOS(mainWindow) {
       mainWindow.webContents.send(
         'telmios-disklist-data',
         (await drivelist.list())
-          .filter((d) => d.busType === 'USB' || d.busType === 'SD' || d.busType === 'MMC')
+          .filter((d) => d.isRemovable && d.partitionTableType !== null)
           .reduce((acc, d) => [...acc, ...d.mountpoints.map((p) => ({name: d.description, drive: p.path}))], [])
       )
     }
