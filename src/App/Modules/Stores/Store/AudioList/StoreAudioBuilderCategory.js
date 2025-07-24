@@ -1,20 +1,22 @@
 import {useCallback, useMemo} from 'react'
 import {useStoreAudioBuilder} from './Provider/StoreAudioBuilderProviderHooks.js'
 import {useLocale} from '../../../../Components/Locale/LocaleHooks.js'
-import {addAudioItems, findCategory, getDefaultCategory, removeAudioItem} from './Provider/StoreBuilderHelpers.js'
+import {addAudioItems, getElementInAudioList, getDefaultCategory, removeAudioItem} from './Provider/StoreBuilderHelpers.js'
 import InputText from '../../../../Components/Form/Input/InputText.js'
 import ButtonIconTextPlus from '../../../../Components/Buttons/IconsTexts/ButtonIconTextPlus.js'
 import StoreAudioBuilderItem from './StoreAudioBuilderItem.js'
 import ButtonIconTrash from '../../../../Components/Buttons/Icons/ButtonIconTrash.js'
 
 import styles from './StoreAudioList.module.scss'
+import {useStoreAudioBuilderDragAndDrop} from './StoreAudioBuilderHooks.js'
 
 
 function StoreAudioBuilderCategory({audioListKeys, getStoriesSelected}) {
   const
     {getLocale} = useLocale(),
     {audioList, setAudioList} = useStoreAudioBuilder(),
-    audioCategory = useMemo(() => findCategory(audioList, [...audioListKeys]), [audioList, audioListKeys]),
+    audioCategory = useMemo(() => getElementInAudioList(audioList, [...audioListKeys]), [audioList, audioListKeys]),
+    audioCategoryParent = useMemo(() => audioListKeys.length ? getElementInAudioList(audioList, audioListKeys.slice(0, audioListKeys.length - 1)) : null, [audioList, audioListKeys]),
 
     onChangeTitle = useCallback(() => {}, []),
 
@@ -36,36 +38,59 @@ function StoreAudioBuilderCategory({audioListKeys, getStoriesSelected}) {
 
     onDelete = useCallback(
       () => setAudioList(
-        (audioList) => removeAudioItem(audioList, [...audioListKeys], audioCategory)
+        (audioList) => removeAudioItem(audioList, [...audioListKeys])
       ),
-      [setAudioList, audioListKeys, audioCategory]
-    )
+      [setAudioList, audioListKeys]
+    ),
+
+    {
+      onDragStart,
+      onDragOver,
+      onDragEnter,
+      onDragLeave,
+      onDrop,
+      onPreventChildDraggable
+    } = useStoreAudioBuilderDragAndDrop(audioListKeys, setAudioList)
 
   return <li className={[
     styles.storeBuilderListContainer,
-    audioListKeys.length % 2 ? styles.storeBuilderListContainerBlue2 : styles.storeBuilderListContainerBlue
+    audioListKeys.length ? (audioListKeys.length % 2 ? styles.storeBuilderListContainerBlue : styles.storeBuilderListContainerBlue2) : ''
   ].join(' ')}>
-    <div className={styles.storeBuilderCategoryForm}>
-      <div className={styles.storeBuilderCategoryFields}>
-        {!!audioListKeys.length && <InputText label={getLocale('title')}
-                                              key="store-builder-title"
-                                              id="store-builder-title"
-                                              className={styles.storeBuilderInputLayout}
-                                              classNameInput={styles.storeBuilderInput}
-                                              onChange={onChangeTitle}
-                                              defaultValue={audioCategory.title}/>}
-        <InputText label={getLocale('question')}
-                   key="store-builder-question"
-                   id="store-builder-question"
-                   className={styles.storeBuilderInputLayout}
-                   classNameInput={styles.storeBuilderInput}
-                   onChange={onChangeQuestion}
-                   defaultValue={audioCategory.question}/>
+    {!!audioListKeys.length &&
+      <div className={styles.storeBuilderItemTitleBar}
+           draggable={true}
+           onDragStart={onDragStart}
+           onDragOver={onDragOver}
+           onDragEnter={onDragEnter}
+           onDragLeave={onDragLeave}
+           onDrop={onDrop}>
+        <div className={styles.storeBuilderItemTitleContainer}>
+          <p className={[styles.storeBuilderItemTitle, styles.storeBuilderItemTitleCategory].join(' ')}>
+            {audioListKeys[audioListKeys.length - 1] + 1}/{audioCategoryParent.audio.length} - {getLocale('category')}</p>
+        </div>
+        <div className={styles.storeBuilderActions}
+             onDragStart={onPreventChildDraggable}
+             onDragEnter={onPreventChildDraggable}
+             onDragLeave={onPreventChildDraggable}
+             onDrop={onPreventChildDraggable}>
+          <ButtonIconTrash onClick={onDelete} title={getLocale('delete-category')}/>
+        </div>
       </div>
-      {!!audioListKeys.length && <div className={styles.storeBuilderCategoryActions}>
-        <ButtonIconTrash onClick={onDelete} title={getLocale('delete-category')}/>
-      </div>}
-    </div>
+    }
+    {!!audioListKeys.length && <InputText label={getLocale('title')}
+                                          key="store-builder-title"
+                                          id="store-builder-title"
+                                          className={styles.storeBuilderInputLayout}
+                                          classNameInput={styles.storeBuilderInput}
+                                          onChange={onChangeTitle}
+                                          defaultValue={audioCategory.title}/>}
+    <InputText label={getLocale('question')}
+               key="store-builder-question"
+               id="store-builder-question"
+               className={styles.storeBuilderInputLayout}
+               classNameInput={styles.storeBuilderInput}
+               onChange={onChangeQuestion}
+               defaultValue={audioCategory.question}/>
     <ul className={styles.storeBuilderAudioList}>{
       audioCategory.audio.map(
         (v, k) =>

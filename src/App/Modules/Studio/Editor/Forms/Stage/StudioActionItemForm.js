@@ -18,7 +18,8 @@ function StudioActionItemForm({stageNode, action, actionPosition}) {
     note = notes[action.stage],
 
     onDropCallback = useCallback(
-      (dragItemKey) => {
+      (dragItemKeyStr) => {
+        const dragItemKey = parseInt(dragItemKeyStr, 10)
         updateStory((s) => {
           const nodes = nodesMoveObject(s.nodes, s.nodes.actions[stageNode.ok.action], dragItemKey, action)
           return nodes !== s.nodes ? {...s, nodes} : s

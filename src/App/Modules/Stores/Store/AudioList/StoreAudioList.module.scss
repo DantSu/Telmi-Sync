@@ -2,10 +2,10 @@
 
 .audioListContainer {
   position: relative;
-  background: $purple2;
+  background: $purple;
   border-radius: 10px;
   margin: 12px 12px 12px 0;
-  border: 3px solid $black60;
+  border: 3px solid $purple2;
   box-shadow: 0px 0px 10px 0px $white10;
   flex: 0 0 480px;
 }
@@ -112,15 +112,20 @@
   padding-top: 10px;
   border-top: 1px dashed $white30;
 }
+
 .storeBuilderItemContainer,
 .storeBuilderListContainer {
   border-radius: 5px;
   width: 100%;
   margin: 5px 0;
   padding: 0 10px 0 10px;
-  border: 1px solid $white60;
   display: flex;
   align-items: center;
+}
+
+.storeBuilderItemContainer:has(> .storeBuilderDragOver),
+.storeBuilderListContainer:has(> .storeBuilderDragOver) {
+  border-color: $orange;
 }
 
 .storeBuilderListContainer {
@@ -128,20 +133,13 @@
 }
 
 .storeBuilderListContainerBlue {
+  border: 1px solid $white60;
   background: $blueDark;
 }
 
 .storeBuilderListContainerBlue2 {
+  border: 1px solid $white60;
   background: $blue2Dark;
-}
-
-.storeBuilderCategoryForm {
-  width: 100%;
-  display: flex;
-}
-
-.storeBuilderCategoryFields {
-  flex: 1;
 }
 
 .storeBuilderInputLayout {
@@ -152,13 +150,12 @@
   width: 70%;
 }
 
-.storeBuilderCategoryActions,
-.storeBuilderItemActions {
+.storeBuilderActions {
   flex: 0 0 32px;
   margin-right: -10px;
 }
-.storeBuilderCategoryActions button,
-.storeBuilderItemActions button {
+
+.storeBuilderActions button {
   font-size: 16px;
   height: 32px;
   width: 32px;
@@ -191,12 +188,16 @@
   color: $white;
 }
 
-.storeBuilderItemContainer {
+.storeBuilderItemTitleBar {
+  cursor: ns-resize;
+  width: 100%;
+  display: flex;
   flex-direction: row;
   align-items: stretch;
 }
 
 .storeBuilderItemTitleContainer {
+  pointer-events: none;
   flex: 1;
   position: relative;
 }
@@ -212,3 +213,6 @@
   text-overflow: ellipsis;
 }
 
+.storeBuilderItemTitleCategory {
+  font-weight: bold;
+}

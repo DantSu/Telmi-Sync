@@ -27,7 +27,7 @@ const useDragAndDropMove = (itemKey, prefixData, styleOver, onDropCallback) => {
         if (e.dataTransfer.getData(prefixData + 'Key') === '') {
           return
         }
-        onDropCallback(parseInt(e.dataTransfer.getData(prefixData + 'Key'), 10))
+        onDropCallback(e.dataTransfer.getData(prefixData + 'Key'))
       },
       [onDropCallback, prefixData, styleOver]
     ),

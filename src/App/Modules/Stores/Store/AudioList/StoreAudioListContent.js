@@ -25,11 +25,11 @@ function StoreAudioListContent({store, storeData}) {
     getStoriesSelected = useCallback(
       () => {
         setStoriesSelected([])
-        return storiesSelected
+        return storiesSelected.map((v) => ({...v}))
       },
       [setStoriesSelected, storiesSelected]
     )
-  console.log(storiesSelected)
+
   return <>
     <Table
       id={stringSlugify(store.url)}

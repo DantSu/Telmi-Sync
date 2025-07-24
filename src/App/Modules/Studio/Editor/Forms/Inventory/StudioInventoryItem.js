@@ -23,7 +23,8 @@ function StudioInventoryItem({itemKey}) {
     onEdit = useCallback(() => setDisplayForm(v => !v), []),
 
     onDropCallback = useCallback(
-      (dragItemKey) => {
+      (dragItemKeyStr) => {
+        const dragItemKey = parseInt(dragItemKeyStr, 10)
         updateStory((s) => {
           const nodes = nodesMoveObject(s.nodes, s.nodes.inventory, dragItemKey, item)
           return nodes !== s.nodes ? {...s, nodes} : s
