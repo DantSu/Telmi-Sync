@@ -18,6 +18,7 @@ const fr = {
   'name': 'Nom',
   'age': 'Age',
   'category': 'Catégorie',
+  'question': 'Question',
   'url': 'URL',
   'url-store': 'URL (Store Telmi ou Flux RSS)',
   'version': 'Version',
@@ -135,6 +136,9 @@ const fr = {
   'wrong-parameters': 'Mauvais paramètres',
   'formatting': 'Formatage en cours',
   'formatting-failed': 'Le formatage a échoué',
+  'add-selected-stories': 'Ajouter les histoires sélectionnées',
+  'add-category': 'Ajouter une catégorie',
+  'delete-category': 'Supprimer la catégorie',
 
   'error-download-images': 'Impossible de télécharger les images',
   'error-download-audio': 'Impossible de télécharger les fichiers audio',
@@ -208,6 +212,8 @@ const fr = {
   'stories-merge-warning': 'Les histoires intéractives contenant un inventaire ne seront pas fusionnées.',
   'stories-merge-error': 'Histoires non fusionnable',
   'stories-analysis': 'Analyse des histoires',
+  'stories-create-pack': 'Créer le pack d\'histoires',
+  'stories-pack-to-create': 'Mon pack d\'histoires à créer',
 
   'music': 'Musique',
   'music-extracting-metadata': 'Extraction des méta-données de la musique',

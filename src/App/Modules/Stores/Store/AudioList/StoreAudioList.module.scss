@@ -1,0 +1,214 @@
+@import "src/App/variables";
+
+.audioListContainer {
+  position: relative;
+  background: $purple2;
+  border-radius: 10px;
+  margin: 12px 12px 12px 0;
+  border: 3px solid $black60;
+  box-shadow: 0px 0px 10px 0px $white10;
+  flex: 0 0 480px;
+}
+
+.audioListContainerAbsolute {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.infoAudioList {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: stretch;
+  padding: 10px;
+}
+
+.infoAudioListRssFeedContainer {
+  position: relative;
+  border-radius: 10px;
+  margin-right: 10px;
+  color: $white;
+  overflow: hidden;
+  flex: 0 0 160px;
+  width: 160px;
+  height: 160px;
+}
+
+.infoAudioListRssFeed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 5px 0 5px 0;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  background-color: $black60;
+}
+
+.infoAudioListIcon:before {
+  display: inline-block;
+  font-family: icons;
+  font-weight: bold;
+  font-style: normal;
+  margin-right: 10px;
+}
+
+.infoIconRssFeed:before {
+  content: "\f09e";
+}
+
+.infoAudioListBanner {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.infoAudioListTitleContainer {
+  flex: 1;
+  position: relative;
+}
+
+.infoAudioListTitleContainerAbsolute {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.infoAudioListTitle, .infoAudioListDescription {
+  padding: 2px 3px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  overflow-wrap: break-word;
+}
+
+.infoAudioListDescription {
+  -webkit-line-clamp: 6;
+}
+
+.storeBuilderContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px;
+}
+
+.storeBuilderTitle {
+  width: 100%;
+  text-align: center;
+  margin: 5px 0 10px 0;
+  padding-top: 10px;
+  border-top: 1px dashed $white30;
+}
+.storeBuilderItemContainer,
+.storeBuilderListContainer {
+  border-radius: 5px;
+  width: 100%;
+  margin: 5px 0;
+  padding: 0 10px 0 10px;
+  border: 1px solid $white60;
+  display: flex;
+  align-items: center;
+}
+
+.storeBuilderListContainer {
+  flex-direction: column;
+}
+
+.storeBuilderListContainerBlue {
+  background: $blueDark;
+}
+
+.storeBuilderListContainerBlue2 {
+  background: $blue2Dark;
+}
+
+.storeBuilderCategoryForm {
+  width: 100%;
+  display: flex;
+}
+
+.storeBuilderCategoryFields {
+  flex: 1;
+}
+
+.storeBuilderInputLayout {
+  width: 100%;
+}
+
+.storeBuilderInput {
+  width: 70%;
+}
+
+.storeBuilderCategoryActions,
+.storeBuilderItemActions {
+  flex: 0 0 32px;
+  margin-right: -10px;
+}
+.storeBuilderCategoryActions button,
+.storeBuilderItemActions button {
+  font-size: 16px;
+  height: 32px;
+  width: 32px;
+}
+
+.storeBuilderAudioList {
+  border-top: 1px dashed $white30;
+  border-bottom: 1px dashed $white30;
+  padding: 5px 0;
+  width: 100%;
+}
+
+.storeBuilderCategoryButtons {
+  display: flex;
+}
+
+.storeBuilderCategoryButton {
+  font-weight: bold;
+  padding: 5px;
+  border: 2px solid $white60;
+  border-radius: 10px;
+  background-color: transparent;
+  transition: 0.3s background-color, 0.3s border, 0.3s color;
+
+}
+
+.storeBuilderCategoryButton:hover {
+  border-color: $orange;
+  background-color: $orange;
+  color: $white;
+}
+
+.storeBuilderItemContainer {
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.storeBuilderItemTitleContainer {
+  flex: 1;
+  position: relative;
+}
+.storeBuilderItemTitle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  line-height: 32px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+

@@ -18,6 +18,7 @@ const en = {
   'name': 'Name',
   'age': 'Age',
   'category': 'Category',
+  'question': 'Question',
   'url': 'URL',
   'url-store': 'URL (Telmi store or RSS Feed)',
   'version': 'Version',
@@ -135,6 +136,9 @@ const en = {
   'wrong-parameters': 'Wrong parameters',
   'formatting': 'Formatting',
   'formatting-failed': 'Formatting failed',
+  'add-selected-stories': 'Add selected stories',
+  'add-category': 'Add a category',
+  'delete-category': 'Delete this category',
 
   'error-download-images': 'Unable to download images',
   'error-download-audio': 'Unable to download audio files',
@@ -208,6 +212,8 @@ const en = {
   'stories-merge-warning': 'Interactive stories containing an inventory will not be merged.',
   'stories-merge-error': 'Non-mergeable stories',
   'stories-analysis': 'Analysis of the stories',
+  'stories-create-pack': 'Create the stories pack',
+  'stories-pack-to-create': 'My stories pack to create',
 
   'music': 'Music',
   'music-extracting-metadata': 'Extraction of music metadata',

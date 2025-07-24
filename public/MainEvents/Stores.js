@@ -5,6 +5,7 @@ import {requestJson, requestJsonOrXml} from './Helpers/Request.js'
 import runProcess from './Processes/RunProcess.js'
 import * as path from 'path'
 import {rmFile} from './Helpers/Files.js'
+import {stripHtmlTags} from './Helpers/Strings.js'
 
 const checkStore = (store) => {
   return typeof store === 'object' && store !== null &&
@@ -165,7 +166,7 @@ function mainEventStores(mainWindow) {
                   store: {
                     title: getFirstArrayElement(channel.title) || 'Unknow title',
                     copyright: copyright,
-                    description: getFirstArrayElement(channel.description) || '',
+                    description: stripHtmlTags(getFirstArrayElement(channel.description)) || '',
                     cover: imageUrl
                   },
                   banner: {

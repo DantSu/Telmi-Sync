@@ -1,0 +1,32 @@
+@import "src/App/variables";
+
+.bannerContainer {
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  background: $black;
+  border-radius: 10px;
+  margin: 12px 12px 12px 0;
+  border: 3px solid $black60;
+  box-shadow: 0px 0px 10px 0px $white10;
+  width: 25vh;
+  max-width: 256px;
+}
+
+.bannerInnerContainer {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.banner {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+}

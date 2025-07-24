@@ -180,7 +180,7 @@ function Table({
       <h2 className={styles.headerTitleLeft}>{titleLeft}</h2>
       {titleRight && <p className={styles.headerTitleRight}>{titleRight}</p>}
       {
-        (onAdd || onSelectAll || onDeleteSelected || onDownloadSelected || onEditSelected || onOptimizeAudioSelected) &&
+        (onAdd || onSelectAll || onDeleteSelected || onDownloadSelected || onEditSelected || onOptimizeAudioSelected || additionalHeaderButtons) &&
         <ul className={styles.headerIcons}>
           {
             onOptimizeAudioSelected && selectedData.length > 0 &&

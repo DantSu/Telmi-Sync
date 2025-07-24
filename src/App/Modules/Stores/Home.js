@@ -2,16 +2,17 @@ import TopBar from '../../Layout/TopBar/TopBar.js'
 import AppContainer from '../../Layout/Container/AppContainer.js'
 import Tabs from '../../Components/Tabs/Tabs.js'
 import TabPlus from './Add/TabPlus.js'
-import { useElectronEmitter, useElectronListener } from '../../Components/Electron/Hooks/UseElectronEvent.js'
-import { useState } from 'react'
+import {useElectronEmitter, useElectronListener} from '../../Components/Electron/Hooks/UseElectronEvent.js'
+import {useState} from 'react'
 import TabStore from './Store/TabStore.js'
 import StoreContent from './Store/StoreContent.js'
 
 import styles from './Stores.module.scss'
+import StoreAudioBuilderProvider from './Store/AudioList/Provider/StoreAudioBuilderProvider.js'
 
 const plusTab = {tab: TabPlus, content: null}
 
-function StoresHome () {
+function StoresHome() {
   const [tabs, setTabs] = useState([])
 
   useElectronEmitter('stores-get', [])
@@ -32,9 +33,11 @@ function StoresHome () {
 
   return <>
     <TopBar currentModule="Stores"/>
-    <AppContainer>
-      <Tabs className={styles.tabs} tabs={tabs}/>
-    </AppContainer>
+    <StoreAudioBuilderProvider>
+      <AppContainer>
+        <Tabs className={styles.tabs} tabs={tabs}/>
+      </AppContainer>
+    </StoreAudioBuilderProvider>
   </>
 }
 

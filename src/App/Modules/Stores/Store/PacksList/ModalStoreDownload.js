@@ -1,4 +1,4 @@
-import ModalElectronTaskVisualizer from '../../../Components/Electron/Modal/ModalElectronTaskVisualizer.js'
+import ModalElectronTaskVisualizer from '../../../../Components/Electron/Modal/ModalElectronTaskVisualizer.js'
 
 function ModalStoreDownload ({stories, onClose}) {
   return <ModalElectronTaskVisualizer taskName="store-download"
