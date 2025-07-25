@@ -241,6 +241,8 @@ const fr = {
   'store-add': 'Ajouter un store',
   'store-delete': 'Supprimer le store',
   'store-delete-confirm': 'Êtes-vous sûr de vouloir supprimer le store <strong>"{0}"</strong> ?',
+  'store-no-audio': 'Aucune histoire !',
+  'store-no-audio-message': 'Vous n\'avez pas mis d\'histoires dans votre pack.',
 
   'studio': 'Studio',
   'studio-edit-story': 'Editer l\'histoire dans le Studio',

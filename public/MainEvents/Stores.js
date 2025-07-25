@@ -288,14 +288,14 @@ function mainEventStores(mainWindow) {
 
 
   let buildTaskRunning = null
-  ipcMain.on('store-build', async (event, store, question, stories) => {
-    mainWindow.webContents.send('store-build-task', store.title, 'initialize', 0, 1)
+  ipcMain.on('store-build', async (event, audioList) => {
+    mainWindow.webContents.send('store-build-task', audioList.title, 'initialize', 0, 1)
     mainWindow.webContents.send('store-build-waiting', [])
 
     const pathJson = path.join(initTmpPath('store'), 'store-builder.json')
 
     rmFile(pathJson)
-    fs.writeFileSync(pathJson, JSON.stringify({store, question, stories}))
+    fs.writeFileSync(pathJson, JSON.stringify(audioList))
 
     buildTaskRunning = runProcess(
       path.join('Store', 'StoreBuild.js'),
@@ -303,10 +303,10 @@ function mainEventStores(mainWindow) {
       () => {
       },
       (message, current, total) => {
-        mainWindow.webContents.send('store-build-task', store.title, message, current, total)
+        mainWindow.webContents.send('store-build-task', audioList.title, message, current, total)
       },
       (error) => {
-        mainWindow.webContents.send('store-build-error', store.title, error)
+        mainWindow.webContents.send('store-build-error', audioList.title, error)
       },
       () => {
         buildTaskRunning = null

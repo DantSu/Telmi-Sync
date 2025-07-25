@@ -98,6 +98,7 @@ const
 
                 return {
                   ...s,
+                  store: storeData.store !== undefined ? storeData.store.title : store.title,
                   isUpdated,
                   isPerfect,
                   cellId: storeStoryGetId(title),

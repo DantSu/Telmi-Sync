@@ -23,7 +23,7 @@ const
       }
       if (Array.isArray(e.audio)) {
         const r = findElementInAudioList(e, element)
-        if(r !== null) {
+        if (r !== null) {
           return [k, ...r]
         }
       }
@@ -31,6 +31,10 @@ const
     },
     null
   ),
+
+  hasAudioInAudioList = (audioList) => {
+    return audioList.audio.find((a) => a.audio !== undefined ? hasAudioInAudioList(a) : true) !== undefined
+  },
 
   updateAudioItem = (audioList, audioListKeys, item) => {
     if (!audioListKeys.length) {
@@ -93,4 +97,14 @@ const
     return {...audioList}
   }
 
-export {getDefaultCategory, getElementInAudioList, findElementInAudioList, updateAudioItem, updateAudioItemField, addAudioItems, insertAudioItems, removeAudioItem}
+export {
+  getDefaultCategory,
+  getElementInAudioList,
+  findElementInAudioList,
+  hasAudioInAudioList,
+  updateAudioItem,
+  updateAudioItemField,
+  addAudioItems,
+  insertAudioItems,
+  removeAudioItem
+}

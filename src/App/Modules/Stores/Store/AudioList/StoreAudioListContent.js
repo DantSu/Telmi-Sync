@@ -1,6 +1,8 @@
 import {useCallback} from 'react'
 import {useStoreContent} from '../StoreHooks.js'
+import {useStoreAudioBuilder} from './Provider/StoreAudioBuilderProviderHooks.js'
 import {useLocale} from '../../../../Components/Locale/LocaleHooks.js'
+import {useModal} from '../../../../Components/Modal/ModalHooks.js'
 import {stringSlugify} from '../../../../Helpers/String.js'
 import Table from '../../../../Components/Table/Table.js'
 import ButtonExternalLink from '../../../../Components/Link/ButtonExternalLink.js'
@@ -8,11 +10,17 @@ import ButtonIconTextDownload from '../../../../Components/Buttons/IconsTexts/Bu
 import StoreAudioBuilderCategory from './StoreAudioBuilderCategory.js'
 
 import styles from './StoreAudioList.module.scss'
+import ModalStoreAudioBuilderForm from './ModalStoreAudioBuilderForm.js'
+import {getDefaultCategory, hasAudioInAudioList} from './Provider/StoreBuilderHelpers.js'
+import ModalDialogAlert from '../../../../Components/Modal/Templates/ModalDialogs/ModalDialogAlert.js'
 
 
 function StoreAudioListContent({store, storeData}) {
   const
     {getLocale} = useLocale(),
+    {addModal, rmModal} = useModal(),
+    {audioList, setAudioList} = useStoreAudioBuilder(),
+
     {
       stories,
       storiesSelected,
@@ -22,12 +30,34 @@ function StoreAudioListContent({store, storeData}) {
       onSelect,
       additionalHeaderButtons
     } = useStoreContent(store, storeData),
+
     getStoriesSelected = useCallback(
       () => {
         setStoriesSelected([])
         return storiesSelected.map((v) => ({...v}))
       },
       [setStoriesSelected, storiesSelected]
+    ),
+
+    onBuildPack = useCallback(
+      () => {
+        addModal((key) => {
+          if (!hasAudioInAudioList(audioList)) {
+            const modal = <ModalDialogAlert key={key}
+                                            title={getLocale('store-no-audio')}
+                                            message={getLocale('store-no-audio-message')}
+                                            onClose={() => rmModal(modal)}/>
+            return modal
+          } else {
+            const modal = <ModalStoreAudioBuilderForm key={key}
+                                                      store={storeData.store}
+                                                      audioList={audioList}
+                                                      onClose={() => rmModal(modal)}/>
+            return modal
+          }
+        })
+      },
+      [addModal, audioList, getLocale, rmModal, storeData]
     )
 
   return <>
@@ -68,9 +98,12 @@ function StoreAudioListContent({store, storeData}) {
           </ButtonExternalLink>
           <div className={styles.storeBuilderContainer}>
             <ul>
-              <StoreAudioBuilderCategory audioListKeys={[]} getStoriesSelected={getStoriesSelected}/>
+              <StoreAudioBuilderCategory audioListKeys={[]}
+                                         getStoriesSelected={getStoriesSelected}/>
             </ul>
-            <ButtonIconTextDownload text={getLocale('stories-create-pack')} rounded={true}/>
+            <ButtonIconTextDownload text={getLocale('stories-create-pack')}
+                                    onClick={onBuildPack}
+                                    rounded={true}/>
           </div>
         </div>
       </div>

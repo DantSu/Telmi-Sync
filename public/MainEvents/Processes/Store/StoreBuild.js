@@ -63,20 +63,20 @@ function main(jsonPath) {
   try {
     process.stdout.write('*story-saving*0*100*')
     const
-      {store, question, stories} = JSON.parse(fs.readFileSync(jsonPath).toString('utf-8')),
+      audioList = JSON.parse(fs.readFileSync(jsonPath).toString('utf-8')),
       metadata = {
-        title: store.title,
+        title: audioList.title,
         uuid: 'fffffd-' + Date.now().toString(16),
         image: 'cover.png',
-        category: store.category,
-        description: stripHtmlTags(store.description),
+        category: audioList.category,
+        description: stripHtmlTags(audioList.description),
         version: 0,
-        age: 0,
+        age: audioList.age,
       },
       dstPath = getStoriesPath(generateDirNameStory(metadata.title, metadata.uuid, metadata.age, metadata.category)),
       dstPathImages = path.join(dstPath, 'images'),
       dstPathAudio = path.join(dstPath, 'audios'),
-      rawSrcImages = [store.cover, ...stories.map((s) => s.image)],
+      rawSrcImages = [audioList.cover, audioList.image, ...stories.map((s) => s.image)],
       countFiles = stories.length * 5 + 6
 
     rmDirectory(dstPath)
