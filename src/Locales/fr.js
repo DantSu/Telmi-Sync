@@ -51,6 +51,7 @@ const fr = {
   'edit-metadata': 'Editer les métadonnées',
   'download': 'Télécharger',
   'delete': 'Supprimer',
+  'reset': 'Réinitialiser',
   'avail': 'Dispo.',
   'ejecting': 'Ejection en cours',
   'awards': 'Awards',

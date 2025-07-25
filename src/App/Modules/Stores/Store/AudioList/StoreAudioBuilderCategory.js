@@ -1,7 +1,13 @@
 import {useCallback, useMemo} from 'react'
 import {useStoreAudioBuilder} from './Provider/StoreAudioBuilderProviderHooks.js'
 import {useLocale} from '../../../../Components/Locale/LocaleHooks.js'
-import {addAudioItems, getElementInAudioList, getDefaultCategory, removeAudioItem} from './Provider/StoreBuilderHelpers.js'
+import {
+  addAudioItems,
+  getElementInAudioList,
+  getDefaultCategory,
+  removeAudioItem,
+  updateAudioItemField
+} from './Provider/StoreBuilderHelpers.js'
 import {useStoreAudioBuilderDragAndDrop} from './StoreAudioBuilderHooks.js'
 import InputText from '../../../../Components/Form/Input/InputText.js'
 import ButtonIconTextPlus from '../../../../Components/Buttons/IconsTexts/ButtonIconTextPlus.js'
@@ -17,9 +23,15 @@ function StoreAudioBuilderCategory({audioListKeys, getStoriesSelected}) {
     audioCategory = useMemo(() => getElementInAudioList(audioList, [...audioListKeys]), [audioList, audioListKeys]),
     audioCategoryParent = useMemo(() => audioListKeys.length ? getElementInAudioList(audioList, audioListKeys.slice(0, audioListKeys.length - 1)) : null, [audioList, audioListKeys]),
 
-    onChangeTitle = useCallback(() => {}, []),
+    onBlurTitle = useCallback(
+      (e) => setAudioList((audioList) => updateAudioItemField(audioList, audioListKeys, 'title', e.target.value)),
+      [audioListKeys, setAudioList]
+    ),
 
-    onChangeQuestion = useCallback(() => {}, []),
+    onBlurQuestion = useCallback(
+      (e) => setAudioList((audioList) => updateAudioItemField(audioList, audioListKeys, 'question', e.target.value)),
+      [audioListKeys, setAudioList]
+    ),
 
     onAddCategory = useCallback(
       () => setAudioList(
@@ -37,9 +49,9 @@ function StoreAudioBuilderCategory({audioListKeys, getStoriesSelected}) {
 
     onDelete = useCallback(
       () => setAudioList(
-        (audioList) => removeAudioItem(audioList, [...audioListKeys])
+        (audioList) => audioListKeys.length ? removeAudioItem(audioList, [...audioListKeys]) : getDefaultCategory('', getLocale('which-story'))
       ),
-      [setAudioList, audioListKeys]
+      [setAudioList, audioListKeys, getLocale]
     ),
 
     {
@@ -55,7 +67,7 @@ function StoreAudioBuilderCategory({audioListKeys, getStoriesSelected}) {
     styles.storeBuilderItemContainer,
     audioListKeys.length ? (audioListKeys.length % 2 ? styles.storeBuilderItemContainerBlue : styles.storeBuilderItemContainerBlue2) : ''
   ].join(' ')}>
-    {!!audioListKeys.length &&
+    {!!audioListKeys.length ?
       <div className={styles.storeBuilderItemTitleBar}
            draggable={true}
            onDragStart={onDragStart}
@@ -65,7 +77,8 @@ function StoreAudioBuilderCategory({audioListKeys, getStoriesSelected}) {
            onDrop={onDrop}>
         <div className={styles.storeBuilderItemTitleContainer}>
           <p className={[styles.storeBuilderItemTitle, styles.storeBuilderItemTitleCategory].join(' ')}>
-            {audioListKeys[audioListKeys.length - 1] + 1}/{audioCategoryParent.audio.length} - {getLocale('category')}</p>
+            {audioListKeys[audioListKeys.length - 1] + 1}/{audioCategoryParent.audio.length} - {getLocale('category')}
+          </p>
         </div>
         <div className={styles.storeBuilderActions}
              onDragStart={onPreventChildDraggable}
@@ -74,22 +87,34 @@ function StoreAudioBuilderCategory({audioListKeys, getStoriesSelected}) {
              onDrop={onPreventChildDraggable}>
           <ButtonIconTrash onClick={onDelete} title={getLocale('delete-category')}/>
         </div>
+      </div> :
+      <div className={styles.storeBuilderItemTitleBar}>
+        <div className={styles.storeBuilderItemTitleContainer}>
+          <p className={[styles.storeBuilderItemTitle, styles.storeBuilderItemTitleCategory].join(' ')}>
+            {getLocale('stories-pack-to-create')}
+          </p>
+        </div>
+        <div className={styles.storeBuilderActions}>
+          <ButtonIconTrash onClick={onDelete} title={getLocale('reset')}/>
+        </div>
       </div>
     }
-    {!!audioListKeys.length && <InputText label={getLocale('title')}
-                                          key="store-builder-title"
-                                          id="store-builder-title"
-                                          className={styles.storeBuilderInputLayout}
-                                          classNameInput={styles.storeBuilderInput}
-                                          onChange={onChangeTitle}
-                                          defaultValue={audioCategory.title}/>}
+    {
+      !!audioListKeys.length &&
+      <InputText label={getLocale('title')}
+                 key={'store-builder-title-' + audioCategory.id}
+                 className={styles.storeBuilderInputLayout}
+                 classNameInput={styles.storeBuilderInput}
+                 onBlur={onBlurTitle}
+                 defaultValue={audioCategory.title}/>
+    }
     <InputText label={getLocale('question')}
-               key="store-builder-question"
-               id="store-builder-question"
+               key={'store-builder-question-' + audioCategory.id}
                className={styles.storeBuilderInputLayout}
                classNameInput={styles.storeBuilderInput}
-               onChange={onChangeQuestion}
+               onBlur={onBlurQuestion}
                defaultValue={audioCategory.question}/>
+
     <ul className={styles.storeBuilderAudioList}>{
       audioCategory.audio.map(
         (v, k) =>
@@ -101,6 +126,7 @@ function StoreAudioBuilderCategory({audioListKeys, getStoriesSelected}) {
                                    audioListKeys={[...audioListKeys, k]}/>
       )
     }</ul>
+
     <div className={styles.storeBuilderCategoryButtons}>
       <ButtonIconTextPlus text={getLocale('add-selected-stories')}
                           className={styles.storeBuilderCategoryButton}

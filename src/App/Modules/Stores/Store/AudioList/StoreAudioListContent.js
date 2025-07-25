@@ -67,7 +67,6 @@ function StoreAudioListContent({store, storeData}) {
             </div>
           </ButtonExternalLink>
           <div className={styles.storeBuilderContainer}>
-            <h2 className={styles.storeBuilderTitle}>{getLocale('stories-pack-to-create')}</h2>
             <ul>
               <StoreAudioBuilderCategory audioListKeys={[]} getStoriesSelected={getStoriesSelected}/>
             </ul>

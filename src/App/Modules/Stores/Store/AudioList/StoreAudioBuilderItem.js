@@ -51,7 +51,7 @@ function StoreAudioBuilderItem({audioListKeys}) {
            onDragEnter={onPreventChildDraggable}
            onDragLeave={onPreventChildDraggable}
            onDrop={onPreventChildDraggable}>
-        <ButtonIconTrash onClick={onDelete} title={getLocale('delete-category')}/>
+        <ButtonIconTrash onClick={onDelete} title={getLocale('delete')}/>
       </div>
     </div>
   </li>

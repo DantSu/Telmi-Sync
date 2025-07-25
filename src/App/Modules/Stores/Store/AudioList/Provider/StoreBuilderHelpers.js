@@ -1,5 +1,6 @@
 const
   getDefaultCategory = (defaultTitle, defaultQuestion) => ({
+    id: Date.now().toString(36),
     title: defaultTitle || '',
     question: defaultQuestion || '',
     audio: []
@@ -30,6 +31,27 @@ const
     },
     null
   ),
+
+  updateAudioItem = (audioList, audioListKeys, item) => {
+    if (!audioListKeys.length) {
+      return item
+    }
+    const audioListKey = audioListKeys.shift()
+    audioList.audio[audioListKey] = updateAudioItem(audioList.audio[audioListKey], audioListKeys, item)
+    return {...audioList}
+  },
+
+  updateAudioItemField = (audioList, audioListKeys, field, value) => {
+    if (!audioListKeys.length) {
+      return {
+        ...audioList,
+        [field]: value
+      }
+    }
+    const audioListKey = audioListKeys.shift()
+    audioList.audio[audioListKey] = updateAudioItemField(audioList.audio[audioListKey], audioListKeys, field, value)
+    return {...audioList}
+  },
 
   addAudioItems = (audioList, audioListKeys, items) => {
     if (!audioListKeys.length) {
@@ -71,4 +93,4 @@ const
     return {...audioList}
   }
 
-export {getDefaultCategory, getElementInAudioList, findElementInAudioList, addAudioItems, insertAudioItems, removeAudioItem}
+export {getDefaultCategory, getElementInAudioList, findElementInAudioList, updateAudioItem, updateAudioItemField, addAudioItems, insertAudioItems, removeAudioItem}

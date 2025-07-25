@@ -51,6 +51,7 @@ const en = {
   'edit-metadata': 'Edit the matadata',
   'download': 'Download',
   'delete': 'Delete',
+  'reset': 'Reset',
   'avail': 'Avail.',
   'ejecting': 'Ejecting',
   'awards': 'Awards',
