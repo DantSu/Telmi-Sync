@@ -32,7 +32,7 @@ function StoreAudioBuilderItem({audioListKeys}) {
 
   return <li className={[
     styles.storeBuilderItemContainer,
-    audioListKeys.length % 2 ? styles.storeBuilderListContainerBlue : styles.storeBuilderListContainerBlue2
+    audioListKeys.length % 2 ? styles.storeBuilderItemContainerBlue : styles.storeBuilderItemContainerBlue2
   ].join(' ')}>
     <div className={styles.storeBuilderItemTitleBar}
          draggable={true}

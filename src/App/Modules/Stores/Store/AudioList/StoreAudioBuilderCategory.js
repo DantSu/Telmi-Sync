@@ -2,14 +2,13 @@ import {useCallback, useMemo} from 'react'
 import {useStoreAudioBuilder} from './Provider/StoreAudioBuilderProviderHooks.js'
 import {useLocale} from '../../../../Components/Locale/LocaleHooks.js'
 import {addAudioItems, getElementInAudioList, getDefaultCategory, removeAudioItem} from './Provider/StoreBuilderHelpers.js'
+import {useStoreAudioBuilderDragAndDrop} from './StoreAudioBuilderHooks.js'
 import InputText from '../../../../Components/Form/Input/InputText.js'
 import ButtonIconTextPlus from '../../../../Components/Buttons/IconsTexts/ButtonIconTextPlus.js'
 import StoreAudioBuilderItem from './StoreAudioBuilderItem.js'
 import ButtonIconTrash from '../../../../Components/Buttons/Icons/ButtonIconTrash.js'
 
 import styles from './StoreAudioList.module.scss'
-import {useStoreAudioBuilderDragAndDrop} from './StoreAudioBuilderHooks.js'
-
 
 function StoreAudioBuilderCategory({audioListKeys, getStoriesSelected}) {
   const
@@ -53,8 +52,8 @@ function StoreAudioBuilderCategory({audioListKeys, getStoriesSelected}) {
     } = useStoreAudioBuilderDragAndDrop(audioListKeys, setAudioList)
 
   return <li className={[
-    styles.storeBuilderListContainer,
-    audioListKeys.length ? (audioListKeys.length % 2 ? styles.storeBuilderListContainerBlue : styles.storeBuilderListContainerBlue2) : ''
+    styles.storeBuilderItemContainer,
+    audioListKeys.length ? (audioListKeys.length % 2 ? styles.storeBuilderItemContainerBlue : styles.storeBuilderItemContainerBlue2) : ''
   ].join(' ')}>
     {!!audioListKeys.length &&
       <div className={styles.storeBuilderItemTitleBar}
