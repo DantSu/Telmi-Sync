@@ -3,7 +3,7 @@ import {useLocale} from '../Locale/LocaleHooks.js'
 import {regExpEscape} from '../../Helpers/String.js'
 import {useElectronEmitter, useElectronListener} from '../Electron/Hooks/UseElectronEvent.js'
 
-import {isCellSelected} from './TableHelpers.js'
+import {findData, isCellSelected, orderIndexes} from './TableHelpers.js'
 import TableHeaderIcon from './TableHeaderIcon.js'
 import TableCell from './TableCell.js'
 import TableGroup from './TableGroup.js'
@@ -52,6 +52,7 @@ function Table({
     [tableState, setTableState] = useState(null),
     [dataFiltered, setDataFiltered] = useState([]),
     searchInput = useRef(),
+
     onSearch = useCallback(
       () => {
         if (searchInput === null) {
@@ -103,6 +104,7 @@ function Table({
       },
       [searchInput, data, setDataFiltered]
     ),
+
     clearSearch = useCallback(
       () => {
         searchInput.current.value = ''
@@ -110,6 +112,50 @@ function Table({
       },
       [searchInput, onSearch]
     ),
+
+    onCellSelect = useCallback(
+      (e, data) => {
+        if(typeof onSelect !== 'function') {
+          return
+        }
+        if (e.shiftKey && Array.isArray(selectedData) && selectedData.length) {
+          const
+            lastDataClicked = selectedData[selectedData.length - 1],
+            lastIndexClicked = findData(dataFiltered, lastDataClicked),
+            indexClicked = findData(dataFiltered, data)
+
+          if(indexClicked === null || lastIndexClicked === null) {
+            return onSelect(data)
+          }
+
+          const [firstIndex, lastIndex] = orderIndexes(lastIndexClicked, indexClicked)
+          return onSelect(dataFiltered.reduce(
+            (acc, d, k) => {
+              if(k < firstIndex.index || k > lastIndex.index) {
+                return acc
+              }
+              if(k === firstIndex.index && k === lastIndex.index && firstIndex.isInGroup) {
+                return d.tableChildren.slice(firstIndex.indexInGroup, lastIndex.indexInGroup + 1)
+              }
+              if(k === firstIndex.index && firstIndex.isInGroup) {
+                return [...acc, ...d.tableChildren.slice(firstIndex.indexInGroup)]
+              }
+              if(k === lastIndex.index && lastIndex.isInGroup) {
+                return [...acc, ...d.tableChildren.slice(0, lastIndex.indexInGroup + 1)]
+              }
+              if(d.tableGroup !== undefined) {
+                return [...acc, ...d.tableChildren]
+              }
+              return [...acc, d]
+            },
+            []
+          ))
+        }
+        onSelect(data)
+      },
+      [dataFiltered, onSelect, selectedData]
+    ),
+
     onSelectAllCallback = useCallback(
       () => typeof onSelectAll === 'function' && onSelectAll(
         dataFiltered.reduce(
@@ -243,7 +289,7 @@ function Table({
                                  tableState={tableState}
                                  setTableState={setTableState}
                                  selectedData={selectedData}
-                                 onSelect={onSelect}
+                                 onSelect={onCellSelect}
                                  onSelectAll={onSelectAll}
                                  onPlay={onPlay}
                                  onStudio={onStudio}
@@ -256,7 +302,7 @@ function Table({
               return <TableCell key={'cell-' + k}
                                 data={v}
                                 selected={isCellSelected(selectedData, v)}
-                                onSelect={onSelect}
+                                onSelect={onCellSelect}
                                 onPlay={onPlay}
                                 onStudio={onStudio}
                                 onOptimizeAudio={onOptimizeAudio}

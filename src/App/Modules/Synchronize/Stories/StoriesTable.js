@@ -56,6 +56,12 @@ function StoriesTable({
 
     onSelect = useCallback(
       (story) => setSelectedStories((stories) => {
+        if (Array.isArray(story)) {
+          return [
+            ...stories.reduce((acc, s) => isCellSelected(story, s) ? acc : [...acc, s], []),
+            ...story
+          ]
+        }
         if (isCellSelected(stories, story)) {
           return stories.filter((v) => v.cellId !== story.cellId)
         } else {
@@ -163,5 +169,6 @@ function StoriesTable({
                 additionalHeaderButtons={additionalHeaderButtons}
                 isLoading={isLoadingStories}/>
 }
+
 
 export default StoriesTable

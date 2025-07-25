@@ -62,8 +62,8 @@ const
         ) === undefined
       }
     )
-    const option = optionsSelected[Math.floor(Math.random() * optionsSelected.length)]
-    return options.findIndex((o) => o === option)
+
+    return options.indexOf(optionsSelected[Math.floor(Math.random() * optionsSelected.length)])
   },
 
   findNextOption = (options, defaultIndex, direction, items) => {

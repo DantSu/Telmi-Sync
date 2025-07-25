@@ -54,7 +54,7 @@ const
     }
     const
       objectFrom = objectsArray.splice(objectFromKey, 1),
-      objectToKey = objectsArray.findIndex((v) => v === objectTo)
+      objectToKey = objectsArray.indexOf(objectTo)
     objectsArray.splice(
       objectToKey + (objectToKey >= objectFromKey ? 1 : 0),
       0,

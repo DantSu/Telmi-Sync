@@ -7,15 +7,15 @@ import ButtonIconPen from '../Buttons/Icons/ButtonIconPen.js'
 import ButtonIconDownload from '../Buttons/Icons/ButtonIconDownload.js'
 import ButtonIconInfo from '../Buttons/Icons/ButtonIconInfo.js'
 import ButtonIconPlay from '../Buttons/Icons/ButtonIconPlay.js'
+import ButtonIconMicrophone from '../Buttons/Icons/ButtonIconMicrophone.js'
 
 import styles from './Table.module.scss'
-import ButtonIconMicrophone from '../Buttons/Icons/ButtonIconMicrophone.js'
 
 function TableCell ({data, selected, onSelect, onPlay, onStudio, onInfo, onOptimizeAudio, onEdit, onDownload, onDelete}) {
   const
     {getLocale} = useLocale(),
     onCSelect = useCallback(
-      () => typeof onSelect === 'function' && onSelect(data),
+      (e) => typeof onSelect === 'function' && onSelect(e, data),
       [onSelect, data]
     ),
     onCInfo = useCallback(

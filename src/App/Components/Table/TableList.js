@@ -4,7 +4,7 @@ import { useCallback } from 'react'
 function TableList ({data, selected, onSelect}) {
   const
     onCSelect = useCallback(
-      () => typeof onSelect === 'function' && onSelect(data),
+      (e) => typeof onSelect === 'function' && onSelect(e, data),
       [onSelect, data]
     )
   return <li className={[styles.list, selected ? styles.listSelected : '', data.cellDisabled ? styles.cellDisabled : ''].join(' ')}

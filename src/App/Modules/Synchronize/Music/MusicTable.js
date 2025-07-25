@@ -44,6 +44,12 @@ function MusicTable({className, id, musics, selectedMusics, setSelectedMusics, o
 
     onSelect = useCallback(
       (music) => setSelectedMusics((musics) => {
+        if (Array.isArray(music)) {
+          return [
+            ...musics.reduce((acc, s) => isCellSelected(music, s) ? acc : [...acc, s], []),
+            ...music
+          ]
+        }
         if (isCellSelected(musics, music)) {
           return musics.filter((v) => v.cellId !== music.cellId)
         } else {

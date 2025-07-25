@@ -42,6 +42,12 @@ const
 
       onSelect = useCallback(
         (story) => setStoriesSelected((stories) => {
+          if(Array.isArray(story)) {
+            return [
+              ...stories.reduce((acc, s) => isCellSelected(story, s) ? acc : [...acc, s], []),
+              ...story
+            ]
+          }
           if (isCellSelected(stories, story)) {
             return stories.filter((v) => v !== story)
           } else {

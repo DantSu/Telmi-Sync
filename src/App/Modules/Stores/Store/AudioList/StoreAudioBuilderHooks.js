@@ -1,6 +1,6 @@
 import {useCallback, useMemo} from 'react'
 import {useDragAndDropMove} from '../../../../Components/Form/DragAndDrop/DragAndDropMoveHook.js'
-import {isIntArraysEquals} from '../../../../Helpers/Array.js'
+import {isFlatArraysEquals} from '../../../../Helpers/Array.js'
 import {findElementInAudioList, getElementInAudioList, insertAudioItems, removeAudioItem} from './Provider/StoreBuilderHelpers.js'
 
 import styles from './StoreAudioList.module.scss'
@@ -11,14 +11,14 @@ const useStoreAudioBuilderDragAndDrop = (audioListKeys, setAudioList) => {
     onDropCallback = useCallback(
       (dragItemKeysStr) => {
         const dragItemKeys = JSON.parse(dragItemKeysStr)
-        if (dragItemKeys.length <= audioListKeys.length && isIntArraysEquals(dragItemKeys, audioListKeys.slice(0, dragItemKeys.length))) {
+        if (dragItemKeys.length <= audioListKeys.length && isFlatArraysEquals(dragItemKeys, audioListKeys.slice(0, dragItemKeys.length))) {
           return
         }
         setAudioList((audioList) => {
           const
             parentDragItemKeys = dragItemKeys.slice(0, dragItemKeys.length - 1),
             parentAudioListKeys = audioListKeys.slice(0, audioListKeys.length - 1),
-            sameParent = isIntArraysEquals(parentDragItemKeys, parentAudioListKeys),
+            sameParent = isFlatArraysEquals(parentDragItemKeys, parentAudioListKeys),
             parentElementTarget = getElementInAudioList(audioList, [...parentAudioListKeys]),
             dropDown = (sameParent && audioListKeys[audioListKeys.length - 1] > dragItemKeys[dragItemKeys.length - 1]) ||
               (!sameParent && audioListKeys[audioListKeys.length - 1] === (parentElementTarget.audio.length - 1)),
