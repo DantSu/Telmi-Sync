@@ -4,16 +4,15 @@ import {useStoreAudioBuilder} from './Provider/StoreAudioBuilderProviderHooks.js
 import {useLocale} from '../../../../Components/Locale/LocaleHooks.js'
 import {useModal} from '../../../../Components/Modal/ModalHooks.js'
 import {stringSlugify} from '../../../../Helpers/String.js'
+import {doAudioListValidation} from './Provider/StoreBuilderHelpers.js'
 import Table from '../../../../Components/Table/Table.js'
 import ButtonExternalLink from '../../../../Components/Link/ButtonExternalLink.js'
 import ButtonIconTextDownload from '../../../../Components/Buttons/IconsTexts/ButtonIconTextDownload.js'
 import StoreAudioBuilderCategory from './StoreAudioBuilderCategory.js'
-
-import styles from './StoreAudioList.module.scss'
 import ModalStoreAudioBuilderForm from './ModalStoreAudioBuilderForm.js'
-import {getDefaultCategory, hasAudioInAudioList} from './Provider/StoreBuilderHelpers.js'
 import ModalDialogAlert from '../../../../Components/Modal/Templates/ModalDialogs/ModalDialogAlert.js'
 
+import styles from './StoreAudioList.module.scss'
 
 function StoreAudioListContent({store, storeData}) {
   const
@@ -42,7 +41,8 @@ function StoreAudioListContent({store, storeData}) {
     onBuildPack = useCallback(
       () => {
         addModal((key) => {
-          if (!hasAudioInAudioList(audioList)) {
+          const audioListValidated = doAudioListValidation(audioList)
+          if (audioListValidated === null) {
             const modal = <ModalDialogAlert key={key}
                                             title={getLocale('store-no-audio')}
                                             message={getLocale('store-no-audio-message')}
@@ -51,7 +51,7 @@ function StoreAudioListContent({store, storeData}) {
           } else {
             const modal = <ModalStoreAudioBuilderForm key={key}
                                                       store={storeData.store}
-                                                      audioList={audioList}
+                                                      audioList={audioListValidated}
                                                       onClose={() => rmModal(modal)}/>
             return modal
           }

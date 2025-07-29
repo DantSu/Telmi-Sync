@@ -17,24 +17,19 @@ const
   audioListToString = (audioList) => audioList.audio.reduce(
     (acc, a) => Array.isArray(a.audio) ? [...acc, ...audioListToString(a)] : [...acc, '- ' + a.title + ' (' + a.store + ')'],
     []
-  ),
-  getFirstAudioOfAudioList = (audioList) => audioList.audio.reduce(
-    (acc, a) => acc !== null ? acc : (Array.isArray(a.audio) ? getFirstAudioOfAudioList(a) : a),
-    null
   )
 
 
 function ModalStoreAudioBuilderForm({store, audioList, onClose}) {
-  console.log(audioList)
   const
     {getLocale} = useLocale(),
     {addModal, rmModal} = useModal(),
     defaultDescription = useMemo(() => audioListToString(audioList).join('\n'), [audioList]),
-    firstAudio = useMemo(() => getFirstAudioOfAudioList(audioList), [audioList]),
     titleRef = useRef(),
     categoryRef = useRef(),
     ageRef = useRef(),
     descriptionRef = useRef(),
+    paginationImagesRef = useRef(),
     titleImagesRef = useRef(),
     imageRef = useRef(),
     coverRef = useRef()
@@ -76,22 +71,26 @@ function ModalStoreAudioBuilderForm({store, audioList, onClose}) {
                            required={false}
                            defaultValue={defaultDescription}
                            ref={descriptionRef}/>
+            <InputSwitch label={getLocale('story-add-pagination-images')}
+                         key="store-pagination"
+                         id="store-pagination"
+                         ref={paginationImagesRef}/>
             <InputSwitch label={getLocale('story-add-title-images')}
-                         key="store-confirm"
-                         id="store-confirm"
+                         key="store-titleimage"
+                         id="store-titleimage"
                          ref={titleImagesRef}/>
             <InputImage label={getLocale('picture-title')}
-                        key={'story-image'}
-                        id="story-image"
-                        defaultValue={firstAudio.image}
+                        key={'store-image'}
+                        id="store-image"
+                        defaultValue={audioList.image}
                         width={640}
                         height={480}
                         displayScale={0.3}
                         ref={imageRef}/>
             <InputImage label={getLocale('picture-cover')}
-                        key={'story-cover'}
-                        id="story-cover"
-                        defaultValue={firstAudio.image}
+                        key={'store-cover'}
+                        id="store-cover"
+                        defaultValue={audioList.image}
                         width={512}
                         height={512}
                         displayScale={0.3}
@@ -107,6 +106,7 @@ function ModalStoreAudioBuilderForm({store, audioList, onClose}) {
                                        categoryRef,
                                        ageRef,
                                        descriptionRef,
+                                       paginationImagesRef,
                                        titleImagesRef,
                                        imageRef,
                                        coverRef
@@ -121,9 +121,10 @@ function ModalStoreAudioBuilderForm({store, audioList, onClose}) {
                                                                                  category: values[1],
                                                                                  age: values[2],
                                                                                  description: values[3],
-                                                                                 titleImages: values[4],
-                                                                                 image: values[5],
-                                                                                 cover: values[6],
+                                                                                 paginationImages: values[4],
+                                                                                 titleImages: values[5],
+                                                                                 image: values[6] || audioList.image,
+                                                                                 cover: values[7] || audioList.image,
                                                                                }}
                                                                                onClose={() => rmModal(modal)}/>
                                          return modal

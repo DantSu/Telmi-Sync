@@ -311,7 +311,7 @@ function mainEventStores(mainWindow) {
       () => {
         buildTaskRunning = null
         mainWindow.webContents.send('store-build-task', '', '', 0, 0)
-        return ipcMain.emit('local-stories-get')
+        ipcMain.emit('local-stories-get')
       }
     )
   })

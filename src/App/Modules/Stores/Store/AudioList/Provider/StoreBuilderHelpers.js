@@ -32,8 +32,30 @@ const
     null
   ),
 
-  hasAudioInAudioList = (audioList) => {
-    return audioList.audio.find((a) => a.audio !== undefined ? hasAudioInAudioList(a) : true) !== undefined
+  getFirstAudioOfAudioList = (audioList) => audioList.audio.reduce(
+    (acc, a) => acc !== null ? acc : (Array.isArray(a.audio) ? getFirstAudioOfAudioList(a) : a),
+    null
+  ),
+
+  doAudioListValidation = (audioList) => {
+    const firstAudio = getFirstAudioOfAudioList(audioList)
+    if (firstAudio === null) {
+      return null
+    }
+    return {
+      ...audioList,
+      image: firstAudio.image,
+      audio: audioList.audio.reduce(
+        (acc, a) => {
+          if (Array.isArray(a.audio)) {
+            const child = doAudioListValidation(a)
+            return child === null ? acc : [...acc, child]
+          }
+          return [...acc, a]
+        },
+        []
+      )
+    }
   },
 
   updateAudioItem = (audioList, audioListKeys, item) => {
@@ -101,7 +123,8 @@ export {
   getDefaultCategory,
   getElementInAudioList,
   findElementInAudioList,
-  hasAudioInAudioList,
+  getFirstAudioOfAudioList,
+  doAudioListValidation,
   updateAudioItem,
   updateAudioItemField,
   addAudioItems,

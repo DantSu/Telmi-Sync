@@ -199,7 +199,8 @@ const fr = {
   'story-cleaning': 'Nettoyage de l\'histoire',
   'story-export': 'Export de l\'histoire',
   'story-zipping': 'Export de l\'histoire au format zip',
-  'story-add-title-images': 'Ajouter le titre aux images des histoires',
+  'story-add-title-images': 'Ajouter le titre aux images',
+  'story-add-pagination-images': 'Ajouter la pagination aux images',
   'stories': 'Histoires',
   'stories-local': 'Mes histoires ({0})',
   'stories-on-store': '{0} histoires sur le store',
@@ -242,7 +243,7 @@ const fr = {
   'store-delete': 'Supprimer le store',
   'store-delete-confirm': 'Êtes-vous sûr de vouloir supprimer le store <strong>"{0}"</strong> ?',
   'store-no-audio': 'Aucune histoire !',
-  'store-no-audio-message': 'Vous n\'avez pas mis d\'histoires dans votre pack.',
+  'store-no-audio-message': 'Vous n\'avez pas mis d\'histoires pour votre pack.',
 
   'studio': 'Studio',
   'studio-edit-story': 'Editer l\'histoire dans le Studio',
@@ -250,7 +251,6 @@ const fr = {
   'studio-story-unsaved-confirm': 'Cette histoire a été modifiée. Êtes-vous sûr de vouloir quitter le Studio sans enregistrer les modifications apportées à cette histoire ?',
   'studio-inventory-delete-error': 'Impossible de supprimer l\'objet !',
   'studio-inventory-delete-error-message': 'Cet objet est actuellement utilisé par les scènes suivantes :<br />{0}',
-
   'studio-stage-control-ok': 'Aller à la scène suivante en appuyant sur le bouton A',
   'studio-stage-autoplay': 'Lire automatiquement la scène suivante à la fin de la piste audio',
 
