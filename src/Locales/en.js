@@ -173,7 +173,7 @@ const en = {
   'telmios-cardmaker-alert': 'Drive {0} will be formatted',
   'telmios-cardmaker-alert-message': 'Warning! All data on the {0} drive will be deleted. Please carefully check the contents of the selected drive before continue.',
 
-  'telmi-sync-parameters': 'Telmi Sync parameters',
+  'telmi-sync-parameters': 'Telmi Sync parameters{0}',
 
   'converting-images': 'Converting images',
   'converting-audio': 'Converting audio files',

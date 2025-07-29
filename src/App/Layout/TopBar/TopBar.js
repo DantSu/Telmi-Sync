@@ -70,7 +70,7 @@ function TopBar({currentModule}) {
     <ul className={styles.buttons}>
       <li><ButtonUpdate/></li>
       <li><ButtonLangChooser/></li>
-      <li><ButtonIconGear title={getLocale('telmi-sync-params')}
+      <li><ButtonIconGear title={getLocale('telmi-sync-parameters', '')}
                           onClick={onParameters}/></li>
       <li><ButtonIconWindowMinimize title={getLocale('minimize-window')}
                                     onClick={onMinimize}/></li>

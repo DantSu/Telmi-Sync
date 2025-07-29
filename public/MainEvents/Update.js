@@ -3,6 +3,10 @@ import { requestJson } from './Helpers/Request.js'
 import { isNewerVersion } from './Helpers/Version.js'
 
 function mainEventUpdate (mainWindow) {
+  ipcMain.on('app-version-get', () => {
+    mainWindow.webContents.send('app-version', app.getVersion())
+  })
+
   ipcMain.on(
     'check-update',
     async () => {

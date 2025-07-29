@@ -1,6 +1,7 @@
 import {useEffect, useRef, useState} from 'react'
 import {useLocale} from '../../Components/Locale/LocaleHooks.js'
 import {useTelmiSyncParams} from '../../Components/TelmiSyncParams/TelmiSyncParamsHooks.js'
+import {useElectronEmitter, useElectronListener} from '../../Components/Electron/Hooks/UseElectronEvent.js'
 import ModalLayoutPadded from '../../Components/Modal/ModalLayoutPadded.js'
 import ButtonsContainer from '../../Components/Buttons/ButtonsContainer.js'
 import ButtonIconTextCheck from '../../Components/Buttons/IconsTexts/ButtonIconTextCheck.js'
@@ -14,6 +15,7 @@ function ModalTelmiSyncParamsForm({onClose}) {
     {getLocale} = useLocale(),
     {params, saveParams} = useTelmiSyncParams(),
     [audioDevices, setAudioDevices] = useState([]),
+    [appVersion, setAppVersion] = useState(''),
     inputRef0 = useRef(),
     inputRef1 = useRef()
 
@@ -32,9 +34,12 @@ function ModalTelmiSyncParamsForm({onClose}) {
     []
   )
 
+  useElectronEmitter('app-version-get', [])
+  useElectronListener('app-version', (data) => setAppVersion(' v' + data), [])
+
   return <ModalLayoutPadded isClosable={true}
                             onClose={onClose}>
-    <ModalTitle>{getLocale('telmi-sync-params')} :</ModalTitle>
+    <ModalTitle>{getLocale('telmi-sync-parameters', appVersion)} :</ModalTitle>
     <Form>{
       (validation) => {
         return <>

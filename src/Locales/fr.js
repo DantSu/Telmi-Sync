@@ -173,7 +173,7 @@ const fr = {
   'telmios-cardmaker-alert': 'Le stockage {0} va être formaté',
   'telmios-cardmaker-alert-message': 'Attention ! Toutes les données présentes sur <strong>{0}</strong> vont être supprimées. Merci de bien vérifier le contenu de ce stockage avant de continuer.',
 
-  'telmi-sync-params': 'Paramètres Telmi Sync',
+  'telmi-sync-parameters': 'Paramètres Telmi Sync{0}',
 
   'converting-images': 'Conversion des images',
   'converting-audio': 'Conversion des fichiers audio',
