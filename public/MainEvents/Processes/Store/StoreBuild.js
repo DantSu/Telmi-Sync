@@ -351,7 +351,7 @@ function main(jsonPath) {
       imagesMain,
       0,
       countFiles,
-      (index, srcLocalImageMain, errorDownloadImageMain) => {
+      (index, srcLocalImageMain) => {
         downloadImages(
           flatAudioList.audio,
           index,
