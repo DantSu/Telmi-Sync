@@ -1,10 +1,10 @@
 import {forwardRef, useCallback, useMemo, useState} from 'react'
 import {useLocale} from '../../Locale/LocaleHooks.js'
 import InputLayout from './InputLayout.js'
-
-import styles from './Input.module.scss'
 import ButtonIconXMark from '../../Buttons/Icons/ButtonIconXMark.js'
 import InputDropFile from './InputDropFile.js'
+
+import styles from './Input.module.scss'
 
 function InputImage(
   {
@@ -46,8 +46,8 @@ function InputImage(
             return null
           }
           r.getValue = () => {
-            if (r.files.length && r.files[0].type.indexOf('image/') === 0) {
-              return r.files[0].path
+            if (r.files.length && r.files[0].type.indexOf('image/') === 0 && typeof imagePath === 'string' && imagePath !== '') {
+              return imagePath
             }
             return null
           }

@@ -42,10 +42,15 @@ const
 
     const tmpPath = getTmpPath()
     if (srcImages[i].image.substring(0, tmpPath.length) === tmpPath) {
-      return downloadImage(srcImages, {
-        ...dstImages,
-        [srcImages[i].image]: srcImages[i].image
-      }, errorDownload, index, countFiles, callback, i + 1)
+      return downloadImage(
+        srcImages,
+        {...dstImages, [srcImages[i].image]: srcImages[i].image},
+        errorDownload,
+        index,
+        countFiles,
+        callback,
+        i + 1
+      )
     }
 
     const dstImage = path.join(tmpFolder, Date.now().toString(36))
@@ -346,7 +351,7 @@ function main(jsonPath) {
       imagesMain,
       0,
       countFiles,
-      (index, srcLocalImageMain) => {
+      (index, srcLocalImageMain, errorDownloadImageMain) => {
         downloadImages(
           flatAudioList.audio,
           index,
@@ -360,9 +365,7 @@ function main(jsonPath) {
             const
               filteredAudioList = errorDownloadImage.length ? filterAudioList(audioList, errorDownloadImage) : audioList,
               flatAudioList = audioListToFlatArray(filteredAudioList),
-              srcImagesMain = srcLocalImageMain.length === imagesMain.length ?
-                srcLocalImageMain :
-                imagesMain.map((v) => srcLocalImageMain[v.image] !== undefined ? srcLocalImageMain[v.image] : Object.values(srcLocalImage)[0])
+              srcImagesMain = imagesMain.map((v) => srcLocalImageMain[v.image] !== undefined ? srcLocalImageMain[v.image] : Object.values(srcLocalImage)[0])
 
             if (errorDownloadImage.length) {
               metadata.description += '\n\nDOWNLOAD IMAGE ERROR :\n' + errorDownloadImage.map((v) => v.title + ' : ' + v.image).join('\n')
@@ -402,12 +405,7 @@ function main(jsonPath) {
                         numbers: [...acc.numbers, ...dst.map((v) => v.number)]
                       }
                     },
-                    {
-                      srcPaths: [srcLocalImage[audioList.image]],
-                      dstPaths: [path.join(dstPath, 'title.png')],
-                      titles: [null],
-                      numbers: [null]
-                    }
+                    {srcPaths: [], dstPaths: [], titles: [], numbers: []}
                   ),
 
                   ttsTexts = Object.keys(audioListNodes.txtToAudio),
