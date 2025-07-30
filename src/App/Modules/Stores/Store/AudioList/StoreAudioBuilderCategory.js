@@ -61,7 +61,9 @@ function StoreAudioBuilderCategory({audioListKeys, getStoriesSelected}) {
       onDragLeave,
       onDrop,
       onPreventChildDraggable
-    } = useStoreAudioBuilderDragAndDrop(audioListKeys, setAudioList)
+    } = useStoreAudioBuilderDragAndDrop(audioListKeys, setAudioList),
+
+    categoryTitle = !!audioListKeys.length ? (audioListKeys[audioListKeys.length - 1] + 1) + '/' + audioCategoryParent.audio.length + ' - ' + getLocale('category') : ''
 
   return <li className={[
     styles.storeBuilderItemContainer,
@@ -69,6 +71,7 @@ function StoreAudioBuilderCategory({audioListKeys, getStoriesSelected}) {
   ].join(' ')}>
     {!!audioListKeys.length ?
       <div className={styles.storeBuilderItemTitleBar}
+           title={categoryTitle}
            draggable={true}
            onDragStart={onDragStart}
            onDragOver={onDragOver}
@@ -76,9 +79,7 @@ function StoreAudioBuilderCategory({audioListKeys, getStoriesSelected}) {
            onDragLeave={onDragLeave}
            onDrop={onDrop}>
         <div className={styles.storeBuilderItemTitleContainer}>
-          <p className={[styles.storeBuilderItemTitle, styles.storeBuilderItemTitleCategory].join(' ')}>
-            {audioListKeys[audioListKeys.length - 1] + 1}/{audioCategoryParent.audio.length} - {getLocale('category')}
-          </p>
+          <p className={[styles.storeBuilderItemTitle, styles.storeBuilderItemTitleCategory].join(' ')}>{categoryTitle}</p>
         </div>
         <div className={styles.storeBuilderActions}
              onDragStart={onPreventChildDraggable}

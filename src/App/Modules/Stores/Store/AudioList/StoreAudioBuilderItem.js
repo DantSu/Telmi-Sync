@@ -28,13 +28,16 @@ function StoreAudioBuilderItem({audioListKeys}) {
       onDragLeave,
       onDrop,
       onPreventChildDraggable
-    } = useStoreAudioBuilderDragAndDrop(audioListKeys, setAudioList)
+    } = useStoreAudioBuilderDragAndDrop(audioListKeys, setAudioList),
+
+    audioTitle = (audioListKeys[audioListKeys.length - 1] + 1) + '/' + audioCategoryParent.audio.length + ' - ' + audioData.title
 
   return <li className={[
     styles.storeBuilderItemContainer,
     audioListKeys.length % 2 ? styles.storeBuilderItemContainerBlue : styles.storeBuilderItemContainerBlue2
   ].join(' ')}>
     <div className={styles.storeBuilderItemTitleBar}
+         title={audioTitle}
          draggable={true}
          onDragStart={onDragStart}
          onDragOver={onDragOver}
@@ -42,9 +45,7 @@ function StoreAudioBuilderItem({audioListKeys}) {
          onDragLeave={onDragLeave}
          onDrop={onDrop}>
       <div className={styles.storeBuilderItemTitleContainer}>
-        <p className={styles.storeBuilderItemTitle}>
-          {audioListKeys[audioListKeys.length - 1] + 1}/{audioCategoryParent.audio.length} - {audioData.title}
-        </p>
+        <p className={styles.storeBuilderItemTitle}>{audioTitle}</p>
       </div>
       <div className={styles.storeBuilderActions}
            onDragStart={onPreventChildDraggable}
