@@ -25,6 +25,7 @@ function StoreAudioListContent({store, storeData}) {
       storiesSelected,
       setStoriesSelected,
       isSortedByName,
+      isSortedAsc,
       onInfo,
       onSelect,
       additionalHeaderButtons
@@ -63,7 +64,7 @@ function StoreAudioListContent({store, storeData}) {
   return <>
     <Table
       id={stringSlugify(store.url)}
-      titleLeft={getLocale('stories-on-store', stories.length) + ' (' + (isSortedByName ? getLocale('sorted-by-name') : getLocale('sorted-by-date')) + ')'}
+      titleLeft={getLocale('stories-on-store', stories.length) + ' (' + (isSortedByName ? getLocale('sorted-by-name') : getLocale('sorted-by-date')) + ' ' + (isSortedAsc ? getLocale('sorted-asc') : getLocale('sorted-desc')) + ')'}
       titleRight={storiesSelected.length ? getLocale('stories-selected', storiesSelected.length) : undefined}
       data={stories}
       onInfo={onInfo}

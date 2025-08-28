@@ -27,6 +27,7 @@ const
       [stories, setStories] = useState([]),
       [storiesSelected, setStoriesSelected] = useState([]),
       [isSortedByName, setSortedByName] = useState(true),
+      [isSortedAsc, setSortedAsc] = useState(true),
 
       onInfo = useCallback(
         (story) => {
@@ -42,7 +43,7 @@ const
 
       onSelect = useCallback(
         (story) => setStoriesSelected((stories) => {
-          if(Array.isArray(story)) {
+          if (Array.isArray(story)) {
             return [
               ...stories.reduce((acc, s) => isCellSelected(story, s) ? acc : [...acc, s], []),
               ...story
@@ -61,12 +62,16 @@ const
         () => <TableHeaderIcon componentIcon={ButtonIconSort}
                                title="sort-by-name-or-date"
                                onClick={() => {
-                                 store.isSortedByName = !isSortedByName
-                                 setStories((stories) => [...(store.isSortedByName ? sortByName(stories) : sortByUpdatedAt(stories))])
+                                 if (!store.isSortedAsc) {
+                                   store.isSortedByName = !isSortedByName
+                                 }
+                                 store.isSortedAsc = !isSortedAsc
+                                 setStories((stories) => [...(store.isSortedByName ? sortByName(stories, store.isSortedAsc) : sortByUpdatedAt(stories, store.isSortedAsc))])
                                  setSortedByName(store.isSortedByName)
+                                 setSortedAsc(store.isSortedAsc)
                                  ipcRenderer.send('store-update', store)
                                }}/>,
-        [store, isSortedByName]
+        [store, isSortedByName, isSortedAsc]
       )
 
     useEffect(
@@ -74,17 +79,20 @@ const
         if (storeData === null) {
           return
         }
-
         if (store.isSortedByName === undefined) {
           store.isSortedByName = !storeData.audioList
+        }
+        if (store.isSortedAsc === undefined) {
+          store.isSortedAsc = !storeData.audioList
         }
 
         const
           now = Date.now(),
           lStories = localStories.reduce((acc, s) => ({...acc, [s.uuid]: s.version}), {}),
-          storiesSorted = store.isSortedByName ? sortByName(storeData.data) : sortByUpdatedAt(storeData.data)
+          storiesSorted = store.isSortedByName ? sortByName(storeData.data, store.isSortedAsc) : sortByUpdatedAt(storeData.data, store.isSortedAsc)
 
         setSortedByName(store.isSortedByName)
+        setSortedAsc(store.isSortedAsc)
 
         setStories(
           storiesSorted
@@ -115,7 +123,19 @@ const
       [store, getLocale, localStories, storeData]
     )
 
-    return {stories, setStories, storiesSelected, setStoriesSelected, isSortedByName, setSortedByName, onInfo, onSelect, additionalHeaderButtons}
+    return {
+      stories,
+      setStories,
+      storiesSelected,
+      setStoriesSelected,
+      isSortedByName,
+      setSortedByName,
+      isSortedAsc,
+      setSortedAsc,
+      onInfo,
+      onSelect,
+      additionalHeaderButtons
+    }
   }
 
 export {useStoreContent}

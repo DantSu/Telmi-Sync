@@ -62,6 +62,8 @@ const en = {
   'sort-by-name-or-date': 'Sort alphabetically or by date',
   'sorted-by-name': 'Sorted alphabetically',
   'sorted-by-date': 'Sorted by date',
+  'sorted-asc': 'ascendant',
+  'sorted-desc': 'descendant',
   'maximize-window': 'Maximize app',
   'minimize-window': 'Minimize app',
   'close-app': 'Close Telmi Sync',
