@@ -212,7 +212,7 @@ const fr = {
   'stories-delete-confirm': 'Êtes-vous sûr de vouloir supprimer les histoires sélectionnées ?',
   'stories-transfer': 'Transférer les histoires',
   'stories-deleting': 'Suppression des histoires',
-  'stories-merge': 'Fusionner les packs d\'histoires sélectionnées',
+  'stories-merge': 'Fusionner les packs d\'histoires sélectionnés',
   'stories-merge-warning': 'Les histoires intéractives contenant un inventaire ne seront pas fusionnées.',
   'stories-merge-error': 'Histoires non fusionnable',
   'stories-analysis': 'Analyse des histoires',
