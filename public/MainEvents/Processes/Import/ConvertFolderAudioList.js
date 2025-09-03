@@ -29,6 +29,7 @@ function convertFolderAudioList(srcPath, storyName) {
 
     const
       {age, title} = findAgeInStoryName(storyName || path.basename(srcPath)),
+      storiesTxt = listAudio.map((f) => path.parse(f).name),
       pathQuestion = path.join(srcPath, 'question.txt'),
       pathCategory = path.join(srcPath, 'category.txt'),
       pathDescription = path.join(srcPath, 'description.txt'),
@@ -87,6 +88,26 @@ function convertFolderAudioList(srcPath, storyName) {
           ...listAudio.reduce((acc, f, k) => ({...acc, ['s' + k]: [{stage: 's' + k}]}), {})
         }
       },
+      notes = {
+        q: {
+          title: 'Question',
+          notes: question || ''
+        },
+        ...storiesTxt.reduce(
+          (acc, txt, k) => ({
+            ...acc,
+            ['m' + k]: {
+              title: 'm' + k,
+              notes: txt
+            },
+            ['s' + k]: {
+              title: txt,
+              notes: ''
+            }
+          }),
+          {}
+        )
+      },
 
       dstPath = getStoriesPath(generateDirNameStory(metadata.title, metadata.uuid, metadata.age, metadata.category)),
       dstPathImages = path.join(dstPath, 'images'),
@@ -100,7 +121,6 @@ function convertFolderAudioList(srcPath, storyName) {
       ],
       ttsTmpPath = initTmpPath('pipertts'),
       ttsJsonPath = path.join(ttsTmpPath, 'tts.json'),
-      storiesTxt = listAudio.map((f) => path.parse(f).name),
       ttsTxt = [
         title,
         ...(question !== null ? [question] : []),
@@ -151,6 +171,7 @@ function convertFolderAudioList(srcPath, storyName) {
                   process.stdout.write('*story-converting*' + (index + 1) + '*' + countFiles + '*')
                   fs.writeFileSync(path.join(dstPath, 'nodes.json'), JSON.stringify(nodes))
                   fs.writeFileSync(path.join(dstPath, 'metadata.json'), JSON.stringify(metadata))
+                  fs.writeFileSync(path.join(dstPath, 'notes.json'), JSON.stringify(notes))
                   process.stdout.write('success')
                 })
                 .catch((e) => process.stderr.write(e.toString()))
