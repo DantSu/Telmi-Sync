@@ -4,6 +4,7 @@ import convertFolderSTUdio from './ConvertFolderSTUdio.js'
 import convertFolderFS from './ConvertFolderFS.js'
 import convertFolderTelmi from './ConvertFolderTelmi.js'
 import convertFolderStoryPack from './ConvertFolderStoryPack.js'
+import convertFolderAudioList from './ConvertFolderAudioList.js'
 
 const
   FORMAT_UNKNOW = -1,
@@ -11,6 +12,7 @@ const
   FORMAT_FS = 2,
   FORMAT_TELMI = 3,
   FORMAT_STORYPACK = 4,
+  FORMAT_AUDIO_LIST = 5,
 
   hasDirectory = (parentPath, dirName) => {
     const dirPath = path.join(parentPath, dirName)
@@ -78,6 +80,17 @@ const
       return FORMAT_STORYPACK
     }
 
+    if (
+        hasFile(path, 'stories-image.jpg') ||
+        hasFile(path, 'stories-image.jpeg') ||
+        hasFile(path, 'stories-image.gif') ||
+        hasFile(path, 'stories-image.png') ||
+        hasFile(path, 'stories-image.avif') ||
+        hasFile(path, 'stories-image.webp')
+    ) {
+      return FORMAT_AUDIO_LIST
+    }
+
     return FORMAT_UNKNOW
   }
 
@@ -96,6 +109,9 @@ function convertFolder (storyPath, storyName) {
       break
     case FORMAT_STORYPACK:
       convertFolderStoryPack(storyPath, storyName)
+      break
+    case FORMAT_AUDIO_LIST:
+      convertFolderAudioList(storyPath, storyName)
       break
     default:
       process.stderr.write('story-format-invalid')

@@ -2,25 +2,14 @@ import path from 'path'
 import fs from 'fs'
 import {findAgeInStoryName, generateDirNameStory} from '../../Helpers/Stories.js'
 import {createPathDirectories, recursiveCountFiles, rmDirectory} from '../../Helpers/Files.js'
-import {convertCoverImage, convertStoryImages} from './Helpers/ImageFile.js'
-import {convertAudios} from './Helpers/AudioFile.js'
+import {convertCoverImage, convertStoryImages, findImage} from './Helpers/ImageFile.js'
+import {convertAudios, findAudio} from './Helpers/AudioFile.js'
 import {getStoriesPath, initTmpPath} from '../Helpers/AppPaths.js'
 import {piperTTS} from '../BinFiles/PiperTTSCommand.js'
 import {getTelmiSyncParams} from '../Helpers/TelmiSyncParams.js'
 
-const
-  findFile = (dir, fileName, extensions) => {
-    const
-      filePath = path.join(dir, fileName),
-      found = extensions.find((ext) => fs.existsSync(filePath + ext))
-    if (found === undefined) {
-      return null
-    }
-    return filePath + found
-  },
-  findAudio = (dir, fileName) => findFile(dir, fileName, ['.mp3', '.webm', '.wma', '.ogg', '.flac', '.m4a', '.mp4a', '.aac', '.wav', '.txt']),
-  findImage = (dir, fileName) => findFile(dir, fileName, ['.jpg', '.jpeg', '.gif', '.png', '.avif', '.webp']),
 
+const
   getFileContent = (dir, fileName) => {
     const filePath = path.join(dir, fileName)
     if (!fs.existsSync(filePath)) {
@@ -230,8 +219,9 @@ function convertFolderStoryPack(srcPath, storyName) {
           dstAudio,
           index,
           countFiles,
-          () => {
+          (index) => {
             if (imageCover !== null && fs.existsSync(imageCover)) {
+              process.stdout.write('*converting-images*' + index + '*' + countFiles + '*')
               convertCoverImage(imageCover, path.join(dstPath, 'cover.png'))
                 .then(finishCallback)
                 .catch(() => process.stderr.write('file-not-found'))
@@ -246,7 +236,6 @@ function convertFolderStoryPack(srcPath, storyName) {
     )
   } catch (e) {
     process.stderr.write(e.toString())
-    process.stderr.write('story-studio-format-invalid')
   }
 }
 

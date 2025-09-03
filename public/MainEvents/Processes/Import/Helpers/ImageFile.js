@@ -1,11 +1,13 @@
-import {convertImageToPng} from '../../BinFiles/FFmpegCommand.js'
 import * as path from 'path'
+import {convertImageToPng} from '../../BinFiles/FFmpegCommand.js'
+import {findFile} from '../../../Helpers/Files.js'
 
 const
   isImageFile = (fileName) => {
     const ext = path.extname(fileName).toLowerCase()
     return ext === '.png' || ext === '.bmp' || ext === '.gif' || ext === '.jpg' || ext === '.jpeg' || ext === '.webp' || ext === '.avif'
   },
+  findImage = (dir, fileName) => findFile(dir, fileName, ['.bmp', '.jpg', '.jpeg', '.gif', '.png', '.avif', '.webp']),
   convertMusicImage = async (fromPath, toPath, textToWrite, pageNumber) => {
     await convertImageToPng(fromPath, toPath, 256, 256, textToWrite, pageNumber)
   },
@@ -60,5 +62,6 @@ export {
   convertStoryImages,
   convertCoverImage,
   convertInventoryImage,
-  convertInventoryImages
+  convertInventoryImages,
+  findImage
 }

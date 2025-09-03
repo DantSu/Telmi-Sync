@@ -1,12 +1,14 @@
 import * as path from 'path'
-import { convertAudioToMp3 } from '../../BinFiles/FFmpegCommand.js'
 import * as fs from 'fs'
+import {convertAudioToMp3} from '../../BinFiles/FFmpegCommand.js'
+import {findFile} from '../../../Helpers/Files.js'
 
 const
   isAudioFile = (fileName) => {
     const ext = path.extname(fileName).toLowerCase()
-    return ext === '.mp3' || ext === '.ogg' || ext === '.flac' || ext === '.wav' || ext === '.aac'
+    return ext === '.mp3' || ext === '.webm' || ext === '.wma' || ext === '.ogg' || ext === '.flac' || ext === '.m4a' || ext === '.mp4a' || ext === '.aac' || ext === '.wav'
   },
+  findAudio = (dir, fileName) => findFile(dir, fileName, ['.mp3', '.webm', '.wma', '.ogg', '.flac', '.m4a', '.mp4a', '.aac', '.wav', '.txt']),
 
   convertAudio = async (fromPath, toPath, forceConverting, forceVolume) => {
     await convertAudioToMp3(fromPath, toPath, forceConverting, forceVolume)
@@ -45,4 +47,4 @@ const
     return true
   }
 
-export { isAudioFile, convertAudio, convertAudios, checkCoverExists }
+export {isAudioFile, convertAudio, convertAudios, checkCoverExists, findAudio}

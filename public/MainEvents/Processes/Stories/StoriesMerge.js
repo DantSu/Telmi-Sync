@@ -65,7 +65,7 @@ function main(jsonPath) {
       {
         title: storiesMerge.title,
         age: storiesMerge.age || 0,
-        uuid: 'fffffd-' + Date.now().toString(16),
+        uuid: 'fffffc-' + Date.now().toString(16),
         version: 0,
         image: 'cover.png'
       },

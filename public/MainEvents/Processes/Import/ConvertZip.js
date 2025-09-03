@@ -10,6 +10,7 @@ const
   FORMAT_FS = 2,
   FORMAT_TELMI = 3,
   FORMAT_STORYPACK = 4,
+  FORMAT_AUDIO_LIST = 5,
 
   findDirectory = (list) => {
     const
@@ -62,6 +63,14 @@ const
         case 'main-title.webp':
           setSubdirectory(FORMAT_STORYPACK, f.dir)
           break
+        case 'stories-image.jpg':
+        case 'stories-image.jpeg':
+        case 'stories-image.gif':
+        case 'stories-image.png':
+        case 'stories-image.avif':
+        case 'stories-image.webp':
+          setSubdirectory(FORMAT_AUDIO_LIST, f.dir)
+          break
         default:
       }
     }
@@ -69,6 +78,7 @@ const
     for (const dir of Object.values(subdirectories)) {
       if (
         dir.format === FORMAT_STUDIO ||
+        dir.format === FORMAT_AUDIO_LIST ||
         ((dir.format === FORMAT_FS || dir.format === FORMAT_TELMI) && dir.fileCount === 4) ||
         (dir.format === FORMAT_STORYPACK && dir.fileCount >= 2)
       ) {
