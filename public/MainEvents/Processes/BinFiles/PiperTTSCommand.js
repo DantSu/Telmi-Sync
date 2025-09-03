@@ -1,8 +1,15 @@
 import {exec} from 'child_process'
-import {getExtraResourcesPath} from '../Helpers/AppPaths.js'
+import {getBinPath, getExtraResourcesPath} from '../Helpers/AppPaths.js'
 import * as path from 'path'
+import fs from 'fs'
 
 const
+  getTTSExecutable = () => {
+    return process.platform === 'win32' ? 'tts.exe' : 'tts'
+  },
+  getTTSScript = () => {
+    return process.platform === 'win32' ? 'tts.bat' : 'tts.sh'
+  },
   getPiperTTSFileName = () => {
     return process.platform === 'win32' ? 'piper.exe' : 'piper'
   },
@@ -12,6 +19,16 @@ const
   },
 
   getPiperTTSFilePath = () => {
+    const ttsExecutable = getBinPath(getTTSExecutable())
+    if(fs.existsSync(ttsExecutable)) {
+      return ttsExecutable
+    }
+
+    const ttsScript = getBinPath(getTTSScript())
+    if(fs.existsSync(ttsScript)) {
+      return ttsScript
+    }
+
     return path.join(getExtraResourcesPath(), 'piper', process.platform, getPiperTTSFileName())
   },
 
