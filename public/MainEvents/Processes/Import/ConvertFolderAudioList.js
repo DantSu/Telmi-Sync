@@ -37,7 +37,7 @@ function convertFolderAudioList(srcPath, storyName) {
       metadata = Object.assign(
         {title, age, uuid: 'fffffb-' + Date.now().toString(16), version: 0, image: 'cover.png'},
         fs.existsSync(pathCategory) ? {category: fs.readFileSync(pathCategory).toString('utf-8')} : null,
-        fs.existsSync(pathDescription) ? {category: fs.readFileSync(pathDescription).toString('utf-8')} : null
+        fs.existsSync(pathDescription) ? {description: fs.readFileSync(pathDescription).toString('utf-8')} : null
       ),
       nodes = {
         startAction: {action: 'q', index: 0},
