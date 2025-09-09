@@ -10,7 +10,7 @@ const
     'Accept-Language': 'fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3',
     'Connection': 'keep-alive',
     'language': 'fr',
-    'User-Agent': 'TelmiSync/0.13.1 ( https://github.com/DantSu/Telmi-Sync )',
+    'User-Agent': 'TelmiSync/0.13.2 ( https://github.com/DantSu/Telmi-Sync )',
   },
 
   htmlTag = '<!DOCTYPE html>',
