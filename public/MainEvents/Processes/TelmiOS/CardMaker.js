@@ -10,12 +10,12 @@ const
   getScriptPath = () => {
     switch (process.platform) {
       case 'win32':
-        return path.join(getExtraResourcesPath(), 'fat32', process.platform, 'format.bat')
+        return path.join(getExtraResourcesPath(), 'fat32', process.platform, 'formatter.bat')
       case 'darwin':
-        return path.join(getExtraResourcesPath(), 'fat32', process.platform, 'format.sh')
+        return path.join(getExtraResourcesPath(), 'fat32', process.platform, 'formatter.sh')
       case 'linux':
-        const tmpPath = path.join(initTmpPath('script'), 'format.sh')
-        fs.copyFileSync(path.join(getExtraResourcesPath(), 'fat32', process.platform, 'format.sh'), tmpPath)
+        const tmpPath = path.join(initTmpPath('script'), 'formatter.sh')
+        fs.copyFileSync(path.join(getExtraResourcesPath(), 'fat32', process.platform, 'formatter.sh'), tmpPath)
         fs.chmodSync(tmpPath, 0o777)
         return tmpPath
       default:
