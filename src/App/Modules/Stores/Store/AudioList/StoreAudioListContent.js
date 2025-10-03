@@ -18,7 +18,7 @@ function StoreAudioListContent({store, storeData}) {
   const
     {getLocale} = useLocale(),
     {addModal, rmModal} = useModal(),
-    {audioList, setAudioList} = useStoreAudioBuilder(),
+    {audioList} = useStoreAudioBuilder(),
 
     {
       stories,

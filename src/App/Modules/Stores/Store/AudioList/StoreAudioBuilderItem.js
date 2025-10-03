@@ -15,10 +15,8 @@ function StoreAudioBuilderItem({audioListKeys}) {
     audioCategoryParent = useMemo(() => getElementInAudioList(audioList, audioListKeys.slice(0, audioListKeys.length - 1)), [audioList, audioListKeys]),
 
     onDelete = useCallback(
-      () => setAudioList(
-        (audioList) => removeAudioItem(audioList, [...audioListKeys])
-      ),
-      [setAudioList, audioListKeys, audioData]
+      () => setAudioList((audioList) => removeAudioItem(audioList, [...audioListKeys])),
+      [setAudioList, audioListKeys]
     ),
 
     {

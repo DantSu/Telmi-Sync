@@ -55,8 +55,7 @@ function ModalTelmiSyncParamsForm({onClose}) {
                          id="audio-piper-voice"
                          defaultValue={params.piper.voice + '/' + params.piper.speaker}
                          options={[
-                           {value: 'fr_FR-upmc/0', text: 'Femme'},
-                           {value: 'fr_FR-upmc/1', text: 'Homme'},
+                           {value: 'fr_FR-beatrice/0', text: 'Béatrice'},
                            {value: 'fr_FR-dantsu/0', text: 'DantSu'},
                          ]}
                          ref={inputRef1}/>

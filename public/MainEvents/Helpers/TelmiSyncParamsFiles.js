@@ -10,7 +10,7 @@ const
     }
     return {
       microphone: null,
-      piper: {voice: 'fr_FR-upmc', speaker: 0}
+      piper: {voice: 'fr_FR-beatrice', speaker: 0}
     }
   }
 

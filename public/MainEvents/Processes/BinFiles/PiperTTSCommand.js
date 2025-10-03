@@ -32,8 +32,16 @@ const
     return path.join(getExtraResourcesPath(), 'piper', process.platform, getPiperTTSFileName())
   },
 
-  getPiperTTSVoicePath = (name) => {
+  getPiperTTSVoiceNameToPath = (name) => {
     return path.join(getExtraResourcesPath(), 'piper', 'voices', name + '.onnx')
+  },
+
+  getPiperTTSVoicePath = (name) => {
+    const p = getPiperTTSVoiceNameToPath(name)
+    if(fs.existsSync(p)) {
+      return p
+    }
+    return getPiperTTSVoiceNameToPath('fr_FR-beatrice')
   },
 
   piperTTS = (pathJson, voiceName, voiceSpeaker) => {
