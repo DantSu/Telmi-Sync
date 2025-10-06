@@ -71,10 +71,10 @@ function ModalTelmiSyncParamsForm({onClose}) {
                                      ],
                                      (values) => {
                                        const piper = values[1].split('/')
-                                       saveParams({
-                                         microphone: values[0],
-                                         piper: {voice: piper[0], speaker: piper[1]}
-                                       })
+                                       saveParams(Object.assign(
+                                         {...params, piper: {voice: piper[0], speaker: piper[1]}},
+                                         values[0] !== undefined ? {microphone: values[0]} : null
+                                       ))
                                        onClose()
                                      }
                                    )
