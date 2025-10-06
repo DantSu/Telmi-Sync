@@ -429,7 +429,7 @@ function main(jsonPath) {
                     }
                   },
                   notes = {
-                    q0: {title: 'question', notes: ''},
+                    q0: {title: 'question', notes: audioList.question},
                     ...audioListNodes.notes
                   }
 
