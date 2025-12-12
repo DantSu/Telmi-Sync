@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import {ipcMain} from 'electron'
 import {getParametersPath} from './Helpers/AppPaths.js'
-import {createPathDirectories} from './Helpers/Files.js'
+import {createPathDirectories, rmFile} from './Helpers/Files.js'
 
 function mainEventTableState(mainWindow) {
   ipcMain.on(
@@ -13,12 +13,17 @@ function mainEventTableState(mainWindow) {
         jsonPath = path.join(paramsPath, tableId + '.json')
       createPathDirectories(paramsPath)
 
-      if(!fs.existsSync(jsonPath)) {
+      if (!fs.existsSync(jsonPath)) {
         mainWindow.webContents.send('tablestate-data', tableId, null)
         return
       }
 
-      mainWindow.webContents.send('tablestate-data', tableId, JSON.parse(fs.readFileSync(jsonPath).toString('utf8')))
+      try {
+        mainWindow.webContents.send('tablestate-data', tableId, JSON.parse(fs.readFileSync(jsonPath).toString('utf8')))
+      } catch (ignored) {
+        rmFile(jsonPath)
+        mainWindow.webContents.send('tablestate-data', tableId, null)
+      }
     }
   )
   ipcMain.on(
