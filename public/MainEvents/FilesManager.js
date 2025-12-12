@@ -10,6 +10,7 @@ function mainEventFileManager(mainWindow) {
       const
         fileTmpPath = path.join(initTmpPath(path.join('files', Date.now().toString(36))), 'tmp' + path.extname(filePath).toLowerCase())
       runProcess(
+        mainWindow,
         path.join('FileManager', 'FileCopy.js'),
         [filePath, fileTmpPath],
         () => {

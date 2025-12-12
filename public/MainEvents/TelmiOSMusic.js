@@ -1,10 +1,10 @@
-import { ipcMain } from 'electron'
-import { deleteMusic, readMusic } from './Helpers/MusicFiles.js'
-import { getTelmiOSMusicPath } from './Helpers/TelmiOSPath.js'
+import {ipcMain} from 'electron'
+import {deleteMusic, readMusic} from './Helpers/MusicFiles.js'
+import {getTelmiOSMusicPath} from './Helpers/TelmiOSPath.js'
 import runProcess from './Processes/RunProcess.js'
 import * as path from 'path'
 
-function mainEventTelmiOSMusicReader (mainWindow) {
+function mainEventTelmiOSMusicReader(mainWindow) {
   ipcMain.on(
     'telmios-musics-get',
     async (event, telmiDevice) => {
@@ -20,6 +20,7 @@ function mainEventTelmiOSMusicReader (mainWindow) {
     async (event, telmiDevice, ids) => {
       if (telmiDevice !== null) {
         deleteMusic(
+          mainWindow,
           getTelmiOSMusicPath(telmiDevice.drive),
           ids,
           () => {
@@ -41,6 +42,7 @@ function mainEventTelmiOSMusicReader (mainWindow) {
       }
 
     runProcess(
+      mainWindow,
       path.join('Music', 'MusicTransfer.js'),
       [musicPath, ...musics.map((m) => m.id)],
       () => {},

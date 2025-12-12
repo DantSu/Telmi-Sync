@@ -203,6 +203,7 @@ const en = {
   'story-zipping': 'Pack story in a zip file',
   'story-add-title-images': 'Add title to images',
   'story-add-pagination-images': 'Add pagination to images',
+  'story-corrupted': 'A story seems to be corrupted',
   'stories': 'Stories',
   'stories-local': 'My stories ({0})',
   'stories-on-store': '{0} stories on the store',

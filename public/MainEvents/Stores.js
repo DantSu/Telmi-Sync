@@ -263,6 +263,7 @@ function mainEventStores(mainWindow) {
     mainWindow.webContents.send('store-download-waiting', stories)
 
     downloadTaskRunning = runProcess(
+      mainWindow,
       path.join('Store', 'StoreDownload.js'),
       [story.download],
       () => {
@@ -298,6 +299,7 @@ function mainEventStores(mainWindow) {
     fs.writeFileSync(pathJson, JSON.stringify(audioList))
 
     buildTaskRunning = runProcess(
+      mainWindow,
       path.join('Store', 'StoreBuild.js'),
       [pathJson],
       () => {

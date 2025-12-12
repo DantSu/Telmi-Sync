@@ -7,6 +7,7 @@ function mainEventDownloadFFmpeg (mainWindow) {
     'ffmpeg-download',
     async () => {
       runProcess(
+        mainWindow,
         path.join('BinFiles', 'FFmpegDownload.js'),
         [],
         () => {

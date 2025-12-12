@@ -13,6 +13,7 @@ function mainEventPiperTTS(mainWindow) {
         wavePath = path.join(initTmpPath(path.join('audios', Date.now().toString(36))), 'piper.wav')
       fs.writeFileSync(jsonPath, JSON.stringify({"text": text, "output_file": wavePath}))
       runProcess(
+        mainWindow,
         path.join('PiperTTS', 'PiperTTS.js'),
         [jsonPath],
         () => {

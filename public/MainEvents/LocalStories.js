@@ -11,7 +11,9 @@ function mainEventLocalStoriesReader(mainWindow) {
   ipcMain.on(
     'local-stories-get',
     async () => {
-      mainWindow.webContents.send('local-stories-data', readStories(getStoriesPath()))
+      const list = readStories(getStoriesPath())
+      list.error.forEach((d) => mainWindow.webContents.send('error-warning', {title: 'story-corrupted', message: 'Local drive | Story : ' + d}))
+      mainWindow.webContents.send('local-stories-data', list.stories)
     }
   )
 
@@ -48,6 +50,7 @@ function mainEventLocalStoriesReader(mainWindow) {
       fs.writeFileSync(jsonPath, JSON.stringify(story))
 
       runProcess(
+        mainWindow,
         path.join('Stories', 'StoriesMerge.js'),
         [jsonPath],
         () => {},
@@ -76,6 +79,7 @@ function mainEventLocalStoriesReader(mainWindow) {
     mainWindow.webContents.send('stories-optimize-audio-waiting', stories)
 
     runProcess(
+      mainWindow,
       path.join('Stories', 'StoriesOptimizeAudio.js'),
       [story.path],
       () => {},
@@ -94,6 +98,7 @@ function mainEventLocalStoriesReader(mainWindow) {
     'local-stories-delete',
     async (event, stories) => {
       deleteStories(
+        mainWindow,
         stories.map((s) => s.path),
         () => ipcMain.emit('local-stories-get')
       )

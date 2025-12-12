@@ -203,6 +203,7 @@ const fr = {
   'story-zipping': 'Export de l\'histoire au format zip',
   'story-add-title-images': 'Ajouter le titre aux images',
   'story-add-pagination-images': 'Ajouter la pagination aux images',
+  'story-corrupted': 'Une histoire semble corrompue',
   'stories': 'Histoires',
   'stories-local': 'Mes histoires ({0})',
   'stories-on-store': '{0} histoires sur le store',

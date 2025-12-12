@@ -1,11 +1,11 @@
-import { utilityProcess } from 'electron'
+import {utilityProcess} from 'electron'
 import * as url from 'url'
 import * as path from 'path'
 import {getElectronAppPath} from '../Helpers/AppPaths.js'
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url))
 
-function runProcess (jsFile, arrayParams, onSuccess, onProgress, onError, onFinished) {
+function runProcess(mainWindow, jsFile, arrayParams, onSuccess, onProgress, onError, onFinished) {
   const
     taskProcess = utilityProcess.fork(
       path.join(__dirname, jsFile),
@@ -16,6 +16,11 @@ function runProcess (jsFile, arrayParams, onSuccess, onProgress, onError, onFini
   taskProcess.stdout.on('data', (data) => {
     const progress = data.toString().split('*')
     console.log(progress)
+
+    progress.forEach((p, k) =>
+      p === 'error-warning' && mainWindow.webContents.send(p, {title: progress[k + 1], message: progress[k + 2]})
+    )
+
     if (progress[progress.length - 1] === 'success') {
       taskProcess.kill()
       onSuccess()
@@ -24,7 +29,9 @@ function runProcess (jsFile, arrayParams, onSuccess, onProgress, onError, onFini
         taskProcess.kill()
         onError()
       } else {
-        onProgress(progress[progress.length - 4], progress[progress.length - 3], progress[progress.length - 2])
+        if (progress[progress.length - 4] !== 'error-warning') {
+          onProgress(progress[progress.length - 4], progress[progress.length - 3], progress[progress.length - 2])
+        }
       }
     }
   })

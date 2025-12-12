@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 import * as path from 'path'
 import runProcess from '../Processes/RunProcess.js'
-import { rmFile } from './Files.js'
+import {rmFile} from './Files.js'
 
 const
   readMusic = (musicsPath) => {
@@ -19,7 +19,7 @@ const
             musicPath = path.join(musicsPath, f),
             imagePath = path.join(musicsPath, name + '.png')
 
-          if(!fs.existsSync(imagePath)) {
+          if (!fs.existsSync(imagePath)) {
             rmFile(musicPath)
             return acc
           }
@@ -40,12 +40,13 @@ const
         []
       )
   },
-  deleteMusic = (musicPath, ids, onFinished) => {
+  deleteMusic = (mainWindow, musicPath, ids, onFinished) => {
     if (!Array.isArray(ids)) {
       return false
     }
 
     runProcess(
+      mainWindow,
       path.join('Music', 'MusicDelete.js'),
       [musicPath, ...ids],
       () => {},
@@ -56,4 +57,4 @@ const
     return true
   }
 
-export { readMusic, deleteMusic }
+export {readMusic, deleteMusic}

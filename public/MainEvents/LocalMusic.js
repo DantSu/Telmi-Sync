@@ -56,6 +56,7 @@ function mainEventLocalMusicReader(mainWindow) {
         fs.rmSync(srcImage)
       }
       runProcess(
+        mainWindow,
         path.join('Music', 'MusicConvertCover.js'),
         [music.newImage, dstImage],
         () => {},
@@ -87,6 +88,7 @@ function mainEventLocalMusicReader(mainWindow) {
         titleTask = music.artist + ' - ' + music.album
 
       runProcess(
+        mainWindow,
         path.join('Music', 'MusicBrainzCover.js'),
         [dstPath, music.artist, music.album],
         () => {
@@ -119,6 +121,7 @@ function mainEventLocalMusicReader(mainWindow) {
     'local-musics-delete',
     async (event, ids) => {
       deleteMusic(
+        mainWindow,
         getMusicPath(),
         ids,
         () => ipcMain.emit('local-musics-get')

@@ -51,6 +51,7 @@ function mainEventTelmiOS(mainWindow) {
       }
 
       runProcess(
+        mainWindow,
         path.join('TelmiOS', 'Update.js'),
         [telmiDevice.drive],
         () => {},
@@ -75,6 +76,7 @@ function mainEventTelmiOS(mainWindow) {
         return
       }
       runProcess(
+        mainWindow,
         path.join('TelmiOS', 'Eject.js'),
         [telmiDevice.drive],
         () => {},
@@ -99,6 +101,7 @@ function mainEventTelmiOS(mainWindow) {
         return
       }
       runProcess(
+        mainWindow,
         path.join('TelmiOS', 'CardMaker.js'),
         [drive.drive],
         () => {},

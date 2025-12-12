@@ -49,24 +49,26 @@ const
   },
   readStories = (storiesPath) => {
     if (!fs.existsSync(storiesPath)) {
-      return []
+      return {stories: [], error:[]}
     }
-    return fs.readdirSync(storiesPath)
+    const list = fs.readdirSync(storiesPath)
       .reduce(
         (acc, d) => {
           const md = readStoryMetadata(storiesPath, d)
-          return md !== null ? [...acc, md] : acc
+          return md !== null ? {...acc, stories: [...acc.stories, md]} : {...acc, error: [...acc.error, d]}
         },
-        []
+        {stories: [], error:[]}
       )
-      .sort((md1, md2) => md1.directory > md2.directory ? 1 : (md1.directory < md2.directory ? -1 : 0))
+    list.stories = list.stories.sort((md1, md2) => md1.directory > md2.directory ? 1 : (md1.directory < md2.directory ? -1 : 0))
+    return list
   },
 
-  deleteStories = (storiesPath, onFinished) => {
+  deleteStories = (mainWindow, storiesPath, onFinished) => {
     if (!Array.isArray(storiesPath)) {
       return false
     }
     runProcess(
+      mainWindow,
       path.join('Stories', 'StoriesDelete.js'),
       storiesPath,
       () => {

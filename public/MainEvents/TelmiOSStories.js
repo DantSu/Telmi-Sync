@@ -1,17 +1,20 @@
-import { ipcMain } from 'electron'
-import { getTelmiOSStoriesPath } from './Helpers/TelmiOSPath.js'
-import { deleteStories, readStories } from './Helpers/StoriesFiles.js'
+import {ipcMain} from 'electron'
+import {getTelmiOSStoriesPath} from './Helpers/TelmiOSPath.js'
+import {deleteStories, readStories} from './Helpers/StoriesFiles.js'
 import runProcess from './Processes/RunProcess.js'
 import * as path from 'path'
 
-function mainEventTelmiOSStoriesReader (mainWindow) {
+function mainEventTelmiOSStoriesReader(mainWindow) {
   ipcMain.on(
     'telmios-stories-get',
     async (event, telmiDevice) => {
-      mainWindow.webContents.send(
-        'telmios-stories-data',
-        telmiDevice !== null ? readStories(getTelmiOSStoriesPath(telmiDevice.drive)) : []
-      )
+      if(telmiDevice === null) {
+        mainWindow.webContents.send('telmios-stories-data',[])
+        return
+      }
+      const list = readStories(getTelmiOSStoriesPath(telmiDevice.drive))
+      list.error.forEach((d) => mainWindow.webContents.send('error-warning', {title: 'story-corrupted', message: 'External drive : ' + telmiDevice.drive + ' | Story : ' + d}))
+      mainWindow.webContents.send('telmios-stories-data', list.stories)
     }
   )
 
@@ -20,6 +23,7 @@ function mainEventTelmiOSStoriesReader (mainWindow) {
     async (event, telmiDevice, stories) => {
       if (telmiDevice !== null) {
         deleteStories(
+          mainWindow,
           stories.map((s) => s.path),
           () => {
             ipcMain.emit('telmios-stories-get', event, telmiDevice)
@@ -41,6 +45,7 @@ function mainEventTelmiOSStoriesReader (mainWindow) {
     mainWindow.webContents.send('stories-transfer-waiting', stories)
 
     runProcess(
+      mainWindow,
       path.join('Stories', 'StoryTransfer.js'),
       [dstPath, story.path],
       () => {},

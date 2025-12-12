@@ -1,16 +1,16 @@
-import { ipcMain } from 'electron'
+import {ipcMain} from 'electron'
 import runProcess from './Processes/RunProcess.js'
 
 import * as path from 'path'
 
-function mainEventImport (mainWindow) {
+function mainEventImport(mainWindow) {
   let
     taskRunning = null,
     filesToProcess = []
 
   const runImport = () => {
     if (!filesToProcess.length) {
-      taskRunning = null;
+      taskRunning = null
       mainWindow.webContents.send('import-task', '', '', 0, 0)
       ipcMain.emit('local-stories-get')
       ipcMain.emit('local-musics-get')
@@ -20,7 +20,8 @@ function mainEventImport (mainWindow) {
     mainWindow.webContents.send('import-task', file, 'initialize', 0, 1)
     mainWindow.webContents.send('import-waiting', filesToProcess)
     taskRunning = runProcess(
-      path.join('Import','ImportProcess.js'),
+      mainWindow,
+      path.join('Import', 'ImportProcess.js'),
       [file],
       () => {},
       (message, current, total) => {

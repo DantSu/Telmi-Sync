@@ -132,6 +132,7 @@ function mainEventStudio(mainWindow) {
 
       fs.writeFileSync(jsonPath, JSON.stringify(storyData))
       runProcess(
+        mainWindow,
         path.join('Studio', 'StudioSave.js'),
         [jsonPath],
         () => {
@@ -179,6 +180,7 @@ function mainEventStudio(mainWindow) {
         fs.rmSync(filePath)
       }
       runProcess(
+        mainWindow,
         path.join('Studio', 'StudioZip.js'),
         [filePath, storyPath],
         () => {},
