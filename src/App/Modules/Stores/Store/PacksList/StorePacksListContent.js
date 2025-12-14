@@ -64,7 +64,7 @@ function StorePacksListContent({store, storeData}) {
       additionalHeaderButtons={additionalHeaderButtons}
       isLoading={!stories.length}/>
     {
-      storeData !== null &&
+      storeData !== null && storeData.banner &&
       <ButtonExternalLink href={storeData.banner.link}>
         <div className={styles.bannerContainer} style={{background: storeData.banner.background}}>
           <div className={styles.bannerInnerContainer}>
