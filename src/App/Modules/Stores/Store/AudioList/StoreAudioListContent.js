@@ -73,7 +73,7 @@ function StoreAudioListContent({store, storeData}) {
       additionalHeaderButtons={additionalHeaderButtons}
       isLoading={!stories.length}/>
     {
-      storeData !== null &&
+      storeData !== null && storeData.banner &&
       <div className={styles.audioListContainer}>
         <div className={styles.audioListContainerAbsolute}>
           <ButtonExternalLink href={storeData.banner.link}>
