@@ -22,8 +22,8 @@ const
         const
           strRes = data.toString(),
           infos = strRes.match(/Stream #[0-9]:[0-9]: Audio: ([A-Za-z0-9._,/ ]+)/i),
-          maxVolumeMatch = strRes.match(/ max_volume: -([0-9.]+) dB/i),
-          maxVolume = maxVolumeMatch !== null ? parseFloat(maxVolumeMatch[1]) : 0
+          maxVolumeMatch = strRes.match(/ max_volume: ([0-9.+-]+) dB/i),
+          maxVolume = maxVolumeMatch !== null ? -1 * parseFloat(maxVolumeMatch[1]) : 0
 
         if (infos === null || infos.length < 2) {
           resolve([['unknow', 'unknow', 'unknow', 'unknow', '0 kb/s'], maxVolume])
@@ -164,6 +164,63 @@ const
         }
       })
     })
+  },
+  generatePcmFromMp3 = (srcFile, dstPcm) => {
+    return new Promise((resolve, reject) => {
+      const stream = spawn(getFFmpegFilePath(), ['-i', srcFile, '-ac', '1', '-ar', '1000', '-f', 'u8', '-c:a', 'pcm_u8', dstPcm])
+      stream.on('close', (code) => {
+        if (code === 0) {
+          resolve()
+        } else {
+          reject()
+        }
+      })
+    })
+  },
+  checkTime = (t) => {
+    if(/^[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{2}$/.test(t)) {
+      return t
+    }
+    try {
+      const
+        tn = typeof t === 'number' ? t : (typeof t === 'string' ? parseFloat(t) : 0),
+        ftn = Math.floor(tn),
+        milliseconds = tn - ftn,
+        seconds = ftn % 60,
+        allMinutes = Math.floor(ftn / 60),
+        hours = Math.floor(allMinutes / 60),
+        minutes = allMinutes % 60
+
+      return hours.toFixed(0) + ':' + minutes.toFixed(0) + ':' + (seconds + milliseconds).toFixed(3)
+    } catch (ignored) {
+      return 'NaN'
+    }
+  },
+  cropMp3 = (srcFile, dstFile, startTime, endTime) => {
+    return new Promise((resolve, reject) => {
+      const stream = spawn(getFFmpegFilePath(), ['-i', srcFile, '-ss', checkTime(startTime), '-to', checkTime(endTime), '-c:a', 'copy', dstFile])
+      // stream.stderr.on('data', (data) => process.stdout.write('*' + data.toString() + '*0*1*'))
+      stream.on('close', (code) => {
+        if (code === 0) {
+          resolve()
+        } else {
+          reject()
+        }
+      })
+    })
+  },
+  amplifyMp3 = (srcFile, dstMp3, decibel) => {
+    return new Promise((resolve, reject) => {
+      rmFile(dstMp3)
+      const stream = spawn(getFFmpegFilePath(), ['-i', srcFile, '-af', 'volume=' + decibel + 'dB', dstMp3])
+      stream.on('close', (code) => {
+        if (code === 0) {
+          resolve()
+        } else {
+          reject()
+        }
+      })
+    })
   }
 
 export {
@@ -173,5 +230,8 @@ export {
   convertAudioToMp3,
   convertImageToPng,
   extractMetadataFromMp3,
-  extractPngFromMp3
+  extractPngFromMp3,
+  generatePcmFromMp3,
+  cropMp3,
+  amplifyMp3
 }

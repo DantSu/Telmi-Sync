@@ -1,0 +1,83 @@
+@import "src/App/variables";
+
+.container {
+
+}
+
+.waveformContainer {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 15px;
+}
+
+.waveformScroll {
+  width: 100%;
+  position: relative;
+  overflow: auto;
+  min-height: 64px;
+}
+
+.playerBar {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 100%;
+  background: $white80;
+}
+
+.waveform {
+  position: relative;
+  z-index: 1;
+  display: block;
+  background: $purple2;
+}
+
+.waveformPolyline {
+  fill: $orange;
+  stroke: $orange;
+  stroke-width: 1px;
+}
+
+.buttons {
+  display: flex;
+  align-items: stretch;
+}
+
+.button {
+  flex: 1;
+  border-radius: 10px;
+  padding: 7px;
+  margin: 5px;
+  color: $white;
+  background: $white30;
+}
+
+.bracketLeftContainer,
+.bracketRightContainer {
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  bottom: 0;
+  background: $black60;
+}
+.bracketLeftContainer {
+  left: 0;
+}
+.bracketLeft,
+.bracketRight {
+  position: absolute;
+  width: 30px;
+  height: 100%;
+  border-radius: 15px;
+  cursor: ew-resize;
+}
+.bracketLeft {
+  right: -30px;
+  border-left: 2px solid $white;
+}
+.bracketRight {
+  left: -30px;
+  border-right: 2px solid $white;
+}

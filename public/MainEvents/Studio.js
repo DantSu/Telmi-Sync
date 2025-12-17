@@ -4,7 +4,7 @@ import * as path from 'path'
 import {getExtraResourcesPath, getStoriesPath, initTmpPath} from './Helpers/AppPaths.js'
 import runProcess from './Processes/RunProcess.js'
 import {readStoryMetadata} from './Helpers/StoriesFiles.js'
-import {generateDirNameStory, getMetadataStory} from './Helpers/Stories.js'
+import {generateDirNameStory} from './Helpers/Stories.js'
 import {stringNormalizeFileName} from './Helpers/Strings.js'
 
 function mainEventStudio(mainWindow) {

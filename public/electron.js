@@ -14,7 +14,7 @@ import mainEventLink from './MainEvents/Link.js'
 import mainEventStudio from './MainEvents/Studio.js'
 import mainEventTelmiSyncParams from './MainEvents/TelmiSyncParams.js'
 import mainEventPiperTTS from './MainEvents/PiperTTS.js'
-import mainEventAudioRecord from './MainEvents/AudioRecord.js'
+import mainEventAudio from './MainEvents/Audio.js'
 import mainEventFileManager from './MainEvents/FilesManager.js'
 import mainEventTableState from './MainEvents/TableState.js'
 
@@ -53,7 +53,7 @@ function createWindow() {
   mainEventStudio(mainWindow)
   mainEventTelmiSyncParams(mainWindow)
   mainEventPiperTTS(mainWindow)
-  mainEventAudioRecord(mainWindow)
+  mainEventAudio(mainWindow)
   mainEventTableState(mainWindow)
 
   return mainWindow

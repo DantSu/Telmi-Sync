@@ -65,7 +65,7 @@ function AudioRecord({title, onRecordEnded, className}) {
           track
             .applyConstraints(Object.assign(
               {},
-              capabilities.autoGainControl.includes(true) ? {autoGainControl: true} : null,
+              capabilities.autoGainControl.includes(true) ? {autoGainControl: false} : null,
               capabilities.channelCount.min <= 2 && capabilities.channelCount.max >= 2 ? {channelCount: 2} : null,
               capabilities.echoCancellation.includes(true) ? {echoCancellation: true} : null,
               capabilities.noiseSuppression.includes(true) ? {noiseSuppression: true} : null,
