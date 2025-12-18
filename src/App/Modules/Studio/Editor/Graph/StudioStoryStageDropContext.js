@@ -1,7 +1,8 @@
 import {useLocale} from '../../../../Components/Locale/LocaleHooks.js'
 import {useStudioStoryUpdater} from '../Providers/StudioStoryHooks.js'
 import {addNote, addStage, addStageOption} from '../Forms/StudioNodesHelpers.js'
-import {isAudioDefined, isImageDefined} from '../../Helpers/FileHelpers.js'
+import {getStageAudioPath, getStageImagePath} from '../../Helpers/FileHelpers.js'
+import {metadataToStartStageObject} from '../Forms/StudioStartStageHelpers.js'
 
 import ContextMenuContainer from '../../../../Components/ContextMenu/ContextMenuContainer.js'
 import ContextMenuItem from '../../../../Components/ContextMenu/ContextMenuItem.js'
@@ -10,7 +11,6 @@ import {SVG_ANCHOR_CENTER, SVG_ANCHOR_TOP} from '../../../../Components/SVG/SVGC
 
 
 import styles from './StudioGraph.module.scss'
-import {metadataToStartStageObject} from '../Forms/StudioStartStageHelpers.js'
 
 function StudioStoryStageDropContext({x, y, stageSrc, stageDst, setContextMenu}) {
   const
@@ -36,8 +36,8 @@ function StudioStoryStageDropContext({x, y, stageSrc, stageDst, setContextMenu})
 
         s.nodes.stages[stageId] = Object.assign({
             ...s.nodes.stages[stageId],
-            newImage: srcNode.newImage || isImageDefined(srcNode.image, s.metadata.path),
-            newAudio: srcNode.newAudio || isAudioDefined(srcNode.audio, s.metadata.path),
+            newImage: getStageImagePath(srcNode, s.metadata) || null,
+            newAudio: getStageAudioPath(srcNode, s.metadata) || null,
             control: {
               ok: srcNode.control.ok,
               home: srcNode.control.home,

@@ -1,10 +1,9 @@
-import {isImageDefined} from '../Helpers/FileHelpers.js'
+import {getStageImagePath} from '../Helpers/FileHelpers.js'
 
 import styles from './ModalPlayer.module.scss'
 
 function PlayerInventoryItem({item, story}) {
-  const
-    image = item.newImage || isImageDefined(item.image, story.metadata.path)
+  const image = getStageImagePath(item, story.metadata)
 
   return <li className={styles.inventoryItemContainer}>
     {image && <img src={encodeURI(image.replaceAll('\\', '/'))} alt="" className={styles.inventoryItemImage}/>}

@@ -2,6 +2,7 @@ import {useRef} from 'react'
 import {useLocale} from '../../../../../Components/Locale/LocaleHooks.js'
 import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
 import {addInventoryItem} from '../StudioNodesHelpers.js'
+import {getStageImagePath} from '../../../Helpers/FileHelpers.js'
 
 import Form from '../../../../../Components/Form/Form.js'
 import InputText from '../../../../../Components/Form/Input/InputText.js'
@@ -73,7 +74,7 @@ function StudioInventoryItemForm({itemKey, onValidate}) {
                      label={getLocale('display')}/>
         <InputImage key={'studio-inventory-image-' + storyVersion + '-' + inputKey}
                     id="studio-inventory-image"
-                    defaultValue={item.newImage || (item.image ? metadata.path + '/images/' + item.image : undefined)}
+                    defaultValue={getStageImagePath(item, metadata)}
                     ref={imageRef}
                     label={getLocale('picture')}
                     width={128}

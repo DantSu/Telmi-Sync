@@ -12,6 +12,7 @@ import StudioActionForm from './StudioActionForm.js'
 import StudioStageInventoryForm from './StudioStageInventoryForm.js'
 
 import styles from './StudioStageForm.module.scss'
+import {getStageAudioPath, getStageImagePath} from '../../../Helpers/FileHelpers.js'
 
 const colors = [
   'pink', 'pink2', 'purple3', 'purple4', 'purple5', 'yellow', 'orange2', 'orange3', 'red', 'red2',
@@ -138,7 +139,7 @@ function StudioStageForm() {
                 textTTS={note.notes}
                 onChange={onAudioChange}
                 onDelete={onAudioDelete}
-                audio={stageNode.newAudio ? stageNode.newAudio : (stageNode.audio ? metadata.path + '/audios/' + stageNode.audio : undefined)}/>
+                audio={getStageAudioPath(stageNode, metadata)}/>
     <InputSwitch label={getLocale('studio-stage-control-ok')}
                  key={'control-ok-' + storyVersion + '-' + stage}
                  id={'control-ok'}
@@ -160,7 +161,7 @@ function StudioStageForm() {
                 id={'image'}
                 onChange={onImageChange}
                 onDelete={onImageDelete}
-                defaultValue={stageNode.newImage ? stageNode.newImage : (stageNode.image ? metadata.path + '/images/' + stageNode.image : undefined)}/>
+                defaultValue={getStageImagePath(stageNode, metadata)}/>
 
     {Array.isArray(nodes.inventory) && <StudioStageInventoryForm/>}
     <StudioActionForm stageNode={stageNode}/>

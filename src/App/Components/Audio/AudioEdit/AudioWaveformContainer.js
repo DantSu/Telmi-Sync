@@ -15,31 +15,29 @@ function AudioWaveformContainer({mp3Path, zoom, player, setPlayerPosition, cropp
     [, setSizeChanged] = useState(0),
     containerRef = useRef(null)
 
-  useElectronListener('audio-analyze-data', (s) => setSamples(s), [])
+  useElectronListener('audio-analyze-data', (mp, s) => mp === mp3Path && setSamples(s), [mp3Path])
   useElectronEmitter('audio-analyze-request', [mp3Path])
-
-  useEffect(() => {
-    const resizer = () => {
-      setSizeChanged((s) => s + 1)
-    }
-    window.addEventListener('resize', resizer)
-    return () => {
-      window.removeEventListener('resize', resizer)
-    }
-  }, [])
 
   useEffect(
     () => {
-      if (player.audio === null) {
-        return
+      const resizer = () => setSizeChanged((s) => s + 1)
+      window.addEventListener('resize', resizer)
+      return () => window.removeEventListener('resize', resizer)
+    },
+    []
+  )
+
+  useEffect(
+    () => {
+      if (player.audio !== null) {
+        containerRef.current.scrollLeft = Math.max(
+          Math.min(
+            player.audio.currentTime / player.audio.duration * zoom * containerRef.current.offsetWidth - containerRef.current.offsetWidth / 2,
+            zoom * containerRef.current.offsetWidth - containerRef.current.offsetWidth
+          ),
+          0
+        )
       }
-      containerRef.current.scrollLeft = Math.max(
-        Math.min(
-          player.audio.currentTime / player.audio.duration * zoom * containerRef.current.offsetWidth - containerRef.current.offsetWidth / 2,
-          zoom * containerRef.current.offsetWidth - containerRef.current.offsetWidth
-        ),
-        0
-      )
     },
     [player.audio, zoom]
   )

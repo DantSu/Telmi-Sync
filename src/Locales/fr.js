@@ -92,6 +92,7 @@ const fr = {
   'drop-files': 'Déposez vos fichiers',
   'drag-drop-medias': 'Pour importer vos histoires ou musiques, glissez/déposez les ici.',
   'error-occurred': 'Une erreur est survenue !',
+  'audio-list': 'Liste des audios',
   'audio-volume-startup': 'Volume audio au démarrage',
   'audio-volume-max': 'Volume audio maximum',
   'audio-microphone-select': 'Périphérique d\'enregistrement audio',

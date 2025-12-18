@@ -3,6 +3,7 @@ import {useLocale} from '../../../../Components/Locale/LocaleHooks.js'
 import {useStudioStory} from '../Providers/StudioStoryHooks.js'
 import {useStudioForm} from '../Providers/StudioStageHooks.js'
 import {getAssigmentOperators} from '../Forms/StudioNodesHelpers.js'
+import {getStageAudioPath, getStageImagePath} from '../../Helpers/FileHelpers.js'
 
 import StudioStoryNodeStage from './StudioStoryNodeStage.js'
 import StudioStoryStageDropContext from './StudioStoryStageDropContext.js'
@@ -66,8 +67,8 @@ function StudioStoryStage({stageId, x, y, setContextMenu}) {
 
 
   return <StudioStoryNodeStage
-    image={currentStage.newImage || (currentStage.image ? metadata.path + '/images/' + currentStage.image : undefined)}
-    audio={currentStage.newAudio || (currentStage.audio ? metadata.path + '/audios/' + currentStage.audio : undefined)}
+    image={getStageImagePath(currentStage, metadata)}
+    audio={getStageAudioPath(currentStage, metadata)}
     inventoryUpdate={getInventoryUpdateString()}
     title={notes[stageId].title}
     color={notes[stageId].color}

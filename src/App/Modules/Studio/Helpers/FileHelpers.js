@@ -1,7 +1,6 @@
 const
-  isFileDefined = (file, path) => typeof file !== 'string' || file === '' ? null : path + file,
-  isImageDefined = (file, path) => typeof file !== 'string' || file === '' ? null : path + '/images/' + file,
-  isAudioDefined = (file, path) => typeof file !== 'string' || file === '' ? null : path + '/audios/' + file
+  getStageImagePath = (stage, metadata) => stage.newImage || (stage.image ? metadata.path + '/images/' + stage.image : undefined),
+  getStageAudioPath = (stage, metadata) => stage.newAudio || (stage.audio ? metadata.path + '/audios/' + stage.audio : undefined)
 
 
-export {isFileDefined, isImageDefined, isAudioDefined}
+export {getStageImagePath, getStageAudioPath}

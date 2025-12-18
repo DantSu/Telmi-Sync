@@ -13,6 +13,7 @@ import ButtonIconUndo from '../../../Components/Buttons/Icons/ButtonIconUndo.js'
 import ButtonIconToolbox from '../../../Components/Buttons/Icons/ButtonIconToolbox.js'
 import ButtonIconPlay from '../../../Components/Buttons/Icons/ButtonIconPlay.js'
 import ButtonIconZip from '../../../Components/Buttons/Icons/ButtonIconZip.js'
+import ButtonIconMusic from '../../../Components/Buttons/Icons/ButtonIconMusic.js'
 import ModalStudioStorySaveConfirm from './ModalStudioStorySaveConfirm.js'
 import StudioForms from './Forms/StudioForms.js'
 import Loader from '../../../Components/Loader/Loader.js'
@@ -42,6 +43,8 @@ function StudioStoryEditorLayout({closeEditor}) {
       },
       [addModal, rmModal, story]
     ),
+
+    onEditAudios = useCallback(() => setForm((f) => f === 'form-audio' ? null : 'form-audio'), [setForm]),
 
     onEditItems = useCallback(() => setForm((f) => f === 'form-inventory' ? null : 'form-inventory'), [setForm]),
 
@@ -130,6 +133,11 @@ function StudioStoryEditorLayout({closeEditor}) {
               onClick={onRedo}/>
           </li>
           <li className={styles.topBarSeparator}></li>
+          <li>
+            <ButtonIconMusic className={styles.topBarButton}
+                               title={getLocale('audio-list')}
+                               onClick={onEditAudios}/>
+          </li>
           <li>
             <ButtonIconToolbox className={styles.topBarButton}
                                title={getLocale('inventory')}

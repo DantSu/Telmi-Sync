@@ -16,7 +16,7 @@ function mainEventAudio(mainWindow) {
         [mp3Path, fileTmpPath],
         () => {
           const buffer = fs.readFileSync(fileTmpPath)
-          mainWindow.webContents.send('audio-analyze-data', new Uint8Array(buffer.buffer, buffer.byteOffset, buffer.byteLength))
+          mainWindow.webContents.send('audio-analyze-data', mp3Path, new Uint8Array(buffer.buffer, buffer.byteOffset, buffer.byteLength))
         },
         () => {},
         () => {},
@@ -39,7 +39,7 @@ function mainEventAudio(mainWindow) {
         },
         () => {},
         () => {
-          mainWindow.webContents.send('audio-crop-data', fs.existsSync(fileTmpPath) ? fileTmpPath : null)
+          mainWindow.webContents.send('audio-crop-data', audioPath, fs.existsSync(fileTmpPath) ? fileTmpPath : null)
           mainWindow.webContents.send('audio-crop-task', '', '', 0, 0)
         }
       )

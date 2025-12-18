@@ -13,13 +13,16 @@ function AudioButtonValidCrop({mp3Path, player, croppingData, setCroppingData, s
 
   useElectronListener(
     'audio-crop-data',
-    (newMp3Path) => {
+    (oldMp3Path, newMp3Path) => {
+      if(mp3Path !== oldMp3Path) {
+        return
+      }
       if (newMp3Path !== null) {
         setNewMp3Path(newMp3Path)
       }
       setCroppingData(null)
     },
-    [setNewMp3Path]
+    [setNewMp3Path, mp3Path]
   )
 
   return <ButtonIconCheck className={styles.button}

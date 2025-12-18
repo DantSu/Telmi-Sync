@@ -1,5 +1,5 @@
 import {useCallback, useEffect, useMemo, useState} from 'react'
-import {isAudioDefined, isImageDefined} from '../Helpers/FileHelpers.js'
+import {getStageAudioPath, getStageImagePath} from '../Helpers/FileHelpers.js'
 import {doComparisonOperator, doAssignmentOperator} from '../Editor/Forms/StudioNodesHelpers.js'
 
 import ModalLayout from '../../../Components/Modal/ModalLayout.js'
@@ -151,7 +151,7 @@ function ModalPlayer({story, onClose}) {
         if (stage === null) {
           return metadata.newImageTitle || metadata.imageTitle
         }
-        return stage.newImage || isImageDefined(stage.image, metadata.path)
+        return getStageImagePath(stage, metadata)
       },
       [metadata, stage]
     ),
@@ -214,11 +214,9 @@ function ModalPlayer({story, onClose}) {
         return
       }
 
-      const audio = stage === null ?
-        (metadata.newAudioTitle || metadata.audioTitle) :
-        (stage.newAudio || isAudioDefined(stage.audio, metadata.path))
+      const audio = stage === null ? (metadata.newAudioTitle || metadata.audioTitle) : getStageAudioPath(stage, metadata)
 
-      if (audio === null) {
+      if (!audio) {
         if (stage.control.autoplay) {
           const [aOptions, aIndex] = findNextAction(stage, nodes, items)
           setActionOptions(aOptions)
@@ -302,7 +300,8 @@ function ModalPlayer({story, onClose}) {
                       isClosable={true}
                       onClose={onClose}>
     <div className={styles.images}>
-      {image && <img src={encodeURI(image.replaceAll('\\', '/')) + '?time=' + Date.now()} className={styles.imageStory}
+      {image && <img src={encodeURI(image.replaceAll('\\', '/')) + '?time=' + Date.now()}
+                     className={styles.imageStory}
                      alt=""/>}
       {image && itemsGot.length > 0 && <PlayerInventory items={itemsGot} story={story}/>}
     </div>

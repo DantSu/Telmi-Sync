@@ -92,6 +92,7 @@ const en = {
   'drop-files': 'Drop you file',
   'drag-drop-medias': 'To import your stories or music, drag and drop them here.',
   'error-occurred': 'An error has occurred!',
+  'audio-list': 'Audio list',
   'audio-volume-startup': 'Audio volume at startup',
   'audio-volume-max': 'Maximum audio volume ',
   'audio-microphone-select': 'Audio recording device',
