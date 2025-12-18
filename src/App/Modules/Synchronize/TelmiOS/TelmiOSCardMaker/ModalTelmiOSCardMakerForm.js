@@ -11,6 +11,11 @@ import InputSelect from '../../../../Components/Form/Input/InputSelect.js'
 import ButtonsContainer from '../../../../Components/Buttons/ButtonsContainer.js'
 import ButtonIconTextSDCard from '../../../../Components/Buttons/IconsTexts/ButtonIconTextSDCard.js'
 import ModalTelmiOSCardMakerConfirm from './ModalTelmiOSCardMakerConfirm.js'
+import ModalTelmiOSCardMakerRufus from './ModalTelmiOSCardMakerRufus.js'
+
+
+const
+  toGigabytes = (bytes) => (bytes / 1073741824).toFixed(2)
 
 
 function ModalTelmiOSCardMakerForm({onClose}) {
@@ -44,30 +49,40 @@ function ModalTelmiOSCardMakerForm({onClose}) {
                            {value: '', text: ''},
                            ...drives.map((drive, keyDrive) => ({
                              value: keyDrive,
-                             text: drive.drive + ' (' + drive.name + ')'
+                             text: drive.drive + ' ' + drive.name + ' (' + toGigabytes(drive.size) + getLocale('gb') + ')'
                            }))
                          ]}
                          ref={inputRefDrive}/>
           </ModalContent>
           <ButtonsContainer>
             <ButtonIconTextSDCard text={getLocale('make')}
-                                 rounded={true}
-                                 onClick={() => {
-                                   validation(
-                                     [
-                                       inputRefDrive
-                                     ],
-                                     (values) => {
-                                       addModal((key) => {
-                                         const modal = <ModalTelmiOSCardMakerConfirm key={key}
-                                                                                     drive={drives[values[0]]}
-                                                                                     onClose={() => rmModal(modal)}/>
-                                         return modal
-                                       })
-                                       onClose()
-                                     }
-                                   )
-                                 }}/>
+                                  rounded={true}
+                                  onClick={() => {
+                                    validation(
+                                      [
+                                        inputRefDrive
+                                      ],
+                                      (values) => {
+                                        const selectedDrive = drives[values[0]]
+                                        if (process.platform === 'win32' && toGigabytes(selectedDrive.size) > 32) {
+                                          addModal((key) => {
+                                            const modal = <ModalTelmiOSCardMakerRufus key={key}
+                                                                                      drive={selectedDrive}
+                                                                                      onClose={() => rmModal(modal)}/>
+                                            return modal
+                                          })
+                                        } else {
+                                          addModal((key) => {
+                                            const modal = <ModalTelmiOSCardMakerConfirm key={key}
+                                                                                        drive={selectedDrive}
+                                                                                        onClose={() => rmModal(modal)}/>
+                                            return modal
+                                          })
+                                        }
+                                        onClose()
+                                      }
+                                    )
+                                  }}/>
           </ButtonsContainer>
         </>
       }

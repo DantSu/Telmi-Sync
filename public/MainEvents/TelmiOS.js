@@ -5,6 +5,8 @@ import {parseTelmiOSAutorun} from './Helpers/InfFiles.js'
 import {readTelmiOSParameters, saveTelmiOSParameters} from './Helpers/TelmiOS.js'
 import runProcess from './Processes/RunProcess.js'
 import * as path from 'path'
+import {exec, spawn} from 'child_process'
+import {getExtraResourcesPath} from './Helpers/AppPaths.js'
 
 function mainEventTelmiOS(mainWindow) {
   const checkUsbDevices = async () => {
@@ -31,7 +33,7 @@ function mainEventTelmiOS(mainWindow) {
         'telmios-disklist-data',
         (await drivelist.list())
           .filter((d) => d.isRemovable && d.partitionTableType !== null)
-          .reduce((acc, d) => [...acc, ...d.mountpoints.map((p) => ({name: d.description, drive: p.path}))], [])
+          .reduce((acc, d) => [...acc, ...d.mountpoints.map((p) => ({name: d.description, drive: p.path, size: d.size}))], [])
       )
     }
   )
@@ -91,6 +93,13 @@ function mainEventTelmiOS(mainWindow) {
           checkUsbDevices()
         }
       )
+    }
+  )
+
+  ipcMain.on(
+    'rufus',
+    async (event) => {
+      exec(path.join(getExtraResourcesPath(), 'fat32', 'win32', 'rufus.exe') + ' -g')
     }
   )
 

@@ -15,6 +15,7 @@ const en = {
   'play': 'Play',
   'pause': 'Pause',
   'stop': 'Stop',
+  'gb': 'GB',
   'display': 'Display',
   'display-number': 'Show the item counter',
   'display-bar': 'Show the item counter as bar',
@@ -171,6 +172,24 @@ const en = {
 
   'ffmpeg-download': 'Downloading FFmpeg',
   'ffmpeg-download-failed': 'Failed to download FFmpeg',
+
+  'rufus-format': 'Format with Rufus',
+  'rufus-format-tutorial': 'You want to install Telmi OS on a Micro SD card <strong>larger than 32GB</strong>.<br/>' +
+    'To receive Telmi OS, it must be formatted in <strong>FAT32</strong>.<br/><br/>' +
+    '<strong>On Windows</strong>, to format a Micro SD card larger than 32GB,<br />' +
+    'it is recommended to use <strong>Rufus</strong> with the following settings:<br/><br/>' +
+    '- <strong>Device</strong>: Select your Micro SD card from the list<br/>' +
+    '- <strong>Boot selection</strong>: Non bootable<br/>' +
+    '- <strong>Partition scheme</strong>: MBR<br/>' +
+    '- <strong>Target system</strong>: BIOS or UEFI<br/>' +
+    '- <strong>Volume label</strong>: TELMI OS<br/>' +
+    '- <strong>File system</strong>: Large FAT32 (Default)<br/>' +
+    '- <strong>Cluster size</strong>: 32 kilobytes (Default)<br/><br/>' +
+    'Then click <strong>START</strong> to begin formatting.<br/><br/>' +
+    '<strong>Before clicking the "Make" button below, make sure that<br/>' +
+    'your Micro SD card:</strong><br/>' +
+    '<strong>- uses the FAT32 file system</strong><br/>' +
+    '<strong>- is empty.</strong><br/>',
 
   'telmios-parameters': 'Telmi OS parameters',
   'telmios-not-found': 'Unable to found Telmi OS',

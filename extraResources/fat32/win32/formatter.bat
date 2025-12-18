@@ -20,16 +20,8 @@ powershell -command "Start-Sleep -Milliseconds 300" >nul 2>&1
 if %SIZE_GB% LEQ 32 (
   format %DRIVE_LETTER%: /FS:FAT32 /Q /V:TELMIOS /X /Y >nul 2>&1
 ) else (
-  (
-    echo select volume %DRIVE_LETTER%
-    echo delete volume
-    echo create partition primary
-    echo assign letter=%DRIVE_LETTER%
-  ) > %BAT_PATH%diskpart_script.txt
-  diskpart /s %BAT_PATH%diskpart_script.txt >nul 2>&1
-  %BAT_PATH%h2format.exe %DRIVE_LETTER%: 64 >nul 2>&1
-  label %DRIVE_LETTER%: TELMIOS
-  del %BAT_PATH%diskpart_script.txt >nul 2>&1
+  IF EXIST %DRIVE_LETTER%:\autorun.ico DEL %DRIVE_LETTER%:\autorun.ico
+  IF EXIST %DRIVE_LETTER%:\autorun.inf DEL %DRIVE_LETTER%:\autorun.inf
 )
 
 set EXIT_CODE=%ERRORLEVEL%
