@@ -1,6 +1,7 @@
 import {ipcMain} from 'electron'
 import {getTelmiOSStoriesPath} from './Helpers/TelmiOSPath.js'
-import {deleteStories, readStories} from './Helpers/StoriesFiles.js'
+import {deleteStories} from './Helpers/StoriesProcess.js'
+import {readStories} from './Helpers/Stories.js'
 import runProcess from './Processes/RunProcess.js'
 import * as path from 'path'
 

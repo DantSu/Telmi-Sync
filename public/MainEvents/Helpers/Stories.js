@@ -1,5 +1,7 @@
+import * as fs from 'fs'
+import * as path from 'path'
+import {rmDirectory} from './Files.js'
 import {stringNormalizeFileName, stringSlugify} from './Strings.js'
-import fs from 'fs'
 
 const
   generateDirNameStory = (title, uuid, age, category) => {
@@ -41,6 +43,64 @@ const
 
   createMetadataFile = (pathFile, metadata, image) => {
     fs.writeFileSync(pathFile, JSON.stringify(getMetadataStory(metadata, image)))
+  },
+
+  readStoryMetadata = (storiesPath, directory) => {
+    const
+      storyPath = path.join(storiesPath, directory),
+      nodesPath = path.join(storyPath, 'nodes.json'),
+      mdPath = path.join(storyPath, 'metadata.json'),
+      mp3Path = path.join(storyPath, 'title.mp3'),
+      pngPath = path.join(storyPath, 'title.png'),
+      audiosPath = path.join(storyPath, 'audios'),
+      imagesPath = path.join(storyPath, 'images')
+
+    if (
+      !fs.existsSync(nodesPath) || !fs.existsSync(mdPath) || !fs.existsSync(mp3Path) ||
+      !fs.existsSync(pngPath) || !fs.existsSync(audiosPath) || !fs.existsSync(imagesPath)
+    ) {
+      rmDirectory(storyPath)
+      return null
+    }
+
+    try {
+      const
+        md = JSON.parse(fs.readFileSync(mdPath).toString('utf8')),
+        storyDirName = generateDirNameStory(md.title, md.uuid, md.age, md.category)
+
+      if (storyDirName.toLowerCase() !== directory.toLowerCase()) {
+        const newStoryPath = path.join(storiesPath, storyDirName)
+        rmDirectory(newStoryPath)
+        fs.renameSync(storyPath, newStoryPath)
+        directory = storyDirName
+      }
+
+      md.directory = directory
+      md.path = path.join(storiesPath, directory)
+      md.image = path.join(md.path, md.image)
+      md.audio = path.join(md.path, 'title.mp3')
+      md.version = md.version || 0
+      return md
+    } catch (e) {
+      console.log('Error parsing story : ' + directory)
+      console.log(e.toString())
+      return null
+    }
+  },
+  readStories = (storiesPath) => {
+    if (!fs.existsSync(storiesPath)) {
+      return {stories: [], error:[]}
+    }
+    const list = fs.readdirSync(storiesPath)
+      .reduce(
+        (acc, d) => {
+          const md = readStoryMetadata(storiesPath, d)
+          return md !== null ? {...acc, stories: [...acc.stories, md]} : {...acc, error: [...acc.error, d]}
+        },
+        {stories: [], error:[]}
+      )
+    list.stories = list.stories.sort((md1, md2) => md1.directory > md2.directory ? 1 : (md1.directory < md2.directory ? -1 : 0))
+    return list
   }
 
-export {generateDirNameStory, findAgeInStoryName, getMetadataStory, createMetadataFile}
+export {generateDirNameStory, findAgeInStoryName, getMetadataStory, createMetadataFile, readStoryMetadata, readStories}

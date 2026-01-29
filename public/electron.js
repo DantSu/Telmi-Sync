@@ -17,6 +17,7 @@ import mainEventPiperTTS from './MainEvents/PiperTTS.js'
 import mainEventAudio from './MainEvents/Audio.js'
 import mainEventFileManager from './MainEvents/FilesManager.js'
 import mainEventTableState from './MainEvents/TableState.js'
+import mainEventServer from './MainEvents/Server.js'
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
@@ -55,6 +56,7 @@ function createWindow() {
   mainEventPiperTTS(mainWindow)
   mainEventAudio(mainWindow)
   mainEventTableState(mainWindow)
+  mainEventServer(mainWindow)
 
   return mainWindow
 }

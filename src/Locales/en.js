@@ -297,6 +297,17 @@ const en = {
   'inventory-update-add': 'Add/remove item',
   'inventory-of-item': 'of item',
   'inventory-reset': 'Reset values of inventory items',
+
+
+  'android-app': 'Android App',
+  'android-app-title': 'Telmi is now on Android!',
+  'android-app-message': 'You can now use your Android smartphone (Android 5 and above) to play your Telmi packs.',
+  'android-app-playstore': 'View on Google Play',
+  'android-app-sync': 'Stories synchronization',
+  'android-app-sync-tuto': 'Connect your phone to your home Wi-Fi,<br/>then enter the code below in the app.',
+
+  'server-launching': 'Launching server...',
+  'server-launched': 'Server launched !',
 }
 
 export default en

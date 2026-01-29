@@ -1,0 +1,59 @@
+@import "src/App/variables";
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+}
+
+.cell {
+  max-width: 640px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.cellTop {
+  border-bottom: 1px solid $white30;
+}
+
+.textMargin {
+  padding: 15px 0;
+}
+
+.serverStatus {
+  background: $white10;
+  border: 1px solid $white60;
+  border-radius: 15px;
+  padding: 15px;
+}
+
+.serverIpContainer {
+  padding-top: 7px;
+  border-top: 1px solid $white30;
+  margin-top: 5px;
+}
+
+.ip {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  border-bottom: 1px solid $white10;
+}
+.ip:last-child {
+  border-bottom: 0;
+}
+
+.ipNumber {
+  border-radius: 5px;
+  padding: 5px;
+  margin: 3px;
+  background: $black30;
+  font-weight: bold;
+}

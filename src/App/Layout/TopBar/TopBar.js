@@ -6,6 +6,7 @@ import {routeSynchronize} from '../../Modules/Synchronize/Routes.js'
 import {routeStores} from '../../Modules/Stores/Routes.js'
 import {routeStudio} from '../../Modules/Studio/Routes.js'
 import {routeRSSFeed} from '../../Modules/RSSFeed/Routes.js'
+import {routeAndroidApp} from '../../Modules/AndroidApp/Routes.js'
 
 import ButtonIconXMark from '../../Components/Buttons/Icons/ButtonIconXMark.js'
 import ButtonIconWindow from '../../Components/Buttons/Icons/ButtonIconWindow.js'
@@ -19,6 +20,7 @@ import TopButtonNavigation from './TopButtonNavigation.js'
 import ButtonLangChooser from '../../Components/Locale/ButtonLangChooser.js'
 import ButtonUpdate from './ButtonUpdate.js'
 import ModalTelmiSyncParamsForm from '../../Modules/TelmiSyncParams/ModalTelmiSyncParamsForm.js'
+import ButtonIconTextSmartphone from '../../Components/Buttons/IconsTexts/ButtonIconTextSmartphone.js'
 
 import LogoTelmi from '../../Assets/Images/logo-telmi.svg'
 
@@ -65,6 +67,10 @@ function TopBar({currentModule}) {
                                                                       route={routeStudio}
                                                                       currentModule={currentModule}
                                                                       clickable={false}/>}
+        <TopButtonNavigation buttonComponent={ButtonIconTextSmartphone}
+                             text={getLocale('android-app')}
+                             route={routeAndroidApp}
+                             currentModule={currentModule}/>
       </ul>
     </div>
     <ul className={styles.buttons}>
