@@ -114,10 +114,19 @@ function convertFolderAudioList(srcPath, storyName) {
       dstPathAudio = path.join(dstPath, 'audios'),
       params = getTelmiSyncParams(),
 
-      srcImages = [imageFile, ...listAudio.map(() => imageFile)],
+      srcImages = [
+        imageFile,
+        ...storiesTxt.map((f) => {
+          const img = findImage(srcPath, f)
+          if (img === null) {
+            return imageFile
+          }
+          return img
+        })
+      ],
       dstImages = [
         path.join(dstPath, 'title.png'),
-        ...listAudio.map((f, k) => path.join(dstPathImages, 'm' + k + '.png'))
+        ...storiesTxt.map((f, k) => path.join(dstPathImages, 'm' + k + '.png'))
       ],
       ttsTmpPath = initTmpPath('pipertts'),
       ttsJsonPath = path.join(ttsTmpPath, 'tts.json'),
