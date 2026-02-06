@@ -20,10 +20,31 @@
 
 .cellTop {
   border-bottom: 1px solid $white30;
+  flex-direction: row;
 }
 
+.textContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.titleMargin {
+  padding: 0 0 15px 0;
+}
 .textMargin {
   padding: 15px 0;
+}
+
+.qrcodeContainer {
+  padding: 15px;
+}
+
+.qrcode {
+  display: block;
+  width: 196px;
+  height: auto;
 }
 
 .serverStatus {
@@ -37,6 +58,8 @@
   padding-top: 7px;
   border-top: 1px solid $white30;
   margin-top: 5px;
+  display: flex;
+  flex-direction: column;
 }
 
 .ip {
@@ -46,6 +69,7 @@
   padding: 5px;
   border-bottom: 1px solid $white10;
 }
+
 .ip:last-child {
   border-bottom: 0;
 }
@@ -56,4 +80,13 @@
   margin: 3px;
   background: $black30;
   font-weight: bold;
+}
+
+.problem {
+  font-weight: bold;
+  margin: 0 auto;
+}
+
+.modalProblem {
+  max-width: 640px;
 }

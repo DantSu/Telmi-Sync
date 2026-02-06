@@ -16,6 +16,8 @@ const fr = {
   'pause': 'Pause',
   'stop': 'Stop',
   'gb': 'Go',
+  'problem':' Un problème',
+  'code-number':' Code n°{0}',
   'display': 'Affichage',
   'display-number': 'Afficher le nombre d\'objet',
   'display-bar': 'Afficher une jauge',
@@ -142,7 +144,7 @@ const fr = {
   'which-story': 'Quelle histoire veux-tu écouter ?',
   'what-listen': 'Que veux-tu écouter ?',
   'discover-rss-feed': 'Découvrez les flux RSS de podcasts ci-dessous, lisez les descriptions, visitez les sites Internet et ajoutez ceux qui vous intéressent à vos Stores.',
-  'visit-website': 'Visiter le site internet',
+  'visit-website': 'Visiter le site Internet',
   'add-rssfeed-to-store': 'Ajouter ce flux RSS à vos Stores',
   'collapse': 'Réduire',
   'expand': 'Agrandir',
@@ -305,6 +307,13 @@ const fr = {
   'android-app-playstore': 'Voir sur Google Play',
   'android-app-sync': 'Synchronisation des histoires',
   'android-app-sync-tuto': 'Connectez votre téléphone sur le wifi de votre maison<br/>puis saisissez le code ci-dessous dans l\'application.',
+  'android-app-qrcode': 'QR code menant vers l\'application Android Telmi sur Google Play',
+  'android-app-problem': 'Lorsque vous entrez le code proposé par Telmi Sync dans l\'application Android, une erreur s\'affiche. Voici des raisons et solutions possibles à ce problème :<br/><br />' +
+    '- Assurez-vous bien que votre téléphone ou tablette est connecté en Wi-Fi sur la même box Internet que votre ordinateur.<br /><br />' +
+    '- Le code fourni par Telmi Sync n\'est pas le bon, essayez les autres codes proposés en bas de cette pop-up.<br/><br />' +
+    '- Si vous êtes sur Windows, assurez-vous d\'avoir bien cliqué sur <strong>Oui</strong> lorsque Windows Defender vous a demandé si Telmi Sync avait le droit d\'utiliser le réseau. Si vous avez répondu <strong>non</strong>, vous devez aller changer les paramètres du pare-feu de Windows Defender.<br /><br />' +
+    '- Si vous avez un pare-feu assurez-vous qu\'il est correctement configuré pour autoriser Telmi Sync à partager sur le réseau (port : 7311).<br /><br />' +
+    'Voici d\'autres codes possibles pour la synchronisation des données :',
 
   'server-launching': 'Démarrage du serveur...',
   'server-launched': 'Serveur démarré !',

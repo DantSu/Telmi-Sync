@@ -10,17 +10,37 @@ const PORT = 7311
 
 const
   getLocalIP = () => {
-    const ints = os.networkInterfaces()
-    const addresses = []
+    const
+      ints = os.networkInterfaces(),
+      addresses192 = [],
+      addresses172 = [],
+      addresses10 = []
+
     for (const intName in ints) {
       const int = ints[intName]
       for (const intInfo of int) {
         if (!intInfo.internal && intInfo.family === 'IPv4') {
-          addresses.push(intInfo.address)
+          const [a, b, c] = intInfo.address.split('.', 3)
+          switch (a) {
+            case '192':
+              if (b === '168') {
+                addresses192.push(intInfo.address)
+              }
+              break
+            case '172':
+              const bi = parseInt(b, 10)
+              if (bi > 15 && bi < 32) {
+                addresses172.push(intInfo.address)
+              }
+              break
+            case '10':
+              addresses10.push(intInfo.address)
+              break
+          }
         }
       }
     }
-    return addresses
+    return [...addresses192, ...addresses172, ...addresses10]
   },
   resError404 = (res) => {
     res.writeHead(404, {'Content-Type': 'application/json'})
@@ -134,12 +154,12 @@ function main() {
   })
 
   server.listen(PORT, () => {
-    const localIPs = getLocalIP();
-    if(!localIPs.length) {
+    const localIPs = getLocalIP()
+    if (!localIPs.length) {
       process.stderr.write('No local ip found.')
       return
     }
-    process.stdout.write('*server-launched*' + localIPs[0] + '**')
+    process.stdout.write('*server-launched*' + localIPs.join('|') + '**')
   })
 
   server.on('error', (err) => {

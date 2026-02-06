@@ -16,6 +16,8 @@ const en = {
   'pause': 'Pause',
   'stop': 'Stop',
   'gb': 'GB',
+  'problem':' A problem',
+  'code-number':' Code n°{0}',
   'display': 'Display',
   'display-number': 'Show the item counter',
   'display-bar': 'Show the item counter as bar',
@@ -305,6 +307,14 @@ const en = {
   'android-app-playstore': 'View on Google Play',
   'android-app-sync': 'Stories synchronization',
   'android-app-sync-tuto': 'Connect your phone to your home Wi-Fi,<br/>then enter the code below in the app.',
+  'android-app-qrcode': 'QR code linking to the Telmi Android app on Google Play',
+  'android-app-problem': 'When you enter the code provided by Telmi Sync in the Android app, an error is displayed. Here are some possible reasons and solutions to this issue:<br/><br />' +
+    '- Make sure that your phone or tablet is connected via Wi-Fi to the same Internet router as your computer.<br /><br />' +
+    '- The code provided by Telmi Sync is not correct; try the other codes shown at the bottom of this pop-up.<br/><br />' +
+    '- If you are using Windows, make sure you clicked <strong>Yes</strong> when Windows Defender asked whether Telmi Sync was allowed to use the network. If you clicked <strong>No</strong>, you need to change the Windows Defender Firewall settings.<br /><br />' +
+    '- If you are using a firewall, make sure it is correctly configured to allow Telmi Sync to share on the network (port: 7311).<br /><br />' +
+    'Here are other possible codes for data synchronization:',
+
 
   'server-launching': 'Launching server...',
   'server-launched': 'Server launched !',
