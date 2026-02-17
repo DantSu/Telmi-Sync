@@ -177,7 +177,7 @@ const fr = {
 
   'rufus-format':'Formater avec Rufus',
   'rufus-format-tutorial':'Vous souhaitez installer Telmi OS sur une carte Micro SD <strong>de plus de 32Go</strong>.<br/>' +
-    'Pour recevoir Telmi OS, elle doit être formater en <strong>FAT32</strong>.<br/><br/>' +
+    'Pour recevoir Telmi OS, elle doit être formaté en <strong>FAT32</strong>.<br/><br/>' +
     '<strong>Sur Windows</strong>, pour pouvoir formater une carte Micro SD de plus de 32go,<br />' +
     'il est recommandé d\'utiliser <strong>Rufus</strong> avec les paramêtres suivant :<br/><br/>' +
     '- <strong>Périphérique</strong> : Choisissez votre carte Micro SD dans la liste<br/>' +
@@ -303,7 +303,7 @@ const fr = {
 
   'android-app': 'Android App',
   'android-app-title': 'Telmi est maintenant sur Android !',
-  'android-app-message': 'Retrouvez sur vos smartphone Android (5 et +) la possibilité de lire vos packs Telmi.',
+  'android-app-message': 'Retrouvez sur vos smartphones et tablettes Android (5 et +) la possibilité de lire vos packs Telmi.',
   'android-app-playstore': 'Voir sur Google Play',
   'android-app-sync': 'Synchronisation des histoires',
   'android-app-sync-tuto': 'Connectez votre téléphone sur le wifi de votre maison<br/>puis saisissez le code ci-dessous dans l\'application.',
