@@ -43,11 +43,14 @@ function StorePacksListContent({store, storeData}) {
         addModal((key) => {
           const modal = <ModalStoreDownload key={key}
                                             stories={[story]}
-                                            onClose={() => rmModal(modal)}/>
+                                            onClose={() => {
+                                              rmModal(modal)
+                                              setStoriesSelected([])
+                                            }}/>
           return modal
         })
       },
-      [addModal, rmModal]
+      [addModal, rmModal, setStoriesSelected]
     )
 
   return <>
