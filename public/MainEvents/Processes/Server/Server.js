@@ -56,6 +56,7 @@ function main() {
 
   const
     storiesPath = getStoriesPath(),
+    zipTmpPath = initTmpPath('zip-story'),
     list = readStories(storiesPath).stories.map((story) => ({
       title: story.title,
       age: story.age,
@@ -78,6 +79,56 @@ function main() {
       uuid: story.uuid,
       version: story.version || 0,
     }))
+
+  const zipQueue = []
+
+  function addStoryToZip(res, fileName) {
+    zipQueue.push({res, fileName})
+    if (zipQueue.length === 1) {
+      storyZip()
+    }
+  }
+
+  function storyZip() {
+    if (!zipQueue.length) {
+      return
+    }
+
+    const
+      {res, fileName} = zipQueue[0],
+      storyPath = path.join(storiesPath, fileName),
+      zipFile = path.join(zipTmpPath, Date.now().toString(36) + '.zip')
+
+    pack(
+      storyPath,
+      zipFile,
+      (err) => {
+        zipQueue.shift()
+        storyZip()
+        if (err) {
+          return resError500(res, err)
+        }
+        const fileStream = fs.createReadStream(zipFile)
+        res.writeHead(200, {
+          'Content-Type': 'application/zip',
+          'Content-Disposition': 'attachment; filename="' + fileName + '.zip"',
+          'Content-Length': fs.statSync(zipFile).size
+        })
+        fileStream.pipe(res)
+        fileStream.on('error', (err) => {
+          resError500(res, err)
+        })
+        fileStream.on('end', () => {
+          fileStream.close((err) => {
+            if (!err) {
+              fs.unlinkSync(zipFile)
+            }
+          })
+        })
+      }
+    )
+  }
+
 
   const server = http.createServer((req, res) => {
     const httpUrl = 'http://' + req.headers.host
@@ -114,7 +165,6 @@ function main() {
           }
           return resError500(res, err)
         }
-
         res.writeHead(200, {
           'Content-Type': 'image/png',
           'Content-Length': data.length
@@ -122,32 +172,7 @@ function main() {
         res.end(data)
       })
     } else if (req.url.startsWith('/download/')) {
-      const
-        fileName = decodeURI(req.url.substring(10)),
-        storyPath = path.join(storiesPath, fileName),
-        zipFile = path.join(initTmpPath('zip-story'), Date.now().toString(36) + '.zip')
-      pack(
-        storyPath,
-        zipFile,
-        (err) => {
-          if (err) {
-            return resError500(res, err)
-          }
-          const fileStream = fs.createReadStream(zipFile)
-          res.writeHead(200, {
-            'Content-Type': 'application/zip',
-            'Content-Disposition': 'attachment; filename="' + fileName + '.zip"',
-            'Content-Length': fs.statSync(zipFile).size
-          })
-          fileStream.pipe(res)
-          fileStream.on('error', (err) => {
-            resError500(res, err)
-          })
-          fileStream.on('end', () => {
-            fs.unlink(zipFile, () => {})
-          })
-        }
-      )
+      addStoryToZip(res, decodeURI(req.url.substring(10)))
     } else {
       resError404(res)
     }

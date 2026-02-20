@@ -6,7 +6,7 @@ import styles from './ModalPlayer.module.scss'
 function PlayerInventory({items, story}) {
   return <div className={styles.inventory}>
     <ul className={styles.inventoryList}>{
-      items.map((item) => <PlayerInventoryItem key={'inventory-item-' + item.id} item={item} story={story} />)
+      items.slice(0, 8).map((item) => <PlayerInventoryItem key={'inventory-item-' + item.id} item={item} story={story} />)
     }</ul>
   </div>
 }
