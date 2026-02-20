@@ -213,6 +213,7 @@ const fr = {
 
   'story': 'Histoire',
   'story-play': 'Lire l\'histoire',
+  'story-play-from-stage': 'Lire l\'histoire depuis cette scène',
   'story-create': 'Créer une nouvelle histoire',
   'story-close': 'Fermer l\'histoire',
   'story-deciphering-media': 'Décryptage des fichiers médias',

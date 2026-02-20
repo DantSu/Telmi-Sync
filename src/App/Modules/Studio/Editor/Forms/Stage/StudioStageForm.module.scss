@@ -1,11 +1,18 @@
 @import "/src/App/variables";
 
+.stageFormHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 15px;
+}
+
 .colorsPicker {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  padding-bottom: 15px;
+  padding-right: 10px;
 }
 
 .colorPicker,
@@ -25,6 +32,20 @@
   .#{$name} {
     background: $colorLight;
   }
+}
+
+.playIcon {
+  font-size: 32px;
+  height: 48px;
+  width: 48px;
+  flex: 0 0 48px;
+  border-radius: 24px;
+  background-color: $white30;
+  color: $white;
+}
+
+.playIcon:hover {
+  background-color: $orange;
 }
 
 .actionContainer {

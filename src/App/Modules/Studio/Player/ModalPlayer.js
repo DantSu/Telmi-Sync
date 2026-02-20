@@ -9,11 +9,13 @@ import ButtonIconChevronDown from '../../../Components/Buttons/Icons/ButtonIconC
 import ButtonIconChevronUp from '../../../Components/Buttons/Icons/ButtonIconChevronUp.js'
 import ButtonText from '../../../Components/Buttons/Text/ButtonText.js'
 import PlayerInventory from './PlayerInventory.js'
+import ModalPlayerDebugger from './ModalPlayerDebugger.js'
 
 import styles from './ModalPlayer.module.scss'
 
 const
   getTime = () => Math.floor(Date.now() / 1000),
+
   getConditionNumber = (condition, items) => {
     if (condition.number !== undefined) {
       return condition.number
@@ -23,6 +25,7 @@ const
     }
     return 0
   },
+
   getInventoryUpdateNumber = (update, items, startPlayingTime) => {
     if (update.number !== undefined) {
       return update.number
@@ -35,6 +38,7 @@ const
     }
     return 0
   },
+
   getIndex = (action, options, items) => {
     if (!options.length || (action.index === undefined && action.indexItem === undefined)) {
       return 0
@@ -121,17 +125,18 @@ const
     return index < 0 ? [[], 0] : [options, index]
   }
 
-function ModalPlayer({story, onClose}) {
+function ModalPlayer({story, debugMode, defaultActionOptions, defaultActionIndex, onClose}) {
   const
     [stageTitle, setStageTitle] = useState(null),
     [stage, setStage] = useState(null),
     [startPlayingTime, setStartPlayingTime] = useState(getTime()),
-    [actionOptions, setActionOptions] = useState([]),
-    [actionIndex, setActionIndex] = useState(0),
-    metadata = story.metadata,
-    nodes = story.nodes,
-    notes = story.notes,
-    [items, setItems] = useState(undefined),
+    [actionOptions, setActionOptions] = useState(defaultActionOptions || []),
+    [actionIndex, setActionIndex] = useState(defaultActionIndex || 0),
+    {metadata, nodes, notes} = story,
+    [items, setItems] = useState(() => !Array.isArray(nodes.inventory) || nodes.inventory.length === 0 ?
+          null :
+          nodes.inventory.map((item) => ({...item, count: item.initialNumber}))
+    ),
     resetItems = useCallback(
       () => setItems((items) =>
         items === null || !Array.isArray(nodes.inventory) || nodes.inventory.length === 0 ?
@@ -141,7 +146,7 @@ function ModalPlayer({story, onClose}) {
       [nodes.inventory]
     ),
 
-    itemsGot = useMemo(() => items === undefined || items === null ? [] : items.filter((i) => i.count > 0 && i.display !== 2), [items]),
+    itemsGot = useMemo(() => !Array.isArray(items) ? [] : items.filter((i) => i.count > 0 && i.display !== 2), [items]),
 
     image = useMemo(
       () => {
@@ -210,7 +215,7 @@ function ModalPlayer({story, onClose}) {
 
   useEffect(
     () => {
-      if (stage === undefined || items === undefined) {
+      if (stage === undefined) {
         return
       }
 
@@ -225,8 +230,10 @@ function ModalPlayer({story, onClose}) {
         return
       }
 
-      const player = new Audio(audio)
-      player.play()
+      const
+        player = new Audio(audio),
+        playPromise = player.play()
+      playPromise.catch(() => {})
       player.addEventListener(
         'ended',
         () => {
@@ -299,25 +306,28 @@ function ModalPlayer({story, onClose}) {
   return <ModalLayout className={styles.container}
                       isClosable={true}
                       onClose={onClose}>
-    <div className={styles.images}>
-      {image && <img src={encodeURI(image.replaceAll('\\', '/')) + '?time=' + Date.now()}
-                     className={styles.imageStory}
-                     alt=""/>}
-      {image && itemsGot.length > 0 && <PlayerInventory items={itemsGot} story={story}/>}
-    </div>
-    <ul className={styles.buttons}>
-      <li className={styles.stageTitle}>{stageTitle !== null ? stageTitle : metadata.title}</li>
+    <div className={styles.playerContainer}>
+      <div className={styles.images}>
+        {image && <img src={encodeURI(image.replaceAll('\\', '/')) + '?time=' + Date.now()}
+                       className={styles.imageStory}
+                       alt=""/>}
+        {image && itemsGot.length > 0 && <PlayerInventory items={itemsGot} story={story}/>}
+      </div>
+      <ul className={styles.buttons}>
+        <li className={styles.stageTitle}>{stageTitle !== null ? stageTitle : metadata.title}</li>
 
         <li><ButtonIconChevronLeft className={styles.buttonLeft} onClick={onLeft}/></li>
-      <li><ButtonIconChevronUp className={styles.buttonUp}/></li>
-      <li><ButtonIconChevronRight className={styles.buttonRight} onClick={onRight}/></li>
-      <li><ButtonIconChevronDown className={styles.buttonDown}/></li>
+        <li><ButtonIconChevronUp className={styles.buttonUp}/></li>
+        <li><ButtonIconChevronRight className={styles.buttonRight} onClick={onRight}/></li>
+        <li><ButtonIconChevronDown className={styles.buttonDown}/></li>
 
-      <li><ButtonText className={styles.buttonX} text="X" onClick={onCancel}/></li>
-      <li><ButtonText className={styles.buttonY} text="Y" onClick={onCancel}/></li>
-      <li><ButtonText className={styles.buttonA} text="A" onClick={onOk}/></li>
-      <li><ButtonText className={styles.buttonB} text="B" onClick={onOk}/></li>
-    </ul>
+        <li><ButtonText className={styles.buttonX} text="X" onClick={onCancel}/></li>
+        <li><ButtonText className={styles.buttonY} text="Y" onClick={onCancel}/></li>
+        <li><ButtonText className={styles.buttonA} text="A" onClick={onOk}/></li>
+        <li><ButtonText className={styles.buttonB} text="B" onClick={onOk}/></li>
+      </ul>
+    </div>
+    {debugMode && Array.isArray(items) && !!items.length && <ModalPlayerDebugger items={items} setItems={setItems}/>}
   </ModalLayout>
 }
 

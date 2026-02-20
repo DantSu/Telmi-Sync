@@ -213,6 +213,7 @@ const en = {
 
   'story': 'Story',
   'story-play': 'Play the story',
+  'story-play-from-stage': 'Play the story from this scene',
   'story-create': 'Create a new story',
   'story-close': 'Close the story',
   'story-deciphering-media': 'Decryption of media files',

@@ -36,6 +36,7 @@ function StudioStoryEditorLayout({closeEditor}) {
       () => {
         addModal((key) => {
           const modal = <ModalPlayer key={key}
+                                     debugMode={true}
                                      story={story}
                                      onClose={() => rmModal(modal)}/>
           return modal

@@ -10,7 +10,7 @@ function ModalPlayerLauncher({storyMetadata, onClose}) {
   useElectronListener('studio-story-data', (sd) => setStory(sd), [])
   useElectronEmitter('studio-story-get', [storyMetadata])
 
-  return story === null ? null : <ModalPlayer story={story} onClose={onClose}/>
+  return story === null ? null : <ModalPlayer debugMode={false} story={story} onClose={onClose}/>
 }
 
 export default ModalPlayerLauncher

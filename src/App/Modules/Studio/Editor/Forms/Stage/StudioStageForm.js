@@ -1,4 +1,6 @@
 import {useCallback, useRef} from 'react'
+import {useModal} from '../../../../../Components/Modal/ModalHooks.js'
+import {getStageAudioPath, getStageImagePath} from '../../../Helpers/FileHelpers.js'
 import {useLocale} from '../../../../../Components/Locale/LocaleHooks.js'
 import {useStudioForm} from '../../Providers/StudioStageHooks.js'
 import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
@@ -10,9 +12,10 @@ import InputAudio from '../../../../../Components/Form/Input/InputAudio.js'
 import InputSwitch from '../../../../../Components/Form/Input/InputSwitch.js'
 import StudioActionForm from './StudioActionForm.js'
 import StudioStageInventoryForm from './StudioStageInventoryForm.js'
+import ButtonIconPlay from '../../../../../Components/Buttons/Icons/ButtonIconPlay.js'
+import ModalPlayer from '../../../Player/ModalPlayer.js'
 
 import styles from './StudioStageForm.module.scss'
-import {getStageAudioPath, getStageImagePath} from '../../../Helpers/FileHelpers.js'
 
 const colors = [
   'pink', 'pink2', 'purple3', 'purple4', 'purple5', 'yellow', 'orange2', 'orange3', 'red', 'red2',
@@ -22,12 +25,32 @@ const colors = [
 function StudioStageForm() {
   const
     {getLocale} = useLocale(),
+    {addModal, rmModal} = useModal(),
     {form: stage} = useStudioForm(),
-    {story: {metadata, nodes, notes}, storyVersion} = useStudioStory(),
+    {story, storyVersion} = useStudioStory(),
+    {metadata, nodes, notes} = story,
     {updateStory} = useStudioStoryUpdater(),
     note = notes[stage],
     stageNode = nodes.stages[stage],
 
+    onPlay = useCallback(
+      () => {
+        addModal((key) => {
+          const
+            action = Object.values(story.nodes.actions).find((action) => action.find((option) => option.stage === stage) !== undefined),
+            actionIndex = action.findIndex((option) => option.stage === stage)
+
+          const modal = <ModalPlayer key={key}
+                                     debugMode={true}
+                                     story={story}
+                                     defaultActionIndex={actionIndex}
+                                     defaultActionOptions={action}
+                                     onClose={() => rmModal(modal)}/>
+          return modal
+        })
+      },
+      [addModal, rmModal, story, stage]
+    ),
     onColorClicked = useCallback(
       (color) => updateStory((s) => {
         if (s.notes[stage].color === color) {
@@ -114,14 +137,21 @@ function StudioStageForm() {
     )
 
   return <>
-    <ul className={styles.colorsPicker}>{
-      colors.map((c) => <li key={'color-'  + c}
-                            onClick={() => onColorClicked(c)}
-                            className={[
-                              note.color === c ? styles.colorPicked : styles.colorPicker,
-                              styles[c]
-                            ].join(' ')}></li>)
-    }</ul>
+    <div className={styles.stageFormHeader}>
+      <ul className={styles.colorsPicker}>{
+        colors.map((c) => <li key={'color-' + c}
+                              onClick={() => onColorClicked(c)}
+                              className={[
+                                note.color === c ? styles.colorPicked : styles.colorPicker,
+                                styles[c]
+                              ].join(' ')} />)
+      }</ul>
+      <ButtonIconPlay className={styles.playIcon}
+                      rounded={true}
+                      title={getLocale('story-play-from-stage')}
+                      onClick={onPlay}/>
+    </div>
+
     <InputText label={getLocale('title')}
                id={'title'}
                key={'title-' + storyVersion + '-' + stage}
