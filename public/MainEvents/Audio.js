@@ -26,21 +26,21 @@ function mainEventAudio(mainWindow) {
   )
 
   ipcMain.on(
-    'audio-crop',
-    async (event, audioPath, startTime, endTime) => {
-      const fileTmpPath = path.join(initTmpPath(path.join('audio-crop', Date.now().toString(36))), 'audio.mp3')
+    'audio-edit-segment',
+    async (event, audioPath, audioFunction, startTime, endTime) => {
+      const fileTmpPath = path.join(initTmpPath(path.join('audio-edit-segment', Date.now().toString(36))), 'audio.mp3')
       runProcess(
         mainWindow,
-        path.join('Audio', 'AudioCrop.js'),
-        [audioPath, fileTmpPath, startTime, endTime],
+        path.join('Audio', 'AudioEditSegment.js'),
+        [audioPath, fileTmpPath, audioFunction, startTime, endTime],
         () => {},
         (message, current, total) => {
-          mainWindow.webContents.send('audio-crop-task', 'audio-crop', message, current, total)
+          mainWindow.webContents.send('audio-edit-segment-task', 'audio-edit-segment', message, current, total)
         },
         () => {},
         () => {
-          mainWindow.webContents.send('audio-crop-data', audioPath, fs.existsSync(fileTmpPath) ? fileTmpPath : null)
-          mainWindow.webContents.send('audio-crop-task', '', '', 0, 0)
+          mainWindow.webContents.send('audio-edit-segment-data', audioPath, fs.existsSync(fileTmpPath) ? fileTmpPath : null)
+          mainWindow.webContents.send('audio-edit-segment-task', '', '', 0, 0)
         }
       )
     }

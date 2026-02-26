@@ -31,7 +31,8 @@ function StudioStoryStartStage({x, y, setContextMenu}) {
       [nodes, setContextMenu, x, y]
     )
 
-  return <StudioStoryNodeStage image={metadata.newImageTitle || metadata.imageTitle}
+  return <StudioStoryNodeStage stageId="startStage"
+                               image={metadata.newImageTitle || metadata.imageTitle}
                                audio={metadata.newAudioTitle || metadata.audioTitle}
                                title={metadata.title}
                                onClick={onClick}

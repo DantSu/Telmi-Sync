@@ -11,7 +11,7 @@ const
       startMovingState.current.style.right = Math.min(
         Math.max(
           containerRef.offsetWidth - (event.clientX - containerXPos) - containerRef.scrollLeft,
-          Math.max(-1 * containerRef.scrollLeft, containerRef.offsetWidth - bracketRightRef.current.offsetLeft) + 30
+          Math.max(-1 * containerRef.scrollLeft, containerRef.offsetWidth - bracketRightRef.current.offsetLeft) + 20
         ),
         containerRef.offsetWidth - containerRef.scrollLeft
       ) + 'px'
@@ -19,7 +19,7 @@ const
       startMovingState.current.style.left = Math.min(
         Math.max(
           event.clientX - containerXPos + containerRef.scrollLeft,
-          Math.max(containerRef.scrollLeft, bracketLeftRef.current.offsetWidth) + 30
+          Math.max(containerRef.scrollLeft, bracketLeftRef.current.offsetWidth) + 20
         ),
         containerRef.offsetWidth + containerRef.scrollLeft
       ) + 'px'
@@ -78,7 +78,9 @@ function AudioWaveformCrop({croppingData, setCroppingData, player, containerRef,
                 e.preventDefault()
                 e.stopPropagation()
                 setStartMovingState(bracketLeftRef)
-              }}/>
+              }}>
+        <span/>
+      </button>
     </div>
     <div className={styles.bracketRightContainer}
          ref={bracketRightRef}>
@@ -87,7 +89,9 @@ function AudioWaveformCrop({croppingData, setCroppingData, player, containerRef,
                 e.preventDefault()
                 e.stopPropagation()
                 setStartMovingState(bracketRightRef)
-              }}/>
+              }}>
+        <span/>
+      </button>
     </div>
   </>
 }

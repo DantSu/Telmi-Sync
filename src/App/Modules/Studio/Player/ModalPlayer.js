@@ -1,6 +1,6 @@
 import {useCallback, useEffect, useMemo, useState} from 'react'
 import {getStageAudioPath, getStageImagePath} from '../Helpers/FileHelpers.js'
-import {doComparisonOperator, doAssignmentOperator} from '../Editor/Forms/StudioNodesHelpers.js'
+import {doComparisonOperator, doAssignmentOperator} from '../Editor/StudioNodesHelpers.js'
 
 import ModalLayout from '../../../Components/Modal/ModalLayout.js'
 import ButtonIconChevronLeft from '../../../Components/Buttons/Icons/ButtonIconChevronLeft.js'

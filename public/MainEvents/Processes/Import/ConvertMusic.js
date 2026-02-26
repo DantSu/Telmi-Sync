@@ -2,7 +2,7 @@ import * as path from 'path'
 import * as fs from 'fs'
 import {getExtraResourcesPath, getMusicPath, initTmpPath} from '../Helpers/AppPaths.js'
 import { checkCoverExists, convertAudio } from './Helpers/AudioFile.js'
-import { extractMetadataFromMp3, extractPngFromMp3 } from '../BinFiles/FFmpegCommand.js'
+import { audioExtractMetadata, audioExtractPNG } from '../BinFiles/FFmpegCommand.js'
 import { parseInfFile } from '../../Helpers/InfFiles.js'
 import { getMusicBrainzCoverImage } from '../Helpers/MusicBrainzApi.js'
 import { convertMusicImage } from './Helpers/ImageFile.js'
@@ -73,7 +73,7 @@ function convertMusic (srcPath) {
             return stepCheckCover()
           }
 
-          extractPngFromMp3(srcPath, coverPath)
+          audioExtractPNG(srcPath, coverPath)
             .then(stepCheckCover)
             .catch(stepCheckCover)
         })
@@ -82,7 +82,7 @@ function convertMusic (srcPath) {
         })
     }
 
-  extractMetadataFromMp3(srcPath, tmpMetadataTxtPath)
+  audioExtractMetadata(srcPath, tmpMetadataTxtPath)
     .then(() => {
       if (fs.existsSync(tmpMetadataTxtPath)) {
         const

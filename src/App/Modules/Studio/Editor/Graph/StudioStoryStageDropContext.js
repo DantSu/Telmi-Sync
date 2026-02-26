@@ -1,8 +1,8 @@
 import {useLocale} from '../../../../Components/Locale/LocaleHooks.js'
 import {useStudioStoryUpdater} from '../Providers/StudioStoryHooks.js'
-import {addNote, addStage, addStageOption} from '../Forms/StudioNodesHelpers.js'
+import {addNote, addStage, addStageOption} from '../StudioNodesHelpers.js'
 import {getStageAudioPath, getStageImagePath} from '../../Helpers/FileHelpers.js'
-import {metadataToStartStageObject} from '../Forms/StudioStartStageHelpers.js'
+import {metadataToStartStageObject} from '../StudioStartStageHelpers.js'
 
 import ContextMenuContainer from '../../../../Components/ContextMenu/ContextMenuContainer.js'
 import ContextMenuItem from '../../../../Components/ContextMenu/ContextMenuItem.js'

@@ -2,7 +2,7 @@ import {useRef, useState} from 'react'
 import {useLocale} from '../../../../../Components/Locale/LocaleHooks.js'
 import {useStudioForm} from '../../Providers/StudioStageHooks.js'
 import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
-import {getAssigmentOperators} from '../StudioNodesHelpers.js'
+import {getAssigmentOperators} from '../../StudioNodesHelpers.js'
 
 import Form from '../../../../../Components/Form/Form.js'
 import InputText from '../../../../../Components/Form/Input/InputText.js'

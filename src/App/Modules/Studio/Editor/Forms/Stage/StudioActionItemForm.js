@@ -1,7 +1,7 @@
 import {useCallback} from 'react'
 import {useLocale} from '../../../../../Components/Locale/LocaleHooks.js'
 import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
-import {nodesMoveObject} from '../StudioNodesHelpers.js'
+import {nodesMoveObject} from '../../StudioNodesHelpers.js'
 import {useDragAndDropMove} from '../../../../../Components/Form/DragAndDrop/DragAndDropMoveHook.js'
 import ButtonIconSquareCheck from '../../../../../Components/Buttons/Icons/ButtonIconSquareCheck.js'
 import ButtonIconTrash from '../../../../../Components/Buttons/Icons/ButtonIconTrash.js'

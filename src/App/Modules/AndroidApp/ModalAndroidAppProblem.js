@@ -6,9 +6,7 @@ import ModalContent from '../../Components/Modal/ModalContent.js'
 import styles from './AndroidApp.module.scss'
 
 function ModalAndroidAppProblem({onClose, serverIp}) {
-  const
-    {getLocale} = useLocale()
-
+  const {getLocale} = useLocale()
   return <ModalLayoutPadded isClosable={true}
                             className={styles.modalProblem}
                             onClose={onClose}>
@@ -20,8 +18,8 @@ function ModalAndroidAppProblem({onClose, serverIp}) {
         !!serverIp.length &&
         <ul className={styles.serverIpContainer}>{
           serverIp.map((ip, k) => (
-            <li className={styles.ip}>{getLocale('code-number', k + 1)} : {
-              ip.split('.').map((n, k) => (<span className={styles.ipNumber} key={k}>{n}</span>))
+            <li className={styles.ip} key={'android-app-code-' + k}>{getLocale('code-number', k + 1)} : {
+              ip.split('.').map((n, l) => (<span className={styles.ipNumber} key={'android-app-code-' + k + '-' + l}>{n}</span>))
             }</li>
           ))
         }</ul>

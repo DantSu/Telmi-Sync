@@ -5,7 +5,6 @@ import StudioStoryEditorGraph from './StudioStoryEditorGraph.js'
 import ButtonIconMagnifyingGlassPlus from '../../../../Components/Buttons/Icons/ButtonIconMagnifyingGlassPlus.js'
 import ButtonIconMagnifyingGlassMinus from '../../../../Components/Buttons/Icons/ButtonIconMagnifyingGlassMinus.js'
 
-
 import styles from './StudioGraph.module.scss'
 
 function StudioStoryEditorGraphContainer() {

@@ -168,6 +168,8 @@ const
           components.actions = [
             ...components.actions,
             <StudioStoryNodeAction key={'action-' + actionFrom}
+                                   actionId={actionFromId}
+                                   actionKey={actionFromKey}
                                    action={nodes.actions[actionFromId][actionFromKey]}
                                    x={actionsPos[actionFrom].x}
                                    y={actionsPos[actionFrom].y}/>

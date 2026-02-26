@@ -1,8 +1,8 @@
 import {getProcessParams} from '../Helpers/ProcessParams.js'
-import {generatePcmFromMp3} from '../BinFiles/FFmpegCommand.js'
+import {audioGeneratePCM} from '../BinFiles/FFmpegCommand.js'
 
 async function main(audioPath, pcmPath) {
-  await generatePcmFromMp3(audioPath, pcmPath)
+  await audioGeneratePCM(audioPath, pcmPath)
   process.stdout.write('success')
 }
 

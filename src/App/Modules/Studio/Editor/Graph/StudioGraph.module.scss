@@ -155,6 +155,24 @@
   text-align: center;
 }
 
+.nodeStageButtonAdd, .nodeStageButtonAdd:hover,
+.nodeActionDelete, .nodeActionDelete:hover {
+  padding: 0;
+  width: 11px;
+  height: 11px;
+  z-index: 1;
+  font-size: 8px;
+  color: $black;
+  background: $white;
+}
+.nodeStageButtonAdd, .nodeStageButtonAdd:hover {
+  pointer-events: auto;
+  position: absolute;
+  top: 100%;
+  right: 15px;
+  margin-top: 3px;
+}
+
 .nodeActionContainer {
   width: 100%;
   height: 100%;
@@ -164,11 +182,25 @@
 }
 
 .nodeAction {
+  position: relative;
   cursor: pointer;
   min-width: 10px;
   min-height: 10px;
   background: $white;
   border-radius: 5px;
+}
+
+.nodeActionDeleteContainer {
+  position: absolute;
+  z-index: 1;
+  margin-left: -5px;
+  left: 50%;
+  top: -5px;
+}
+
+.nodeActionDelete, .nodeActionDelete:hover {
+  display: block;
+  margin: auto;
 }
 
 .nodeActionCondition {
@@ -178,6 +210,22 @@
   text-overflow: ellipsis;
   color: $black;
   overflow: hidden;
+}
+
+.nodeActionEllipsis {
+  position: absolute;
+  left: 50%;
+  bottom: -5px;
+  margin-left: -5px;
+  text-align: center;
+  line-height: 5px;
+  font-weight: bold;
+  width: 11px;
+  height: 11px;
+  color: $black;
+  font-size: 12px;
+  border-radius: 10px;
+  background: $white;
 }
 
 .line {

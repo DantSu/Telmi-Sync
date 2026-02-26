@@ -2,7 +2,7 @@ import {useCallback} from 'react'
 import {useLocale} from '../../../../../Components/Locale/LocaleHooks.js'
 import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
 import {useStudioForm} from '../../Providers/StudioStageHooks.js'
-import {getAssigmentOperators} from '../StudioNodesHelpers.js'
+import {getAssigmentOperators} from '../../StudioNodesHelpers.js'
 import ButtonIconTrash from '../../../../../Components/Buttons/Icons/ButtonIconTrash.js'
 
 import styles from './StudioStageForm.module.scss'

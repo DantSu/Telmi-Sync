@@ -1,9 +1,9 @@
 import {getProcessParams} from '../Helpers/ProcessParams.js'
-import {amplifyMp3} from '../BinFiles/FFmpegCommand.js'
+import {audioAmplify} from '../BinFiles/FFmpegCommand.js'
 
 async function main(srcPath, dstPath, decibel) {
   process.stdout.write('*audio-amplifying*50*100*')
-  await amplifyMp3(srcPath, dstPath, decibel)
+  await audioAmplify(srcPath, dstPath, decibel)
   process.stdout.write('*audio-amplifying*100*100*')
   process.stdout.write('success')
 }

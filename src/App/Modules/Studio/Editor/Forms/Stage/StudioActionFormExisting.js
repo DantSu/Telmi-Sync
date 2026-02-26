@@ -1,6 +1,6 @@
 import {useCallback} from 'react'
 import {useLocale} from '../../../../../Components/Locale/LocaleHooks.js'
-import {addStageOption} from '../StudioNodesHelpers.js'
+import {addStageOption} from '../../StudioNodesHelpers.js'
 import {useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
 
 import styles from './StudioStageForm.module.scss'

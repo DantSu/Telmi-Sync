@@ -1,7 +1,7 @@
 import {useRef} from 'react'
 import {useLocale} from '../../../../../Components/Locale/LocaleHooks.js'
 import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
-import {addInventoryItem} from '../StudioNodesHelpers.js'
+import {addInventoryItem} from '../../StudioNodesHelpers.js'
 import {getStageImagePath} from '../../../Helpers/FileHelpers.js'
 
 import Form from '../../../../../Components/Form/Form.js'

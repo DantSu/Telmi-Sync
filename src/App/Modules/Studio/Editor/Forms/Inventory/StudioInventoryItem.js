@@ -2,7 +2,7 @@ import {useCallback, useState} from 'react'
 import {useModal} from '../../../../../Components/Modal/ModalHooks.js'
 import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
 import {useDragAndDropMove} from '../../../../../Components/Form/DragAndDrop/DragAndDropMoveHook.js'
-import {nodesMoveObject} from '../StudioNodesHelpers.js'
+import {nodesMoveObject} from '../../StudioNodesHelpers.js'
 
 import ButtonIconPen from '../../../../../Components/Buttons/Icons/ButtonIconPen.js'
 import ButtonIconTrash from '../../../../../Components/Buttons/Icons/ButtonIconTrash.js'

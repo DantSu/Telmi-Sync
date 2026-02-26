@@ -2,7 +2,7 @@ import {useCallback} from 'react'
 import {useLocale} from '../../../../Components/Locale/LocaleHooks.js'
 import {useStudioStory} from '../Providers/StudioStoryHooks.js'
 import {useStudioForm} from '../Providers/StudioStageHooks.js'
-import {getAssigmentOperators} from '../Forms/StudioNodesHelpers.js'
+import {getAssigmentOperators} from '../StudioNodesHelpers.js'
 import {getStageAudioPath, getStageImagePath} from '../../Helpers/FileHelpers.js'
 
 import StudioStoryNodeStage from './StudioStoryNodeStage.js'
@@ -67,6 +67,7 @@ function StudioStoryStage({stageId, x, y, setContextMenu}) {
 
 
   return <StudioStoryNodeStage
+    stageId={stageId}
     image={getStageImagePath(currentStage, metadata)}
     audio={getStageAudioPath(currentStage, metadata)}
     inventoryUpdate={getInventoryUpdateString()}

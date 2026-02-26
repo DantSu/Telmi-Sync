@@ -1,6 +1,6 @@
 import {useCallback} from 'react'
 import {useLocale} from '../../../../../Components/Locale/LocaleHooks.js'
-import {getComparisonOperators} from '../StudioNodesHelpers.js'
+import {getComparisonOperators} from '../../StudioNodesHelpers.js'
 import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
 
 import ButtonIconTrash from '../../../../../Components/Buttons/Icons/ButtonIconTrash.js'

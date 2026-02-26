@@ -1,9 +1,13 @@
 import {useCallback} from 'react'
 import {useLocale} from '../../../../Components/Locale/LocaleHooks.js'
+import {useStudioStoryUpdater} from '../Providers/StudioStoryHooks.js'
+import {addNote, addStage, addStageOption} from '../StudioNodesHelpers.js'
 import {SVG_ANCHOR_CENTER, SVG_ANCHOR_MIDDLE} from '../../../../Components/SVG/SVGConstants.js'
 import SVGHtml from '../../../../Components/SVG/SVGHtml.js'
+import ButtonIconPlus from '../../../../Components/Buttons/Icons/ButtonIconPlus.js'
 
 import styles from './StudioGraph.module.scss'
+import {metadataToStartStageObject} from '../StudioStartStageHelpers.js'
 
 function StudioStoryNodeStage({
                                 image,
@@ -20,11 +24,13 @@ function StudioStoryNodeStage({
                                 onDrop,
                                 isAutoplay,
                                 isOkButton,
-                                version
+                                version,
+                                stageId
                               }) {
 
   const
     {getLocale} = useLocale(),
+    {updateStory} = useStudioStoryUpdater(),
     stageTitle = title + (image ? '\n' + getLocale('picture') + ' : ' + image : '') + (audio ? '\n' + getLocale('audio') + ' : ' + audio : ''),
     onDragEnterCb = useCallback((e) => e.target.classList.add(styles.nodeStageDragOver), []),
     onDragLeaveCb = useCallback((e) => e.target.classList.remove(styles.nodeStageDragOver), []),
@@ -75,6 +81,25 @@ function StudioStoryNodeStage({
         {image && <img src={image + '?version=' + version} alt=""/>}
       </div>
       <h3 className={styles.nodeStageTitle}>{title}</h3>
+      {isSelected && <ButtonIconPlus className={styles.nodeStageButtonAdd}
+                                     rounded={true}
+                                     onClick={(e) => {
+                                       e.preventDefault()
+                                       e.stopPropagation()
+                                     }}
+                                     onMouseDown={(e) => {
+                                       e.preventDefault()
+                                       e.stopPropagation()
+                                       updateStory((s) => {
+                                         const stageNode = stageId === 'startStage' ? metadataToStartStageObject(s.metadata, s.nodes.startAction) : s.nodes.stages[stageId]
+                                         const newStageId = addStage(s.nodes)
+                                         return {
+                                           ...s,
+                                           notes: addNote(s.notes, newStageId),
+                                           nodes: addStageOption(s.nodes, stageNode, newStageId)
+                                         }
+                                       })
+                                     }}/>}
     </div>
   </SVGHtml>
 }

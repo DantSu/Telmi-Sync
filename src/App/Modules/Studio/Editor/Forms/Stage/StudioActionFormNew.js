@@ -1,7 +1,7 @@
 import {useRef} from 'react'
 import {useLocale} from '../../../../../Components/Locale/LocaleHooks.js'
 import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
-import {addNote, addStage, addStageOption} from '../StudioNodesHelpers.js'
+import {addNote, addStage, addStageOption} from '../../StudioNodesHelpers.js'
 import InputText from '../../../../../Components/Form/Input/InputText.js'
 import Form from '../../../../../Components/Form/Form.js'
 import ButtonIconTextPlus from '../../../../../Components/Buttons/IconsTexts/ButtonIconTextPlus.js'

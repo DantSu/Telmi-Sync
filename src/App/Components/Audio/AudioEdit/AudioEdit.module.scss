@@ -62,22 +62,91 @@
   bottom: 0;
   background: $black60;
 }
+
 .bracketLeftContainer {
   left: 0;
 }
+
 .bracketLeft,
 .bracketRight {
   position: absolute;
-  width: 30px;
+  width: 10px;
   height: 100%;
-  border-radius: 15px;
   cursor: ew-resize;
+  overflow: hidden;
 }
+
 .bracketLeft {
-  right: -30px;
+  right: -10px;
+}
+
+.bracketRight {
+  left: -10px;
+}
+
+.bracketLeft > span,
+.bracketRight > span {
+  display: block;
+  height: 100%;
+  width: 30px;
+  border-radius: 15px;
+}
+
+.bracketLeft > span {
   border-left: 2px solid $white;
 }
-.bracketRight {
-  left: -30px;
+
+.bracketRight > span {
   border-right: 2px solid $white;
+  margin-left: -20px;
+}
+
+.cropContainer {
+  flex: 1;
+  padding: 0 7px;
+  margin: 5px;
+  position: relative;
+  background: $white30;
+  border-radius: 10px;
+}
+
+.cropContainer > button {
+  width: 100%;
+  margin: 0;
+  padding: 7px 0;
+  background: transparent;
+}
+
+.cropChoices {
+  position: absolute;
+  z-index: 1000;
+  top: 120%;
+  left: 50%;
+  margin-left: -115px;
+  width: 230px;
+  background: $purple2;
+  border-radius: 10px;
+  border: 1px solid $purple4;
+}
+
+.cropChoices:before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  margin-left: -10px;
+  border: 10px solid transparent;
+  border-bottom-color: $purple4;
+}
+
+.cropChoices > li {
+  border-radius: 5px;
+  margin: 5px;
+  padding: 5px;
+  cursor: pointer;
+  background: $purple;
+}
+
+.cropChoices > li:hover {
+  background: $purple4;
 }

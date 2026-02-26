@@ -139,7 +139,7 @@ const
       })
     })
   },
-  extractMetadataFromMp3 = (srcFile, dstTxt) => {
+  audioExtractMetadata = (srcFile, dstTxt) => {
     return new Promise((resolve, reject) => {
       rmFile(dstTxt)
       const stream = spawn(getFFmpegFilePath(), ['-i', srcFile, '-f', 'ffmetadata', dstTxt])
@@ -152,7 +152,7 @@ const
       })
     })
   },
-  extractPngFromMp3 = (srcFile, dstPng) => {
+  audioExtractPNG = (srcFile, dstPng) => {
     return new Promise((resolve, reject) => {
       rmFile(dstPng)
       const stream = spawn(getFFmpegFilePath(), ['-i', srcFile, '-filter:v', 'scale=256x256', '-an', '-update', 'true', dstPng])
@@ -165,7 +165,7 @@ const
       })
     })
   },
-  generatePcmFromMp3 = (srcFile, dstPcm) => {
+  audioGeneratePCM = (srcFile, dstPcm) => {
     return new Promise((resolve, reject) => {
       const stream = spawn(getFFmpegFilePath(), ['-i', srcFile, '-ac', '1', '-ar', '1000', '-f', 'u8', '-c:a', 'pcm_u8', dstPcm])
       stream.on('close', (code) => {
@@ -196,9 +196,9 @@ const
       return 'NaN'
     }
   },
-  cropMp3 = (srcFile, dstFile, startTime, endTime) => {
+  audioRemoveUnselectedTime = (srcFile, dstFile, startTime, endTime) => {
     return new Promise((resolve, reject) => {
-      const stream = spawn(getFFmpegFilePath(), ['-i', srcFile, '-ss', checkTime(startTime), '-to', checkTime(endTime), '-c:a', 'copy', dstFile])
+      const stream = spawn(getFFmpegFilePath(), ['-i', srcFile, '-ss', startTime, '-to', endTime, '-c:a', 'copy', dstFile])
       // stream.stderr.on('data', (data) => process.stdout.write('*' + data.toString() + '*0*1*'))
       stream.on('close', (code) => {
         if (code === 0) {
@@ -209,7 +209,46 @@ const
       })
     })
   },
-  amplifyMp3 = (srcFile, dstMp3, decibel) => {
+  audioRemoveSelectedTime = (srcFile, dstFile, startTime, endTime) => {
+    return new Promise((resolve, reject) => {
+      const stream = spawn(getFFmpegFilePath(), ['-i', srcFile, '-filter_complex', '[0]atrim=duration=' + startTime + '[a];[0]atrim=start=' + endTime + '[b];[a][b]concat=n=2:v=0:a=1', dstFile])
+      // stream.stderr.on('data', (data) => process.stdout.write('*' + data.toString() + '*0*1*'))
+      stream.on('close', (code) => {
+        if (code === 0) {
+          resolve()
+        } else {
+          reject()
+        }
+      })
+    })
+  },
+  audioMuteSelectedTime = (srcFile, dstFile, startTime, endTime) => {
+    return new Promise((resolve, reject) => {
+      const stream = spawn(getFFmpegFilePath(), ['-i', srcFile, '-af', 'volume=enable=\'between(t,' + startTime + ',' + endTime + ')\':volume=0', dstFile])
+      // stream.stderr.on('data', (data) => process.stdout.write('*' + data.toString() + '*0*1*'))
+      stream.on('close', (code) => {
+        if (code === 0) {
+          resolve()
+        } else {
+          reject()
+        }
+      })
+    })
+  },
+  audioMuteUnselectedTime = (srcFile, dstFile, startTime, endTime) => {
+    return new Promise((resolve, reject) => {
+      const stream = spawn(getFFmpegFilePath(), ['-i', srcFile, '-af', 'volume=enable=\'lte(t,' + startTime + ')\':volume=0, volume=enable=\'gte(t,' + endTime + ')\':volume=0', dstFile])
+      // stream.stderr.on('data', (data) => process.stdout.write('*' + data.toString() + '*0*1*'))
+      stream.on('close', (code) => {
+        if (code === 0) {
+          resolve()
+        } else {
+          reject()
+        }
+      })
+    })
+  },
+  audioAmplify = (srcFile, dstMp3, decibel) => {
     return new Promise((resolve, reject) => {
       rmFile(dstMp3)
       const stream = spawn(getFFmpegFilePath(), ['-i', srcFile, '-af', 'volume=' + decibel + 'dB', dstMp3])
@@ -229,9 +268,12 @@ export {
   getAudioInfos,
   convertAudioToMp3,
   convertImageToPng,
-  extractMetadataFromMp3,
-  extractPngFromMp3,
-  generatePcmFromMp3,
-  cropMp3,
-  amplifyMp3
+  audioExtractMetadata,
+  audioExtractPNG,
+  audioGeneratePCM,
+  audioRemoveUnselectedTime,
+  audioRemoveSelectedTime,
+  audioMuteSelectedTime,
+  audioMuteUnselectedTime,
+  audioAmplify
 }
