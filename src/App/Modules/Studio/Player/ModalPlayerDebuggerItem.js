@@ -1,5 +1,6 @@
-import styles from './ModalPlayer.module.scss'
 import InputText from '../../../Components/Form/Input/InputText.js'
+
+import styles from './ModalPlayer.module.scss'
 
 function ModalPlayerDebuggerItem({item, setItems}) {
   return <li className={styles.inventoryDebugItem}>
@@ -18,7 +19,7 @@ function ModalPlayerDebuggerItem({item, setItems}) {
                    return [...items]
                  })
                }}/>
-    <span className={styles.inventoryDebugItemMax}>/ {item.maxNumber}</span>
+    <span className={styles.inventoryDebugItemMax}>/{item.maxNumber}</span>
   </li>
 }
 

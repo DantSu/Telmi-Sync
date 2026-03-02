@@ -28,7 +28,7 @@ function StudioStoryNodeAction({action, actionId, actionKey, x, y}) {
         s.nodes.actions[actionId].splice(actionKey, 1)
         return {...s, nodes: {...s.nodes}}
       }),
-      []
+      [actionId, actionKey, updateStory]
     )
   return <>
     <SVGHtml x={x}
