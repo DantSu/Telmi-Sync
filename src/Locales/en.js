@@ -11,6 +11,7 @@ const en = {
   'cancel': 'Cancel',
   'confirm': 'Confirm',
   'apply': 'Apply',
+  'validate': 'Validate',
   'close': 'Close',
   'play': 'Play',
   'pause': 'Pause',
@@ -137,6 +138,7 @@ const en = {
   'redo': 'Redo',
   'zoom-in': 'Zoom in',
   'zoom-out': 'Zoom out',
+  'center-on': 'Center on',
   'change-boot-splashscreen': 'Change boot splashscreen',
   'do-nothing': 'Do nothing',
   'put-telmi-picture': 'Put Telmi picture',
@@ -287,6 +289,7 @@ const en = {
   'store-no-audio-message': 'You haven\'t selected audio for your pack.',
 
   'studio': 'Studio',
+  'studio-scene': 'Scene',
   'studio-edit-story': 'Edit the story in the studio',
   'studio-story-save': 'Save the story ?',
   'studio-story-save-confirm': 'This story has been updated. Would you like to save your changes ?',

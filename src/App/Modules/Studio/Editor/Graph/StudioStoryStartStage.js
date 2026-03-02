@@ -1,6 +1,6 @@
 import {useCallback} from 'react'
 import {useStudioStory} from '../Providers/StudioStoryHooks.js'
-import {useStudioForm} from '../Providers/StudioStageHooks.js'
+import {useStudioStage} from '../Providers/StudioStageHooks.js'
 
 import StudioStoryNodeStage from './StudioStoryNodeStage.js'
 import StudioStoryStageDropContext from './StudioStoryStageDropContext.js'
@@ -10,7 +10,7 @@ const stageId = 'startStage'
 function StudioStoryStartStage({x, y, setContextMenu}) {
   const
     {story: {metadata, nodes}} = useStudioStory(),
-    {form: stage, setForm} = useStudioForm(),
+    {form: stage, setForm} = useStudioStage(),
     onClick = useCallback(() => setForm((s) => s === stageId ? null : stageId), [setForm]),
     onDrop = useCallback(
       (e) => {

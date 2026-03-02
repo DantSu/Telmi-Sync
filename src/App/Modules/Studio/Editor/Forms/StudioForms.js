@@ -1,4 +1,4 @@
-import {useStudioForm} from '../Providers/StudioStageHooks.js'
+import {useStudioStage} from '../Providers/StudioStageHooks.js'
 
 import StudioStartStageForm from './Stage/StudioStartStageForm.js'
 import StudioStageForm from './Stage/StudioStageForm.js'
@@ -22,7 +22,7 @@ const
   }
 
 function StudioForms() {
-  const {form} = useStudioForm()
+  const {form} = useStudioStage()
 
   if (form === null) {
     return null

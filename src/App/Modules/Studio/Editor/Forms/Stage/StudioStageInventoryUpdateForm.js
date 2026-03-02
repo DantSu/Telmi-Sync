@@ -1,7 +1,7 @@
 import {useCallback} from 'react'
 import {useLocale} from '../../../../../Components/Locale/LocaleHooks.js'
 import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
-import {useStudioForm} from '../../Providers/StudioStageHooks.js'
+import {useStudioStage} from '../../Providers/StudioStageHooks.js'
 import {getAssigmentOperators} from '../../StudioNodesHelpers.js'
 import ButtonIconTrash from '../../../../../Components/Buttons/Icons/ButtonIconTrash.js'
 
@@ -11,7 +11,7 @@ function StudioStageInventoryUpdateForm({rule, rulePosition}) {
   const
     {getLocale} = useLocale(),
     {story: {nodes}} = useStudioStory(),
-    {form: stage} = useStudioForm(),
+    {form: stage} = useStudioStage(),
     {updateStory} = useStudioStoryUpdater(),
     parentStage = nodes.stages[stage],
     item = nodes.inventory.find((v) => v.id === rule.item),

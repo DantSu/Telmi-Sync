@@ -1,7 +1,7 @@
 import {useEffect, useRef} from 'react'
 import {useLocale} from '../../../../../Components/Locale/LocaleHooks.js'
 import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
-import {useStudioForm} from '../../Providers/StudioStageHooks.js'
+import {useStudioStage} from '../../Providers/StudioStageHooks.js'
 
 import InputSelect from '../../../../../Components/Form/Input/InputSelect.js'
 import StudioActionItemForm from './StudioActionItemForm.js'
@@ -15,7 +15,7 @@ function StudioActionForm({stageNode}) {
   const
     {getLocale} = useLocale(),
     {story: {nodes, notes}, storyVersion} = useStudioStory(),
-    {form: stage} = useStudioForm(),
+    {form: stage} = useStudioStage(),
     {updateStory} = useStudioStoryUpdater(),
     nextSceneRef = useRef(),
     actionNode = stageNode.ok === null ? [] : nodes.actions[stageNode.ok.action],

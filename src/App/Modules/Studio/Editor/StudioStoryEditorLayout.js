@@ -2,7 +2,7 @@ import {useCallback} from 'react'
 import {useLocale} from '../../../Components/Locale/LocaleHooks.js'
 import {useModal} from '../../../Components/Modal/ModalHooks.js'
 import {useStudioStory, useStudioStoryUpdater, useStudioStoryVersions} from './Providers/StudioStoryHooks.js'
-import {useStudioForm} from './Providers/StudioStageHooks.js'
+import {useStudioStage} from './Providers/StudioStageHooks.js'
 
 import ModalElectronTaskVisualizer from '../../../Components/Electron/Modal/ModalElectronTaskVisualizer.js'
 import StudioStoryEditorGraphContainer from './Graph/StudioStoryEditorGraphContainer.js'
@@ -14,19 +14,21 @@ import ButtonIconToolbox from '../../../Components/Buttons/Icons/ButtonIconToolb
 import ButtonIconPlay from '../../../Components/Buttons/Icons/ButtonIconPlay.js'
 import ButtonIconZip from '../../../Components/Buttons/Icons/ButtonIconZip.js'
 import ButtonIconMusic from '../../../Components/Buttons/Icons/ButtonIconMusic.js'
+import ButtonIconMagnifyingGlass from '../../../Components/Buttons/Icons/ButtonIconMagnifyingGlass.js'
 import ModalStudioStorySaveConfirm from './ModalStudioStorySaveConfirm.js'
 import StudioForms from './Forms/StudioForms.js'
 import Loader from '../../../Components/Loader/Loader.js'
 import ModalPlayer from '../Player/ModalPlayer.js'
 
 import styles from './StudioStoryEditor.module.scss'
+import ModalSearchStage from './ModalSearchStage.js'
 
 
 function StudioStoryEditorLayout({closeEditor}) {
   const
     {getLocale} = useLocale(),
     {addModal, rmModal} = useModal(),
-    {setForm} = useStudioForm(),
+    {setForm, setFind} = useStudioStage(),
     {story, storyVersion} = useStudioStory(),
     {updateStory, isStoryUpdated} = useStudioStoryUpdater(),
     {onUndo, onRedo, hasUndo, hasRedo} = useStudioStoryVersions(),
@@ -43,6 +45,19 @@ function StudioStoryEditorLayout({closeEditor}) {
         })
       },
       [addModal, rmModal, story]
+    ),
+
+    onSearchStage = useCallback(
+      () => {
+        addModal((key) => {
+          const modal = <ModalSearchStage key={key}
+                                          story={story}
+                                          onValidate={(stageKey) => setFind(stageKey)}
+                                          onClose={() => rmModal(modal)}/>
+          return modal
+        })
+      },
+      [addModal, rmModal, setFind, story]
     ),
 
     onEditAudios = useCallback(() => setForm((f) => f === 'form-audio' ? null : 'form-audio'), [setForm]),
@@ -135,9 +150,14 @@ function StudioStoryEditorLayout({closeEditor}) {
           </li>
           <li className={styles.topBarSeparator}></li>
           <li>
+            <ButtonIconMagnifyingGlass className={styles.topBarButton}
+                                       title={getLocale('center-on')}
+                                       onClick={onSearchStage}/>
+          </li>
+          <li>
             <ButtonIconMusic className={styles.topBarButton}
-                               title={getLocale('audio-list')}
-                               onClick={onEditAudios}/>
+                             title={getLocale('audio-list')}
+                             onClick={onEditAudios}/>
           </li>
           <li>
             <ButtonIconToolbox className={styles.topBarButton}

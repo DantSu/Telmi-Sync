@@ -19,6 +19,12 @@
   flex: 0 1 auto;
 }
 
+.inputContainer {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
 .input, .textarea, .select,
 .input:disabled, .textarea:disabled, .select:disabled {
   flex: 0 0 auto;
@@ -44,7 +50,24 @@
   border: 2px solid $orange;
 }
 
-.option {
+.inputOptions {
+  border-radius: 15px;
+  width: 220px;
+  border: 2px solid $blueDark;
+  background: $white;
+}
+
+.inputOption {
+  cursor: pointer;
+  border-radius: 15px;
+  padding: 5px 10px;
+}
+
+.inputOption:hover {
+  background: $orange;
+}
+
+.inputOption, .option {
   color: $black;
 }
 
@@ -139,7 +162,6 @@
   background: $orange;
   transform: translateX(20px);
 }
-
 
 
 .inputImageContainer,

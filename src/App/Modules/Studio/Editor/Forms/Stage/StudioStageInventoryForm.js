@@ -1,6 +1,6 @@
 import {useRef, useState} from 'react'
 import {useLocale} from '../../../../../Components/Locale/LocaleHooks.js'
-import {useStudioForm} from '../../Providers/StudioStageHooks.js'
+import {useStudioStage} from '../../Providers/StudioStageHooks.js'
 import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
 import {getAssigmentOperators} from '../../StudioNodesHelpers.js'
 
@@ -16,7 +16,7 @@ import styles from './StudioStageForm.module.scss'
 function StudioStageInventoryForm() {
   const
     {getLocale} = useLocale(),
-    {form: stage} = useStudioForm(),
+    {form: stage} = useStudioStage(),
     {story: {nodes}, storyVersion} = useStudioStory(),
     {updateStory} = useStudioStoryUpdater(),
     [typeValue, setTypeValue] = useState(0),

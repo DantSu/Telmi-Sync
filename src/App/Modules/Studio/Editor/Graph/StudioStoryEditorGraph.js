@@ -6,6 +6,7 @@ import StudioStoryNodeAction from './StudioStoryNodeAction.js'
 import StudioStoryLine from './StudioStoryLine.js'
 import StudioStoryStage from './StudioStoryStage.js'
 import StudioStoryStartStage from './StudioStoryStartStage.js'
+import {useStudioStage} from '../Providers/StudioStageHooks.js'
 
 const
   nodeWidth = 80,
@@ -225,12 +226,21 @@ function StudioStoryEditorGraph({scale}, ref) {
   const
     [contextMenu, setContextMenu] = useState(null),
     {story: {nodes}} = useStudioStory(),
+    {find} = useStudioStage(),
     {lines, stages, actions, stagesPos} = useMemo(() => getNodes(nodes, setContextMenu), [nodes])
 
   useEffect(() => {setContextMenu(null)}, [nodes])
+
   useEffect(() => {
     ref.current.scrollLeft = stagesPos.startStage.x - ref.current.clientWidth / 2
   }, [])
+
+  useEffect(() => {
+    if (find !== null && stagesPos[find] !== undefined) {
+      ref.current.scrollLeft = stagesPos[find].x * scale - ref.current.clientWidth / 2
+      ref.current.scrollTop = stagesPos[find].y * scale - ref.current.clientHeight / 2
+    }
+  }, [find])
 
   return <SVGLayout observer={nodes}
                     scale={scale}

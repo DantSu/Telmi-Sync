@@ -1,7 +1,7 @@
 import {useCallback} from 'react'
 import {useLocale} from '../../../../Components/Locale/LocaleHooks.js'
 import {useStudioStory} from '../Providers/StudioStoryHooks.js'
-import {useStudioForm} from '../Providers/StudioStageHooks.js'
+import {useStudioStage} from '../Providers/StudioStageHooks.js'
 import {getAssigmentOperators} from '../StudioNodesHelpers.js'
 import {getStageAudioPath, getStageImagePath} from '../../Helpers/FileHelpers.js'
 
@@ -12,9 +12,8 @@ function StudioStoryStage({stageId, x, y, setContextMenu}) {
   const
     {getLocale} = useLocale(),
     {story: {nodes, notes, metadata}} = useStudioStory(),
-    {form: stage, setForm} = useStudioForm(),
+    {form: stage, setForm} = useStudioStage(),
     currentStage = nodes.stages[stageId],
-    onMouseDown = useCallback((e) => e.stopPropagation(), []),
     onDragStart = useCallback(
       (e) => {
         e.dataTransfer.setData('text/plain', e.target.innerText)
@@ -77,7 +76,6 @@ function StudioStoryStage({stageId, x, y, setContextMenu}) {
     onClick={onClick}
     onDragStart={onDragStart}
     onDrop={onDrop}
-    onMouseDown={onMouseDown}
     isAutoplay={currentStage.control.autoplay}
     isOkButton={currentStage.control.ok}
     version={metadata.version}

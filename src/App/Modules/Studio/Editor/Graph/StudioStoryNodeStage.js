@@ -19,7 +19,6 @@ function StudioStoryNodeStage({
                                 y,
                                 isSelected,
                                 onClick,
-                                onMouseDown,
                                 onDragStart,
                                 onDrop,
                                 isAutoplay,
@@ -32,6 +31,7 @@ function StudioStoryNodeStage({
     {getLocale} = useLocale(),
     {updateStory} = useStudioStoryUpdater(),
     stageTitle = title + (image ? '\n' + getLocale('picture') + ' : ' + image : '') + (audio ? '\n' + getLocale('audio') + ' : ' + audio : ''),
+    onMouseDown = useCallback((e) => e.stopPropagation(), []),
     onDragEnterCb = useCallback((e) => e.target.classList.add(styles.nodeStageDragOver), []),
     onDragLeaveCb = useCallback((e) => e.target.classList.remove(styles.nodeStageDragOver), []),
     onDragOverCb = useCallback(
@@ -139,7 +139,7 @@ function StudioStoryNodeStage({
           className={styles.textTitle}
           textAnchor="middle"
           dominantBaseline="middle"
-          fill="#FFFFFF">{title.substring(0, 9)}</text>
+          fill="#FFFFFF">{title.substring(0, 10)}</text>
   </>
 }
 

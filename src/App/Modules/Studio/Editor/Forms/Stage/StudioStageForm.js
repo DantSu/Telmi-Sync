@@ -2,7 +2,7 @@ import {useCallback, useRef} from 'react'
 import {useModal} from '../../../../../Components/Modal/ModalHooks.js'
 import {getStageAudioPath, getStageImagePath} from '../../../Helpers/FileHelpers.js'
 import {useLocale} from '../../../../../Components/Locale/LocaleHooks.js'
-import {useStudioForm} from '../../Providers/StudioStageHooks.js'
+import {useStudioStage} from '../../Providers/StudioStageHooks.js'
 import {useStudioStory, useStudioStoryUpdater} from '../../Providers/StudioStoryHooks.js'
 
 import InputText from '../../../../../Components/Form/Input/InputText.js'
@@ -26,7 +26,7 @@ function StudioStageForm() {
   const
     {getLocale} = useLocale(),
     {addModal, rmModal} = useModal(),
-    {form: stage} = useStudioForm(),
+    {form: stage} = useStudioStage(),
     {story, storyVersion} = useStudioStory(),
     {metadata, nodes, notes} = story,
     {updateStory} = useStudioStoryUpdater(),

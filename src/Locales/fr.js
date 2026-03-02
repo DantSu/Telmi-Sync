@@ -11,6 +11,7 @@ const fr = {
   'cancel': 'Annuler',
   'confirm': 'Confirmer',
   'apply': 'Appliquer',
+  'validate': 'Valider',
   'close': 'Fermer',
   'play': 'Lire',
   'pause': 'Pause',
@@ -137,6 +138,7 @@ const fr = {
   'redo': 'Rétablir',
   'zoom-in': 'Zoom avant',
   'zoom-out': 'Zoom arrière',
+  'center-on': 'Centrer sur',
   'change-boot-splashscreen': 'Changer l\'image de démarrage',
   'do-nothing': 'Ne rien faire',
   'put-telmi-picture': 'Mettre l\'image de Telmi',
@@ -287,6 +289,7 @@ const fr = {
   'store-no-audio-message': 'Vous n\'avez pas mis d\'histoires pour votre pack.',
 
   'studio': 'Studio',
+  'studio-scene': 'Scène',
   'studio-edit-story': 'Editer l\'histoire dans le Studio',
   'studio-story-unsaved': 'Histoire non enregistrée !',
   'studio-story-unsaved-confirm': 'Cette histoire a été modifiée. Êtes-vous sûr de vouloir quitter le Studio sans enregistrer les modifications apportées à cette histoire ?',
