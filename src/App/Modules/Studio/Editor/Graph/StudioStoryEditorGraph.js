@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useState} from 'react'
+import {forwardRef, useEffect, useMemo, useState} from 'react'
 import {useStudioStory} from '../Providers/StudioStoryHooks.js'
 
 import SVGLayout from '../../../../Components/SVG/SVGLayout.js'
@@ -123,7 +123,8 @@ const
                             setContextMenu={setContextMenu}/>
         ],
         actions: [],
-        lines: []
+        lines: [],
+        stagesPos
       }
 
     while (stages.length > 0) {
@@ -220,15 +221,22 @@ const
     return components
   }
 
-function StudioStoryEditorGraph({scale}) {
+function StudioStoryEditorGraph({scale}, ref) {
   const
     [contextMenu, setContextMenu] = useState(null),
     {story: {nodes}} = useStudioStory(),
-    {lines, stages, actions} = useMemo(() => getNodes(nodes, setContextMenu), [nodes])
+    {lines, stages, actions, stagesPos} = useMemo(() => getNodes(nodes, setContextMenu), [nodes])
 
   useEffect(() => {setContextMenu(null)}, [nodes])
+  useEffect(() => {
+    ref.current.scrollLeft = stagesPos.startStage.x - ref.current.clientWidth / 2
+  }, [])
 
-  return <SVGLayout observer={nodes} scale={scale} marginRight={100 / scale} marginBottom={100}>
+  return <SVGLayout observer={nodes}
+                    scale={scale}
+                    marginRight={100 / scale}
+                    marginBottom={100}
+                    ref={ref}>
     {lines}
     {stages}
     {actions}
@@ -236,4 +244,4 @@ function StudioStoryEditorGraph({scale}) {
   </SVGLayout>
 }
 
-export default StudioStoryEditorGraph
+export default forwardRef(StudioStoryEditorGraph)

@@ -2,12 +2,12 @@ import {useCallback} from 'react'
 import {useLocale} from '../../../../Components/Locale/LocaleHooks.js'
 import {useStudioStoryUpdater} from '../Providers/StudioStoryHooks.js'
 import {addNote, addStage, addStageOption} from '../StudioNodesHelpers.js'
+import {metadataToStartStageObject} from '../StudioStartStageHelpers.js'
 import {SVG_ANCHOR_CENTER, SVG_ANCHOR_MIDDLE} from '../../../../Components/SVG/SVGConstants.js'
 import SVGHtml from '../../../../Components/SVG/SVGHtml.js'
 import ButtonIconPlus from '../../../../Components/Buttons/Icons/ButtonIconPlus.js'
 
 import styles from './StudioGraph.module.scss'
-import {metadataToStartStageObject} from '../StudioStartStageHelpers.js'
 
 function StudioStoryNodeStage({
                                 image,
@@ -49,59 +49,103 @@ function StudioStoryNodeStage({
       [onDrop]
     )
 
-  return <SVGHtml x={x}
-                  y={y}
-                  width={80}
-                  height={80}
-                  anchorX={SVG_ANCHOR_CENTER}
-                  anchorY={SVG_ANCHOR_MIDDLE}>
-    <div title={stageTitle}
-         className={[
-           isSelected ? styles.nodeStageSelected : styles.nodeStage,
-           isAutoplay ? styles.nodeStageAutoplay : undefined,
-           styles[color] !== undefined ? styles[color] : undefined
-         ].join(' ')}
-         onClick={onClick}
-         onMouseDown={onMouseDown}
-         draggable={typeof onDragStart === 'function'}
-         onDragStart={onDragStart}
-         onDragOver={typeof onDrop === 'function' ? onDragOverCb : undefined}
-         onDrop={typeof onDrop === 'function' ? onDropCb : undefined}
-         onDragEnter={typeof onDrop === 'function' ? onDragEnterCb : undefined}
-         onDragLeave={typeof onDrop === 'function' ? onDragLeaveCb : undefined}>
-      <ul className={styles.icons}>
-        {!audio && <li className={styles.redIcon} title={getLocale('no-audio-file')}>{'\uf6a9'}</li>}
-        {
-          typeof inventoryUpdate === 'string' && inventoryUpdate !== '' &&
-          <li className={styles.icon} title={inventoryUpdate}>{'\uf552'}</li>
-        }
-        {isOkButton && <li className={styles.iconText} title={getLocale('press-a-to-go-next')}>A</li>}
-      </ul>
-      <div className={styles.nodeStageImg}>
-        {image && <img src={image + '?version=' + version} alt=""/>}
+  return <>
+    <SVGHtml x={x}
+             y={y}
+             width={80}
+             height={80}
+             anchorX={SVG_ANCHOR_CENTER}
+             anchorY={SVG_ANCHOR_MIDDLE}>
+      <div title={stageTitle}
+           className={[
+             isSelected ? styles.nodeStageSelected : styles.nodeStage,
+             isAutoplay ? styles.nodeStageAutoplay : undefined,
+             styles[color] !== undefined ? styles[color] : undefined
+           ].join(' ')}
+           onClick={onClick}
+           onMouseDown={onMouseDown}
+           draggable={typeof onDragStart === 'function'}
+           onDragStart={onDragStart}
+           onDragOver={typeof onDrop === 'function' ? onDragOverCb : undefined}
+           onDrop={typeof onDrop === 'function' ? onDropCb : undefined}
+           onDragEnter={typeof onDrop === 'function' ? onDragEnterCb : undefined}
+           onDragLeave={typeof onDrop === 'function' ? onDragLeaveCb : undefined}>
+        <ul className={styles.icons}>
+          {!audio && <li className={styles.redIcon} title={getLocale('no-audio-file')}>{'\uf6a9'}</li>}
+          {
+            typeof inventoryUpdate === 'string' && inventoryUpdate !== '' &&
+            <li className={styles.icon} title={inventoryUpdate}>{'\uf552'}</li>
+          }
+          {isOkButton && <li className={styles.iconText} title={getLocale('press-a-to-go-next')}>A</li>}
+        </ul>
+        <div className={styles.nodeStageImg}>
+          {image && <img src={image + '?version=' + version} alt=""/>}
+        </div>
+        <h3 className={styles.nodeStageTitle}>{title}</h3>
+        {isSelected && <ButtonIconPlus className={styles.nodeStageButtonAdd}
+                                       rounded={true}
+                                       onClick={(e) => {
+                                         e.preventDefault()
+                                         e.stopPropagation()
+                                       }}
+                                       onMouseDown={(e) => {
+                                         e.preventDefault()
+                                         e.stopPropagation()
+                                         updateStory((s) => {
+                                           const stageNode = stageId === 'startStage' ? metadataToStartStageObject(s.metadata, s.nodes.startAction) : s.nodes.stages[stageId]
+                                           const newStageId = addStage(s.nodes)
+                                           return {
+                                             ...s,
+                                             notes: addNote(s.notes, newStageId),
+                                             nodes: addStageOption(s.nodes, stageNode, newStageId)
+                                           }
+                                         })
+                                       }}/>}
       </div>
-      <h3 className={styles.nodeStageTitle}>{title}</h3>
-      {isSelected && <ButtonIconPlus className={styles.nodeStageButtonAdd}
-                                     rounded={true}
-                                     onClick={(e) => {
-                                       e.preventDefault()
-                                       e.stopPropagation()
-                                     }}
-                                     onMouseDown={(e) => {
-                                       e.preventDefault()
-                                       e.stopPropagation()
-                                       updateStory((s) => {
-                                         const stageNode = stageId === 'startStage' ? metadataToStartStageObject(s.metadata, s.nodes.startAction) : s.nodes.stages[stageId]
-                                         const newStageId = addStage(s.nodes)
-                                         return {
-                                           ...s,
-                                           notes: addNote(s.notes, newStageId),
-                                           nodes: addStageOption(s.nodes, stageNode, newStageId)
-                                         }
-                                       })
-                                     }}/>}
-    </div>
-  </SVGHtml>
+    </SVGHtml>
+    {isAutoplay && <rect x={x - 7}
+                         y={y + 19}
+                         width={14}
+                         height={14}
+                         transform={'rotate(45, ' + x + ', ' + (y + 26) + ')'}
+                         className={styles[color + 'Arrow'] !== undefined ? styles[color + 'Arrow'] : styles.blueArrow}/>}
+    <rect x={x - 33}
+          y={y - 40}
+          width={66}
+          height={66}
+          rx={5}
+          ry={5}
+          className={styles[color] !== undefined ? styles[color] : styles.blue}/>
+    {
+      image ?
+        <image x={x - 32}
+               y={y - 39}
+               width={64}
+               height={48}
+               xlinkHref={image + '?version=' + version}/> :
+        <rect x={x - 32}
+              y={y - 39}
+              width={64}
+              height={48}
+              onClick={() => {console.log('test')}}
+              rx={5}
+              ry={5}/>
+    }
+    <text x={x}
+          y={y + 18}
+          width={64}
+          height={48}
+          fontSize={12}
+          className={styles.textTitle}
+          textAnchor="middle"
+          dominantBaseline="middle"
+          fill="#FFFFFF">{title.substring(0, 9)}</text>
+  </>
 }
 
 export default StudioStoryNodeStage
+
+
+/*
+
+ */

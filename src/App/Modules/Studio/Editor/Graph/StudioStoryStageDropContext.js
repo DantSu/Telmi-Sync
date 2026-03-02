@@ -16,7 +16,7 @@ function StudioStoryStageDropContext({x, y, stageSrc, stageDst, setContextMenu})
   const
     {getLocale} = useLocale(),
     {updateStory} = useStudioStoryUpdater(),
-    onClickLink = () => {
+    onClickLink = (e) => {
       updateStory((s) => {
         return {
           ...s,
@@ -28,7 +28,7 @@ function StudioStoryStageDropContext({x, y, stageSrc, stageDst, setContextMenu})
         }
       })
     },
-    onClickClone = () => {
+    onClickClone = (e) => {
       updateStory((s) => {
         const
           srcNode = s.nodes.stages[stageSrc],
@@ -55,7 +55,7 @@ function StudioStoryStageDropContext({x, y, stageSrc, stageDst, setContextMenu})
         }
       })
     },
-    onClickCancel = () => {
+    onClickCancel = (e) => {
       setContextMenu(null)
     }
 
@@ -65,7 +65,10 @@ function StudioStoryStageDropContext({x, y, stageSrc, stageDst, setContextMenu})
                   height={200}
                   anchorX={SVG_ANCHOR_CENTER}
                   anchorY={SVG_ANCHOR_TOP}>
-    <ContextMenuContainer className={styles.contextMenu}>
+    <ContextMenuContainer className={styles.contextMenu}
+                          onMouseDown={(e) => {
+                            e.stopPropagation()
+                          }}>
       <ContextMenuItem onClick={onClickLink}>{getLocale('link')}</ContextMenuItem>
       <ContextMenuItem onClick={onClickClone}>{getLocale('clone')}</ContextMenuItem>
       <ContextMenuItem onClick={onClickCancel}>{getLocale('cancel')}</ContextMenuItem>

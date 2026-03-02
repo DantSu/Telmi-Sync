@@ -30,27 +30,33 @@ function StudioStoryNodeAction({action, actionId, actionKey, x, y}) {
       }),
       []
     )
-  return <SVGHtml x={x}
-                  y={y}
-                  width={64}
-                  height={64}
-                  anchorX={SVG_ANCHOR_CENTER}
-                  anchorY={SVG_ANCHOR_MIDDLE}>
-    <div className={styles.nodeActionContainer}>
-      <ul className={styles.nodeAction} title={conditionsText.join('\n')}>
-        <li className={hasConditions ? styles.nodeActionDeleteContainer : undefined}>
-          <ButtonIconMinus className={styles.nodeActionDelete}
-                           rounded={true}
-                           title={getLocale('action-delete')}
-                           onClick={onDelete}/>
-        </li>
-        {conditionsText.slice(0, 3).map(
-          (text, k) => <StudioStoryNodeActionCondition key={'story-action-condition-' + k} text={text}/>
-        )}
-        {conditionsText.length > 3 && <li className={styles.nodeActionEllipsis}>...</li>}
-      </ul>
-    </div>
-  </SVGHtml>
+  return <>
+    <SVGHtml x={x}
+             y={y}
+             width={64}
+             height={64}
+             anchorX={SVG_ANCHOR_CENTER}
+             anchorY={SVG_ANCHOR_MIDDLE}>
+      <div className={styles.nodeActionContainer}
+           onMouseDown={(e) => {
+             e.stopPropagation()
+           }}>
+        <ul className={styles.nodeAction} title={conditionsText.join('\n')}>
+          <li className={hasConditions ? styles.nodeActionDeleteContainer : undefined}>
+            <ButtonIconMinus className={styles.nodeActionDelete}
+                             rounded={true}
+                             title={getLocale('action-delete')}
+                             onClick={onDelete}/>
+          </li>
+          {conditionsText.slice(0, 3).map(
+            (text, k) => <StudioStoryNodeActionCondition key={'story-action-condition-' + k} text={text}/>
+          )}
+          {conditionsText.length > 3 && <li className={styles.nodeActionEllipsis}>...</li>}
+        </ul>
+      </div>
+    </SVGHtml>
+    <circle cx={x} cy={y} r={6} fill="#FFFFFF" />
+  </>
 }
 
 export default StudioStoryNodeAction
