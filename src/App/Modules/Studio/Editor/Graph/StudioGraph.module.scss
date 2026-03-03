@@ -76,17 +76,12 @@
     stroke: $colorLight;
     stroke-width: 1;
   }
-  rect.#{$name}Arrow {
+  rect.#{$name}Autoplay {
     fill: $colorLight;
   }
 }
 
 .nodeStageDragOver {
-  border: 1px solid $orange;
-}
-
-.nodeStageSelected {
-  background: $orange;
   border: 1px solid $orange;
 }
 
@@ -106,8 +101,23 @@
   }
 }
 
+.nodeStageSelected {
+  background: $orange;
+  border: 1px solid $orange;
+}
+
 .nodeStageSelected.nodeStageAutoplay:before {
   border-top-color: $orange;
+}
+
+rect.rectStageSelected {
+  fill: $orange;
+  stroke: $orange;
+  stroke-width: 1;
+}
+
+rect.rectStageSelectedAutoplay {
+  fill: $orange;
 }
 
 .icons {
@@ -185,6 +195,7 @@
   color: $black;
   background: $white;
 }
+
 .nodeStageButtonAdd, .nodeStageButtonAdd:hover {
   pointer-events: auto;
   position: absolute;

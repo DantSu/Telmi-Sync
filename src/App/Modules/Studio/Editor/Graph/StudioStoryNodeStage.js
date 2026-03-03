@@ -108,14 +108,14 @@ function StudioStoryNodeStage({
                          width={14}
                          height={14}
                          transform={'rotate(45, ' + x + ', ' + (y + 26) + ')'}
-                         className={styles[color + 'Arrow'] !== undefined ? styles[color + 'Arrow'] : styles.blueArrow}/>}
+                         className={isSelected ? styles.rectStageSelectedAutoplay : (styles[color + 'Autoplay'] !== undefined ? styles[color + 'Autoplay'] : styles.blueAutoplay)}/>}
     <rect x={x - 33}
           y={y - 40}
           width={66}
           height={66}
           rx={5}
           ry={5}
-          className={styles[color] !== undefined ? styles[color] : styles.blue}/>
+          className={isSelected ? styles.rectStageSelected : (styles[color] !== undefined ? styles[color] : styles.blue)}/>
     {
       image ?
         <image x={x - 32}
@@ -144,8 +144,3 @@ function StudioStoryNodeStage({
 }
 
 export default StudioStoryNodeStage
-
-
-/*
-
- */
