@@ -45,6 +45,7 @@ function StoriesTable({
           ...s,
           cellId: storyGetId(s.uuid || s.title),
           cellTitle: (s.age !== undefined ? s.age + '+] ' : '') + s.title,
+          cellSubtitle: s.category,
         }))
         return {
           flatTableStories: flatStories,

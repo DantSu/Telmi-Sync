@@ -81,7 +81,9 @@ function Table({
               if (d.tableGroup !== undefined) {
                 const
                   testGroup = new RegExp(regSearch, 'gi').test(d.tableGroup),
-                  children = d.tableChildren.filter((d) => testGroup || new RegExp(regSearch, 'gi').test(d.cellTitle))
+                  children = d.tableChildren.filter(
+                    (d) => testGroup || new RegExp(regSearch, 'gi').test(d.cellTitle) || new RegExp(regSearch, 'gi').test(d.cellSubtitle)
+                  )
                 if (children.length) {
                   return [
                     ...acc,
@@ -92,7 +94,7 @@ function Table({
                   ]
                 }
               } else {
-                if (new RegExp(regSearch, 'gi').test(d.cellTitle)) {
+                if (new RegExp(regSearch, 'gi').test(d.cellTitle) || new RegExp(regSearch, 'gi').test(d.cellSubtitle)) {
                   return [...acc, d]
                 }
               }

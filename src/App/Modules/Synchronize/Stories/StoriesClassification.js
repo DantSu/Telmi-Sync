@@ -23,6 +23,7 @@ const
       if (category.tableChildren.length < 2) {
         return [...acc, ...category.tableChildren]
       } else {
+        category.tableChildren.forEach((v) => v.cellSubtitle = '')
         return [...acc, category]
       }
     },
