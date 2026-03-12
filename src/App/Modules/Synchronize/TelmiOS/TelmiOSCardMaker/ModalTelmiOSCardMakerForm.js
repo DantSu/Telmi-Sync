@@ -11,7 +11,6 @@ import InputSelect from '../../../../Components/Form/Input/InputSelect.js'
 import ButtonsContainer from '../../../../Components/Buttons/ButtonsContainer.js'
 import ButtonIconTextSDCard from '../../../../Components/Buttons/IconsTexts/ButtonIconTextSDCard.js'
 import ModalTelmiOSCardMakerConfirm from './ModalTelmiOSCardMakerConfirm.js'
-import ModalTelmiOSCardMakerRufus from './ModalTelmiOSCardMakerRufus.js'
 
 
 const
@@ -64,21 +63,12 @@ function ModalTelmiOSCardMakerForm({onClose}) {
                                       ],
                                       (values) => {
                                         const selectedDrive = drives[values[0]]
-                                        if (process.platform === 'win32' && toGigabytes(selectedDrive.size) > 32) {
-                                          addModal((key) => {
-                                            const modal = <ModalTelmiOSCardMakerRufus key={key}
+                                        addModal((key) => {
+                                          const modal = <ModalTelmiOSCardMakerConfirm key={key}
                                                                                       drive={selectedDrive}
                                                                                       onClose={() => rmModal(modal)}/>
-                                            return modal
-                                          })
-                                        } else {
-                                          addModal((key) => {
-                                            const modal = <ModalTelmiOSCardMakerConfirm key={key}
-                                                                                        drive={selectedDrive}
-                                                                                        onClose={() => rmModal(modal)}/>
-                                            return modal
-                                          })
-                                        }
+                                          return modal
+                                        })
                                         onClose()
                                       }
                                     )
