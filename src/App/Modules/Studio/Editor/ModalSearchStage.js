@@ -1,4 +1,4 @@
-import {useMemo, useRef} from 'react'
+import {useEffect, useMemo, useRef} from 'react'
 import {useLocale} from '../../../Components/Locale/LocaleHooks.js'
 
 import ModalLayoutPadded from '../../../Components/Modal/ModalLayoutPadded.js'
@@ -24,6 +24,8 @@ function ModalSearchStage({story, onValidate, onClose}) {
       ),
       [story.notes]
     )
+
+  useEffect(() => {searchRef.current.focus()}, [])
 
   return <ModalLayoutPadded isClosable={true}
                             onClose={onClose}>
