@@ -127,7 +127,6 @@ function StudioStoryNodeStage({
               y={y - 39}
               width={64}
               height={48}
-              onClick={() => {console.log('test')}}
               rx={5}
               ry={5}/>
     }

@@ -25,7 +25,9 @@ function ModalSearchStage({story, onValidate, onClose}) {
       [story.notes]
     )
 
-  useEffect(() => {searchRef.current.focus()}, [])
+  useEffect(() => {
+    searchRef.current.focus()
+  }, [])
 
   return <ModalLayoutPadded isClosable={true}
                             onClose={onClose}>

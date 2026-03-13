@@ -1,4 +1,4 @@
-import {useCallback} from 'react'
+import {useCallback, useEffect, useMemo, useState} from 'react'
 import {useLocale} from '../../../Components/Locale/LocaleHooks.js'
 import {useModal} from '../../../Components/Modal/ModalHooks.js'
 import {useStudioStory, useStudioStoryUpdater, useStudioStoryVersions} from './Providers/StudioStoryHooks.js'
@@ -19,10 +19,18 @@ import ModalStudioStorySaveConfirm from './ModalStudioStorySaveConfirm.js'
 import StudioForms from './Forms/StudioForms.js'
 import Loader from '../../../Components/Loader/Loader.js'
 import ModalPlayer from '../Player/ModalPlayer.js'
-
-import styles from './StudioStoryEditor.module.scss'
 import ModalSearchStage from './ModalSearchStage.js'
 
+import styles from './StudioStoryEditor.module.scss'
+
+const blurFocus = (event, fn) => {
+  event.preventDefault()
+  const el = document.activeElement
+  if (el instanceof HTMLElement) {
+    document.activeElement.blur()
+  }
+  setTimeout(fn, 100)
+}
 
 function StudioStoryEditorLayout({closeEditor}) {
   const
@@ -32,10 +40,14 @@ function StudioStoryEditorLayout({closeEditor}) {
     {story, storyVersion} = useStudioStory(),
     {updateStory, isStoryUpdated} = useStudioStoryUpdater(),
     {onUndo, onRedo, hasUndo, hasRedo} = useStudioStoryVersions(),
+    [nextAction, setNextAction] = useState(null),
     loading = story === null,
 
     onPlay = useCallback(
       () => {
+        if (document.getElementById('modal-player') !== null) {
+          return
+        }
         addModal((key) => {
           const modal = <ModalPlayer key={key}
                                      debugMode={true}
@@ -49,6 +61,9 @@ function StudioStoryEditorLayout({closeEditor}) {
 
     onSearchStage = useCallback(
       () => {
+        if (document.getElementById('stage-search') !== null) {
+          return
+        }
         addModal((key) => {
           const modal = <ModalSearchStage key={key}
                                           story={story}
@@ -95,6 +110,7 @@ function StudioStoryEditorLayout({closeEditor}) {
       },
       [addModal, isStoryUpdated, rmModal, story]
     ),
+    nextActions = useMemo(() => ({onPlay, onZip, onSave}), [onPlay, onSave, onZip]),
 
     onClose = useCallback(
       () => {
@@ -127,6 +143,51 @@ function StudioStoryEditorLayout({closeEditor}) {
 
     storyTitle = !loading ? story.metadata.title : ''
 
+  useEffect(
+    () => {
+      const keyDownListener = (event) => {
+        const key = event.key.toLowerCase()
+        if (event.ctrlKey && key === 's') {
+          blurFocus(event, () => setNextAction('onSave'))
+        }
+        if (event.ctrlKey && key === 'e') {
+          blurFocus(event, () => setNextAction('onZip'))
+        }
+        if (event.ctrlKey && key === 'p') {
+          blurFocus(event, () => setNextAction('onPlay'))
+        }
+        if (event.ctrlKey && key === 'z') {
+          blurFocus(event, onUndo)
+        }
+        if (event.ctrlKey && key === 'y') {
+          blurFocus(event, onRedo)
+        }
+        if (event.ctrlKey && key === 'f') {
+          blurFocus(event, onSearchStage)
+        }
+        if (event.ctrlKey && key === 'i') {
+          blurFocus(event, onEditItems)
+        }
+        if (event.ctrlKey && key === 'a') {
+          blurFocus(event, onEditAudios)
+        }
+      }
+      document.addEventListener('keydown', keyDownListener)
+      return () => document.removeEventListener('keydown', keyDownListener)
+    },
+    [onEditAudios, onEditItems, onRedo, onSave, onSearchStage, onUndo]
+  )
+
+  useEffect(
+    () => {
+      if (nextAction !== null) {
+        nextActions[nextAction]()
+        setNextAction(null)
+      }
+    },
+    [nextAction, nextActions]
+  )
+
   return <div className={styles.container}>
     <div className={styles.topBar}>
       <input type="text"
@@ -139,48 +200,48 @@ function StudioStoryEditorLayout({closeEditor}) {
           <li>
             <ButtonIconUndo
               className={[styles.topBarButton, !hasUndo ? styles.topBarButtonDisabled : ''].join(' ')}
-              title={getLocale('undo')}
+              title={getLocale('undo') + ' ( Ctrl + Z )'}
               onClick={onUndo}/>
           </li>
           <li>
             <ButtonIconRedo
               className={[styles.topBarButton, !hasRedo ? styles.topBarButtonDisabled : ''].join(' ')}
-              title={getLocale('redo')}
+              title={getLocale('redo') + ' ( Ctrl + Y )'}
               onClick={onRedo}/>
           </li>
           <li className={styles.topBarSeparator}></li>
           <li>
             <ButtonIconMagnifyingGlass className={styles.topBarButton}
-                                       title={getLocale('center-on')}
+                                       title={getLocale('center-on') + ' ( Ctrl + F )'}
                                        onClick={onSearchStage}/>
           </li>
           <li>
             <ButtonIconMusic className={styles.topBarButton}
-                             title={getLocale('audio-list')}
+                             title={getLocale('audio-list') + ' ( Ctrl + A )'}
                              onClick={onEditAudios}/>
           </li>
           <li>
             <ButtonIconToolbox className={styles.topBarButton}
-                               title={getLocale('inventory')}
+                               title={getLocale('inventory') + ' ( Ctrl + I )'}
                                onClick={onEditItems}/>
           </li>
           <li className={styles.topBarSeparator}></li>
           <li>
             <ButtonIconPlay className={styles.topBarButton}
-                            title={getLocale('story-play')}
+                            title={getLocale('story-play') + ' ( Ctrl + P )'}
                             onClick={onPlay}/>
           </li>
           <li className={styles.topBarSeparator}></li>
           <li>
             <ButtonIconFloppyDisk
               className={[styles.topBarButton, !isStoryUpdated ? styles.topBarButtonDisabled : ''].join(' ')}
-              title={getLocale('save')}
+              title={getLocale('save') + ' ( Ctrl + S )'}
               onClick={onSave}/>
           </li>
           <li>
             <ButtonIconZip
               className={[styles.topBarButton, isStoryUpdated ? styles.topBarButtonDisabled : ''].join(' ')}
-              title={getLocale('zip-export')}
+              title={getLocale('zip-export') + ' ( Ctrl + E )'}
               onClick={onZip}/>
           </li>
           <li className={styles.topBarSeparator}></li>

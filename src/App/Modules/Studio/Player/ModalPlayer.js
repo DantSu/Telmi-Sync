@@ -306,7 +306,7 @@ function ModalPlayer({story, debugMode, defaultActionOptions, defaultActionIndex
   return <ModalLayout className={styles.container}
                       isClosable={true}
                       onClose={onClose}>
-    <div className={styles.playerContainer}>
+    <div className={styles.playerContainer} id="modal-player">
       <div className={styles.images}>
         {image && <img src={encodeURI(image.replaceAll('\\', '/')) + '?time=' + Date.now()}
                        className={styles.imageStory}

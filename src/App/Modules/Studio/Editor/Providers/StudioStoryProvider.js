@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useState} from 'react'
+import {useMemo, useState} from 'react'
 import {useElectronEmitter, useElectronListener} from '../../../../Components/Electron/Hooks/UseElectronEvent.js'
 import {StudioStoryContext, StudioStoryUpdaterContext, StudioStoryVersionsContext} from './StudioStoryContext.js'
 
@@ -44,32 +44,43 @@ function StudioStoryProvider({storyMetadata, children}) {
     ),
     storyUpdater = useMemo(
       () => ({
-        updateStory: (story) => {
-          setRedo([])
-          setStory(story)
-        },
-        isStoryUpdated: undo[0] !== originalStory
+        updateStory: (ss) => {
+          setStory((s) => {
+            const story = typeof ss === 'function' ? ss(s) : ss
+            const json = JSON.stringify(story)
+            setRedo([])
+            setUndo((u) => json !== u[0] ? [json, ...u.slice(0, 9)] : u)
+            return story
+          })
+        }
       }),
-      [undo, originalStory]
+      []
+    ),
+    storyVersionsOnEvent = useMemo(
+      () => ({
+        onUndo: () => setUndo((u) => {
+          if (u.length > 1) {
+            setStory(JSON.parse(u[1]))
+            setStoryVersion((v) => v + 1)
+            setRedo((r) => [u[0], ...r])
+            return u.slice(1)
+          }
+          return u
+        }),
+        onRedo: () => setRedo((r) => {
+          if (r.length > 0) {
+            setStory(JSON.parse(r[0]))
+            setStoryVersion((v) => v + 1)
+            setUndo((u) => [r[0], ...u])
+            return r.slice(1)
+          }
+          return r
+        })
+      }),
+      []
     ),
     storyVersions = useMemo(
       () => ({
-        onUndo: () => {
-          if (undo.length > 1) {
-            setStory(JSON.parse(undo[1]))
-            setStoryVersion((v) => v + 1)
-            setUndo(undo.slice(1))
-            setRedo((r) => [undo[0], ...r])
-          }
-        },
-        onRedo: () => {
-          if (redo.length > 0) {
-            setStory(JSON.parse(redo[0]))
-            setStoryVersion((v) => v + 1)
-            setUndo((u) => [redo[0], ...u])
-            setRedo(redo.slice(1))
-          }
-        },
         hasUndo: undo.length > 1,
         hasRedo: redo.length > 0
       }),
@@ -79,30 +90,22 @@ function StudioStoryProvider({storyMetadata, children}) {
   useElectronListener(
     'studio-story-data',
     (sd) => {
-      const sdChecked = checkBackNode(sd)
-      setUndo([])
+      const
+        sdChecked = checkBackNode(sd),
+        json = JSON.stringify(sdChecked)
+      setUndo([json])
       setRedo([])
       setStory(sdChecked)
       setStoryVersion((v) => v + 1)
-      setOriginalStory(JSON.stringify(sdChecked))
+      setOriginalStory(json)
     },
     []
   )
   useElectronEmitter('studio-story-get', [storyMetadata])
 
-  useEffect(
-    () => {
-      if (story !== null) {
-        const json = JSON.stringify(story)
-        setUndo((u) => json !== u[0] ? [json, ...u.slice(0, 9)] : u)
-      }
-    },
-    [story]
-  )
-
   return <StudioStoryContext.Provider value={storyData}>
-    <StudioStoryUpdaterContext.Provider value={storyUpdater}>
-      <StudioStoryVersionsContext.Provider value={storyVersions}>
+    <StudioStoryUpdaterContext.Provider value={{...storyUpdater, isStoryUpdated: undo[0] !== originalStory}}>
+      <StudioStoryVersionsContext.Provider value={{...storyVersionsOnEvent, ...storyVersions}}>
         {children}
       </StudioStoryVersionsContext.Provider>
     </StudioStoryUpdaterContext.Provider>

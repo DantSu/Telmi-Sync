@@ -44,7 +44,11 @@ function InputText({
       (e) => {
         if (Array.isArray(options)) {
           const value = e.target.value.toLowerCase()
-          setOptionsFiltered(options.filter((v) => v.toLowerCase().startsWith(value)).slice(0, 10))
+          if (!value.length) {
+            setOptionsFiltered([])
+          } else {
+            setOptionsFiltered(options.filter((v) => v.toLowerCase().startsWith(value)).slice(0, 10))
+          }
         }
         typeof onKeyUp === 'function' && onKeyUp(e)
       },
