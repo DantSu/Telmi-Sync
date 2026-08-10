@@ -23,4 +23,4 @@ const
     })
   }
 
-export {getWorkerCount, runConcurrentPool}
+export {runConcurrentPool}
