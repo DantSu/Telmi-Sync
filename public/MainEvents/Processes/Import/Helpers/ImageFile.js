@@ -1,7 +1,7 @@
 import * as path from 'path'
 import {convertImageToPng} from '../../BinFiles/FFmpegCommand.js'
 import {findFile} from '../../../Helpers/Files.js'
-import {runConcurrentPool} from '../../../Helpers/ConcurrencyPool.js'
+import {runConcurrentPool} from '../../Helpers/ConcurrencyPool.js'
 
 const
   isImageFile = (fileName) => {
@@ -22,35 +22,52 @@ const
     await convertImageToPng(fromPath, toPath, 128, 128, textToWrite, pageNumber)
   },
   convertStoryImages = (srcImages, dstImages, textsToWrite, pagesNumbering, index, length, onEnd) => {
-    const total = srcImages.length
-    if (!total) {
+    if (!srcImages.length) {
       onEnd(index)
       return
     }
 
     runConcurrentPool(
-      total,
-      (i) => convertStoryImage(
-        srcImages[i],
-        dstImages[i],
-        Array.isArray(textsToWrite) ? textsToWrite[i] : undefined,
-        Array.isArray(pagesNumbering) ? pagesNumbering[i] : undefined
-      ),
-      (settledCount) => process.stdout.write('*converting-images*' + (index + settledCount) + '*' + length + '*')
-    ).then(() => onEnd(index + total))
+      (callback) => {
+        if (!srcImages.length) {
+          return false
+        }
+
+        const
+          srcImage = srcImages.shift(),
+          dstImage = dstImages.shift(),
+          textToWrite = Array.isArray(textsToWrite) ? textsToWrite.shift() : undefined,
+          pageNumber = Array.isArray(pagesNumbering) ? pagesNumbering.shift() : undefined
+
+        process.stdout.write('*converting-images*' + (index++) + '*' + length + '*')
+
+        convertStoryImage(srcImage, dstImage, textToWrite, pageNumber).finally(callback)
+        return true
+      }
+    ).finally(() => onEnd(index))
   },
   convertInventoryImages = (srcImages, dstImages, index, length, onEnd) => {
-    const total = srcImages.length
-    if (!total) {
+    if (!srcImages.length) {
       onEnd(index)
       return
     }
 
     runConcurrentPool(
-      total,
-      (i) => convertInventoryImage(srcImages[i], dstImages[i]),
-      (settledCount) => process.stdout.write('*converting-images*' + (index + settledCount) + '*' + length + '*')
-    ).then(() => onEnd(index + total))
+      (callback) => {
+        if (!srcImages.length) {
+          return false
+        }
+
+        const
+          srcImage = srcImages.shift(),
+          dstImage = dstImages.shift()
+
+        process.stdout.write('*converting-images*' + (index++) + '*' + length + '*')
+
+        convertInventoryImage(srcImage, dstImage).finally(callback)
+        return true
+      },
+    ).finally(() => onEnd(index))
   }
 
 export {
