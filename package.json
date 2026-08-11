@@ -12,7 +12,8 @@
   "type": "module",
   "scripts": {
     "start": "concurrently \"cross-env BROWSER=none react-scripts start\" \"wait-on http://localhost:3000 && electron .\"",
-    "build": "react-scripts build && electron-builder --x64"
+    "build": "react-scripts build && electron-builder --x64",
+    "build:mac": "react-scripts build && electron-builder --mac --x64 && electron-builder --mac --arm64 -c.mac.artifactName='${productName}-${version}-silicon.${ext}'"
   },
   "private": false,
   "dependencies": {
