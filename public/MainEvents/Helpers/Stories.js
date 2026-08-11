@@ -18,11 +18,11 @@ const
     }
     const b = title.match(/^\[([0-9]{1,2})\+](.*)/)
     if (b !== null) {
-      return {age: parseInt(a[1], 10), title: b[2].trim()}
+      return {age: parseInt(b[1], 10), title: b[2].trim()}
     }
     const c = title.match(/(.*)\[([0-9]{1,2})\+]$/)
     if (c !== null) {
-      return {age: parseInt(a[2], 10), title: c[1].trim()}
+      return {age: parseInt(c[2], 10), title: c[1].trim()}
     }
     return {title}
   },
