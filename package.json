@@ -18,7 +18,6 @@
   "dependencies": {
     "@expo/sudo-prompt": "^9.3.2",
     "cross-env": "^7.0.3",
-    "diskusage": "^1.2.0",
     "drivelist": "^11.2.0",
     "electron-is-dev": "^3.0.1",
     "react": "^18.2.0",
