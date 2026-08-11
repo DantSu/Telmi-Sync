@@ -1,12 +1,12 @@
 import {forwardRef, useEffect, useMemo, useState} from 'react'
 import {useStudioStory} from '../Providers/StudioStoryHooks.js'
+import {useStudioStage} from '../Providers/StudioStageHooks.js'
 
 import SVGLayout from '../../../../Components/SVG/SVGLayout.js'
 import StudioStoryNodeAction from './StudioStoryNodeAction.js'
 import StudioStoryLine from './StudioStoryLine.js'
 import StudioStoryStage from './StudioStoryStage.js'
 import StudioStoryStartStage from './StudioStoryStartStage.js'
-import {useStudioStage} from '../Providers/StudioStageHooks.js'
 
 const
   nodeWidth = 80,
@@ -206,16 +206,14 @@ const
         continue
       }
 
-      nodes.actions[stage.ok.action].reduce(
-        (acc, a, k) => {
+      nodes.actions[stage.ok.action].forEach(
+        (a, k) => {
           stages.push({
             stageId: a.stage,
             stageFrom: stageId,
             actionFrom: stage.ok.action + '-' + k
           })
-          return acc
-        },
-        0
+        }
       )
     }
 
