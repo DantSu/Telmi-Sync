@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import DropArea from './DropArea.js'
 
+const {webUtils} = window.require('electron')
+
 function DropFiles ({children, onFilesDropped}) {
   const
     [isOver, setOver] = useState(false),
@@ -17,7 +19,7 @@ function DropFiles ({children, onFilesDropped}) {
         e.preventDefault()
         e.stopPropagation()
         if (e.dataTransfer.files.length) {
-          onFilesDropped(Object.values(e.dataTransfer.files).map(v => v.path))
+          onFilesDropped(Object.values(e.dataTransfer.files).map(v => webUtils.getPathForFile(v)))
         }
         setOver(false)
       },
