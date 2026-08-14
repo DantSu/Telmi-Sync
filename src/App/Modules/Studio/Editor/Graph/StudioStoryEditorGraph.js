@@ -13,6 +13,15 @@ const
   nodeHeight = 80,
   margin = 30,
 
+  // Bézier coefficients constants
+  BEZIER_COEF_START_PARENT_TO_STAGE = 35,
+  BEZIER_COEF_START_NOT_PARENT = 60,
+  BEZIER_COEF_START_ACTION_NOT_EXISTS = 35,
+  BEZIER_COEF_START_ACTION_EXISTS = 150,
+
+  BEZIER_COEF_END_PARENT_TO_STAGE = 40,
+  BEZIER_COEF_END_NOT_PARENT = 90,
+
   getNodesSizesRecursive = (nodes, aKey, stageParent, lvl, stagesSize, actionsSize) => {
     return nodes.actions[aKey].reduce(
       (acc, a, k) => {
@@ -185,8 +194,8 @@ const
                              toX={stagesPos[stageId].x}
                              toY={stagesPos[stageId].y}
                              arrows={actionParentToStage ? 0 : 2}
-                             bezierCoefStart={actionParentToStage ? 35 : 60}
-                             bezierCoefEnd={actionParentToStage ? 40 : 90}/>
+                             bezierCoefStart={actionParentToStage ? BEZIER_COEF_START_PARENT_TO_STAGE : BEZIER_COEF_START_NOT_PARENT}
+                             bezierCoefEnd={actionParentToStage ? BEZIER_COEF_END_PARENT_TO_STAGE : BEZIER_COEF_END_NOT_PARENT}/>
           ]
         }
         components.lines = [
@@ -197,8 +206,8 @@ const
                            toX={actionsPos[actionFrom].x}
                            toY={actionsPos[actionFrom].y}
                            arrows={actionNotExists ? 0 : 2}
-                           bezierCoefStart={actionNotExists ? 35 : 150}
-                           bezierCoefEnd={actionNotExists ? 40 : 90}/>
+                           bezierCoefStart={actionNotExists ? BEZIER_COEF_START_ACTION_NOT_EXISTS : BEZIER_COEF_START_ACTION_EXISTS}
+                           bezierCoefEnd={actionNotExists ? BEZIER_COEF_END_PARENT_TO_STAGE : BEZIER_COEF_END_NOT_PARENT}/>
         ]
       }
 
