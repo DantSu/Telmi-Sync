@@ -15,14 +15,20 @@ const
 
   ejectDrive = (drive) => {
     return new Promise((resolve, reject) => {
-      const stream = spawn(pathEject, [drive])
-      stream.on('close', (code) => {
-        if (code === 0) {
-          resolve()
-        } else {
-          reject()
-        }
-      })
+      try {
+        const stream = spawn('cmd.exe', ['/c', pathEject, drive])
+
+        stream.on('close', (code) => {
+          if (code === 0) {
+            resolve()
+          } else {
+            reject()
+          }
+        })
+      } catch (e) {
+        process.stdout.write('*' + e.toString() + '*0*1*')
+        reject()
+      }
     })
   }
 
