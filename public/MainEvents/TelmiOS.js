@@ -1,10 +1,17 @@
 import {ipcMain} from 'electron'
 import * as drivelist from 'drivelist'
-import * as diskusage from 'diskusage'
 import {parseTelmiOSAutorun} from './Helpers/InfFiles.js'
 import {readTelmiOSParameters, saveTelmiOSParameters} from './Helpers/TelmiOS.js'
 import runProcess from './Processes/RunProcess.js'
 import * as path from 'path'
+import * as fs from 'fs'
+
+// Replaces the `diskusage` native module: fs.statfs ships with Node since 18.15
+// and returns the same figures, with nothing to compile against the ABI.
+function checkDiskUsage(drive) {
+  const {bsize, blocks, bfree, bavail} = fs.statfsSync(drive)
+  return {total: blocks * bsize, free: bfree * bsize, available: bavail * bsize}
+}
 
 function mainEventTelmiOS(mainWindow) {
   const checkUsbDevices = async () => {
@@ -38,7 +45,7 @@ function mainEventTelmiOS(mainWindow) {
 
   ipcMain.on(
     'telmios-diskusage',
-    async (event, telmiDevice) => mainWindow.webContents.send('telmios-diskusage-data', telmiDevice !== null ? diskusage.checkSync(telmiDevice.drive) : null)
+    async (event, telmiDevice) => mainWindow.webContents.send('telmios-diskusage-data', telmiDevice !== null ? checkDiskUsage(telmiDevice.drive) : null)
   )
 
   ipcMain.on('telmios-save-parameters', async (event, telmiDevice) => saveTelmiOSParameters(telmiDevice))

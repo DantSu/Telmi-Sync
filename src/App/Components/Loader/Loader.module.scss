@@ -1,4 +1,4 @@
-@import "src/App/variables";
+@use "src/App/variables" as *;
 
 .container, .containerInline {
   position: absolute;

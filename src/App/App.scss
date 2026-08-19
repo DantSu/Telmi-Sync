@@ -1,6 +1,6 @@
-@import "Assets/Fonts/fa/fa";
-@import "Assets/Fonts/exo/exo";
-@import "variables";
+@use "Assets/Fonts/fa/fa" as *;
+@use "Assets/Fonts/exo/exo" as *;
+@use "variables" as *;
 
 * {
   margin: 0;

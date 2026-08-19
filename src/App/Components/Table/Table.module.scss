@@ -1,4 +1,4 @@
-@import "src/App/variables";
+@use "src/App/variables" as *;
 
 .tableContainer {
   position: relative;

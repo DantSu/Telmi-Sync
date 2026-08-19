@@ -5,6 +5,8 @@ import ModalElectronTaskVisualizer from '../../Electron/Modal/ModalElectronTaskV
 
 import styles from './Input.module.scss'
 
+const {webUtils} = window.require('electron')
+
 function InputDropFile(
   {
     id,
@@ -31,7 +33,7 @@ function InputDropFile(
           addModal((key) => {
             const modal = <ModalElectronTaskVisualizer key={key}
                                                        taskName="file-copy"
-                                                       dataSent={[e.target.files[0].path]}
+                                                       dataSent={[webUtils.getPathForFile(e.target.files[0])]}
                                                        onClose={() => rmModal(modal)}/>
             return modal
           })

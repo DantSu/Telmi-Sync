@@ -12,28 +12,25 @@
   "type": "module",
   "scripts": {
     "start": "concurrently \"cross-env BROWSER=none react-scripts start\" \"wait-on http://localhost:3000 && electron .\"",
-    "build": "react-scripts build && electron-builder --x64"
+    "build": "react-scripts build && electron-builder --x64",
+    "build:mac": "react-scripts build && electron-builder --mac --x64 && electron-builder --mac --arm64 -c.mac.artifactName='${productName}-${version}-silicon.${ext}'"
   },
   "private": false,
   "dependencies": {
     "@expo/sudo-prompt": "^9.3.2",
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "cross-env": "^7.0.3",
-    "diskusage": "^1.2.0",
     "drivelist": "^11.2.0",
     "electron-is-dev": "^3.0.1",
-    "node-sass": "^9.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
-    "electron": "^28.1.4",
-    "electron-builder": "^24.9.1",
+    "cross-env": "^7.0.3",
+    "electron": "^43.4.0",
+    "electron-builder": "^26.15.3",
+    "react-scripts": "5.0.1",
+    "sass": "^1.102.0",
     "wait-on": "^7.2.0"
   },
   "eslintConfig": {
