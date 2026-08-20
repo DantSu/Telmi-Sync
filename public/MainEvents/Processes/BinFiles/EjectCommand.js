@@ -13,11 +13,16 @@ const
 
   pathEject = getEjectFilePath(),
 
+  spawnEject = (drive) => {
+    return process.platform === 'win32' ?
+      spawn('cmd.exe', ['/c', pathEject, drive]) :
+      spawn(pathEject, [drive])
+  },
+
   ejectDrive = (drive) => {
     return new Promise((resolve, reject) => {
       try {
-        const stream = spawn('cmd.exe', ['/c', pathEject, drive])
-
+        const stream = spawnEject(drive)
         stream.on('close', (code) => {
           if (code === 0) {
             resolve()
