@@ -32,6 +32,9 @@ const
             )
           },
           (res) => {
+            req.removeAllListeners('error')
+            req.removeAllListeners('timeout')
+
             if (res.statusCode < 200 || res.statusCode >= 400) {
               file.close()
               return reject(new Error('statusCode=' + res.statusCode + ' : ' + fileUrl))
@@ -138,6 +141,9 @@ const
             }
           },
           res => {
+            req.removeAllListeners('error')
+            req.removeAllListeners('timeout')
+
             if (res.statusCode < 200 || res.statusCode >= 400) {
               return reject(new Error('statusCode=' + res.statusCode + ' : ' + urlData))
             }
