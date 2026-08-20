@@ -37,7 +37,7 @@ function StudioStoryNodeStage({
     onDragOverCb = useCallback(
       (e) => {
         e.preventDefault()
-        e.dataTransfer.dropEffect = 'link'
+        e.dataTransfer.dropEffect = 'move'
       },
       []
     ),

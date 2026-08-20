@@ -14,7 +14,7 @@ function StudioActionFormExisting({stageNode}) {
     onDragOver = useCallback(
       (e) => {
         e.preventDefault()
-        e.dataTransfer.dropEffect = 'link'
+        e.dataTransfer.dropEffect = 'move'
       },
       []
     ),

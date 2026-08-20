@@ -19,7 +19,7 @@ function StudioStoryStage({stageId, x, y, setContextMenu}) {
         e.dataTransfer.setData('text/plain', e.target.innerText)
         e.dataTransfer.setData('text/html', e.target.outerHTML)
         e.dataTransfer.setData('stageId', stageId)
-        e.dataTransfer.effectAllowed = 'link'
+        e.dataTransfer.effectAllowed = 'move'
       },
       [stageId]
     ),
