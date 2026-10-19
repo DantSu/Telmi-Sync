@@ -13,7 +13,8 @@
   "scripts": {
     "start": "concurrently \"cross-env BROWSER=none react-scripts start\" \"wait-on http://localhost:3000 && electron .\"",
     "build": "react-scripts build && electron-builder --x64",
-    "build:mac": "react-scripts build && electron-builder --mac --x64 -c.mac.artifactName='${productName}-${version}-x64.${ext}' && electron-builder --mac --arm64 -c.mac.artifactName='${productName}-${version}-arm64.${ext}'"
+    "build:mac": "react-scripts build && electron-builder --mac --x64 -c.mac.artifactName='${productName}-${version}-x64.${ext}' && electron-builder --mac --arm64 -c.mac.artifactName='${productName}-${version}-arm64.${ext}'",
+    "build:linux": "react-scripts build && electron-builder --linux --x64 -c.mac.artifactName='${productName}-${version}-x64.${ext}' && electron-builder --linux --arm64 -c.mac.artifactName='${productName}-${version}-arm64.${ext}'"
   },
   "private": false,
   "dependencies": {
