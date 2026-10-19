@@ -29,7 +29,7 @@ const
       return ttsScript
     }
 
-    return path.join(getExtraResourcesPath(), 'piper', process.platform, getPiperTTSFileName())
+    return path.join(getExtraResourcesPath(), 'piper', process.platform, process.arch, getPiperTTSFileName())
   },
 
   getPiperTTSVoiceNameToPath = (name) => {
