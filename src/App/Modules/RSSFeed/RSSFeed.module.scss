@@ -1,3 +1,5 @@
+@use "src/App/variables" as *;
+
 .infoTitle {
   max-width: 936px;
   text-overflow: ellipsis;
@@ -16,13 +18,14 @@
 }
 
 .infoDescription {
-  max-width: 680px;
+  max-width: 650px;
   display: flex;
   flex-wrap: wrap;
 }
 
 .infoLabel,
 .infoContent {
+  flex: 0 0 50%;
   padding: 10px 5px 5px 20px;
 }
 
@@ -34,6 +37,166 @@
 .infoContent {
   white-space: pre-wrap;
 }
+
 .infoFullWidth {
   flex: 0 0 100%;
+}
+
+.statsContainer {
+  max-width: 906px;
+  position: relative;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid $white10;
+  min-height: 100px;
+}
+
+.statsRating {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.statsRatingValue {
+  font-weight: bold;
+}
+
+.statsRatingCount {
+  color: $white70;
+}
+
+.statsAge {
+  font-weight: bold;
+}
+
+.stars {
+  display: inline-flex;
+  align-items: center;
+}
+
+.starFilled {
+  font-family: icons;
+  font-weight: bold;
+  color: $orange;
+}
+
+.starEmpty {
+  font-family: icons;
+  font-weight: bold;
+  color: $white40;
+}
+
+.statsSummaries {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  padding-bottom: 15px;
+}
+
+.ratingSummary,
+.ageSummary {
+  flex: 1 1 250px;
+}
+
+.ratingSummaryLine {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 0;
+}
+
+.summaryTitle {
+  margin: 0 0 5px 0;
+}
+
+.ageLine {
+  margin-bottom: 8px;
+}
+
+.ageLineTop {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ageLabel {
+  min-width: 28px;
+  font-weight: bold;
+}
+
+.ageBarContainer {
+  flex: 1;
+  height: 10px;
+  background: $white15;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.ageBar {
+  height: 100%;
+  background: $orange;
+  border-radius: 5px;
+}
+
+.ageText {
+  display: block;
+  font-size: 12px;
+  color: $white70;
+  padding-left: 36px;
+}
+
+.reviewsList {
+  margin-top: 10px;
+}
+
+.reviewItem {
+  padding: 15px;
+  margin-bottom: 15px;
+  background: $white5;
+  border-radius: 10px;
+}
+
+.reviewHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 15px;
+}
+
+.reviewAuthor {
+  font-weight: bold;
+}
+
+.reviewDate {
+  margin-left: auto;
+  color: $white60;
+  font-size: 12px;
+}
+
+.reviewComment {
+  white-space: pre-wrap;
+  margin: 8px 0 0 0;
+}
+
+.rateContainer {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  border-bottom-right-radius: 15px;
+  padding: 5px 5px 6px 5px;
+  background: $blueDark;
+  font-size: 14px;
+  font-weight: bold;
+  color: $white;
+}
+
+.rateStar:before {
+  content: "\f005";
+  font-family: icons;
+  font-style: normal;
+  font-size: 14px;
+  font-weight: bold;
+  color: $orange;
 }

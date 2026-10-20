@@ -168,7 +168,7 @@ function Table({
       [onSelectAll, dataFiltered]
     )
 
-  useElectronEmitter('tablestate-get', [id, data])
+  useElectronEmitter('tablestate-get', [id], [id, data])
   useElectronListener(
     'tablestate-data',
     (tableId, tableState) => {

@@ -5,6 +5,16 @@ import {useModal} from '../../Components/Modal/ModalHooks.js'
 import Table from '../../Components/Table/Table.js'
 import ModalRSSFeedInfo from './ModalRSSFeedInfo.js'
 
+import styles from './RSSFeed.module.scss'
+
+const CellImageTop = ({data}) => {
+  if (data.averageRating == null) {
+    return null
+  }
+  return <p className={styles.rateContainer}>
+    <i className={styles.rateStar}></i> {data.averageRating} ({data.reviewsCount})
+  </p>
+}
 
 function RSSFeedList() {
   const
@@ -22,7 +32,8 @@ function RSSFeedList() {
               tableChildren: rssFeed[key].map((child) => Object.assign(
                 {
                   ...child,
-                  cellTitle: child.title,
+                  cellImageTop: CellImageTop,
+                  cellTitle: child.recommendedAge !== null ? `${child.recommendedAge}+] ${child.title}` : child.title,
                   cellSubtitle: child.category
                 },
                 child.ads ? {
@@ -35,7 +46,7 @@ function RSSFeedList() {
         },
         []
       ),
-      [getLocale, rssFeed]
+      [rssFeed]
     ),
 
     onSelect = useCallback(

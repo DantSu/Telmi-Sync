@@ -1,7 +1,7 @@
 import {ipcMain} from 'electron'
 import * as fs from 'fs'
 import {getStoresPath, initTmpPath} from './Helpers/AppPaths.js'
-import {requestJson, requestJsonOrXml} from './Helpers/Request.js'
+import {requestJsonOrXml} from './Helpers/Request.js'
 import runProcess from './Processes/RunProcess.js'
 import * as path from 'path'
 import {rmFile} from './Helpers/Files.js'
@@ -324,16 +324,6 @@ function mainEventStores(mainWindow) {
       if (buildTaskRunning !== null) {
         buildTaskRunning.process.kill()
       }
-    }
-  )
-
-  ipcMain.on(
-    'store-rssfeed-get',
-    async () => {
-      requestJson('https://gist.githubusercontent.com/DantSu/75dfd354b587e7e353302834967e48bc/raw/rss-feed.json', {})
-        .then((res) => {
-          mainWindow.webContents.send('store-rssfeed-data', res)
-        })
     }
   )
 }

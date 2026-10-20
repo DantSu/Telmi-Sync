@@ -1,14 +1,15 @@
-import { useCallback, useEffect } from 'react'
+import {useCallback, useEffect} from 'react'
 
 const {ipcRenderer} = window.require('electron')
 
 const
-  useElectronEmitter = (channel, refreshList) => {
+  useElectronEmitter = (channel, dataToSend, refreshList) => {
+    const rf = refreshList || dataToSend
     useEffect(
       () => {
-        ipcRenderer.send(channel, ...refreshList)
+        ipcRenderer.send(channel, ...dataToSend)
       },
-      [channel, ...refreshList] // eslint-disable-line
+      [channel, ...rf] // eslint-disable-line
     )
   },
   useElectronListener = (channel, effectCallable, dependencyList) => {
@@ -29,4 +30,4 @@ const
     )
   }
 
-export { useElectronListener, useElectronEmitter }
+export {useElectronListener, useElectronEmitter}
