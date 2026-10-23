@@ -6,6 +6,8 @@ import Table from '../../Components/Table/Table.js'
 import ModalRSSFeedInfo from './ModalRSSFeedInfo.js'
 import TableHeaderIcon from '../../Components/Table/TableHeaderIcon.js'
 import ButtonIconSort from '../../Components/Buttons/Icons/ButtonIconSort.js'
+import Banner from '../../Components/Banner/Banner.js'
+import imageBanner from '../../Assets/Images/banner-podcasts.jpg'
 
 import styles from './RSSFeed.module.scss'
 
@@ -137,11 +139,14 @@ function RSSFeedList() {
   )
   useElectronEmitter('store-rssfeed-get', [])
 
-  return <Table titleLeft={getLocale('discover-rss-feed')}
-                data={rssFeedsTableData}
-                onSelect={onSelect}
-                isLoading={!rssFeedsTableData.length}
-                additionalHeaderButtons={additionalHeaderButtons}/>
+  return <div className={styles.tableContainer}>
+    <Table titleLeft={getLocale('discover-rss-feed')}
+           data={rssFeedsTableData}
+           onSelect={onSelect}
+           isLoading={!rssFeedsTableData.length}
+           additionalHeaderButtons={additionalHeaderButtons}/>
+    <Banner href="https://podcasts.telmi.fr/" src={imageBanner} background="#2c1347"/>
+  </div>
 }
 
 export default RSSFeedList

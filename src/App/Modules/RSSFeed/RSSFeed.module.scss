@@ -1,5 +1,15 @@
 @use "src/App/variables" as *;
 
+.tableContainer {
+  flex: 1;
+  border-radius: 20px;
+  background: $white15;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  padding: 3px;
+}
+
 .infoTitle {
   max-width: 936px;
   text-overflow: ellipsis;

@@ -4,10 +4,8 @@ import {useModal} from '../../../../Components/Modal/ModalHooks.js'
 import {useLocale} from '../../../../Components/Locale/LocaleHooks.js'
 import {stringSlugify} from '../../../../Helpers/String.js'
 import Table from '../../../../Components/Table/Table.js'
-import ButtonExternalLink from '../../../../Components/Link/ButtonExternalLink.js'
 import ModalStoreDownload from './ModalStoreDownload.js'
-
-import styles from './StorePacksList.module.scss'
+import Banner from '../../../../Components/Banner/Banner.js'
 
 function StorePacksListContent({store, storeData}) {
   const
@@ -67,14 +65,10 @@ function StorePacksListContent({store, storeData}) {
       additionalHeaderButtons={additionalHeaderButtons}
       isLoading={!stories.length}/>
     {
-      storeData !== null &&
-      <ButtonExternalLink href={storeData.banner.link}>
-        <div className={styles.bannerContainer} style={{background: storeData.banner.background}}>
-          <div className={styles.bannerInnerContainer}>
-            <img className={styles.banner} src={storeData.banner.image} alt=""/>
-          </div>
-        </div>
-      </ButtonExternalLink>
+      storeData !== null && storeData.banner !== undefined && storeData.banner !== null &&
+      <Banner href={storeData.banner.link}
+              src={storeData.banner.image}
+              background={storeData.banner.background}/>
     }
   </>
 }
