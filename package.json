@@ -55,6 +55,8 @@
     "appId": "com.dantsu.telmisync",
     "productName": "Telmi Sync",
     "mac": {
+      "identity": "-",
+      "hardenedRuntime": false,
       "extendInfo": {
         "NSMicrophoneUsageDescription": "Access to your microphone is needed for record your voice",
         "com.apple.security.device.audio-input": true
