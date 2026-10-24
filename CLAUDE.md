@@ -29,7 +29,7 @@ Projet open source, entièrement gratuit.
 | UI | React 18 (JSX, **pas de TypeScript**) via `react-scripts` 5 (CRA) |
 | Styles | SCSS modules (`*.module.scss`) + variables partagées `src/App/variables.scss` |
 | Icônes | FontAwesome — police locale `icons`, utilisée via **codepoints unicode** (ex. `'\uf05a'`) |
-| Packaging | `electron-builder` — Windows x64, macOS x64/arm64, Linux x64/arm64 |
+| Packaging | `electron-builder` — Windows x64, macOS x64/arm64 (signature sans certificat Apple Developer), Linux x64/arm64 |
 | Tests | Aucun framework de test |
 
 **Règle** : éviter toute dépendance (npm) pour une fonctionnalité qui peut être implémentée facilement directement.
