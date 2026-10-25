@@ -18,6 +18,10 @@ const
     return process.platform === 'win32' ? 'type' : 'cat'
   },
 
+  getPiperTTSBundledPath = () => {
+    return path.join(getExtraResourcesPath(), 'piper', process.platform, process.arch, getPiperTTSFileName())
+  },
+
   getPiperTTSFilePath = () => {
     const ttsExecutable = getBinPath(getTTSExecutable())
     if(fs.existsSync(ttsExecutable)) {
@@ -29,7 +33,7 @@ const
       return ttsScript
     }
 
-    return path.join(getExtraResourcesPath(), 'piper', process.platform, process.arch, getPiperTTSFileName())
+    return getPiperTTSBundledPath()
   },
 
   getPiperTTSVoiceNameToPath = (name) => {
@@ -46,8 +50,17 @@ const
 
   piperTTS = (pathJson, voiceName, voiceSpeaker) => {
     return new Promise((resolve, reject) => {
+      const
+        piperPath = getPiperTTSFilePath(),
+        isBundledOnMac = process.platform === 'darwin' && piperPath === getPiperTTSBundledPath(),
+        // espeak-ng truncates data paths longer than ~160 characters: run the bundled
+        // binary from its own directory with a short relative data path.
+        espeakOption = isBundledOnMac ? ' --espeak_data espeak-ng-data' : '',
+        execOptions = isBundledOnMac ? {cwd: path.dirname(piperPath)} : {}
+
       exec(
-        getPiperTTSCommand() + ' "' + pathJson + '" | "' + getPiperTTSFilePath() + '" --quiet --model "' + getPiperTTSVoicePath(voiceName) + '" --speaker ' + voiceSpeaker + ' --json-input',
+        getPiperTTSCommand() + ' "' + pathJson + '" | "' + piperPath + '" --quiet --model "' + getPiperTTSVoicePath(voiceName) + '" --speaker ' + voiceSpeaker + ' --json-input' + espeakOption,
+        execOptions,
         (error, stdout, stderr) => {
           if (error) {
             reject(error.toString())

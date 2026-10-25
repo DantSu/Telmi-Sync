@@ -29,7 +29,7 @@ Projet open source, entièrement gratuit.
 | UI | React 18 (JSX, **pas de TypeScript**) via `react-scripts` 5 (CRA) |
 | Styles | SCSS modules (`*.module.scss`) + variables partagées `src/App/variables.scss` |
 | Icônes | FontAwesome — police locale `icons`, utilisée via **codepoints unicode** (ex. `'\uf05a'`) |
-| Packaging | `electron-builder` — Windows x64, macOS x64/arm64, Linux x64/arm64 |
+| Packaging | `electron-builder` — Windows x64, macOS x64/arm64 (signature sans certificat Apple Developer), Linux x64/arm64 |
 | Tests | Aucun framework de test |
 
 **Règle** : éviter toute dépendance (npm) pour une fonctionnalité qui peut être implémentée facilement directement.
@@ -90,7 +90,7 @@ runProcess(mainWindow, path.join('Store', 'StoreDownload.js'), [param],
   - `averageRating` (float | null), `recommendedAge` (int | null), `reviewsCount` (int) : **agrégats issus de podcasts.telmi.fr**.
   - `dataUrl` : URL raw GitHub du JSON détaillé du podcast (repo public `DantSu/telmi-rss-feed-podcasts`, `podcasts/{slug}.json`) contenant le tableau `reviews[]` complet : `{ stars, comment, authorName, minAge, createdAt }` (+ les mêmes agrégats).
 - **Histoires / musique locales** : dossiers de l'utilisateur (`getStoriesPath()`, `getMusicPath()`, `getTmpPath()`, `initTmpPath()`, ...).
-- **TTS** : Piper — binaires dans `extraResources/` (copiés au build, `getExtraResourcesPath()`).
+- **TTS** : Piper — binaires dans `extraResources/piper/<platform>/` (copiés au build, `getExtraResourcesPath()`). Sur macOS, `extraResources/piper/darwin/<arch>/piper` est un exécutable natif (`piper_exe` de `libpiper`, sources `OHF-Voice/piper1-gpl` v1.8.0) versionné dans git, avec `libpiper.dylib`, `libonnxruntime.1.22.0.dylib`, `espeak-ng-data/` et `licenses/`. Il est compilé à la main (hors build), voir la section Commandes.
 - **Carte SD / Telmi OS** : détection via `drivelist`, formatage FAT32, etc.
 
 ## Conventions de développement
@@ -111,3 +111,12 @@ yarn build         # build Windows x64
 yarn build:mac     # build macOS x64 + arm64
 yarn build:linux   # build Linux x64 + arm64
 ```
+
+### Piper macOS : recompiler `piper` (manuel, hors build)
+Les binaires macOS sont versionnés dans `extraResources/piper/darwin/<arch>/` et ne sont pas recompilés par `yarn build:mac`. Pour les mettre à jour :
+1. `git clone --depth 1 --branch <tag> https://github.com/OHF-Voice/piper1-gpl.git` (tag actuel : `v1.8.0`), puis `cd libpiper`.
+2. Configurer et compiler `piper_exe` : `cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=arm64 -DCMAKE_INSTALL_PREFIX=$PWD/install && cmake --build build -j && cmake --install build`. CMake télécharge espeak-ng et onnxruntime pendant cette étape.
+3. Pour x64, il faut aussi transmettre `CMAKE_OSX_ARCHITECTURES` à l'ExternalProject espeak-ng et passer `-DONNXRUNTIME_DIR=` vers un onnxruntime `osx-x86_64`, sinon le CMake choisit les artefacts arm64.
+4. Copier dans `extraResources/piper/darwin/<arch>/` : `bin/piper_exe` renommé en `piper`, `lib/libpiper.dylib`, `lib/libonnxruntime.<version>.dylib`, `share/espeak-ng-data/` et les licences (GPLv3 de piper1-gpl, COPYING d'espeak-ng, licence onnxruntime).
+5. Corriger les rpaths puis signer : `install_name_tool -add_rpath @executable_path piper` et `install_name_tool -add_rpath @loader_path libpiper.dylib`, puis `codesign --force --sign - <fichiers>`.
+6. Tester sans stderr : `cat in.jsonl | ./piper --quiet --model <voix.onnx> --speaker 0 --json-input` (pour x64, `arch -x86_64`).

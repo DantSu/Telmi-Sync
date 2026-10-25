@@ -1,0 +1,2 @@
+# Piper espeak-ng data are stored byte for byte (CRLF in some text files).
+extraResources/piper/darwin/**/espeak-ng-data/** -text

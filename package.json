@@ -55,27 +55,60 @@
     "appId": "com.dantsu.telmisync",
     "productName": "Telmi Sync",
     "mac": {
+      "identity": "-",
+      "hardenedRuntime": false,
       "extendInfo": {
         "NSMicrophoneUsageDescription": "Access to your microphone is needed for record your voice",
         "com.apple.security.device.audio-input": true
-      }
+      },
+      "extraResources": [
+        {
+          "from": "./extraResources/",
+          "to": "extraResources",
+          "filter": [
+            "**/*",
+            "!piper/darwin/**",
+            "!piper/linux/**",
+            "!piper/win32/**"
+          ]
+        },
+        {
+          "from": "./extraResources/piper/darwin/${arch}",
+          "to": "extraResources/piper/darwin/${arch}"
+        }
+      ]
     },
     "linux": {
       "target": [
         {
           "target": "AppImage"
         }
+      ],
+      "extraResources": [
+        {
+          "from": "./extraResources/",
+          "to": "extraResources",
+          "filter": [
+            "**/*",
+            "!piper/darwin/**",
+            "!piper/win32/**"
+          ]
+        }
       ]
     },
-    "extraResources": [
-      {
-        "from": "./extraResources/",
-        "to": "extraResources",
-        "filter": [
-          "**/*"
-        ]
-      }
-    ],
+    "win": {
+      "extraResources": [
+        {
+          "from": "./extraResources/",
+          "to": "extraResources",
+          "filter": [
+            "**/*",
+            "!piper/darwin/**",
+            "!piper/linux/**"
+          ]
+        }
+      ]
+    },
     "directories": {
       "buildResources": "electron/build",
       "output": "electron/dist"
