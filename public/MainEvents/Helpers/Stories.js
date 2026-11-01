@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 import * as path from 'path'
-import {rmDirectory} from './Files.js'
+import {isDirectory, rmDirectory} from './Files.js'
 import {stringNormalizeFileName, stringSlugify} from './Strings.js'
 
 const
@@ -59,7 +59,9 @@ const
       !fs.existsSync(nodesPath) || !fs.existsSync(mdPath) || !fs.existsSync(mp3Path) ||
       !fs.existsSync(pngPath) || !fs.existsSync(audiosPath) || !fs.existsSync(imagesPath)
     ) {
-      rmDirectory(storyPath)
+      if (isDirectory(storyPath)) {
+        rmDirectory(storyPath)
+      }
       return null
     }
 
@@ -91,7 +93,11 @@ const
     if (!fs.existsSync(storiesPath)) {
       return {stories: [], error:[]}
     }
+    // macOS writes hidden files (._*, .DS_Store, .Trashes...) on FAT32/exFAT volumes.
+    // It stores each file's extended attributes (xattr) in a ._<name> file next to it.
+    // They are not stories: without this filter they are reported as corrupted and deleted by rmDirectory.
     const list = fs.readdirSync(storiesPath)
+      .filter((d) => !d.startsWith('.'))
       .reduce(
         (acc, d) => {
           const md = readStoryMetadata(storiesPath, d)
